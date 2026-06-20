@@ -1,0 +1,728 @@
+{
+  "tenant_id": "7f3a-tijuana-norte",
+  "week_start": "2026-06-15",
+  "model_version": "xgb_sim_v0",
+  "prediction_count": 10,
+  "predictions": [
+    {
+      "display_ref": "#E7D9-6515",
+      "employee_hash": "e7d94e9bd923",
+      "line_id": "L3",
+      "shift": "nocturno",
+      "tenure_days": 67,
+      "score": 100,
+      "band": "critico",
+      "top_driver": "Retardos en aceleración",
+      "shap": [
+        {
+          "factor": "Retardos en aceleración",
+          "contrib": 49,
+          "detail": "tendencia de retardos en 0.82 (subiendo)"
+        },
+        {
+          "factor": "Supervisor alta rotación",
+          "contrib": 19,
+          "detail": "línea con 22% rotación 90d"
+        },
+        {
+          "factor": "Faltas cerca de nómina",
+          "contrib": 17,
+          "detail": "ausencias concentradas tras el pago"
+        },
+        {
+          "factor": "Antigüedad en zona crítica",
+          "contrib": 15,
+          "detail": "dentro de la ventana 30-90 días"
+        }
+      ],
+      "radar": [
+        [
+          "Puntualidad",
+          0.82
+        ],
+        [
+          "Productividad",
+          0.725
+        ],
+        [
+          "Clima de línea",
+          0.88
+        ],
+        [
+          "Antigüedad",
+          1.0
+        ],
+        [
+          "Contexto",
+          0.1
+        ],
+        [
+          "Compensación",
+          0.38
+        ]
+      ],
+      "trend": [
+        50,
+        56,
+        61,
+        66,
+        70,
+        75,
+        79,
+        83,
+        88,
+        92,
+        96,
+        100
+      ]
+    },
+    {
+      "display_ref": "#0A25-3150",
+      "employee_hash": "0a253b7f37fe",
+      "line_id": "L5",
+      "shift": "nocturno",
+      "tenure_days": 98,
+      "score": 100,
+      "band": "critico",
+      "top_driver": "Faltas cerca de nómina",
+      "shap": [
+        {
+          "factor": "Faltas cerca de nómina",
+          "contrib": 50,
+          "detail": "ausencias concentradas tras el pago"
+        },
+        {
+          "factor": "Retardos en aceleración",
+          "contrib": 18,
+          "detail": "tendencia de retardos en 0.55 (subiendo)"
+        },
+        {
+          "factor": "Antigüedad en zona crítica",
+          "contrib": 17,
+          "detail": "98 días de antigüedad"
+        },
+        {
+          "factor": "Supervisor alta rotación",
+          "contrib": 15,
+          "detail": "línea con 16% rotación 90d"
+        }
+      ],
+      "radar": [
+        [
+          "Puntualidad",
+          0.55
+        ],
+        [
+          "Productividad",
+          0.7
+        ],
+        [
+          "Clima de línea",
+          0.64
+        ],
+        [
+          "Antigüedad",
+          0.98
+        ],
+        [
+          "Contexto",
+          0.2
+        ],
+        [
+          "Compensación",
+          0.30000000000000004
+        ]
+      ],
+      "trend": [
+        50,
+        56,
+        61,
+        66,
+        70,
+        75,
+        79,
+        83,
+        88,
+        92,
+        96,
+        100
+      ]
+    },
+    {
+      "display_ref": "#9445-1041",
+      "employee_hash": "9445884963c1",
+      "line_id": "L3",
+      "shift": "nocturno",
+      "tenure_days": 88,
+      "score": 86,
+      "band": "alto",
+      "top_driver": "Supervisor alta rotación",
+      "shap": [
+        {
+          "factor": "Supervisor alta rotación",
+          "contrib": 52,
+          "detail": "línea con 22% rotación 90d"
+        },
+        {
+          "factor": "Antigüedad en zona crítica",
+          "contrib": 20,
+          "detail": "dentro de la ventana 30-90 días"
+        },
+        {
+          "factor": "Retardos en aceleración",
+          "contrib": 15,
+          "detail": "tendencia de retardos en 0.40 (subiendo)"
+        },
+        {
+          "factor": "Solicitudes de cambio de turno",
+          "contrib": 13,
+          "detail": "3 solicitudes en 30 días"
+        }
+      ],
+      "radar": [
+        [
+          "Puntualidad",
+          0.4
+        ],
+        [
+          "Productividad",
+          0.625
+        ],
+        [
+          "Clima de línea",
+          0.88
+        ],
+        [
+          "Antigüedad",
+          1.0
+        ],
+        [
+          "Contexto",
+          0.25
+        ],
+        [
+          "Compensación",
+          0.28
+        ]
+      ],
+      "trend": [
+        36,
+        42,
+        47,
+        52,
+        56,
+        61,
+        65,
+        69,
+        74,
+        78,
+        82,
+        86
+      ]
+    },
+    {
+      "display_ref": "#9DB7-2952",
+      "employee_hash": "9db772802dc8",
+      "line_id": "L3",
+      "shift": "mixto",
+      "tenure_days": 134,
+      "score": 84,
+      "band": "alto",
+      "top_driver": "Supervisor alta rotación",
+      "shap": [
+        {
+          "factor": "Supervisor alta rotación",
+          "contrib": 49,
+          "detail": "línea con 22% rotación 90d"
+        },
+        {
+          "factor": "Antigüedad en zona crítica",
+          "contrib": 19,
+          "detail": "134 días de antigüedad"
+        },
+        {
+          "factor": "Retardos en aceleración",
+          "contrib": 18,
+          "detail": "tendencia de retardos en 0.45 (subiendo)"
+        },
+        {
+          "factor": "Solicitudes de cambio de turno",
+          "contrib": 14,
+          "detail": "3 solicitudes en 30 días"
+        }
+      ],
+      "radar": [
+        [
+          "Puntualidad",
+          0.45
+        ],
+        [
+          "Productividad",
+          0.6499999999999999
+        ],
+        [
+          "Clima de línea",
+          0.88
+        ],
+        [
+          "Antigüedad",
+          0.89
+        ],
+        [
+          "Contexto",
+          0.15
+        ],
+        [
+          "Compensación",
+          0.21999999999999997
+        ]
+      ],
+      "trend": [
+        34,
+        40,
+        45,
+        50,
+        54,
+        59,
+        63,
+        67,
+        72,
+        76,
+        80,
+        84
+      ]
+    },
+    {
+      "display_ref": "#11E2-2898",
+      "employee_hash": "11e276131852",
+      "line_id": "L5",
+      "shift": "vespertino",
+      "tenure_days": 210,
+      "score": 81,
+      "band": "alto",
+      "top_driver": "Caída de productividad",
+      "shap": [
+        {
+          "factor": "Caída de productividad",
+          "contrib": 54,
+          "detail": "-15% vs su histórico"
+        },
+        {
+          "factor": "Bono no alcanzado",
+          "contrib": 16,
+          "detail": "bono al 55% de meta"
+        },
+        {
+          "factor": "Antigüedad en zona crítica",
+          "contrib": 15,
+          "detail": "210 días de antigüedad"
+        },
+        {
+          "factor": "Supervisor alta rotación",
+          "contrib": 15,
+          "detail": "línea con 12% rotación 90d"
+        }
+      ],
+      "radar": [
+        [
+          "Puntualidad",
+          0.2
+        ],
+        [
+          "Productividad",
+          0.875
+        ],
+        [
+          "Clima de línea",
+          0.48
+        ],
+        [
+          "Antigüedad",
+          0.7
+        ],
+        [
+          "Contexto",
+          0.3
+        ],
+        [
+          "Compensación",
+          0.44999999999999996
+        ]
+      ],
+      "trend": [
+        31,
+        37,
+        42,
+        47,
+        51,
+        56,
+        60,
+        64,
+        69,
+        73,
+        77,
+        81
+      ]
+    },
+    {
+      "display_ref": "#2108-2836",
+      "employee_hash": "2108245ef4d4",
+      "line_id": "L3",
+      "shift": "mixto",
+      "tenure_days": 120,
+      "score": 81,
+      "band": "alto",
+      "top_driver": "Supervisor alta rotación",
+      "shap": [
+        {
+          "factor": "Supervisor alta rotación",
+          "contrib": 54,
+          "detail": "línea con 22% rotación 90d"
+        },
+        {
+          "factor": "Antigüedad en zona crítica",
+          "contrib": 20,
+          "detail": "120 días de antigüedad"
+        },
+        {
+          "factor": "Retardos en aceleración",
+          "contrib": 14,
+          "detail": "tendencia de retardos en 0.35 (subiendo)"
+        },
+        {
+          "factor": "Defectos en aumento",
+          "contrib": 12,
+          "detail": "tasa de defectos en 6%"
+        }
+      ],
+      "radar": [
+        [
+          "Puntualidad",
+          0.35
+        ],
+        [
+          "Productividad",
+          0.675
+        ],
+        [
+          "Clima de línea",
+          0.88
+        ],
+        [
+          "Antigüedad",
+          0.925
+        ],
+        [
+          "Contexto",
+          0.18
+        ],
+        [
+          "Compensación",
+          0.25
+        ]
+      ],
+      "trend": [
+        31,
+        37,
+        42,
+        47,
+        51,
+        56,
+        60,
+        64,
+        69,
+        73,
+        77,
+        81
+      ]
+    },
+    {
+      "display_ref": "#F7B7-9017",
+      "employee_hash": "f7b76e6761d9",
+      "line_id": "L5",
+      "shift": "vespertino",
+      "tenure_days": 176,
+      "score": 78,
+      "band": "medio",
+      "top_driver": "Caída de productividad",
+      "shap": [
+        {
+          "factor": "Caída de productividad",
+          "contrib": 44,
+          "detail": "-18% vs su histórico"
+        },
+        {
+          "factor": "Supervisor alta rotación",
+          "contrib": 20,
+          "detail": "línea con 16% rotación 90d"
+        },
+        {
+          "factor": "Defectos en aumento",
+          "contrib": 18,
+          "detail": "tasa de defectos en 9%"
+        },
+        {
+          "factor": "Antigüedad en zona crítica",
+          "contrib": 18,
+          "detail": "176 días de antigüedad"
+        }
+      ],
+      "radar": [
+        [
+          "Puntualidad",
+          0.18
+        ],
+        [
+          "Productividad",
+          0.95
+        ],
+        [
+          "Clima de línea",
+          0.64
+        ],
+        [
+          "Antigüedad",
+          0.785
+        ],
+        [
+          "Contexto",
+          0.12
+        ],
+        [
+          "Compensación",
+          0.19999999999999996
+        ]
+      ],
+      "trend": [
+        30,
+        36,
+        40,
+        45,
+        49,
+        54,
+        58,
+        62,
+        66,
+        70,
+        74,
+        78
+      ]
+    },
+    {
+      "display_ref": "#D918-9276",
+      "employee_hash": "d91844250eac",
+      "line_id": "L2",
+      "shift": "matutino",
+      "tenure_days": 45,
+      "score": 58,
+      "band": "vigilancia",
+      "top_driver": "Antigüedad en zona crítica",
+      "shap": [
+        {
+          "factor": "Antigüedad en zona crítica",
+          "contrib": 57,
+          "detail": "dentro de la ventana 30-90 días"
+        },
+        {
+          "factor": "Bono no alcanzado",
+          "contrib": 17,
+          "detail": "bono al 68% de meta"
+        },
+        {
+          "factor": "Retardos en aceleración",
+          "contrib": 15,
+          "detail": "tendencia de retardos en 0.25 (subiendo)"
+        },
+        {
+          "factor": "Defectos en aumento",
+          "contrib": 11,
+          "detail": "tasa de defectos en 4%"
+        }
+      ],
+      "radar": [
+        [
+          "Puntualidad",
+          0.25
+        ],
+        [
+          "Productividad",
+          0.6000000000000001
+        ],
+        [
+          "Clima de línea",
+          0.24
+        ],
+        [
+          "Antigüedad",
+          1.0
+        ],
+        [
+          "Contexto",
+          0.2
+        ],
+        [
+          "Compensación",
+          0.31999999999999995
+        ]
+      ],
+      "trend": [
+        30,
+        33,
+        36,
+        39,
+        41,
+        44,
+        46,
+        49,
+        51,
+        53,
+        56,
+        58
+      ]
+    },
+    {
+      "display_ref": "#68C6-4504",
+      "employee_hash": "68c607e51868",
+      "line_id": "L4",
+      "shift": "matutino",
+      "tenure_days": 312,
+      "score": 55,
+      "band": "vigilancia",
+      "top_driver": "Rechazo de tiempo extra",
+      "shap": [
+        {
+          "factor": "Rechazo de tiempo extra",
+          "contrib": 49,
+          "detail": "90% de rechazo a tiempo extra"
+        },
+        {
+          "factor": "Supervisor alta rotación",
+          "contrib": 21,
+          "detail": "línea con 11% rotación 90d"
+        },
+        {
+          "factor": "Antigüedad en zona crítica",
+          "contrib": 15,
+          "detail": "312 días de antigüedad"
+        },
+        {
+          "factor": "Solicitudes de cambio de turno",
+          "contrib": 15,
+          "detail": "2 solicitudes en 30 días"
+        }
+      ],
+      "radar": [
+        [
+          "Puntualidad",
+          0.1
+        ],
+        [
+          "Productividad",
+          0.475
+        ],
+        [
+          "Clima de línea",
+          0.44
+        ],
+        [
+          "Antigüedad",
+          0.44499999999999995
+        ],
+        [
+          "Contexto",
+          0.9
+        ],
+        [
+          "Compensación",
+          0.12
+        ]
+      ],
+      "trend": [
+        30,
+        33,
+        35,
+        38,
+        40,
+        42,
+        44,
+        47,
+        49,
+        51,
+        53,
+        55
+      ]
+    },
+    {
+      "display_ref": "#BB76-6323",
+      "employee_hash": "bb76185f6a53",
+      "line_id": "L7",
+      "shift": "vespertino",
+      "tenure_days": 245,
+      "score": 46,
+      "band": "estable",
+      "top_driver": "Antigüedad en zona crítica",
+      "shap": [
+        {
+          "factor": "Antigüedad en zona crítica",
+          "contrib": 56,
+          "detail": "245 días de antigüedad"
+        },
+        {
+          "factor": "Supervisor alta rotación",
+          "contrib": 19,
+          "detail": "línea con 8% rotación 90d"
+        },
+        {
+          "factor": "Rechazo de tiempo extra",
+          "contrib": 13,
+          "detail": "30% de rechazo a tiempo extra"
+        },
+        {
+          "factor": "Bono no alcanzado",
+          "contrib": 12,
+          "detail": "bono al 82% de meta"
+        }
+      ],
+      "radar": [
+        [
+          "Puntualidad",
+          0.15
+        ],
+        [
+          "Productividad",
+          0.575
+        ],
+        [
+          "Clima de línea",
+          0.32
+        ],
+        [
+          "Antigüedad",
+          0.6125
+        ],
+        [
+          "Contexto",
+          0.3
+        ],
+        [
+          "Compensación",
+          0.18000000000000005
+        ]
+      ],
+      "trend": [
+        30,
+        32,
+        33,
+        35,
+        36,
+        38,
+        39,
+        41,
+        42,
+        43,
+        45,
+        46
+      ]
+    }
+  ]
+}
