@@ -1,81 +1,32 @@
-// components/risk-table.tsx
-"use client";
-
+// components/top-bar.tsx
 import Link from "next/link";
-import { useState } from "react";
-import { Table, THead, TH, TR, TD } from "@/components/ui/table";
-import { riskColor } from "@/lib/utils";
-import type { EmployeePrediction } from "@/types";
-import { RecommendationModal } from "@/components/recommendation-modal";
 
-interface RiskTableProps {
-  rows: EmployeePrediction[];
-  showLine?: boolean;
-  emptyLabel?: string;
-}
-
-export function RiskTable({ rows, showLine = true, emptyLabel }: RiskTableProps) {
-  const [modalEmp, setModalEmp] = useState<EmployeePrediction | null>(null);
-
+export function TopBar() {
   return (
-    <>
-      <Table>
-        <THead>
-          <TR className="hover:bg-transparent">
-            <TH>Empleado</TH>
-            <TH>Score</TH>
-            <TH>Driver principal</TH>
-            {showLine && <TH>Línea</TH>}
-            <TH />
-          </TR>
-        </THead>
-        <tbody>
-          {rows.length === 0 && (
-            <TR>
-              <TD colSpan={showLine ? 5 : 4} className="py-8 text-center text-ink-3">
-                {emptyLabel ?? "Sin empleados en riesgo."}
-              </TD>
-            </TR>
-          )}
-          {rows.map((e) => {
-            const c = riskColor(e.score);
-            return (
-              <TR key={e.ref}>
-                <TD>
-                  <Link
-                    href={`/empleado/${encodeURIComponent(e.ref)}`}
-                    className="font-mono text-[13px] text-ink-1 hover:text-risk-sol"
-                  >
-                    {e.ref}
-                  </Link>
-                </TD>
-                <TD>
-                  <div className="flex items-center gap-[11px]">
-                    <div className="h-1.5 w-16 overflow-hidden rounded-[3px] bg-surface-bg">
-                      <div className="h-full rounded-[3px]" style={{ width: `${e.score}%`, background: c }} />
-                    </div>
-                    <span className="min-w-[38px] font-mono font-bold" style={{ color: c }}>
-                      {e.score}%
-                    </span>
-                  </div>
-                </TD>
-                <TD>{e.driver}</TD>
-                {showLine && <TD className="font-mono text-[13px] text-ink-2">{e.line}</TD>}
-                <TD className="text-right">
-                  <button
-                    onClick={() => setModalEmp(e)}
-                    className="whitespace-nowrap rounded-lg border border-line-2 px-3.5 py-[7px] text-[12.5px] font-medium text-ink-1 transition-colors hover:border-risk-sol hover:bg-risk-sol-soft hover:text-risk-sol"
-                  >
-                    Acción
-                  </button>
-                </TD>
-              </TR>
-            );
-          })}
-        </tbody>
-      </Table>
-
-      <RecommendationModal employee={modalEmp} onClose={() => setModalEmp(null)} />
-    </>
+    <div className="sticky top-0 z-50 border-b border-line bg-surface">
+      <div className="mx-auto flex h-16 max-w-[1120px] items-center justify-between px-[30px]">
+        <Link href="/" className="flex items-center gap-3 font-semibold text-[16px] tracking-tight">
+          <span
+            className="h-[30px] w-[30px] rounded-full"
+            style={{
+              background:
+                "conic-gradient(from 180deg,#5B6EF5,#8476FF,#E59BB0,#EB4F6C,#5B6EF5)",
+            }}
+          />
+          <span>
+            Soral
+            <span className="-mt-0.5 block text-[11.5px] font-normal text-ink-3">
+              Planta Tijuana Norte
+            </span>
+          </span>
+        </Link>
+        <div className="flex items-center gap-4 text-[13px] text-ink-2">
+          <span className="rounded-full border border-line px-3 py-1 text-[12.5px]">
+            Semana 24 · 2026
+          </span>
+          <span className="hidden sm:inline">Actualizado hace 2 h</span>
+        </div>
+      </div>
+    </div>
   );
 }
