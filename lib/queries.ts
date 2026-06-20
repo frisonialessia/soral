@@ -1,6 +1,9 @@
 // lib/queries.ts
 // Hooks de TanStack Query. Las queryKeys son estables para que el caché
 // persista entre navegaciones (clave para que el estado se "mantenga").
+//
+// queryFn → lib/api-client (fetch a los Route Handlers de app/api/*). Los
+// componentes solo ven estos hooks; no saben de HTTP.
 
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
@@ -8,7 +11,7 @@ import {
   fetchLineDetail,
   fetchEmployee,
   assignRecommendation,
-} from "./mock-api";
+} from "./api-client";
 
 export const queryKeys = {
   plant: ["plant", "summary"] as const,

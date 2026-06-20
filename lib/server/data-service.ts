@@ -1,20 +1,17 @@
-// lib/mock-api.ts
-// Simula las llamadas a la API real. Cada función tiene la firma que tendrá
-// el endpoint de producción, para que migrar a fetch() real sea cambiar solo
-// el cuerpo de estas funciones (no los componentes que las consumen).
+// lib/server/data-service.ts
+// Capa de datos — SERVER ONLY. Es la única capa que conoce el origen de los datos.
+// Hoy lee del dataset semilla (lib/data.ts); mañana consultará PostgreSQL/Supabase.
 //
-// TanStack Query cachea estos resultados, así que navegar entre vistas no
-// re-pide datos ya cargados: la interfaz se siente instantánea.
+// Solo los Route Handlers de app/api/* importan este módulo (nunca un componente
+// cliente). Migrar a Supabase = cambiar SOLO el cuerpo de estas funciones: las
+// firmas y el contrato de types/index.ts no se tocan, así que ni los handlers ni
+// la UI cambian.
 
-import { EMPLOYEES, TENANT_ID, WEEK_START, MODEL_VERSION } from "./data";
+import { EMPLOYEES, TENANT_ID, WEEK_START, MODEL_VERSION } from "@/lib/data";
 import type { EmployeePrediction, LineDetail, PlantSummary, RiskBand } from "@/types";
 
 const REPLACEMENT_COST_MXN = 36_800;
-
-// Latencia simulada para que el caché de React Query se note de verdad
-function delay<T>(value: T, ms = 350): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(value), ms));
-}
+const PLANT_HEADCOUNT = 1180;
 
 function bandOf(score: number): RiskBand {
   if (score >= 90) return "critico";
@@ -25,17 +22,18 @@ function bandOf(score: number): RiskBand {
   return "solido";
 }
 
-// Normaliza: asegura que cada registro tenga banda (defensa de contrato)
+// Normaliza: asegura que cada registro tenga banda (defensa de contrato) y ordena
+// por score descendente. Cuando esto sea SQL, será un ORDER BY score DESC.
 const ALL: EmployeePrediction[] = EMPLOYEES.map((e) => ({
   ...e,
   band: e.band ?? bandOf(e.score),
 })).sort((a, b) => b.score - a.score);
 
 // GET /api/plant/summary
-export async function fetchPlantSummary(): Promise<PlantSummary> {
+export async function getPlantSummary(): Promise<PlantSummary> {
   const highRisk = ALL.filter((e) => e.score >= 80).length;
   const watch = ALL.filter((e) => e.score >= 55 && e.score < 80).length;
-  const stable = 1180 - highRisk - watch;
+  const stable = PLANT_HEADCOUNT - highRisk - watch;
 
   // Conteo por línea (de los empleados en riesgo conocidos + líneas vacías del demo)
   const lineCounts: Record<string, number> = {
@@ -45,7 +43,7 @@ export async function fetchPlantSummary(): Promise<PlantSummary> {
     if (e.score >= 55) lineCounts[e.line] = (lineCounts[e.line] ?? 0) + 1;
   });
 
-  return delay({
+  return {
     tenantId: TENANT_ID,
     weekStart: WEEK_START,
     modelVersion: MODEL_VERSION,
@@ -55,11 +53,11 @@ export async function fetchPlantSummary(): Promise<PlantSummary> {
     savingMxn: highRisk * REPLACEMENT_COST_MXN,
     lines: Object.entries(lineCounts).map(([id, count]) => ({ id, count })),
     topRisk: ALL.slice(0, 10),
-  });
+  };
 }
 
 // GET /api/line/:id
-export async function fetchLineDetail(id: string): Promise<LineDetail> {
+export async function getLineDetail(id: string): Promise<LineDetail> {
   const employees = ALL.filter((e) => e.line === id && e.score >= 55);
   const meta: Record<string, { t: string; p: string; s: string }> = {
     L3: { t: "22%", p: "−12%", s: "Alto" },
@@ -67,21 +65,20 @@ export async function fetchLineDetail(id: string): Promise<LineDetail> {
     L4: { t: "11%", p: "−4%", s: "Bajo" },
   };
   const m = meta[id] ?? { t: "7%", p: "−2%", s: "Bajo" };
-  return delay({
+  return {
     id,
     turnover90d: m.t,
     productivity: m.p,
     supervisorEffect: m.s,
     shift: employees[0]?.shift ?? "mixto",
     employees,
-  });
+  };
 }
 
 // GET /api/employee/:ref
-export async function fetchEmployee(ref: string): Promise<EmployeePrediction | null> {
-  const decoded = decodeURIComponent(ref);
-  const found = ALL.find((e) => e.ref === decoded) ?? null;
-  return delay(found);
+// El ref llega ya decodificado por Next (el handler recibe params decodificados).
+export async function getEmployee(ref: string): Promise<EmployeePrediction | null> {
+  return ALL.find((e) => e.ref === ref) ?? null;
 }
 
 // POST /api/recommendation/:ref/assign
@@ -90,5 +87,5 @@ export async function assignRecommendation(
   line: string
 ): Promise<{ ok: true; assignedAt: string }> {
   // En producción: persiste la intervención y notifica al supervisor.
-  return delay({ ok: true, assignedAt: new Date().toISOString() }, 250);
+  return { ok: true, assignedAt: new Date().toISOString() };
 }

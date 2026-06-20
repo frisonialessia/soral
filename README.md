@@ -20,19 +20,29 @@ npm run dev      # http://localhost:3000
 
 ## Arquitectura de datos
 
+Tres capas limpias, pensadas para que conectar la base de datos sea cambiar una
+sola de ellas:
+
 - `lib/data.ts` — dataset semilla, generado por la cadena ERP → conector → modelo
   (es el `predictions_payload.json` validado en la simulación de integración).
-- `lib/mock-api.ts` — simula los endpoints REST con latencia. Las firmas son las
-  que tendrá la API real: migrar = cambiar el cuerpo de estas funciones por `fetch()`.
-- `lib/queries.ts` — hooks de TanStack Query con queryKeys estables.
-- `types/index.ts` — el contrato de datos (mismo shape que la API).
+- `lib/server/data-service.ts` — **capa de datos (server-only)**. La única que
+  conoce el origen: hoy lee de `lib/data.ts`, mañana consultará PostgreSQL/Supabase.
+  Migrar = cambiar solo el cuerpo de estas funciones.
+- `app/api/*/route.ts` — **Route Handlers**. Capa HTTP delgada sobre el data-service
+  (`/api/plant/summary`, `/api/line/[id]`, `/api/employee/[ref]`,
+  `/api/recommendation/[ref]/assign`).
+- `lib/api-client.ts` — **cliente fetch (client-side)**. Llama a los Route Handlers
+  y devuelve el contrato de `types/index.ts`.
+- `lib/queries.ts` — hooks de TanStack Query con queryKeys estables; consumen el
+  api-client.
+- `types/index.ts` — el contrato de datos (mismo shape de punta a punta).
 
 ## Estado y caché
 
 TanStack Query cachea cada respuesta (`staleTime` 60 s). Navegar entre vistas
 ya visitadas no re-pide datos: el estado se mantiene y la interfaz se siente
-instantánea. El primer acceso a cada vista muestra el estado de carga (latencia
-simulada de la mock API).
+instantánea. El primer acceso a cada vista hace un `fetch` real al Route Handler
+correspondiente y muestra el estado de carga.
 
 ## Paleta
 
@@ -42,6 +52,6 @@ empleado se deriva de su score.
 
 ## Próximos pasos
 
-1. Reemplazar el cuerpo de `lib/mock-api.ts` por llamadas `fetch()` a Route Handlers en `app/api/`.
-2. Conectar la API a las tablas PostgreSQL del `schema.sql`.
-3. Reemplazar el modelo simulado por el XGBoost entrenado.
+1. Conectar `lib/server/data-service.ts` a las tablas PostgreSQL del `schema.sql`
+   (Supabase). Solo cambia el cuerpo de las funciones; handlers y UI no se tocan.
+2. Reemplazar el modelo simulado por el XGBoost entrenado.
