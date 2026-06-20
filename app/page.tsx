@@ -6,12 +6,21 @@ import { usePlantSummary } from "@/lib/queries";
 import { DotField } from "@/components/dashboard/dot-field";
 import { RiskTable } from "@/components/risk-table";
 import { Card } from "@/components/ui/card";
+import { LoadingState, ErrorState } from "@/components/ui/states";
 
 export default function HomePage() {
-  const { data, isLoading } = usePlantSummary();
+  const { data, isLoading, isError, refetch, isFetching } = usePlantSummary();
 
-  if (isLoading || !data) {
-    return <div className="py-20 text-center text-ink-3">Cargando estado de la planta…</div>;
+  if (isLoading) return <LoadingState label="Cargando estado de la planta…" />;
+  if (isError || !data) {
+    return (
+      <ErrorState
+        title="No pudimos cargar el estado de la planta"
+        detail="Revisa tu conexión e inténtalo de nuevo."
+        onRetry={() => refetch()}
+        retrying={isFetching}
+      />
+    );
   }
 
   return (

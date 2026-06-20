@@ -8,15 +8,24 @@ import { RiskRadar, TrendChart } from "@/components/employee/charts";
 import { RecommendationModal } from "@/components/recommendation-modal";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { LoadingState, ErrorState } from "@/components/ui/states";
 import { riskColor } from "@/lib/utils";
 
 export default function EmployeePage({ params }: { params: Promise<{ ref: string }> }) {
   const { ref } = use(params);
-  const { data: e, isLoading } = useEmployee(ref);
+  const { data: e, isLoading, isError, refetch, isFetching } = useEmployee(ref);
   const [modalOpen, setModalOpen] = useState(false);
 
-  if (isLoading) {
-    return <div className="py-20 text-center text-ink-3">Cargando ficha…</div>;
+  if (isLoading) return <LoadingState label="Cargando ficha…" />;
+  if (isError) {
+    return (
+      <ErrorState
+        title="No pudimos cargar la ficha"
+        detail="Revisa tu conexión e inténtalo de nuevo."
+        onRetry={() => refetch()}
+        retrying={isFetching}
+      />
+    );
   }
   if (!e) {
     return (

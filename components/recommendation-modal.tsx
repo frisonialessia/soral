@@ -32,6 +32,7 @@ export function RecommendationModal({
 
   function handleClose() {
     setAssigned(false);
+    assign.reset();
     onClose();
   }
 
@@ -69,6 +70,15 @@ export function RecommendationModal({
         {employee.reco}
       </div>
 
+      {assign.isError && (
+        <div
+          className="mb-3 rounded-md border border-risk-cri/30 bg-risk-cri/5 px-3.5 py-2.5 text-[12.5px] text-risk-cri"
+          role="alert"
+        >
+          No se pudo asignar la recomendación. Inténtalo de nuevo.
+        </div>
+      )}
+
       <div className="flex justify-end gap-2.5">
         <Button variant="default" onClick={handleClose}>
           Descartar
@@ -82,6 +92,8 @@ export function RecommendationModal({
             ? "✓ Asignada"
             : assign.isPending
             ? "Asignando…"
+            : assign.isError
+            ? "Reintentar"
             : "Asignar al supervisor"}
         </Button>
       </div>

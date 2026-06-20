@@ -6,13 +6,22 @@ import Link from "next/link";
 import { useLineDetail } from "@/lib/queries";
 import { RiskTable } from "@/components/risk-table";
 import { Card } from "@/components/ui/card";
+import { LoadingState, ErrorState } from "@/components/ui/states";
 
 export default function LinePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { data, isLoading } = useLineDetail(id);
+  const { data, isLoading, isError, refetch, isFetching } = useLineDetail(id);
 
-  if (isLoading || !data) {
-    return <div className="py-20 text-center text-ink-3">Cargando línea {id}…</div>;
+  if (isLoading) return <LoadingState label={`Cargando línea ${id}…`} />;
+  if (isError || !data) {
+    return (
+      <ErrorState
+        title={`No pudimos cargar la línea ${id}`}
+        detail="Revisa tu conexión e inténtalo de nuevo."
+        onRetry={() => refetch()}
+        retrying={isFetching}
+      />
+    );
   }
 
   return (
