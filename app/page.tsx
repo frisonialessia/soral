@@ -8,6 +8,7 @@ import { ArrowRight, Map, Sparkles, Zap, ShieldCheck } from "lucide-react";
 import { LandingNav } from "@/components/landing/landing-nav";
 import { DashboardPreview } from "@/components/landing/dashboard-preview";
 import { Reveal } from "@/components/landing/reveal";
+import { ExplainabilityPreview } from "@/components/landing/explainability-preview";
 
 export default async function LandingPage() {
   const t = await getTranslations("landing");
@@ -118,6 +119,26 @@ export default async function LandingPage() {
               </Reveal>
             );
           })}
+        </div>
+      </section>
+
+      {/* Explicabilidad (showcase de herramienta) */}
+      <section className="mx-auto max-w-[1120px] px-5 py-16 sm:px-6">
+        <div className="grid items-center gap-10 lg:grid-cols-2">
+          <Reveal>
+            <div>
+              <span className="text-[12.5px] font-semibold uppercase tracking-wide text-risk-sol">
+                {t("explainEyebrow")}
+              </span>
+              <h2 className="mt-2 text-[28px] font-semibold leading-tight tracking-tight text-ink-1">
+                {t("explainTitle")}
+              </h2>
+              <p className="mt-3 text-[15px] leading-relaxed text-ink-2">{t("explainText")}</p>
+            </div>
+          </Reveal>
+          <Reveal delay={100}>
+            <ExplainabilityPreview />
+          </Reveal>
         </div>
       </section>
 

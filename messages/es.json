@@ -219,6 +219,15 @@
     "step2Title": "Puntúa y explica",
     "step2Desc": "El modelo ordena el riesgo de rotación por trabajador y muestra el porqué con SHAP.",
     "step3Title": "Actúa y retén",
-    "step3Desc": "El supervisor recibe una recomendación y la asigna para actuar esta semana."
+    "step3Desc": "El supervisor recibe una recomendación y la asigna para actuar esta semana.",
+    "explainEyebrow": "Explicabilidad",
+    "explainTitle": "Sin caja negra. Cada score, explicado.",
+    "explainText": "Soral muestra la contribución SHAP de cada factor y un perfil de riesgo de seis dimensiones, para que el supervisor sepa exactamente por qué se marca a un trabajador — y sobre qué actuar.",
+    "axis1": "Puntualidad",
+    "axis2": "Asistencia",
+    "axis3": "Antigüedad",
+    "axis4": "Productividad",
+    "axis5": "Horas extra",
+    "axis6": "Supervisor"
   }
 }

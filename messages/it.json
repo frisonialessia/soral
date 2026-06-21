@@ -219,6 +219,15 @@
     "step2Title": "Valuta e spiega",
     "step2Desc": "Il modello ordina il rischio di turnover per lavoratore e mostra il perché con SHAP.",
     "step3Title": "Agisci e trattieni",
-    "step3Desc": "Il supervisore riceve una raccomandazione e la assegna per agire questa settimana."
+    "step3Desc": "Il supervisore riceve una raccomandazione e la assegna per agire questa settimana.",
+    "explainEyebrow": "Spiegabilità",
+    "explainTitle": "Nessuna scatola nera. Ogni score, spiegato.",
+    "explainText": "Soral mostra il contributo SHAP di ogni fattore e un profilo di rischio a sei dimensioni, così il supervisore sa esattamente perché un lavoratore viene segnalato — e su cosa agire.",
+    "axis1": "Puntualità",
+    "axis2": "Presenze",
+    "axis3": "Anzianità",
+    "axis4": "Produttività",
+    "axis5": "Straordinari",
+    "axis6": "Supervisore"
   }
 }

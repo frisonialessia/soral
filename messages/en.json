@@ -219,6 +219,15 @@
     "step2Title": "Score and explain",
     "step2Desc": "The model ranks turnover risk per worker and shows the why with SHAP.",
     "step3Title": "Act and retain",
-    "step3Desc": "Supervisors get a recommendation and assign it to act this week."
+    "step3Desc": "Supervisors get a recommendation and assign it to act this week.",
+    "explainEyebrow": "Explainability",
+    "explainTitle": "No black box. Every score, explained.",
+    "explainText": "Soral shows the SHAP contribution of each factor and a six-dimension risk profile, so a supervisor knows exactly why a worker is flagged — and what to act on.",
+    "axis1": "Punctuality",
+    "axis2": "Attendance",
+    "axis3": "Tenure",
+    "axis4": "Productivity",
+    "axis5": "Overtime",
+    "axis6": "Supervisor"
   }
 }
