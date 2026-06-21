@@ -23,13 +23,15 @@ export default function HomePage() {
     );
   }
 
+  const total = data.highRisk + data.watch + data.stable;
+
   return (
     <div className="animate-fade pb-12">
       <div className="flex flex-wrap items-end justify-between gap-3.5 py-5">
         <div>
           <h1 className="text-[27px] font-semibold tracking-tight">Fuerza laboral</h1>
           <p className="mt-1 text-sm text-ink-2">
-            {data.stable + data.watch + data.highRisk} empleados · cada punto es una persona ·
+            {total.toLocaleString("es-MX")} empleados · cada punto es una persona ·
             ordenados por riesgo de rotación a 30 días
           </p>
         </div>
@@ -52,16 +54,22 @@ export default function HomePage() {
           <div className="mb-4">
             <h2 className="text-[17px] font-semibold">Mapa de riesgo</h2>
             <p className="mt-0.5 text-[12.5px] text-ink-2">
-              Las zonas cálidas (abajo) concentran el alto riesgo. Pasa el cursor o haz clic.
+              Cada punto es un empleado. Los de mayor riesgo (arriba) resaltan en cálido;
+              pasa el cursor o haz clic para abrir su ficha.
             </p>
           </div>
-          <DotField topRef={data.topRisk[0]?.ref ?? ""} />
+          <DotField employees={data.topRisk} total={total} />
         </Card>
 
         <div className="flex w-[200px] flex-shrink-0 flex-col gap-3">
-          <StatCard label="Alto riesgo" value={data.highRisk} delta="+5 vs semana anterior" color="#EB4F6C" />
-          <StatCard label="En vigilancia" value={data.watch} delta="seguimiento activo" color="#B49AED" />
-          <StatCard label="Estable" value={data.stable.toLocaleString("es-MX")} delta="92% de la planta" color="#5B6EF5" />
+          <StatCard label="Alto riesgo" value={data.highRisk} delta="score ≥ 80 · acción esta semana" color="#EB4F6C" />
+          <StatCard label="En vigilancia" value={data.watch} delta="score 55–79 · seguimiento" color="#B49AED" />
+          <StatCard
+            label="Estable"
+            value={data.stable.toLocaleString("es-MX")}
+            delta={`${Math.round((data.stable / total) * 100)}% de la planta`}
+            color="#5B6EF5"
+          />
         </div>
       </div>
 

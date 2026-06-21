@@ -1,10 +1,11 @@
 // components/dashboard/dot-field.tsx
 "use client";
 
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { riskColor, bandLabel, bandOf } from "@/lib/risk";
-import type { RiskBand } from "@/types";
+import { riskColor, bandLabel } from "@/lib/risk";
+import { buildField, CELL, type Cell } from "@/lib/dot-field-model";
+import type { EmployeePrediction, RiskBand } from "@/types";
 
 interface HoverInfo {
   ref: string;
@@ -13,81 +14,91 @@ interface HoverInfo {
   driver: string;
 }
 
-const COLS = 44;
-const ROWS = 22;
+// Capa de fondo: la mayoría estable. Memoizada → NO se re-renderiza al mover el
+// cursor (antes el campo entero se reconciliaba en cada hover).
+const CalmLayer = memo(function CalmLayer({ cells }: { cells: Cell[] }) {
+  return (
+    <g aria-hidden="true">
+      {cells.map((d, i) => {
+        const lr = Math.min(1, Math.max(0, d.score / 100));
+        return (
+          <circle
+            key={i}
+            cx={d.c * CELL + CELL / 2}
+            cy={d.r * CELL + CELL / 2}
+            r={CELL * 0.16 + CELL * 0.3 * lr}
+            fill={riskColor(d.score)}
+            opacity={0.4 + 0.35 * lr}
+          />
+        );
+      })}
+    </g>
+  );
+});
 
-export function DotField({ topRef }: { topRef: string }) {
+export function DotField({
+  employees,
+  total,
+}: {
+  employees: EmployeePrediction[];
+  total: number;
+}) {
   const router = useRouter();
   const [hover, setHover] = useState<HoverInfo | null>(null);
 
-  // Genera el campo de puntos de forma determinista (mismo patrón siempre)
-  const dots = useMemo(() => {
-    const out: { cx: number; cy: number; r: number; score: number; op: number }[] = [];
-    let idx = 0;
-    for (let r = 0; r < ROWS; r++) {
-      for (let c = 0; c < COLS; c++) {
-        const rowT = r / (ROWS - 1);
-        const risk = Math.pow(rowT, 1.4);
-        let j = (Math.sin(idx * 12.9898) * 43758.5) % 1;
-        j = j - Math.floor(j);
-        const lr = Math.min(1, Math.max(0, risk + (j - 0.5) * 0.14));
-        out.push({
-          cx: c / (COLS - 1),
-          cy: (ROWS - 1 - r) / (ROWS - 1),
-          r: 0.3 + 0.7 * lr,
-          score: Math.round(lr * 100),
-          op: 0.45 + 0.55 * lr,
-        });
-        idx++;
-      }
-    }
-    return out;
-  }, []);
+  const { real, anon, width, height } = useMemo(
+    () => buildField(employees, total),
+    [employees, total]
+  );
 
-  const W = 880;
-  const H = 440;
-  const cell = W / COLS;
+  const go = (ref: string) => router.push(`/empleado/${encodeURIComponent(ref)}`);
 
   return (
     <div className="relative">
       <svg
-        viewBox={`0 0 ${W} ${H}`}
+        viewBox={`0 0 ${width} ${height}`}
         width="100%"
         role="img"
-        aria-label="Campo de puntos de empleados por riesgo de rotación"
+        aria-label={`Mapa de ${total} empleados por riesgo de rotación; ${real.length} en riesgo conocido`}
         style={{ display: "block", overflow: "visible" }}
       >
-        {dots.map((d, i) => {
-          const cx = d.cx * (W - cell) + cell / 2;
-          const cy = d.cy * (H - cell) + cell / 2;
-          const rad = cell * 0.16 + cell * 0.34 * d.r;
+        <CalmLayer cells={anon} />
+        {real.map((d) => {
+          const lr = Math.min(1, Math.max(0, d.score / 100));
+          const info: HoverInfo = {
+            ref: d.ref!,
+            score: d.score,
+            band: d.band,
+            driver: d.driver ?? "",
+          };
           return (
             <circle
-              key={i}
-              cx={cx}
-              cy={cy}
-              r={rad}
+              key={d.ref}
+              cx={d.c * CELL + CELL / 2}
+              cy={d.r * CELL + CELL / 2}
+              r={CELL * 0.18 + CELL * 0.34 * lr}
               fill={riskColor(d.score)}
-              opacity={d.op}
+              opacity={0.96}
+              stroke="#fff"
+              strokeWidth={1.25}
+              tabIndex={0}
+              role="button"
+              aria-label={`${d.ref}, ${d.score}%, ${bandLabel(d.band)}`}
               style={{ cursor: "pointer", transition: "r .15s" }}
-              onMouseEnter={() =>
-                setHover({
-                  ref: `#${1000 + d.score * 7}`,
-                  score: d.score,
-                  band: bandOf(d.score),
-                  driver:
-                    d.score >= 80
-                      ? "Retardos en aceleración"
-                      : d.score >= 70
-                      ? "Bono no alcanzado"
-                      : d.score >= 55
-                      ? "Solicitudes de turno"
-                      : "Sin señales",
-                })
-              }
+              onMouseEnter={() => setHover(info)}
               onMouseLeave={() => setHover(null)}
-              onClick={() => router.push(`/empleado/${encodeURIComponent(topRef)}`)}
-            />
+              onFocus={() => setHover(info)}
+              onBlur={() => setHover(null)}
+              onClick={() => go(d.ref!)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  go(d.ref!);
+                }
+              }}
+            >
+              <title>{`${d.ref} · ${d.score}% · ${bandLabel(d.band)}`}</title>
+            </circle>
           );
         })}
       </svg>
@@ -108,7 +119,8 @@ export function DotField({ topRef }: { topRef: string }) {
             {hover.score}%
           </div>
           <div className="text-[11.5px] text-ink-2">
-            {bandLabel(hover.band)} · {hover.driver}
+            {bandLabel(hover.band)}
+            {hover.driver ? ` · ${hover.driver}` : ""}
           </div>
         </div>
       )}
