@@ -21,14 +21,19 @@ export default function OpengraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <div
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: 9999,
-              background: "linear-gradient(135deg,#5B6EF5,#8476FF 55%,#EB4F6C)",
-            }}
-          />
+          <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+            {[
+              ["#EB4F6C", "#F56C89", "#B49AED"],
+              ["#B49AED", "#8476FF", "#5B6EF5"],
+              ["#8476FF", "#5B6EF5", "#5B6EF5"],
+            ].map((row, ri) => (
+              <div key={ri} style={{ display: "flex", gap: 5 }}>
+                {row.map((c, ci) => (
+                  <div key={ci} style={{ width: 15, height: 15, borderRadius: 9999, background: c }} />
+                ))}
+              </div>
+            ))}
+          </div>
           <div style={{ fontSize: 34, fontWeight: 700, color: "#2B2D42" }}>Soral</div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>

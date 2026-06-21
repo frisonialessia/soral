@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { LanguageSwitcher } from "@/components/shell/language-switcher";
+import { BrandMark } from "@/components/brand-mark";
 
 export function LandingNav() {
   const t = useTranslations("landing");
@@ -13,10 +14,7 @@ export function LandingNav() {
     <header className="sticky top-0 z-30 border-b border-line/60 bg-surface/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-[1120px] items-center px-5 sm:px-6">
         <Link href="/" className="flex items-center gap-2.5 text-[17px] font-semibold tracking-tight">
-          <span
-            className="h-7 w-7 rounded-full"
-            style={{ background: "conic-gradient(from 180deg,#5B6EF5,#8476FF,#E59BB0,#EB4F6C,#5B6EF5)" }}
-          />
+          <BrandMark size={26} className="shrink-0" />
           Soral
         </Link>
         <div className="ml-auto flex items-center gap-2">

@@ -9,6 +9,7 @@ import { LandingNav } from "@/components/landing/landing-nav";
 import { DashboardPreview } from "@/components/landing/dashboard-preview";
 import { Reveal } from "@/components/landing/reveal";
 import { ExplainabilityPreview } from "@/components/landing/explainability-preview";
+import { BrandMark } from "@/components/brand-mark";
 
 export default async function LandingPage() {
   const t = await getTranslations("landing");
@@ -45,10 +46,7 @@ export default async function LandingPage() {
         />
         <div className="animate-fade relative mx-auto max-w-[1120px] px-5 pb-12 pt-16 text-center sm:px-6 sm:pt-20">
           <span className="inline-flex items-center gap-2 rounded-full border border-line-2 bg-surface px-3.5 py-1.5 text-[12.5px] text-ink-2">
-            <span
-              className="h-2 w-2 rounded-full"
-              style={{ background: "conic-gradient(from 180deg,#5B6EF5,#E59BB0,#EB4F6C,#5B6EF5)" }}
-            />
+            <span className="h-2 w-2 rounded-full bg-risk-sol" />
             {t("badge")}
           </span>
           <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-semibold leading-[1.06] tracking-tight text-ink-1 sm:text-5xl lg:text-[56px]">
@@ -194,10 +192,7 @@ export default async function LandingPage() {
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
             <div>
               <div className="flex items-center gap-2.5 text-[16px] font-semibold tracking-tight text-ink-1">
-                <span
-                  className="h-6 w-6 rounded-full"
-                  style={{ background: "conic-gradient(from 180deg,#5B6EF5,#8476FF,#E59BB0,#EB4F6C,#5B6EF5)" }}
-                />
+                <BrandMark size={24} className="shrink-0" />
                 Soral
               </div>
               <p className="mt-3 max-w-xs text-[13px] leading-relaxed text-ink-2">{t("footerTagline")}</p>

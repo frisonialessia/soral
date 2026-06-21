@@ -62,12 +62,7 @@ export function RecommendationModal({
       </div>
 
       <div className="mb-[11px] flex items-center gap-2 text-[12.5px] font-semibold text-risk-sol">
-        <span
-          className="h-3.5 w-3.5 rounded-full"
-          style={{
-            background: "conic-gradient(from 180deg,#5B6EF5,#E59BB0,#EB4F6C,#5B6EF5)",
-          }}
-        />
+        <span className="h-3.5 w-3.5 rounded-full bg-risk-sol" />
         {t("recoTitle")}
       </div>
       <div className="mb-[22px] whitespace-pre-line text-[13.5px] leading-relaxed text-ink-1">

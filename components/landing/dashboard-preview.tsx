@@ -10,6 +10,7 @@ import { LayoutDashboard, BarChart3, Plug, Settings } from "lucide-react";
 import { DotField } from "@/components/dashboard/dot-field";
 import { bandOf, riskColor } from "@/lib/risk";
 import type { EmployeePrediction } from "@/types";
+import { BrandMark } from "@/components/brand-mark";
 
 function emp(ref: string, score: number, line: string): EmployeePrediction {
   return {
@@ -73,10 +74,7 @@ export function DashboardPreview() {
         {/* Barra lateral */}
         <aside className="hidden w-44 shrink-0 flex-col gap-0.5 border-r border-line p-3 sm:flex">
           <div className="flex items-center gap-2 px-2 pb-3 text-[14px] font-semibold">
-            <span
-              className="h-5 w-5 rounded-full"
-              style={{ background: "conic-gradient(from 180deg,#5B6EF5,#8476FF,#E59BB0,#EB4F6C,#5B6EF5)" }}
-            />
+            <BrandMark size={20} className="shrink-0" />
             Soral
           </div>
           {NAV.map((n) => {

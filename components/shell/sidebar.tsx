@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { LayoutDashboard, BarChart3, Plug, Settings } from "lucide-react";
 import { Can } from "@/components/auth/can";
+import { BrandMark } from "@/components/brand-mark";
 import type { Permission } from "@/lib/auth/roles";
 
 interface NavItem {
@@ -52,12 +53,7 @@ export function Sidebar({
           onClick={onClose}
           className="flex items-center gap-3 px-5 py-[18px] text-[16px] font-semibold tracking-tight"
         >
-          <span
-            className="h-[30px] w-[30px] shrink-0 rounded-full"
-            style={{
-              background: "conic-gradient(from 180deg,#5B6EF5,#8476FF,#E59BB0,#EB4F6C,#5B6EF5)",
-            }}
-          />
+          <BrandMark size={28} className="shrink-0" />
           Soral
         </Link>
 
