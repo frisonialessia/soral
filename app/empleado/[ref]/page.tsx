@@ -9,7 +9,7 @@ import { RecommendationModal } from "@/components/recommendation-modal";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LoadingState, ErrorState } from "@/components/ui/states";
-import { riskColor } from "@/lib/utils";
+import { riskColor } from "@/lib/risk";
 
 export default function EmployeePage({ params }: { params: Promise<{ ref: string }> }) {
   const { ref } = use(params);

@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Table, THead, TH, TR, TD } from "@/components/ui/table";
-import { riskColor } from "@/lib/utils";
+import { riskColor } from "@/lib/risk";
 import type { EmployeePrediction } from "@/types";
 import { RecommendationModal } from "@/components/recommendation-modal";
 

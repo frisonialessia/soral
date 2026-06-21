@@ -46,9 +46,9 @@ correspondiente y muestra el estado de carga.
 
 ## Paleta
 
-Rampa de riesgo cerrada de 6 paradas (`lib/utils.ts` → `RISK_RAMP`), definida
-también como tokens de Tailwind (`risk.sol` … `risk.cri`). El color de cada
-empleado se deriva de su score.
+Rampa de riesgo cerrada de 6 paradas en `lib/risk.ts` → `RISK_BANDS` (fuente
+única: banda, umbral, color y etiqueta), reflejada como tokens de Tailwind
+(`risk.sol` … `risk.cri`). El color de cada empleado se deriva de su score.
 
 ## Próximos pasos
 

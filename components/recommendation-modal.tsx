@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Dialog, DialogClose } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { riskColor, bandLabel } from "@/lib/utils";
+import { riskColor, bandLabel } from "@/lib/risk";
 import { useAssignRecommendation } from "@/lib/queries";
 import type { EmployeePrediction } from "@/types";
 

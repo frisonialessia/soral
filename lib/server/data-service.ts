@@ -8,19 +8,11 @@
 // la UI cambian.
 
 import { EMPLOYEES, TENANT_ID, WEEK_START, MODEL_VERSION } from "@/lib/data";
-import type { EmployeePrediction, LineDetail, PlantSummary, RiskBand } from "@/types";
+import { bandOf } from "@/lib/risk";
+import type { EmployeePrediction, LineDetail, PlantSummary } from "@/types";
 
 const REPLACEMENT_COST_MXN = 36_800;
 const PLANT_HEADCOUNT = 1180;
-
-function bandOf(score: number): RiskBand {
-  if (score >= 90) return "critico";
-  if (score >= 80) return "alto";
-  if (score >= 70) return "medio";
-  if (score >= 55) return "vigilancia";
-  if (score >= 40) return "estable";
-  return "solido";
-}
 
 // Normaliza: asegura que cada registro tenga banda (defensa de contrato) y ordena
 // por score descendente. Cuando esto sea SQL, será un ORDER BY score DESC.

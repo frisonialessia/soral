@@ -3,7 +3,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { riskColor, bandLabel } from "@/lib/utils";
+import { riskColor, bandLabel, bandOf } from "@/lib/risk";
 import type { RiskBand } from "@/types";
 
 interface HoverInfo {
@@ -15,15 +15,6 @@ interface HoverInfo {
 
 const COLS = 44;
 const ROWS = 22;
-
-function bandOf(score: number): RiskBand {
-  if (score >= 90) return "critico";
-  if (score >= 80) return "alto";
-  if (score >= 70) return "medio";
-  if (score >= 55) return "vigilancia";
-  if (score >= 40) return "estable";
-  return "solido";
-}
 
 export function DotField({ topRef }: { topRef: string }) {
   const router = useRouter();
