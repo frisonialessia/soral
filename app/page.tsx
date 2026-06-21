@@ -2,24 +2,29 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useTranslations, useFormatter } from "next-intl";
 import { usePlantSummary } from "@/lib/queries";
 import { DotField } from "@/components/dashboard/dot-field";
 import { RiskTable } from "@/components/risk-table";
 import { Card } from "@/components/ui/card";
 import { LoadingState, ErrorState } from "@/components/ui/states";
 
+type Range = "3M" | "1A" | "Todo";
+
 export default function HomePage() {
   const { data, isLoading, isError, refetch, isFetching } = usePlantSummary();
+  const t = useTranslations("dashboard");
+  const tc = useTranslations("common");
+  const format = useFormatter();
   // Ventana de análisis (control de UI). TODO: filtrar por histórico con Supabase.
-  const [range, setRange] = useState<"3M" | "1A" | "Todo">("3M");
+  const [range, setRange] = useState<Range>("3M");
 
-  if (isLoading) return <LoadingState label="Cargando estado de la planta…" />;
+  if (isLoading) return <LoadingState label={t("loading")} />;
   if (isError || !data) {
     return (
       <ErrorState
-        title="No pudimos cargar el estado de la planta"
-        detail="Revisa tu conexión e inténtalo de nuevo."
+        title={t("errorTitle")}
+        detail={tc("checkConnection")}
         onRetry={() => refetch()}
         retrying={isFetching}
       />
@@ -27,20 +32,22 @@ export default function HomePage() {
   }
 
   const total = data.highRisk + data.watch + data.stable;
+  const rangeLabel: Record<Range, string> = {
+    "3M": t("range3m"),
+    "1A": t("range1y"),
+    Todo: t("rangeAll"),
+  };
 
   return (
     <div className="animate-fade pb-12">
       <div className="flex flex-wrap items-end justify-between gap-3.5 py-5">
         <div>
-          <h1 className="text-[27px] font-semibold tracking-tight">Fuerza laboral</h1>
-          <p className="mt-1 text-sm text-ink-2">
-            {total.toLocaleString("es-MX")} empleados · cada punto es una persona ·
-            ordenados por riesgo de rotación a 30 días
-          </p>
+          <h1 className="text-[27px] font-semibold tracking-tight">{t("title")}</h1>
+          <p className="mt-1 text-sm text-ink-2">{t("subtitle", { count: total })}</p>
         </div>
         <div
           role="group"
-          aria-label="Ventana de análisis"
+          aria-label={t("rangeGroup")}
           className="flex gap-1 rounded-full bg-surface-bg p-1"
         >
           {(["3M", "1A", "Todo"] as const).map((s) => {
@@ -57,7 +64,7 @@ export default function HomePage() {
                     : "text-ink-2 hover:text-ink-1"
                 }`}
               >
-                {s}
+                {rangeLabel[s]}
               </button>
             );
           })}
@@ -67,30 +74,27 @@ export default function HomePage() {
       <div className="mb-4 flex items-stretch gap-4">
         <Card className="min-w-0 flex-1 rounded-xl p-[22px]">
           <div className="mb-4">
-            <h2 className="text-[17px] font-semibold">Mapa de riesgo</h2>
-            <p className="mt-0.5 text-[12.5px] text-ink-2">
-              Cada punto es un empleado. Los de mayor riesgo (arriba) resaltan en cálido;
-              pasa el cursor o haz clic para abrir su ficha.
-            </p>
+            <h2 className="text-[17px] font-semibold">{t("mapTitle")}</h2>
+            <p className="mt-0.5 text-[12.5px] text-ink-2">{t("mapSubtitle")}</p>
           </div>
           <DotField employees={data.topRisk} total={total} />
         </Card>
 
         <div className="flex w-[200px] flex-shrink-0 flex-col gap-3">
-          <StatCard label="Alto riesgo" value={data.highRisk} delta="score ≥ 80 · acción esta semana" color="#EB4F6C" />
-          <StatCard label="En vigilancia" value={data.watch} delta="score 55–79 · seguimiento" color="#B49AED" />
+          <StatCard label={t("statHighRisk")} value={data.highRisk} delta={t("statHighRiskDelta")} color="#EB4F6C" />
+          <StatCard label={t("statWatch")} value={data.watch} delta={t("statWatchDelta")} color="#B49AED" />
           <StatCard
-            label="Estable"
-            value={data.stable.toLocaleString("es-MX")}
-            delta={`${Math.round((data.stable / total) * 100)}% de la planta`}
+            label={t("statStable")}
+            value={format.number(data.stable)}
+            delta={t("statStableDelta", { pct: Math.round((data.stable / total) * 100) })}
             color="#5B6EF5"
           />
         </div>
       </div>
 
       <div className="mt-8 mb-3 flex items-center justify-between">
-        <h2 className="text-[17px] font-semibold">Top 10 empleados en riesgo</h2>
-        <span className="text-[12.5px] text-ink-3">Clic en el ID para ver su tendencia</span>
+        <h2 className="text-[17px] font-semibold">{t("topTitle")}</h2>
+        <span className="text-[12.5px] text-ink-3">{t("topHint")}</span>
       </div>
       <RiskTable rows={data.topRisk} showLine />
     </div>

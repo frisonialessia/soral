@@ -3,7 +3,8 @@
 
 import { memo, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { riskColor, bandLabel } from "@/lib/risk";
+import { useTranslations } from "next-intl";
+import { riskColor } from "@/lib/risk";
 import { buildField, CELL, type Cell } from "@/lib/dot-field-model";
 import type { EmployeePrediction, RiskBand } from "@/types";
 
@@ -44,6 +45,8 @@ export function DotField({
   total: number;
 }) {
   const router = useRouter();
+  const t = useTranslations("dotField");
+  const tb = useTranslations("bands");
   const [hover, setHover] = useState<HoverInfo | null>(null);
 
   const { real, anon, width, height } = useMemo(
@@ -59,7 +62,7 @@ export function DotField({
         viewBox={`0 0 ${width} ${height}`}
         width="100%"
         role="img"
-        aria-label={`Mapa de ${total} empleados por riesgo de rotación; ${real.length} en riesgo conocido`}
+        aria-label={t("mapAria", { total, known: real.length })}
         style={{ display: "block", overflow: "visible" }}
       >
         <CalmLayer cells={anon} />
@@ -83,7 +86,7 @@ export function DotField({
               strokeWidth={1.25}
               tabIndex={0}
               role="button"
-              aria-label={`${d.ref}, ${d.score}%, ${bandLabel(d.band)}`}
+              aria-label={t("dotAria", { ref: d.ref!, score: d.score, band: tb(d.band) })}
               style={{ cursor: "pointer", transition: "r .15s" }}
               onMouseEnter={() => setHover(info)}
               onMouseLeave={() => setHover(null)}
@@ -97,16 +100,16 @@ export function DotField({
                 }
               }}
             >
-              <title>{`${d.ref} · ${d.score}% · ${bandLabel(d.band)}`}</title>
+              <title>{`${d.ref} · ${d.score}% · ${tb(d.band)}`}</title>
             </circle>
           );
         })}
       </svg>
 
       <div className="pointer-events-none absolute left-1 top-2 flex h-[calc(100%-32px)] flex-col justify-between font-mono text-[10px] text-ink-3">
-        <span>crítico</span>
-        <span>medio</span>
-        <span>estable</span>
+        <span>{t("critical")}</span>
+        <span>{t("medium")}</span>
+        <span>{t("stable")}</span>
       </div>
 
       {hover && (
@@ -119,7 +122,7 @@ export function DotField({
             {hover.score}%
           </div>
           <div className="text-[11.5px] text-ink-2">
-            {bandLabel(hover.band)}
+            {tb(hover.band)}
             {hover.driver ? ` · ${hover.driver}` : ""}
           </div>
         </div>

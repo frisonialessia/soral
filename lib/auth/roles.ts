@@ -40,13 +40,7 @@ const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
   viewer: ["dashboard.view", "lines.view", "employees.view"],
 };
 
-export const ROLE_LABEL: Record<Role, string> = {
-  owner: "Propietario",
-  admin: "Administrador",
-  manager: "Gerente",
-  supervisor: "Supervisor",
-  viewer: "Solo lectura",
-};
+// Las etiquetas de rol viven en el catálogo i18n (messages/*.json → "roles").
 
 export function can(role: Role, permission: Permission): boolean {
   return ROLE_PERMISSIONS[role].includes(permission);

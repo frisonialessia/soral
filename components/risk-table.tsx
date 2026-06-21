@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Table, THead, TH, TR, TD } from "@/components/ui/table";
 import { riskColor } from "@/lib/risk";
 import type { EmployeePrediction } from "@/types";
@@ -16,16 +17,17 @@ interface RiskTableProps {
 
 export function RiskTable({ rows, showLine = true, emptyLabel }: RiskTableProps) {
   const [modalEmp, setModalEmp] = useState<EmployeePrediction | null>(null);
+  const t = useTranslations("table");
 
   return (
     <>
       <Table>
         <THead>
           <TR className="hover:bg-transparent">
-            <TH>Empleado</TH>
-            <TH>Score</TH>
-            <TH>Driver principal</TH>
-            {showLine && <TH>Línea</TH>}
+            <TH>{t("employee")}</TH>
+            <TH>{t("score")}</TH>
+            <TH>{t("driver")}</TH>
+            {showLine && <TH>{t("line")}</TH>}
             <TH />
           </TR>
         </THead>
@@ -33,7 +35,7 @@ export function RiskTable({ rows, showLine = true, emptyLabel }: RiskTableProps)
           {rows.length === 0 && (
             <TR>
               <TD colSpan={showLine ? 5 : 4} className="py-8 text-center text-ink-3">
-                {emptyLabel ?? "Sin empleados en riesgo."}
+                {emptyLabel ?? t("empty")}
               </TD>
             </TR>
           )}
@@ -66,7 +68,7 @@ export function RiskTable({ rows, showLine = true, emptyLabel }: RiskTableProps)
                     onClick={() => setModalEmp(e)}
                     className="whitespace-nowrap rounded-lg border border-line-2 px-3.5 py-[7px] text-[12.5px] font-medium text-ink-1 transition-colors hover:border-risk-sol hover:bg-risk-sol-soft hover:text-risk-sol"
                   >
-                    Acción
+                    {t("action")}
                   </button>
                 </TD>
               </TR>

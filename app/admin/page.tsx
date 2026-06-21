@@ -1,10 +1,7 @@
+import { getTranslations } from "next-intl/server";
 import { SectionPlaceholder } from "@/components/shell/section-placeholder";
 
-export default function AdminPage() {
-  return (
-    <SectionPlaceholder
-      title="Administración"
-      description="Miembros y roles, configuración de negocio por planta (costo de reemplazo, headcount, umbrales de riesgo) y registro de auditoría."
-    />
-  );
+export default async function AdminPage() {
+  const t = await getTranslations("sections.admin");
+  return <SectionPlaceholder title={t("title")} description={t("description")} />;
 }

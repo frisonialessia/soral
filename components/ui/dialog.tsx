@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { useTranslations } from "next-intl";
 
 interface DialogProps {
   open: boolean;
@@ -95,9 +96,10 @@ export function Dialog({ open, onClose, label, children }: DialogProps) {
 }
 
 export function DialogClose({ onClose }: { onClose: () => void }) {
+  const t = useTranslations("dialog");
   return (
     <button
-      aria-label="Cerrar"
+      aria-label={t("close")}
       onClick={onClose}
       className="flex h-8 w-8 items-center justify-center rounded-lg text-ink-3 hover:bg-surface-2 hover:text-ink-1"
     >

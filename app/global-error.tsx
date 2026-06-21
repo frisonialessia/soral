@@ -1,10 +1,36 @@
 // app/global-error.tsx
 // Última red de seguridad: captura errores en el propio RootLayout. Reemplaza
-// todo el árbol (incluido <html>/<body>), por eso usa estilos inline y no puede
-// depender del CSS de la app.
+// todo el árbol (incluido <html>/<body>), por eso usa estilos inline y NO puede
+// depender del CSS de la app ni del provider de next-intl. Por eso traduce con
+// un diccionario inline que lee la cookie `locale`.
 "use client";
 
 import { useEffect } from "react";
+
+const MESSAGES = {
+  en: {
+    title: "Soral failed to load",
+    detail: "A critical error occurred while starting the app.",
+    reload: "Reload",
+  },
+  es: {
+    title: "Soral no pudo cargar",
+    detail: "Ocurrió un error crítico al iniciar la aplicación.",
+    reload: "Recargar",
+  },
+  it: {
+    title: "Soral non si è caricato",
+    detail: "Si è verificato un errore critico all'avvio dell'app.",
+    reload: "Ricarica",
+  },
+} as const;
+
+function readLocale(): keyof typeof MESSAGES {
+  if (typeof document === "undefined") return "en";
+  const match = document.cookie.match(/(?:^|; )locale=([^;]+)/);
+  const loc = match?.[1];
+  return loc === "es" || loc === "it" ? loc : "en";
+}
 
 export default function GlobalError({
   error,
@@ -17,8 +43,11 @@ export default function GlobalError({
     console.error("[soral] error crítico:", error);
   }, [error]);
 
+  const locale = readLocale();
+  const t = MESSAGES[locale];
+
   return (
-    <html lang="es">
+    <html lang={locale}>
       <body
         style={{
           margin: 0,
@@ -39,10 +68,8 @@ export default function GlobalError({
             textAlign: "center",
           }}
         >
-          <div style={{ fontSize: 18, fontWeight: 600 }}>Soral no pudo cargar</div>
-          <p style={{ fontSize: 14, color: "#6B7088", maxWidth: 360, margin: 0 }}>
-            Ocurrió un error crítico al iniciar la aplicación.
-          </p>
+          <div style={{ fontSize: 18, fontWeight: 600 }}>{t.title}</div>
+          <p style={{ fontSize: 14, color: "#6B7088", maxWidth: 360, margin: 0 }}>{t.detail}</p>
           <button
             onClick={() => reset()}
             style={{
@@ -55,7 +82,7 @@ export default function GlobalError({
               color: "#2B2D42",
             }}
           >
-            Recargar
+            {t.reload}
           </button>
         </div>
       </body>

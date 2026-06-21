@@ -2,10 +2,11 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Dialog, DialogClose } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { riskColor, bandLabel } from "@/lib/risk";
+import { riskColor } from "@/lib/risk";
 import { useAssignRecommendation } from "@/lib/queries";
 import type { EmployeePrediction } from "@/types";
 
@@ -18,6 +19,9 @@ export function RecommendationModal({
 }) {
   const assign = useAssignRecommendation();
   const [assigned, setAssigned] = useState(false);
+  const t = useTranslations("modal");
+  const tb = useTranslations("bands");
+  const tc = useTranslations("common");
 
   if (!employee) return null;
   const c = riskColor(employee.score);
@@ -37,18 +41,14 @@ export function RecommendationModal({
   }
 
   return (
-    <Dialog
-      open={!!employee}
-      onClose={handleClose}
-      label={`Recomendación de retención · ${employee.ref}`}
-    >
+    <Dialog open={!!employee} onClose={handleClose} label={t("label", { ref: employee.ref })}>
       <div className="mb-[18px] flex items-start justify-between">
         <div>
           <Badge color={c}>
-            {bandLabel(employee.band)} · {employee.score}%
+            {tb(employee.band)} · {employee.score}%
           </Badge>
           <div className="mt-1.5 font-mono text-[15px]">
-            {employee.ref} · Línea {employee.line}
+            {t("refLine", { ref: employee.ref, line: employee.line })}
           </div>
         </div>
         <DialogClose onClose={handleClose} />
@@ -56,7 +56,7 @@ export function RecommendationModal({
 
       <div className="mb-[18px] rounded-md border border-line bg-surface-2 px-4 py-3.5">
         <div className="mb-1.5 text-[10.5px] font-semibold uppercase tracking-wide text-ink-3">
-          Evidencia · por qué el modelo lo marcó
+          {t("evidenceTitle")}
         </div>
         <p className="text-[13.5px] leading-relaxed text-ink-1">{employee.evidence}</p>
       </div>
@@ -68,7 +68,7 @@ export function RecommendationModal({
             background: "conic-gradient(from 180deg,#5B6EF5,#E59BB0,#EB4F6C,#5B6EF5)",
           }}
         />
-        Recomendación generada para el gerente
+        {t("recoTitle")}
       </div>
       <div className="mb-[22px] whitespace-pre-line text-[13.5px] leading-relaxed text-ink-1">
         {employee.reco}
@@ -79,13 +79,13 @@ export function RecommendationModal({
           className="mb-3 rounded-md border border-risk-cri/30 bg-risk-cri/5 px-3.5 py-2.5 text-[12.5px] text-risk-cri"
           role="alert"
         >
-          No se pudo asignar la recomendación. Inténtalo de nuevo.
+          {t("assignError")}
         </div>
       )}
 
       <div className="flex justify-end gap-2.5">
         <Button variant="default" onClick={handleClose}>
-          Descartar
+          {t("dismiss")}
         </Button>
         <Button
           variant="primary"
@@ -93,12 +93,12 @@ export function RecommendationModal({
           disabled={assign.isPending || assigned}
         >
           {assigned
-            ? "✓ Asignada"
+            ? t("assigned")
             : assign.isPending
-            ? "Asignando…"
+            ? t("assigning")
             : assign.isError
-            ? "Reintentar"
-            : "Asignar al supervisor"}
+            ? tc("retry")
+            : t("assign")}
         </Button>
       </div>
     </Dialog>

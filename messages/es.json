@@ -1,0 +1,146 @@
+{
+  "common": {
+    "retry": "Reintentar",
+    "retrying": "Reintentando…",
+    "back": "Volver",
+    "checkConnection": "Revisa tu conexión e inténtalo de nuevo."
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "reports": "Reportes",
+    "integrations": "Integraciones",
+    "admin": "Administración",
+    "primary": "Navegación principal",
+    "version": "Soral · v0.1"
+  },
+  "header": {
+    "week": "Semana {week} · {year}",
+    "openNav": "Abrir navegación",
+    "profile": "Perfil",
+    "signOut": "Cerrar sesión",
+    "language": "Idioma"
+  },
+  "roles": {
+    "owner": "Propietario",
+    "admin": "Administrador",
+    "manager": "Gerente",
+    "supervisor": "Supervisor",
+    "viewer": "Solo lectura"
+  },
+  "bands": {
+    "critico": "Crítico",
+    "alto": "Alto",
+    "medio": "Medio",
+    "vigilancia": "Vigilancia",
+    "estable": "Estable",
+    "solido": "Sólido"
+  },
+  "placeholder": {
+    "underConstruction": "En construcción",
+    "supabaseNote": "Esta sección se conectará a datos reales con Supabase."
+  },
+  "sections": {
+    "admin": {
+      "title": "Administración",
+      "description": "Miembros y roles, configuración de negocio por planta (costo de reemplazo, headcount, umbrales de riesgo) y registro de auditoría."
+    },
+    "reports": {
+      "title": "Reportes",
+      "description": "Histórico semanal, reportes exportables (PDF/CSV), digest programado por email y seguimiento de la efectividad de las intervenciones (ROI)."
+    },
+    "integrations": {
+      "title": "Integraciones",
+      "description": "Conectores con el ERP/HRIS (importación CSV/SFTP/API), el pipeline del modelo XGBoost, y salidas a Slack/Teams/email y webhooks."
+    }
+  },
+  "dashboard": {
+    "title": "Fuerza laboral",
+    "subtitle": "{count, number} empleados · cada punto es una persona · ordenados por riesgo de rotación a 30 días",
+    "rangeGroup": "Ventana de análisis",
+    "range3m": "3M",
+    "range1y": "1A",
+    "rangeAll": "Todo",
+    "mapTitle": "Mapa de riesgo",
+    "mapSubtitle": "Cada punto es un empleado. Los de mayor riesgo (arriba) resaltan en cálido; pasa el cursor o haz clic para abrir su ficha.",
+    "statHighRisk": "Alto riesgo",
+    "statHighRiskDelta": "score ≥ 80 · acción esta semana",
+    "statWatch": "En vigilancia",
+    "statWatchDelta": "score 55–79 · seguimiento",
+    "statStable": "Estable",
+    "statStableDelta": "{pct}% de la planta",
+    "loading": "Cargando estado de la planta…",
+    "errorTitle": "No pudimos cargar el estado de la planta",
+    "topTitle": "Top 10 empleados en riesgo",
+    "topHint": "Clic en el ID para ver su tendencia"
+  },
+  "table": {
+    "employee": "Empleado",
+    "score": "Score",
+    "driver": "Driver principal",
+    "line": "Línea",
+    "action": "Acción",
+    "empty": "Sin empleados en riesgo."
+  },
+  "dotField": {
+    "critical": "crítico",
+    "medium": "medio",
+    "stable": "estable",
+    "mapAria": "Mapa de {total, number} empleados por riesgo de rotación; {known} en riesgo conocido",
+    "dotAria": "{ref}, {score}%, {band}"
+  },
+  "line": {
+    "crumbPlant": "Planta",
+    "crumbLine": "Línea {id}",
+    "title": "Línea {id}",
+    "subtitle": "{count} empleados en riesgo · turno {shift}",
+    "loading": "Cargando línea {id}…",
+    "errorTitle": "No pudimos cargar la línea {id}",
+    "statTurnover": "Rotación 90 días",
+    "statTurnoverNote": "Vs promedio de planta (9%)",
+    "statProductivity": "Productividad agregada",
+    "statProductivityNote": "Desviación vs línea base",
+    "statSupervisor": "Efecto supervisor",
+    "statSupervisorNote": "Driver de línea detectado",
+    "employeesTitle": "Empleados en esta línea",
+    "employeesHint": "Filtrado a riesgo medio-alto y alto",
+    "emptyLine": "Sin empleados en riesgo medio-alto en esta línea."
+  },
+  "employee": {
+    "loading": "Cargando ficha…",
+    "errorTitle": "No pudimos cargar la ficha",
+    "notFound": "No se encontró el empleado.",
+    "subtitle": "Línea {line} · turno {shift} · {tenure} días de antigüedad",
+    "scoreNow": "Score actual",
+    "radarTitle": "Perfil de riesgo",
+    "radarSubtitle": "Forma del riesgo en seis dimensiones · resumen visual",
+    "radarAria": "Radar de seis factores de riesgo",
+    "driversTitle": "Por qué el modelo lo marca",
+    "driversSubtitle": "Contribución SHAP por factor · detalle accionable",
+    "trendTitle": "Evolución del score de riesgo",
+    "trendSubtitle": "Últimas 12 semanas · tendencia sobre la PK (employee_id, week_start)",
+    "backToLine": "Volver a la línea",
+    "viewAction": "Ver acción sugerida"
+  },
+  "modal": {
+    "label": "Recomendación de retención · {ref}",
+    "refLine": "{ref} · Línea {line}",
+    "evidenceTitle": "Evidencia · por qué el modelo lo marcó",
+    "recoTitle": "Recomendación generada para el gerente",
+    "assignError": "No se pudo asignar la recomendación. Inténtalo de nuevo.",
+    "dismiss": "Descartar",
+    "assign": "Asignar al supervisor",
+    "assigning": "Asignando…",
+    "assigned": "✓ Asignada"
+  },
+  "states": {
+    "loadingDefault": "Cargando…",
+    "errorDefault": "No pudimos cargar los datos"
+  },
+  "dialog": {
+    "close": "Cerrar"
+  },
+  "routeError": {
+    "title": "Algo salió mal en esta vista",
+    "detail": "Ocurrió un error inesperado. Puedes reintentar."
+  }
+}

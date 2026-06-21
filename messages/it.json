@@ -1,0 +1,146 @@
+{
+  "common": {
+    "retry": "Riprova",
+    "retrying": "Nuovo tentativo…",
+    "back": "Indietro",
+    "checkConnection": "Controlla la connessione e riprova."
+  },
+  "nav": {
+    "dashboard": "Pannello",
+    "reports": "Rapporti",
+    "integrations": "Integrazioni",
+    "admin": "Amministrazione",
+    "primary": "Navigazione principale",
+    "version": "Soral · v0.1"
+  },
+  "header": {
+    "week": "Settimana {week} · {year}",
+    "openNav": "Apri navigazione",
+    "profile": "Profilo",
+    "signOut": "Esci",
+    "language": "Lingua"
+  },
+  "roles": {
+    "owner": "Proprietario",
+    "admin": "Amministratore",
+    "manager": "Manager",
+    "supervisor": "Supervisore",
+    "viewer": "Sola lettura"
+  },
+  "bands": {
+    "critico": "Critico",
+    "alto": "Alto",
+    "medio": "Medio",
+    "vigilancia": "Sorveglianza",
+    "estable": "Stabile",
+    "solido": "Solido"
+  },
+  "placeholder": {
+    "underConstruction": "In costruzione",
+    "supabaseNote": "Questa sezione si collegherà a dati reali con Supabase."
+  },
+  "sections": {
+    "admin": {
+      "title": "Amministrazione",
+      "description": "Membri e ruoli, configurazione di business per stabilimento (costo di sostituzione, organico, soglie di rischio) e registro di audit."
+    },
+    "reports": {
+      "title": "Rapporti",
+      "description": "Storico settimanale, rapporti esportabili (PDF/CSV), digest programmato via email e monitoraggio dei risultati degli interventi (ROI)."
+    },
+    "integrations": {
+      "title": "Integrazioni",
+      "description": "Connettori per ERP/HRIS (importazione CSV/SFTP/API), la pipeline del modello XGBoost e output verso Slack/Teams/email e webhook."
+    }
+  },
+  "dashboard": {
+    "title": "Forza lavoro",
+    "subtitle": "{count, number} dipendenti · ogni punto è una persona · ordinati per rischio di turnover a 30 giorni",
+    "rangeGroup": "Finestra di analisi",
+    "range3m": "3M",
+    "range1y": "1A",
+    "rangeAll": "Tutto",
+    "mapTitle": "Mappa del rischio",
+    "mapSubtitle": "Ogni punto è un dipendente. Quelli a rischio più alto (in alto) risaltano in tonalità calde; passa il cursore o fai clic per aprire la scheda.",
+    "statHighRisk": "Rischio alto",
+    "statHighRiskDelta": "score ≥ 80 · agire questa settimana",
+    "statWatch": "Sorveglianza",
+    "statWatchDelta": "score 55–79 · monitoraggio",
+    "statStable": "Stabile",
+    "statStableDelta": "{pct}% dello stabilimento",
+    "loading": "Caricamento stato dello stabilimento…",
+    "errorTitle": "Non è stato possibile caricare lo stato dello stabilimento",
+    "topTitle": "Top 10 dipendenti a rischio",
+    "topHint": "Fai clic sul codice per vedere il trend"
+  },
+  "table": {
+    "employee": "Dipendente",
+    "score": "Score",
+    "driver": "Driver principale",
+    "line": "Linea",
+    "action": "Azione",
+    "empty": "Nessun dipendente a rischio."
+  },
+  "dotField": {
+    "critical": "critico",
+    "medium": "medio",
+    "stable": "stabile",
+    "mapAria": "Mappa di {total, number} dipendenti per rischio di turnover; {known} a rischio noto",
+    "dotAria": "{ref}, {score}%, {band}"
+  },
+  "line": {
+    "crumbPlant": "Stabilimento",
+    "crumbLine": "Linea {id}",
+    "title": "Linea {id}",
+    "subtitle": "{count} dipendenti a rischio · turno {shift}",
+    "loading": "Caricamento linea {id}…",
+    "errorTitle": "Non è stato possibile caricare la linea {id}",
+    "statTurnover": "Turnover 90 giorni",
+    "statTurnoverNote": "Vs media dello stabilimento (9%)",
+    "statProductivity": "Produttività aggregata",
+    "statProductivityNote": "Deviazione vs riferimento",
+    "statSupervisor": "Effetto supervisore",
+    "statSupervisorNote": "Driver di linea rilevato",
+    "employeesTitle": "Dipendenti su questa linea",
+    "employeesHint": "Filtrato a rischio medio-alto e alto",
+    "emptyLine": "Nessun dipendente a rischio medio-alto su questa linea."
+  },
+  "employee": {
+    "loading": "Caricamento scheda…",
+    "errorTitle": "Non è stato possibile caricare la scheda",
+    "notFound": "Dipendente non trovato.",
+    "subtitle": "Linea {line} · turno {shift} · {tenure} giorni di anzianità",
+    "scoreNow": "Score attuale",
+    "radarTitle": "Profilo di rischio",
+    "radarSubtitle": "Forma del rischio su sei dimensioni · sintesi visiva",
+    "radarAria": "Radar di sei fattori di rischio",
+    "driversTitle": "Perché il modello lo segnala",
+    "driversSubtitle": "Contributo SHAP per fattore · dettaglio azionabile",
+    "trendTitle": "Evoluzione dello score di rischio",
+    "trendSubtitle": "Ultime 12 settimane · trend sulla PK (employee_id, week_start)",
+    "backToLine": "Torna alla linea",
+    "viewAction": "Vedi azione suggerita"
+  },
+  "modal": {
+    "label": "Raccomandazione di retention · {ref}",
+    "refLine": "{ref} · Linea {line}",
+    "evidenceTitle": "Evidenza · perché il modello lo ha segnalato",
+    "recoTitle": "Raccomandazione generata per il manager",
+    "assignError": "Non è stato possibile assegnare la raccomandazione. Riprova.",
+    "dismiss": "Ignora",
+    "assign": "Assegna al supervisore",
+    "assigning": "Assegnazione…",
+    "assigned": "✓ Assegnata"
+  },
+  "states": {
+    "loadingDefault": "Caricamento…",
+    "errorDefault": "Non è stato possibile caricare i dati"
+  },
+  "dialog": {
+    "close": "Chiudi"
+  },
+  "routeError": {
+    "title": "Qualcosa è andato storto in questa vista",
+    "detail": "Si è verificato un errore imprevisto. Puoi riprovare."
+  }
+}

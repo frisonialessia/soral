@@ -1,9 +1,11 @@
 // components/employee/charts.tsx
 "use client";
 
+import { useTranslations } from "next-intl";
 import type { RadarAxis } from "@/types";
 
 export function RiskRadar({ axes, color }: { axes: RadarAxis[]; color: string }) {
+  const t = useTranslations("employee");
   const R = 82;
   const cx = 125;
   const cy = 120;
@@ -26,7 +28,7 @@ export function RiskRadar({ axes, color }: { axes: RadarAxis[]; color: string })
     .join(" ");
 
   return (
-    <svg viewBox="0 0 250 240" width="220" role="img" aria-label="Radar de seis factores de riesgo">
+    <svg viewBox="0 0 250 240" width="220" role="img" aria-label={t("radarAria")}>
       {rings.map((pts, i) => (
         <polygon key={i} points={pts} fill="none" stroke="#E8EAF2" strokeWidth={1} />
       ))}

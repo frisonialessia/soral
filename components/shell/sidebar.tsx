@@ -3,23 +3,24 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { LayoutDashboard, BarChart3, Plug, Settings } from "lucide-react";
 import { Can } from "@/components/auth/can";
 import type { Permission } from "@/lib/auth/roles";
 
 interface NavItem {
   href: string;
-  label: string;
+  labelKey: "dashboard" | "reports" | "integrations" | "admin";
   icon: typeof LayoutDashboard;
   permission: Permission;
   exact?: boolean;
 }
 
 const NAV: NavItem[] = [
-  { href: "/", label: "Panel", icon: LayoutDashboard, permission: "dashboard.view", exact: true },
-  { href: "/reportes", label: "Reportes", icon: BarChart3, permission: "reports.view" },
-  { href: "/integraciones", label: "Integraciones", icon: Plug, permission: "integrations.view" },
-  { href: "/admin", label: "Administración", icon: Settings, permission: "admin.view" },
+  { href: "/", labelKey: "dashboard", icon: LayoutDashboard, permission: "dashboard.view", exact: true },
+  { href: "/reportes", labelKey: "reports", icon: BarChart3, permission: "reports.view" },
+  { href: "/integraciones", labelKey: "integrations", icon: Plug, permission: "integrations.view" },
+  { href: "/admin", labelKey: "admin", icon: Settings, permission: "admin.view" },
 ];
 
 export function Sidebar({
@@ -30,6 +31,7 @@ export function Sidebar({
   onClose: () => void;
 }) {
   const pathname = usePathname();
+  const t = useTranslations("nav");
 
   return (
     <>
@@ -59,7 +61,7 @@ export function Sidebar({
           Soral
         </Link>
 
-        <nav className="flex flex-1 flex-col gap-0.5 px-3 py-2" aria-label="Navegación principal">
+        <nav className="flex flex-1 flex-col gap-0.5 px-3 py-2" aria-label={t("primary")}>
           {NAV.map((item) => {
             const active = item.exact ? pathname === item.href : pathname.startsWith(item.href);
             const Icon = item.icon;
@@ -76,14 +78,14 @@ export function Sidebar({
                   }`}
                 >
                   <Icon className="h-[18px] w-[18px] shrink-0" />
-                  {item.label}
+                  {t(item.labelKey)}
                 </Link>
               </Can>
             );
           })}
         </nav>
 
-        <div className="px-5 py-4 text-[11px] text-ink-3">Soral · v0.1</div>
+        <div className="px-5 py-4 text-[11px] text-ink-3">{t("version")}</div>
       </aside>
     </>
   );

@@ -5,6 +5,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { ErrorState } from "@/components/ui/states";
 
 export default function Error({
@@ -14,6 +15,8 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslations("routeError");
+
   useEffect(() => {
     // En producción: enviar a observabilidad (Sentry, etc.).
     console.error("[soral] error de ruta:", error);
@@ -21,11 +24,7 @@ export default function Error({
 
   return (
     <div className="animate-fade">
-      <ErrorState
-        title="Algo salió mal en esta vista"
-        detail="Ocurrió un error inesperado. Puedes reintentar."
-        onRetry={reset}
-      />
+      <ErrorState title={t("title")} detail={t("detail")} onRetry={reset} />
     </div>
   );
 }

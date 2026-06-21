@@ -5,9 +5,11 @@
 // tiene salida (reintentar).
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 
-export function LoadingState({ label = "Cargando…" }: { label?: string }) {
+export function LoadingState({ label }: { label?: string }) {
+  const t = useTranslations();
   return (
     <div
       className="flex items-center justify-center gap-2.5 py-20 text-sm text-ink-3"
@@ -18,13 +20,13 @@ export function LoadingState({ label = "Cargando…" }: { label?: string }) {
         className="h-4 w-4 animate-spin rounded-full border-2 border-line-2 border-t-risk-sol"
         aria-hidden="true"
       />
-      <span>{label}</span>
+      <span>{label ?? t("states.loadingDefault")}</span>
     </div>
   );
 }
 
 export function ErrorState({
-  title = "No pudimos cargar los datos",
+  title,
   detail,
   onRetry,
   retrying = false,
@@ -34,6 +36,7 @@ export function ErrorState({
   onRetry?: () => void;
   retrying?: boolean;
 }) {
+  const t = useTranslations();
   return (
     <Card
       className="my-8 flex flex-col items-center gap-3 px-6 py-12 text-center"
@@ -46,7 +49,7 @@ export function ErrorState({
         !
       </span>
       <div>
-        <p className="text-[15px] font-semibold text-ink-1">{title}</p>
+        <p className="text-[15px] font-semibold text-ink-1">{title ?? t("states.errorDefault")}</p>
         {detail && <p className="mt-1 text-[13px] text-ink-2">{detail}</p>}
       </div>
       {onRetry && (
@@ -55,7 +58,7 @@ export function ErrorState({
           disabled={retrying}
           className="mt-1 rounded-lg border border-line-2 px-4 py-2 text-[13px] font-medium text-ink-1 transition-colors hover:border-risk-sol hover:text-risk-sol disabled:opacity-50"
         >
-          {retrying ? "Reintentando…" : "Reintentar"}
+          {retrying ? t("common.retrying") : t("common.retry")}
         </button>
       )}
     </Card>

@@ -3,6 +3,7 @@
 
 import { use } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useLineDetail } from "@/lib/queries";
 import { RiskTable } from "@/components/risk-table";
 import { Card } from "@/components/ui/card";
@@ -11,13 +12,15 @@ import { LoadingState, ErrorState } from "@/components/ui/states";
 export default function LinePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const { data, isLoading, isError, refetch, isFetching } = useLineDetail(id);
+  const t = useTranslations("line");
+  const tc = useTranslations("common");
 
-  if (isLoading) return <LoadingState label={`Cargando línea ${id}…`} />;
+  if (isLoading) return <LoadingState label={t("loading", { id })} />;
   if (isError || !data) {
     return (
       <ErrorState
-        title={`No pudimos cargar la línea ${id}`}
-        detail="Revisa tu conexión e inténtalo de nuevo."
+        title={t("errorTitle", { id })}
+        detail={tc("checkConnection")}
         onRetry={() => refetch()}
         retrying={isFetching}
       />
@@ -28,34 +31,30 @@ export default function LinePage({ params }: { params: Promise<{ id: string }> }
     <div className="animate-fade pb-12">
       <div className="flex items-center gap-2 pt-5 pb-0.5 text-[13px] text-ink-3">
         <Link href="/" className="text-ink-2 hover:text-risk-sol">
-          Planta
+          {t("crumbPlant")}
         </Link>
         <span>/</span>
-        <span>Línea {data.id}</span>
+        <span>{t("crumbLine", { id: data.id })}</span>
       </div>
 
       <div className="py-4">
-        <h1 className="text-[27px] font-semibold tracking-tight">Línea {data.id}</h1>
+        <h1 className="text-[27px] font-semibold tracking-tight">{t("title", { id: data.id })}</h1>
         <p className="mt-1 text-sm text-ink-2">
-          {data.employees.length} empleados en riesgo · turno {data.shift}
+          {t("subtitle", { count: data.employees.length, shift: data.shift })}
         </p>
       </div>
 
       <div className="mb-7 grid grid-cols-3 gap-3.5">
-        <DetStat label="Rotación 90 días" value={data.turnover90d} note="Vs promedio de planta (9%)" color="#EB4F6C" />
-        <DetStat label="Productividad agregada" value={data.productivity} note="Desviación vs línea base" color="#E59BB0" />
-        <DetStat label="Efecto supervisor" value={data.supervisorEffect} note="Driver de línea detectado" color="#F56C89" />
+        <DetStat label={t("statTurnover")} value={data.turnover90d} note={t("statTurnoverNote")} color="#EB4F6C" />
+        <DetStat label={t("statProductivity")} value={data.productivity} note={t("statProductivityNote")} color="#E59BB0" />
+        <DetStat label={t("statSupervisor")} value={data.supervisorEffect} note={t("statSupervisorNote")} color="#F56C89" />
       </div>
 
       <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-[17px] font-semibold">Empleados en esta línea</h2>
-        <span className="text-[12.5px] text-ink-3">Filtrado a riesgo medio-alto y alto</span>
+        <h2 className="text-[17px] font-semibold">{t("employeesTitle")}</h2>
+        <span className="text-[12.5px] text-ink-3">{t("employeesHint")}</span>
       </div>
-      <RiskTable
-        rows={data.employees}
-        showLine={false}
-        emptyLabel="Sin empleados en riesgo medio-alto en esta línea."
-      />
+      <RiskTable rows={data.employees} showLine={false} emptyLabel={t("emptyLine")} />
     </div>
   );
 }

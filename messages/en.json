@@ -1,0 +1,146 @@
+{
+  "common": {
+    "retry": "Retry",
+    "retrying": "Retrying…",
+    "back": "Back",
+    "checkConnection": "Check your connection and try again."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "reports": "Reports",
+    "integrations": "Integrations",
+    "admin": "Administration",
+    "primary": "Primary navigation",
+    "version": "Soral · v0.1"
+  },
+  "header": {
+    "week": "Week {week} · {year}",
+    "openNav": "Open navigation",
+    "profile": "Profile",
+    "signOut": "Sign out",
+    "language": "Language"
+  },
+  "roles": {
+    "owner": "Owner",
+    "admin": "Administrator",
+    "manager": "Manager",
+    "supervisor": "Supervisor",
+    "viewer": "Read-only"
+  },
+  "bands": {
+    "critico": "Critical",
+    "alto": "High",
+    "medio": "Medium",
+    "vigilancia": "Watch",
+    "estable": "Stable",
+    "solido": "Solid"
+  },
+  "placeholder": {
+    "underConstruction": "Under construction",
+    "supabaseNote": "This section will connect to real data with Supabase."
+  },
+  "sections": {
+    "admin": {
+      "title": "Administration",
+      "description": "Members and roles, per-plant business configuration (replacement cost, headcount, risk thresholds), and audit log."
+    },
+    "reports": {
+      "title": "Reports",
+      "description": "Weekly history, exportable reports (PDF/CSV), scheduled email digest, and tracking of intervention effectiveness (ROI)."
+    },
+    "integrations": {
+      "title": "Integrations",
+      "description": "Connectors for your ERP/HRIS (CSV/SFTP/API import), the XGBoost model pipeline, and outputs to Slack/Teams/email and webhooks."
+    }
+  },
+  "dashboard": {
+    "title": "Workforce",
+    "subtitle": "{count, number} employees · each dot is a person · ranked by 30-day turnover risk",
+    "rangeGroup": "Analysis window",
+    "range3m": "3M",
+    "range1y": "1Y",
+    "rangeAll": "All",
+    "mapTitle": "Risk map",
+    "mapSubtitle": "Each dot is an employee. The highest-risk ones (top) stand out in warm tones; hover or click to open their profile.",
+    "statHighRisk": "High risk",
+    "statHighRiskDelta": "score ≥ 80 · act this week",
+    "statWatch": "Watch",
+    "statWatchDelta": "score 55–79 · follow-up",
+    "statStable": "Stable",
+    "statStableDelta": "{pct}% of the plant",
+    "loading": "Loading plant status…",
+    "errorTitle": "We could not load the plant status",
+    "topTitle": "Top 10 employees at risk",
+    "topHint": "Click the ID to see their trend"
+  },
+  "table": {
+    "employee": "Employee",
+    "score": "Score",
+    "driver": "Main driver",
+    "line": "Line",
+    "action": "Action",
+    "empty": "No employees at risk."
+  },
+  "dotField": {
+    "critical": "critical",
+    "medium": "medium",
+    "stable": "stable",
+    "mapAria": "Map of {total, number} employees by turnover risk; {known} at known risk",
+    "dotAria": "{ref}, {score}%, {band}"
+  },
+  "line": {
+    "crumbPlant": "Plant",
+    "crumbLine": "Line {id}",
+    "title": "Line {id}",
+    "subtitle": "{count} employees at risk · shift {shift}",
+    "loading": "Loading line {id}…",
+    "errorTitle": "We could not load line {id}",
+    "statTurnover": "90-day turnover",
+    "statTurnoverNote": "Vs plant average (9%)",
+    "statProductivity": "Aggregate productivity",
+    "statProductivityNote": "Deviation vs baseline",
+    "statSupervisor": "Supervisor effect",
+    "statSupervisorNote": "Line driver detected",
+    "employeesTitle": "Employees on this line",
+    "employeesHint": "Filtered to medium-high and high risk",
+    "emptyLine": "No medium-high risk employees on this line."
+  },
+  "employee": {
+    "loading": "Loading profile…",
+    "errorTitle": "We could not load the profile",
+    "notFound": "Employee not found.",
+    "subtitle": "Line {line} · shift {shift} · {tenure} days tenure",
+    "scoreNow": "Current score",
+    "radarTitle": "Risk profile",
+    "radarSubtitle": "Risk shape across six dimensions · visual summary",
+    "radarAria": "Radar of six risk factors",
+    "driversTitle": "Why the model flags them",
+    "driversSubtitle": "SHAP contribution by factor · actionable detail",
+    "trendTitle": "Risk score evolution",
+    "trendSubtitle": "Last 12 weeks · trend over the PK (employee_id, week_start)",
+    "backToLine": "Back to line",
+    "viewAction": "View suggested action"
+  },
+  "modal": {
+    "label": "Retention recommendation · {ref}",
+    "refLine": "{ref} · Line {line}",
+    "evidenceTitle": "Evidence · why the model flagged them",
+    "recoTitle": "Recommendation generated for the manager",
+    "assignError": "Could not assign the recommendation. Try again.",
+    "dismiss": "Dismiss",
+    "assign": "Assign to supervisor",
+    "assigning": "Assigning…",
+    "assigned": "✓ Assigned"
+  },
+  "states": {
+    "loadingDefault": "Loading…",
+    "errorDefault": "We could not load the data"
+  },
+  "dialog": {
+    "close": "Close"
+  },
+  "routeError": {
+    "title": "Something went wrong in this view",
+    "detail": "An unexpected error occurred. You can retry."
+  }
+}

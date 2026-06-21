@@ -3,6 +3,7 @@
 
 import { use, useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useEmployee } from "@/lib/queries";
 import { RiskRadar, TrendChart } from "@/components/employee/charts";
 import { RecommendationModal } from "@/components/recommendation-modal";
@@ -15,13 +16,16 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
   const { ref } = use(params);
   const { data: e, isLoading, isError, refetch, isFetching } = useEmployee(ref);
   const [modalOpen, setModalOpen] = useState(false);
+  const t = useTranslations("employee");
+  const tl = useTranslations("line");
+  const tc = useTranslations("common");
 
-  if (isLoading) return <LoadingState label="Cargando ficha…" />;
+  if (isLoading) return <LoadingState label={t("loading")} />;
   if (isError) {
     return (
       <ErrorState
-        title="No pudimos cargar la ficha"
-        detail="Revisa tu conexión e inténtalo de nuevo."
+        title={t("errorTitle")}
+        detail={tc("checkConnection")}
         onRetry={() => refetch()}
         retrying={isFetching}
       />
@@ -30,9 +34,9 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
   if (!e) {
     return (
       <div className="py-20 text-center text-ink-3">
-        No se encontró el empleado.{" "}
+        {t("notFound")}{" "}
         <Link href="/" className="text-risk-sol">
-          Volver
+          {tc("back")}
         </Link>
       </div>
     );
@@ -44,11 +48,11 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
     <div className="animate-fade pb-12">
       <div className="flex items-center gap-2 pt-5 pb-0.5 text-[13px] text-ink-3">
         <Link href="/" className="text-ink-2 hover:text-risk-sol">
-          Planta
+          {tl("crumbPlant")}
         </Link>
         <span>/</span>
         <Link href={`/linea/${e.line}`} className="text-ink-2 hover:text-risk-sol">
-          Línea {e.line}
+          {tl("crumbLine", { id: e.line })}
         </Link>
         <span>/</span>
         <span>{e.ref}</span>
@@ -64,11 +68,11 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
         <div>
           <h2 className="font-mono text-[19px] font-bold">{e.ref}</h2>
           <p className="mt-0.5 text-[13px] text-ink-2">
-            Línea {e.line} · turno {e.shift} · {e.tenure} días de antigüedad
+            {t("subtitle", { line: e.line, shift: e.shift, tenure: e.tenure })}
           </p>
         </div>
         <div className="ml-auto text-right">
-          <div className="text-[11px] font-semibold uppercase tracking-wide text-ink-3">Score actual</div>
+          <div className="text-[11px] font-semibold uppercase tracking-wide text-ink-3">{t("scoreNow")}</div>
           <div className="font-mono text-[32px] font-bold leading-none" style={{ color: c }}>
             {e.score}%
           </div>
@@ -77,20 +81,16 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
 
       <div className="mb-[18px] grid grid-cols-2 gap-4">
         <Card className="px-[22px] py-5">
-          <h3 className="text-[14px] font-semibold">Perfil de riesgo</h3>
-          <p className="mb-3.5 mt-0.5 text-[12px] text-ink-3">
-            Forma del riesgo en seis dimensiones · resumen visual
-          </p>
+          <h3 className="text-[14px] font-semibold">{t("radarTitle")}</h3>
+          <p className="mb-3.5 mt-0.5 text-[12px] text-ink-3">{t("radarSubtitle")}</p>
           <div className="flex min-h-[230px] items-center justify-center">
             <RiskRadar axes={e.radar} color={c} />
           </div>
         </Card>
 
         <Card className="px-[22px] py-5">
-          <h3 className="text-[14px] font-semibold">Por qué el modelo lo marca</h3>
-          <p className="mb-3.5 mt-0.5 text-[12px] text-ink-3">
-            Contribución SHAP por factor · detalle accionable
-          </p>
+          <h3 className="text-[14px] font-semibold">{t("driversTitle")}</h3>
+          <p className="mb-3.5 mt-0.5 text-[12px] text-ink-3">{t("driversSubtitle")}</p>
           <div className="pt-1.5">
             {e.drivers.map((d) => (
               <div key={d.factor} className="mb-3.5 last:mb-0">
@@ -110,19 +110,17 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
       </div>
 
       <Card className="mb-[18px] px-[22px] py-5">
-        <h3 className="text-[14px] font-semibold">Evolución del score de riesgo</h3>
-        <p className="mb-3.5 mt-0.5 text-[12px] text-ink-3">
-          Últimas 12 semanas · tendencia sobre la PK (employee_id, week_start)
-        </p>
+        <h3 className="text-[14px] font-semibold">{t("trendTitle")}</h3>
+        <p className="mb-3.5 mt-0.5 text-[12px] text-ink-3">{t("trendSubtitle")}</p>
         <TrendChart data={e.trend} color={c} />
       </Card>
 
       <div className="mb-10 flex justify-end gap-2.5">
         <Link href={`/linea/${e.line}`}>
-          <Button variant="default">Volver a la línea</Button>
+          <Button variant="default">{t("backToLine")}</Button>
         </Link>
         <Button variant="primary" onClick={() => setModalOpen(true)}>
-          Ver acción sugerida
+          {t("viewAction")}
         </Button>
       </div>
 

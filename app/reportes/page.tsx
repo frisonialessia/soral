@@ -1,10 +1,7 @@
+import { getTranslations } from "next-intl/server";
 import { SectionPlaceholder } from "@/components/shell/section-placeholder";
 
-export default function ReportsPage() {
-  return (
-    <SectionPlaceholder
-      title="Reportes"
-      description="Histórico semanal, reportes exportables (PDF/CSV), digest programado por email y seguimiento de la efectividad de las intervenciones (ROI)."
-    />
-  );
+export default async function ReportsPage() {
+  const t = await getTranslations("sections.reports");
+  return <SectionPlaceholder title={t("title")} description={t("description")} />;
 }
