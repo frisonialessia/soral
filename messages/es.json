@@ -104,7 +104,11 @@
     "loading": "Cargando estado de la planta…",
     "errorTitle": "No pudimos cargar el estado de la planta",
     "topTitle": "Top 10 empleados en riesgo",
-    "topHint": "Clic en el ID para ver su tendencia"
+    "topHint": "Clic en el ID para ver su tendencia",
+    "actTitle": "Actuar esta semana",
+    "actHint": "Mayor riesgo a 30 días — asigna un plan de retención",
+    "assign": "Asignar plan",
+    "vsWeek": "vs semana pasada"
   },
   "table": {
     "employee": "Empleado",

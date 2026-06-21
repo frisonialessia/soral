@@ -63,6 +63,11 @@ export const PlantSummarySchema = z.object({
   watch: z.number(),
   stable: z.number(),
   savingMxn: z.number(),
+  trend: z.object({
+    highRisk: z.array(z.number()),
+    watch: z.array(z.number()),
+    stable: z.array(z.number()),
+  }),
   lines: z.array(z.object({ id: z.string(), count: z.number() })),
   topRisk: z.array(EmployeePredictionSchema),
 });

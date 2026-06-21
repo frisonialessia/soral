@@ -21,6 +21,19 @@ const ALL: EmployeePrediction[] = EMPLOYEES.map((e) => ({
   band: e.band ?? bandOf(e.score),
 })).sort((a, b) => b.score - a.score);
 
+// Serie semanal sintética (determinista) que termina en el valor actual — solo
+// para las sparklines del dashboard. Con Supabase será un GROUP BY por semana.
+function trendSeries(end: number, volatility: number, weeks = 10): number[] {
+  const out: number[] = [];
+  for (let i = 0; i < weeks; i++) {
+    const t = i / (weeks - 1);
+    const noise = Math.sin(i * 1.7 + end * 0.5) * 0.6 + Math.sin(i * 0.8 + 1) * 0.4;
+    out.push(Math.max(0, Math.round(end * (1 + noise * volatility * (1 - t * 0.6)))));
+  }
+  out[weeks - 1] = end; // ancla el último punto al valor real
+  return out;
+}
+
 // GET /api/plant/summary
 export async function getPlantSummary(): Promise<PlantSummary> {
   const highRisk = ALL.filter((e) => e.score >= 80).length;
@@ -43,6 +56,11 @@ export async function getPlantSummary(): Promise<PlantSummary> {
     watch,
     stable,
     savingMxn: highRisk * REPLACEMENT_COST_MXN,
+    trend: {
+      highRisk: trendSeries(highRisk, 0.32),
+      watch: trendSeries(watch, 0.3),
+      stable: trendSeries(stable, 0.015),
+    },
     lines: Object.entries(lineCounts).map(([id, count]) => ({ id, count })),
     topRisk: ALL.slice(0, 10),
   };

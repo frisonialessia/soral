@@ -104,7 +104,11 @@
     "loading": "Caricamento stato dello stabilimento…",
     "errorTitle": "Non è stato possibile caricare lo stato dello stabilimento",
     "topTitle": "Top 10 dipendenti a rischio",
-    "topHint": "Fai clic sul codice per vedere il trend"
+    "topHint": "Fai clic sul codice per vedere il trend",
+    "actTitle": "Agire questa settimana",
+    "actHint": "Massimo rischio a 30 giorni — assegna un piano di retention",
+    "assign": "Assegna piano",
+    "vsWeek": "vs settimana scorsa"
   },
   "table": {
     "employee": "Dipendente",

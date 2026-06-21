@@ -104,7 +104,11 @@
     "loading": "Loading plant status…",
     "errorTitle": "We could not load the plant status",
     "topTitle": "Top 10 employees at risk",
-    "topHint": "Click the ID to see their trend"
+    "topHint": "Click the ID to see their trend",
+    "actTitle": "Act this week",
+    "actHint": "Highest 30-day risk — assign a retention play",
+    "assign": "Assign play",
+    "vsWeek": "vs last week"
   },
   "table": {
     "employee": "Employee",

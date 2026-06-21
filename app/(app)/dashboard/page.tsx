@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useTranslations, useFormatter } from "next-intl";
 import { usePlantSummary } from "@/lib/queries";
 import { DotField } from "@/components/dashboard/dot-field";
-import { RiskTable } from "@/components/risk-table";
+import { ActionQueue } from "@/components/dashboard/action-queue";
 import { Card } from "@/components/ui/card";
 import { LoadingState, ErrorState } from "@/components/ui/states";
 
@@ -81,22 +81,23 @@ export default function HomePage() {
         </Card>
 
         <div className="flex w-full flex-col gap-3 md:w-[200px] md:flex-shrink-0">
-          <StatCard label={t("statHighRisk")} value={data.highRisk} delta={t("statHighRiskDelta")} color="#EB4F6C" />
-          <StatCard label={t("statWatch")} value={data.watch} delta={t("statWatchDelta")} color="#B49AED" />
+          <StatCard label={t("statHighRisk")} value={data.highRisk} hint={t("statHighRiskDelta")} series={data.trend.highRisk} color="#EB4F6C" />
+          <StatCard label={t("statWatch")} value={data.watch} hint={t("statWatchDelta")} series={data.trend.watch} color="#B49AED" />
           <StatCard
             label={t("statStable")}
             value={format.number(data.stable)}
-            delta={t("statStableDelta", { pct: Math.round((data.stable / total) * 100) })}
+            hint={t("statStableDelta", { pct: Math.round((data.stable / total) * 100) })}
+            series={data.trend.stable}
             color="#5B6EF5"
           />
         </div>
       </div>
 
       <div className="mt-8 mb-3 flex items-center justify-between">
-        <h2 className="text-[17px] font-semibold">{t("topTitle")}</h2>
-        <span className="text-[12.5px] text-ink-3">{t("topHint")}</span>
+        <h2 className="text-[17px] font-semibold">{t("actTitle")}</h2>
+        <span className="text-[12.5px] text-ink-3">{t("actHint")}</span>
       </div>
-      <RiskTable rows={data.topRisk} showLine />
+      <ActionQueue rows={data.topRisk} />
     </div>
   );
 }
@@ -104,21 +105,66 @@ export default function HomePage() {
 function StatCard({
   label,
   value,
-  delta,
+  hint,
+  series,
   color,
 }: {
   label: string;
   value: number | string;
-  delta: string;
+  hint: string;
+  series: number[];
   color: string;
 }) {
+  const td = useTranslations("dashboard");
+  const last = series.length ? series[series.length - 1] : 0;
+  const prev = series.length > 1 ? series[series.length - 2] : last;
+  const d = last - prev;
+  const arrow = d > 0 ? "▲" : d < 0 ? "▼" : "→";
   return (
     <Card className="px-[17px] py-[15px]">
-      <div className="text-[11.5px] text-ink-2">{label}</div>
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-[11.5px] text-ink-2">{label}</span>
+        <span className="font-mono text-[11px] text-ink-3" title={td("vsWeek")}>
+          {arrow} {Math.abs(d)}
+        </span>
+      </div>
       <div className="mt-0.5 font-mono text-[25px] font-semibold leading-tight" style={{ color }}>
         {value}
       </div>
-      <div className="mt-0.5 text-[11px] text-ink-3">{delta}</div>
+      <Sparkline data={series} color={color} />
+      <div className="mt-1 text-[11px] text-ink-3">{hint}</div>
     </Card>
+  );
+}
+
+function Sparkline({ data, color }: { data: number[]; color: string }) {
+  if (!data || data.length < 2) return <div className="mt-2 h-7" />;
+  const w = 100;
+  const h = 28;
+  const pad = 3;
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const span = max - min || 1;
+  const px = (i: number) => (i / (data.length - 1)) * w;
+  const py = (v: number) => h - pad - ((v - min) / span) * (h - pad * 2);
+  const line = data.map((v, i) => `${px(i).toFixed(1)},${py(v).toFixed(1)}`).join(" ");
+  return (
+    <svg
+      viewBox={`0 0 ${w} ${h}`}
+      className="mt-2 block h-7 w-full"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <polygon points={`0,${h} ${line} ${w},${h}`} fill={color} opacity="0.1" />
+      <polyline
+        points={line}
+        fill="none"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
   );
 }
