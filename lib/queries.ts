@@ -8,6 +8,7 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
   fetchPlantSummary,
+  fetchReportSummary,
   fetchLineDetail,
   fetchEmployee,
   assignRecommendation,
@@ -15,12 +16,17 @@ import {
 
 export const queryKeys = {
   plant: ["plant", "summary"] as const,
+  reports: ["reports", "summary"] as const,
   line: (id: string) => ["line", id] as const,
   employee: (ref: string) => ["employee", ref] as const,
 };
 
 export function usePlantSummary() {
   return useQuery({ queryKey: queryKeys.plant, queryFn: fetchPlantSummary });
+}
+
+export function useReportSummary() {
+  return useQuery({ queryKey: queryKeys.reports, queryFn: fetchReportSummary });
 }
 
 export function useLineDetail(id: string) {

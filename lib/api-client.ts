@@ -11,6 +11,7 @@ import {
   LineDetailSchema,
   EmployeePredictionSchema,
   AssignResultSchema,
+  ReportSummarySchema,
   type EmployeePrediction,
   type AssignResult,
 } from "@/types";
@@ -28,6 +29,11 @@ async function getValidated<S extends z.ZodTypeAny>(
 // GET /api/plant/summary
 export function fetchPlantSummary() {
   return getValidated("/api/plant/summary", PlantSummarySchema);
+}
+
+// GET /api/reports/summary
+export function fetchReportSummary() {
+  return getValidated("/api/reports/summary", ReportSummarySchema);
 }
 
 // GET /api/line/:id

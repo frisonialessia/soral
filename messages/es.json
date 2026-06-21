@@ -235,5 +235,28 @@
     "axis6": "Supervisor",
     "footerProduct": "Producto",
     "footerGetStarted": "Empezar"
+  },
+  "reports": {
+    "title": "Reportes",
+    "subtitle": "Histórico de rotación y el impacto de tus intervenciones.",
+    "loading": "Cargando reportes…",
+    "errorTitle": "No pudimos cargar los reportes",
+    "exportCsv": "Exportar CSV",
+    "kpiInterventions": "Intervenciones",
+    "kpiInterventionsSub": "planes asignados · 12 m",
+    "kpiRetained": "Retenidos (est.)",
+    "kpiRetainedSub": "marcados que se quedaron",
+    "kpiCostAvoided": "Costo evitado (est.)",
+    "kpiCostAvoidedSub": "vs. costo de reemplazo",
+    "kpiPrecision": "Precisión del modelo",
+    "kpiPrecisionSub": "de los marcados sí se fue",
+    "turnoverTitle": "Rotación mensual",
+    "turnoverSub": "Últimos 12 meses · % de la plantilla",
+    "turnoverAria": "Tasa de rotación mensual en los últimos 12 meses",
+    "byLineTitle": "Rotación por línea",
+    "byLineSub": "% anualizado · trabajadores marcados",
+    "driversTitle": "Principales causas de rotación",
+    "driversSub": "Peso del modelo entre los marcados",
+    "flagged": "{n} marcados"
   }
 }

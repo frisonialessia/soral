@@ -78,3 +78,17 @@ export const AssignResultSchema = z.object({
   assignedAt: z.string(),
 });
 export type AssignResult = z.infer<typeof AssignResultSchema>;
+
+export const ReportSummarySchema = z.object({
+  periodMonths: z.number(),
+  kpis: z.object({
+    interventions: z.number(),
+    retained: z.number(),
+    costAvoidedMxn: z.number(),
+    precision: z.number(), // 0–100
+  }),
+  attrition: z.array(z.number()), // rotación mensual %, 12 puntos
+  byLine: z.array(z.object({ line: z.string(), rate: z.number(), count: z.number() })),
+  drivers: z.array(z.object({ factor: z.string(), weight: z.number() })), // peso 0–100
+});
+export type ReportSummary = z.infer<typeof ReportSummarySchema>;

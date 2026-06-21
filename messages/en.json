@@ -235,5 +235,28 @@
     "axis6": "Supervisor",
     "footerProduct": "Product",
     "footerGetStarted": "Get started"
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "Turnover history and the impact of your interventions.",
+    "loading": "Loading reports…",
+    "errorTitle": "We could not load the reports",
+    "exportCsv": "Export CSV",
+    "kpiInterventions": "Interventions",
+    "kpiInterventionsSub": "plays assigned · 12 mo",
+    "kpiRetained": "Retained (est.)",
+    "kpiRetainedSub": "flagged workers who stayed",
+    "kpiCostAvoided": "Cost avoided (est.)",
+    "kpiCostAvoidedSub": "vs. replacement cost",
+    "kpiPrecision": "Model precision",
+    "kpiPrecisionSub": "of flagged actually left",
+    "turnoverTitle": "Monthly turnover",
+    "turnoverSub": "Last 12 months · % of headcount",
+    "turnoverAria": "Monthly turnover rate over the last 12 months",
+    "byLineTitle": "Turnover by line",
+    "byLineSub": "Annualized % · flagged workers",
+    "driversTitle": "Top turnover drivers",
+    "driversSub": "Share of model weight across flagged workers",
+    "flagged": "{n} flagged"
   }
 }

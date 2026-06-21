@@ -235,5 +235,28 @@
     "axis6": "Supervisore",
     "footerProduct": "Prodotto",
     "footerGetStarted": "Inizia"
+  },
+  "reports": {
+    "title": "Report",
+    "subtitle": "Storico del turnover e impatto dei tuoi interventi.",
+    "loading": "Caricamento report…",
+    "errorTitle": "Non è stato possibile caricare i report",
+    "exportCsv": "Esporta CSV",
+    "kpiInterventions": "Interventi",
+    "kpiInterventionsSub": "piani assegnati · 12 mesi",
+    "kpiRetained": "Trattenuti (stima)",
+    "kpiRetainedSub": "segnalati che sono rimasti",
+    "kpiCostAvoided": "Costo evitato (stima)",
+    "kpiCostAvoidedSub": "vs. costo di sostituzione",
+    "kpiPrecision": "Precisione del modello",
+    "kpiPrecisionSub": "dei segnalati ha lasciato",
+    "turnoverTitle": "Turnover mensile",
+    "turnoverSub": "Ultimi 12 mesi · % del personale",
+    "turnoverAria": "Tasso di turnover mensile negli ultimi 12 mesi",
+    "byLineTitle": "Turnover per linea",
+    "byLineSub": "% annualizzato · lavoratori segnalati",
+    "driversTitle": "Principali cause di turnover",
+    "driversSub": "Peso del modello tra i segnalati",
+    "flagged": "{n} segnalati"
   }
 }

@@ -3,7 +3,9 @@ import {
   getPlantSummary,
   getLineDetail,
   getEmployee,
+  getReportSummary,
 } from "@/lib/server/data-service";
+import { ReportSummarySchema } from "@/types";
 
 describe("getPlantSummary", () => {
   it("agrega los buckets de riesgo y el ahorro sobre el dataset semilla", async () => {
@@ -45,5 +47,21 @@ describe("getLineDetail", () => {
   it("usa metadatos por defecto para líneas sin override", async () => {
     const l7 = await getLineDetail("L7");
     expect(l7.turnover90d).toBe("7%");
+  });
+});
+
+describe("getReportSummary", () => {
+  it("cumple el contrato y agrega histórico, causas y ROI", async () => {
+    const r = await getReportSummary();
+    expect(() => ReportSummarySchema.parse(r)).not.toThrow();
+    expect(r.attrition).toHaveLength(12);
+    // byLine ordenado por rate descendente
+    const rates = r.byLine.map((l) => l.rate);
+    expect([...rates].sort((a, b) => b - a)).toEqual(rates);
+    // causas agregadas con peso no negativo
+    expect(r.drivers.length).toBeGreaterThan(0);
+    expect(r.drivers.every((d) => d.weight >= 0)).toBe(true);
+    // ROI: costo evitado = retenidos × costo de reemplazo
+    expect(r.kpis.costAvoidedMxn).toBe(r.kpis.retained * 36_800);
   });
 });

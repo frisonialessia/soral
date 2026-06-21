@@ -9,7 +9,7 @@
 
 import { EMPLOYEES, TENANT_ID, WEEK_START, MODEL_VERSION } from "@/lib/data";
 import { bandOf } from "@/lib/risk";
-import type { EmployeePrediction, LineDetail, PlantSummary } from "@/types";
+import type { EmployeePrediction, LineDetail, PlantSummary, ReportSummary } from "@/types";
 
 const REPLACEMENT_COST_MXN = 36_800;
 const PLANT_HEADCOUNT = 1180;
@@ -98,4 +98,49 @@ export async function assignRecommendation(
 ): Promise<{ ok: true; assignedAt: string }> {
   // En producción: persiste la intervención y notifica al supervisor.
   return { ok: true, assignedAt: new Date().toISOString() };
+}
+
+// GET /api/reports/summary
+// Mira hacia atrás: histórico de rotación + impacto (ROI) de las intervenciones.
+// byLine y drivers se agregan del dataset real; KPIs y serie mensual son mock
+// determinista (con Supabase: GROUP BY mes / línea / factor).
+export async function getReportSummary(): Promise<ReportSummary> {
+  const byLineCount: Record<string, number> = {};
+  const factorWeight: Record<string, number> = {};
+  for (const e of ALL) {
+    byLineCount[e.line] = (byLineCount[e.line] ?? 0) + 1;
+    for (const d of e.drivers) {
+      factorWeight[d.factor] = (factorWeight[d.factor] ?? 0) + d.contrib;
+    }
+  }
+
+  // Rotación anualizada por línea (override conocido; resto, base por defecto).
+  const lineRate: Record<string, number> = { L3: 22, L5: 16, L4: 11, L2: 9, L1: 8, L6: 6, L7: 7 };
+  const byLine = ["L1", "L2", "L3", "L4", "L5", "L6", "L7"]
+    .map((line) => ({ line, rate: lineRate[line] ?? 7, count: byLineCount[line] ?? 0 }))
+    .sort((a, b) => b.rate - a.rate);
+
+  // Causas: peso SHAP agregado de los marcados, normalizado a %.
+  const totalW = Object.values(factorWeight).reduce((s, v) => s + v, 0) || 1;
+  const drivers = Object.entries(factorWeight)
+    .map(([factor, w]) => ({ factor, weight: Math.round((w / totalW) * 100) }))
+    .sort((a, b) => b.weight - a.weight)
+    .slice(0, 6);
+
+  // Rotación mensual (12 meses): rango realista de maquila, mejora gradual reciente.
+  const attrition = [15.8, 16.2, 15.1, 14.6, 15.3, 14.1, 13.4, 13.8, 12.6, 11.9, 11.2, 10.7];
+
+  const retained = 16; // estimación de retenidos entre los marcados
+  return {
+    periodMonths: 12,
+    kpis: {
+      interventions: 24,
+      retained,
+      costAvoidedMxn: retained * REPLACEMENT_COST_MXN,
+      precision: 78,
+    },
+    attrition,
+    byLine,
+    drivers,
+  };
 }
