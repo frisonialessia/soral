@@ -92,3 +92,13 @@ export const ReportSummarySchema = z.object({
   drivers: z.array(z.object({ factor: z.string(), weight: z.number() })), // peso 0–100
 });
 export type ReportSummary = z.infer<typeof ReportSummarySchema>;
+
+// Briefing semanal generado por IA (o por reglas deterministas como fallback).
+export const BriefingSchema = z.object({
+  headline: z.string(),
+  summary: z.string(),
+  points: z.array(z.string()),
+  source: z.enum(["llm", "rules"]),
+  model: z.string().nullable(),
+});
+export type Briefing = z.infer<typeof BriefingSchema>;

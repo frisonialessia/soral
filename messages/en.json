@@ -133,7 +133,14 @@
     "fcW2": "In 2 weeks",
     "fcW3": "In 3 weeks",
     "fcW4plus": "4+ weeks",
-    "fcActNow": "act now"
+    "fcActNow": "act now",
+    "kpiHeadcount": "Headcount",
+    "kpiAtRisk": "At risk",
+    "gaugeStability": "Stability",
+    "gaugeStabilitySub": "{stable} of {total} stable",
+    "aiBriefingTitle": "Weekly AI briefing",
+    "aiBriefingLive": "live",
+    "aiBriefingSample": "sample"
   },
   "table": {
     "employee": "Employee",

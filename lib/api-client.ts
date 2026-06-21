@@ -12,6 +12,7 @@ import {
   EmployeePredictionSchema,
   AssignResultSchema,
   ReportSummarySchema,
+  BriefingSchema,
   type EmployeePrediction,
   type AssignResult,
 } from "@/types";
@@ -34,6 +35,11 @@ export function fetchPlantSummary() {
 // GET /api/reports/summary
 export function fetchReportSummary() {
   return getValidated("/api/reports/summary", ReportSummarySchema);
+}
+
+// GET /api/ai/briefing
+export function fetchBriefing() {
+  return getValidated("/api/ai/briefing", BriefingSchema);
 }
 
 // GET /api/line/:id

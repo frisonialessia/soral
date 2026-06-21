@@ -9,6 +9,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import {
   fetchPlantSummary,
   fetchReportSummary,
+  fetchBriefing,
   fetchLineDetail,
   fetchEmployee,
   assignRecommendation,
@@ -17,6 +18,7 @@ import {
 export const queryKeys = {
   plant: ["plant", "summary"] as const,
   reports: ["reports", "summary"] as const,
+  briefing: ["ai", "briefing"] as const,
   line: (id: string) => ["line", id] as const,
   employee: (ref: string) => ["employee", ref] as const,
 };
@@ -27,6 +29,10 @@ export function usePlantSummary() {
 
 export function useReportSummary() {
   return useQuery({ queryKey: queryKeys.reports, queryFn: fetchReportSummary });
+}
+
+export function useBriefing() {
+  return useQuery({ queryKey: queryKeys.briefing, queryFn: fetchBriefing });
 }
 
 export function useLineDetail(id: string) {
