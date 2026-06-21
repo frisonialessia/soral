@@ -16,6 +16,7 @@ export function THead({ children }: { children: React.ReactNode }) {
 export function TH({ className, ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) {
   return (
     <th
+      scope="col"
       className={cn(
         "border-b border-line bg-surface-2 px-5 py-3 text-left text-[11.5px] font-semibold uppercase tracking-wide text-ink-3",
         className

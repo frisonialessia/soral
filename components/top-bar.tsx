@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function TopBar() {
   return (
-    <div className="sticky top-0 z-50 border-b border-line bg-surface">
+    <header className="sticky top-0 z-50 border-b border-line bg-surface">
       <div className="mx-auto flex h-16 max-w-[1120px] items-center justify-between px-[30px]">
         <Link href="/" className="flex items-center gap-3 font-semibold text-[16px] tracking-tight">
           <span
@@ -27,6 +27,6 @@ export function TopBar() {
           <span className="hidden sm:inline">Actualizado hace 2 h</span>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

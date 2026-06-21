@@ -37,7 +37,11 @@ export function RecommendationModal({
   }
 
   return (
-    <Dialog open={!!employee} onClose={handleClose}>
+    <Dialog
+      open={!!employee}
+      onClose={handleClose}
+      label={`Recomendación de retención · ${employee.ref}`}
+    >
       <div className="mb-[18px] flex items-start justify-between">
         <div>
           <Badge color={c}>

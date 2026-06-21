@@ -1,6 +1,7 @@
 // app/page.tsx
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePlantSummary } from "@/lib/queries";
 import { DotField } from "@/components/dashboard/dot-field";
@@ -10,6 +11,8 @@ import { LoadingState, ErrorState } from "@/components/ui/states";
 
 export default function HomePage() {
   const { data, isLoading, isError, refetch, isFetching } = usePlantSummary();
+  // Ventana de análisis (control de UI). TODO: filtrar por histórico con Supabase.
+  const [range, setRange] = useState<"3M" | "1A" | "Todo">("3M");
 
   if (isLoading) return <LoadingState label="Cargando estado de la planta…" />;
   if (isError || !data) {
@@ -35,17 +38,29 @@ export default function HomePage() {
             ordenados por riesgo de rotación a 30 días
           </p>
         </div>
-        <div className="flex gap-1 rounded-full bg-surface-bg p-1">
-          {["3M", "1A", "Todo"].map((s, i) => (
-            <button
-              key={s}
-              className={`rounded-full px-4 py-1.5 text-[12.5px] ${
-                i === 0 ? "bg-surface font-medium text-ink-1 shadow-sm" : "text-ink-2"
-              }`}
-            >
-              {s}
-            </button>
-          ))}
+        <div
+          role="group"
+          aria-label="Ventana de análisis"
+          className="flex gap-1 rounded-full bg-surface-bg p-1"
+        >
+          {(["3M", "1A", "Todo"] as const).map((s) => {
+            const active = range === s;
+            return (
+              <button
+                key={s}
+                type="button"
+                aria-pressed={active}
+                onClick={() => setRange(s)}
+                className={`rounded-full px-4 py-1.5 text-[12.5px] transition-colors ${
+                  active
+                    ? "bg-surface font-medium text-ink-1 shadow-sm"
+                    : "text-ink-2 hover:text-ink-1"
+                }`}
+              >
+                {s}
+              </button>
+            );
+          })}
         </div>
       </div>
 
