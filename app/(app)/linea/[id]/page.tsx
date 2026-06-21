@@ -30,7 +30,7 @@ export default function LinePage({ params }: { params: Promise<{ id: string }> }
   return (
     <div className="animate-fade pb-12">
       <div className="flex items-center gap-2 pt-5 pb-0.5 text-[13px] text-ink-3">
-        <Link href="/" className="text-ink-2 hover:text-risk-sol">
+        <Link href="/dashboard" className="text-ink-2 hover:text-risk-sol">
           {t("crumbPlant")}
         </Link>
         <span>/</span>

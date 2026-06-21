@@ -175,5 +175,33 @@
   "routeError": {
     "title": "Something went wrong in this view",
     "detail": "An unexpected error occurred. You can retry."
+  },
+  "landing": {
+    "navCta": "Go to app",
+    "badge": "Turnover prediction for manufacturing",
+    "title": "Know who is leaving — before they do.",
+    "subtitle": "Soral scores each worker for turnover risk, explains why, and hands supervisors the play to retain them — a week before they walk.",
+    "ctaPrimary": "Open the dashboard",
+    "ctaSecondary": "See the tools",
+    "windowTitle": "Soral · Tijuana North Plant",
+    "featuresTitle": "Everything you need to act on attrition",
+    "featuresSubtitle": "From signal to intervention, in one workspace.",
+    "f1Title": "Risk map",
+    "f1Desc": "Every worker as a dot, ranked by 30-day turnover risk. Hot spots stand out at a glance.",
+    "f2Title": "Explainable scores",
+    "f2Desc": "SHAP contributions show why the model flags each person — no black box.",
+    "f3Title": "Actionable recommendations",
+    "f3Desc": "A retention play generated for the manager, ready to assign to the supervisor.",
+    "f4Title": "Roles, permissions and languages",
+    "f4Desc": "RBAC out of the box and a fully multilingual UI — English, Spanish and Italian.",
+    "ctaTitle": "Start retaining your workforce",
+    "ctaSubtitle": "Turn turnover from a surprise into a plan.",
+    "ctaButton": "Open the dashboard",
+    "footerTagline": "Operational continuity prediction for maquilas.",
+    "rights": "© 2026 Soral",
+    "previewDriver1": "Accumulated fatigue",
+    "previewDriver2": "Supervisor conflict",
+    "previewDriver3": "Long commute",
+    "previewDriver4": "Pay vs market"
   }
 }

@@ -175,5 +175,33 @@
   "routeError": {
     "title": "Qualcosa è andato storto in questa vista",
     "detail": "Si è verificato un errore imprevisto. Puoi riprovare."
+  },
+  "landing": {
+    "navCta": "Vai al pannello",
+    "badge": "Previsione del turnover per la manifattura",
+    "title": "Scopri chi sta per andarsene — prima che lo faccia.",
+    "subtitle": "Soral assegna a ogni lavoratore un punteggio di rischio turnover, spiega il perché e dà al supervisore la mossa per trattenerlo — una settimana prima che se ne vada.",
+    "ctaPrimary": "Apri il pannello",
+    "ctaSecondary": "Vedi gli strumenti",
+    "windowTitle": "Soral · Stabilimento Tijuana Nord",
+    "featuresTitle": "Tutto ciò che serve per agire sul turnover",
+    "featuresSubtitle": "Dal segnale alla decisione, in un unico spazio.",
+    "f1Title": "Mappa del rischio",
+    "f1Desc": "Ogni lavoratore è un punto, ordinato per rischio di turnover a 30 giorni. I focolai si notano subito.",
+    "f2Title": "Punteggi spiegabili",
+    "f2Desc": "I contributi SHAP mostrano perché il modello segnala ogni persona — nessuna scatola nera.",
+    "f3Title": "Raccomandazioni concrete",
+    "f3Desc": "Una strategia di retention generata per il manager, pronta da assegnare al supervisore.",
+    "f4Title": "Ruoli, permessi e lingue",
+    "f4Desc": "RBAC integrato e interfaccia multilingue — inglese, spagnolo e italiano.",
+    "ctaTitle": "Inizia a trattenere il tuo personale",
+    "ctaSubtitle": "Trasforma il turnover da sorpresa a piano.",
+    "ctaButton": "Apri il pannello",
+    "footerTagline": "Previsione di continuità operativa per le maquila.",
+    "rights": "© 2026 Soral",
+    "previewDriver1": "Fatica accumulata",
+    "previewDriver2": "Conflitto con il supervisore",
+    "previewDriver3": "Tragitto lungo",
+    "previewDriver4": "Stipendio vs mercato"
   }
 }

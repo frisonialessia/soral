@@ -35,7 +35,7 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
     return (
       <div className="py-20 text-center text-ink-3">
         {t("notFound")}{" "}
-        <Link href="/" className="text-risk-sol">
+        <Link href="/dashboard" className="text-risk-sol">
           {tc("back")}
         </Link>
       </div>
@@ -47,7 +47,7 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
   return (
     <div className="animate-fade pb-12">
       <div className="flex items-center gap-2 pt-5 pb-0.5 text-[13px] text-ink-3">
-        <Link href="/" className="text-ink-2 hover:text-risk-sol">
+        <Link href="/dashboard" className="text-ink-2 hover:text-risk-sol">
           {tl("crumbPlant")}
         </Link>
         <span>/</span>

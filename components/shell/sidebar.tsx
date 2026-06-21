@@ -17,7 +17,7 @@ interface NavItem {
 }
 
 const NAV: NavItem[] = [
-  { href: "/", labelKey: "dashboard", icon: LayoutDashboard, permission: "dashboard.view", exact: true },
+  { href: "/dashboard", labelKey: "dashboard", icon: LayoutDashboard, permission: "dashboard.view", exact: true },
   { href: "/reportes", labelKey: "reports", icon: BarChart3, permission: "reports.view" },
   { href: "/integraciones", labelKey: "integrations", icon: Plug, permission: "integrations.view" },
   { href: "/admin", labelKey: "admin", icon: Settings, permission: "admin.view" },
@@ -48,7 +48,7 @@ export function Sidebar({
         }`}
       >
         <Link
-          href="/"
+          href="/dashboard"
           onClick={onClose}
           className="flex items-center gap-3 px-5 py-[18px] text-[16px] font-semibold tracking-tight"
         >

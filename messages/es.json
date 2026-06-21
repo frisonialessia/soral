@@ -175,5 +175,33 @@
   "routeError": {
     "title": "Algo salió mal en esta vista",
     "detail": "Ocurrió un error inesperado. Puedes reintentar."
+  },
+  "landing": {
+    "navCta": "Ir al panel",
+    "badge": "Predicción de rotación para manufactura",
+    "title": "Sabe quién se va — antes de que se vaya.",
+    "subtitle": "Soral puntúa la rotación de cada trabajador, explica el porqué y le da al supervisor la acción para retenerlo — una semana antes de que renuncie.",
+    "ctaPrimary": "Abrir el panel",
+    "ctaSecondary": "Ver las herramientas",
+    "windowTitle": "Soral · Planta Tijuana Norte",
+    "featuresTitle": "Todo lo que necesitas para actuar sobre la rotación",
+    "featuresSubtitle": "De la señal a la intervención, en un solo lugar.",
+    "f1Title": "Mapa de riesgo",
+    "f1Desc": "Cada trabajador es un punto, ordenado por riesgo de rotación a 30 días. Los focos rojos saltan a la vista.",
+    "f2Title": "Scores explicables",
+    "f2Desc": "La contribución SHAP muestra por qué el modelo marca a cada persona — sin caja negra.",
+    "f3Title": "Recomendaciones accionables",
+    "f3Desc": "Una jugada de retención generada para el gerente, lista para asignar al supervisor.",
+    "f4Title": "Roles, permisos e idiomas",
+    "f4Desc": "RBAC desde el inicio y una interfaz multilingüe — inglés, español e italiano.",
+    "ctaTitle": "Empieza a retener a tu gente",
+    "ctaSubtitle": "Convierte la rotación de sorpresa en plan.",
+    "ctaButton": "Abrir el panel",
+    "footerTagline": "Predicción de continuidad operativa para maquilas.",
+    "rights": "© 2026 Soral",
+    "previewDriver1": "Fatiga acumulada",
+    "previewDriver2": "Conflicto con supervisor",
+    "previewDriver3": "Trayecto largo",
+    "previewDriver4": "Salario vs mercado"
   }
 }

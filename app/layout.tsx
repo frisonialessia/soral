@@ -3,7 +3,6 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { Providers } from "@/lib/providers";
 import { SessionProvider } from "@/lib/auth/session";
-import { AppShell } from "@/components/shell/app-shell";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -28,9 +27,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="font-sans">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
-            <SessionProvider>
-              <AppShell>{children}</AppShell>
-            </SessionProvider>
+            <SessionProvider>{children}</SessionProvider>
           </Providers>
         </NextIntlClientProvider>
       </body>
