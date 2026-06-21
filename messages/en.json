@@ -40,10 +40,6 @@
     "supabaseNote": "This section will connect to real data with Supabase."
   },
   "sections": {
-    "admin": {
-      "title": "Administration",
-      "description": "Members and roles, per-plant business configuration (replacement cost, headcount, risk thresholds), and audit log."
-    },
     "reports": {
       "title": "Reports",
       "description": "Weekly history, exportable reports (PDF/CSV), scheduled email digest, and tracking of intervention effectiveness (ROI)."
@@ -52,6 +48,43 @@
       "title": "Integrations",
       "description": "Connectors for your ERP/HRIS (CSV/SFTP/API import), the XGBoost model pipeline, and outputs to Slack/Teams/email and webhooks."
     }
+  },
+  "admin": {
+    "title": "Administration",
+    "subtitle": "Team, roles and permissions for this workspace.",
+    "forbidden": "You do not have access to this section.",
+    "membersTitle": "Members",
+    "membersSubtitle": "People with access to this workspace.",
+    "sampleNote": "Example data · will connect to Supabase",
+    "colName": "Name",
+    "colEmail": "Email",
+    "colRole": "Role",
+    "colStatus": "Status",
+    "statusActive": "Active",
+    "statusInvited": "Invited",
+    "invite": "Invite member",
+    "changeRole": "Change role",
+    "inviteTitle": "Invite member",
+    "inviteEmail": "Email",
+    "inviteEmailPlaceholder": "name@company.com",
+    "inviteRole": "Role",
+    "inviteSubmit": "Send invite",
+    "cancel": "Cancel",
+    "rolesTitle": "Roles and permissions",
+    "rolesSubtitle": "What each role can do · derived from the live RBAC config.",
+    "permissionColumn": "Permission"
+  },
+  "permissions": {
+    "dashboard": { "view": "View dashboard" },
+    "lines": { "view": "View lines" },
+    "employees": { "view": "View employees" },
+    "recommendations": { "assign": "Assign recommendations" },
+    "reports": { "view": "View reports" },
+    "integrations": { "view": "View integrations", "manage": "Manage integrations" },
+    "admin": { "view": "Access administration" },
+    "members": { "manage": "Manage members" },
+    "settings": { "manage": "Manage settings" },
+    "billing": { "manage": "Manage billing" }
   },
   "dashboard": {
     "title": "Workforce",

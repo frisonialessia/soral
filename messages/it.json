@@ -40,10 +40,6 @@
     "supabaseNote": "Questa sezione si collegherà a dati reali con Supabase."
   },
   "sections": {
-    "admin": {
-      "title": "Amministrazione",
-      "description": "Membri e ruoli, configurazione di business per stabilimento (costo di sostituzione, organico, soglie di rischio) e registro di audit."
-    },
     "reports": {
       "title": "Rapporti",
       "description": "Storico settimanale, rapporti esportabili (PDF/CSV), digest programmato via email e monitoraggio dei risultati degli interventi (ROI)."
@@ -52,6 +48,43 @@
       "title": "Integrazioni",
       "description": "Connettori per ERP/HRIS (importazione CSV/SFTP/API), la pipeline del modello XGBoost e output verso Slack/Teams/email e webhook."
     }
+  },
+  "admin": {
+    "title": "Amministrazione",
+    "subtitle": "Team, ruoli e permessi di questo spazio di lavoro.",
+    "forbidden": "Non hai accesso a questa sezione.",
+    "membersTitle": "Membri",
+    "membersSubtitle": "Persone con accesso a questo spazio di lavoro.",
+    "sampleNote": "Dati di esempio · si collegheranno a Supabase",
+    "colName": "Nome",
+    "colEmail": "Email",
+    "colRole": "Ruolo",
+    "colStatus": "Stato",
+    "statusActive": "Attivo",
+    "statusInvited": "Invitato",
+    "invite": "Invita membro",
+    "changeRole": "Cambia ruolo",
+    "inviteTitle": "Invita membro",
+    "inviteEmail": "Email",
+    "inviteEmailPlaceholder": "nome@azienda.com",
+    "inviteRole": "Ruolo",
+    "inviteSubmit": "Invia invito",
+    "cancel": "Annulla",
+    "rolesTitle": "Ruoli e permessi",
+    "rolesSubtitle": "Cosa può fare ogni ruolo · derivato dalla configurazione RBAC attiva.",
+    "permissionColumn": "Permesso"
+  },
+  "permissions": {
+    "dashboard": { "view": "Vedi pannello" },
+    "lines": { "view": "Vedi linee" },
+    "employees": { "view": "Vedi dipendenti" },
+    "recommendations": { "assign": "Assegna raccomandazioni" },
+    "reports": { "view": "Vedi rapporti" },
+    "integrations": { "view": "Vedi integrazioni", "manage": "Gestisci integrazioni" },
+    "admin": { "view": "Accesso amministrazione" },
+    "members": { "manage": "Gestisci membri" },
+    "settings": { "manage": "Gestisci impostazioni" },
+    "billing": { "manage": "Gestisci fatturazione" }
   },
   "dashboard": {
     "title": "Forza lavoro",

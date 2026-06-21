@@ -1,7 +1,34 @@
-import { getTranslations } from "next-intl/server";
-import { SectionPlaceholder } from "@/components/shell/section-placeholder";
+"use client";
 
-export default async function AdminPage() {
-  const t = await getTranslations("sections.admin");
-  return <SectionPlaceholder title={t("title")} description={t("description")} />;
+import { useTranslations } from "next-intl";
+import { useCan } from "@/components/auth/can";
+import { MembersSection } from "@/components/admin/members-section";
+import { RolesMatrix } from "@/components/admin/roles-matrix";
+import { Card } from "@/components/ui/card";
+
+export default function AdminPage() {
+  const t = useTranslations("admin");
+  const allowed = useCan("admin.view");
+
+  if (!allowed) {
+    return (
+      <div className="animate-fade py-6">
+        <h1 className="text-[27px] font-semibold tracking-tight">{t("title")}</h1>
+        <Card className="mt-6 px-6 py-12 text-center text-[13.5px] text-ink-2" role="alert">
+          {t("forbidden")}
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="animate-fade py-6">
+      <div className="mb-6">
+        <h1 className="text-[27px] font-semibold tracking-tight">{t("title")}</h1>
+        <p className="mt-1 text-sm text-ink-2">{t("subtitle")}</p>
+      </div>
+      <MembersSection />
+      <RolesMatrix />
+    </div>
+  );
 }

@@ -40,10 +40,6 @@
     "supabaseNote": "Esta sección se conectará a datos reales con Supabase."
   },
   "sections": {
-    "admin": {
-      "title": "Administración",
-      "description": "Miembros y roles, configuración de negocio por planta (costo de reemplazo, headcount, umbrales de riesgo) y registro de auditoría."
-    },
     "reports": {
       "title": "Reportes",
       "description": "Histórico semanal, reportes exportables (PDF/CSV), digest programado por email y seguimiento de la efectividad de las intervenciones (ROI)."
@@ -52,6 +48,43 @@
       "title": "Integraciones",
       "description": "Conectores con el ERP/HRIS (importación CSV/SFTP/API), el pipeline del modelo XGBoost, y salidas a Slack/Teams/email y webhooks."
     }
+  },
+  "admin": {
+    "title": "Administración",
+    "subtitle": "Equipo, roles y permisos de este espacio de trabajo.",
+    "forbidden": "No tienes acceso a esta sección.",
+    "membersTitle": "Miembros",
+    "membersSubtitle": "Personas con acceso a este espacio de trabajo.",
+    "sampleNote": "Datos de ejemplo · se conectarán a Supabase",
+    "colName": "Nombre",
+    "colEmail": "Email",
+    "colRole": "Rol",
+    "colStatus": "Estado",
+    "statusActive": "Activo",
+    "statusInvited": "Invitado",
+    "invite": "Invitar miembro",
+    "changeRole": "Cambiar rol",
+    "inviteTitle": "Invitar miembro",
+    "inviteEmail": "Email",
+    "inviteEmailPlaceholder": "nombre@empresa.com",
+    "inviteRole": "Rol",
+    "inviteSubmit": "Enviar invitación",
+    "cancel": "Cancelar",
+    "rolesTitle": "Roles y permisos",
+    "rolesSubtitle": "Qué puede hacer cada rol · derivado de la config RBAC en vivo.",
+    "permissionColumn": "Permiso"
+  },
+  "permissions": {
+    "dashboard": { "view": "Ver panel" },
+    "lines": { "view": "Ver líneas" },
+    "employees": { "view": "Ver empleados" },
+    "recommendations": { "assign": "Asignar recomendaciones" },
+    "reports": { "view": "Ver reportes" },
+    "integrations": { "view": "Ver integraciones", "manage": "Gestionar integraciones" },
+    "admin": { "view": "Acceder a administración" },
+    "members": { "manage": "Gestionar miembros" },
+    "settings": { "manage": "Gestionar configuración" },
+    "billing": { "manage": "Gestionar facturación" }
   },
   "dashboard": {
     "title": "Fuerza laboral",
