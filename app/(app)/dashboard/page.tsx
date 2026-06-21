@@ -6,6 +6,7 @@ import { useTranslations, useFormatter } from "next-intl";
 import { usePlantSummary } from "@/lib/queries";
 import { DotField } from "@/components/dashboard/dot-field";
 import { ActionQueue } from "@/components/dashboard/action-queue";
+import { InsightTabs } from "@/components/dashboard/insight-tabs";
 import { Card } from "@/components/ui/card";
 import { LoadingState, ErrorState } from "@/components/ui/states";
 
@@ -98,6 +99,14 @@ export default function HomePage() {
         <span className="text-[12.5px] text-ink-3">{t("actHint")}</span>
       </div>
       <ActionQueue rows={data.topRisk} />
+
+      <div className="mt-8 mb-3">
+        <h2 className="text-[17px] font-semibold">{t("insightsTitle")}</h2>
+        <p className="mt-0.5 text-[12.5px] text-ink-2">{t("insightsSubtitle")}</p>
+      </div>
+      <Card className="rounded-xl p-[22px]">
+        <InsightTabs rows={data.topRisk} />
+      </Card>
     </div>
   );
 }
