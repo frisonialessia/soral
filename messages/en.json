@@ -202,6 +202,23 @@
     "previewDriver1": "Accumulated fatigue",
     "previewDriver2": "Supervisor conflict",
     "previewDriver3": "Long commute",
-    "previewDriver4": "Pay vs market"
+    "previewDriver4": "Pay vs market",
+    "positioning": "Built for maquiladoras on the US–Mexico border.",
+    "m1Value": "30 days",
+    "m1Label": "risk horizon",
+    "m2Value": "6",
+    "m2Label": "risk dimensions",
+    "m3Value": "100%",
+    "m3Label": "explainable scores",
+    "m4Value": "3",
+    "m4Label": "languages",
+    "howTitle": "How Soral works",
+    "howSubtitle": "From raw HR data to a retention play — in three steps.",
+    "step1Title": "Connect your data",
+    "step1Desc": "Import headcount, attendance and HR signals via CSV, SFTP or API.",
+    "step2Title": "Score and explain",
+    "step2Desc": "The model ranks turnover risk per worker and shows the why with SHAP.",
+    "step3Title": "Act and retain",
+    "step3Desc": "Supervisors get a recommendation and assign it to act this week."
   }
 }

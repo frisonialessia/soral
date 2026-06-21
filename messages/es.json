@@ -202,6 +202,23 @@
     "previewDriver1": "Fatiga acumulada",
     "previewDriver2": "Conflicto con supervisor",
     "previewDriver3": "Trayecto largo",
-    "previewDriver4": "Salario vs mercado"
+    "previewDriver4": "Salario vs mercado",
+    "positioning": "Hecho para maquiladoras en la frontera México–Estados Unidos.",
+    "m1Value": "30 días",
+    "m1Label": "horizonte de riesgo",
+    "m2Value": "6",
+    "m2Label": "dimensiones de riesgo",
+    "m3Value": "100%",
+    "m3Label": "scores explicables",
+    "m4Value": "3",
+    "m4Label": "idiomas",
+    "howTitle": "Cómo funciona Soral",
+    "howSubtitle": "De los datos de RR. HH. a una jugada de retención — en tres pasos.",
+    "step1Title": "Conecta tus datos",
+    "step1Desc": "Importa headcount, asistencia y señales de RR. HH. por CSV, SFTP o API.",
+    "step2Title": "Puntúa y explica",
+    "step2Desc": "El modelo ordena el riesgo de rotación por trabajador y muestra el porqué con SHAP.",
+    "step3Title": "Actúa y retén",
+    "step3Desc": "El supervisor recibe una recomendación y la asigna para actuar esta semana."
   }
 }

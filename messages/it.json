@@ -202,6 +202,23 @@
     "previewDriver1": "Fatica accumulata",
     "previewDriver2": "Conflitto con il supervisore",
     "previewDriver3": "Tragitto lungo",
-    "previewDriver4": "Stipendio vs mercato"
+    "previewDriver4": "Stipendio vs mercato",
+    "positioning": "Creato per le maquiladoras al confine USA–Messico.",
+    "m1Value": "30 giorni",
+    "m1Label": "orizzonte di rischio",
+    "m2Value": "6",
+    "m2Label": "dimensioni di rischio",
+    "m3Value": "100%",
+    "m3Label": "punteggi spiegabili",
+    "m4Value": "3",
+    "m4Label": "lingue",
+    "howTitle": "Come funziona Soral",
+    "howSubtitle": "Dai dati HR grezzi a una strategia di retention — in tre passi.",
+    "step1Title": "Collega i tuoi dati",
+    "step1Desc": "Importa organico, presenze e segnali HR via CSV, SFTP o API.",
+    "step2Title": "Valuta e spiega",
+    "step2Desc": "Il modello ordina il rischio di turnover per lavoratore e mostra il perché con SHAP.",
+    "step3Title": "Agisci e trattieni",
+    "step3Desc": "Il supervisore riceve una raccomandazione e la assegna per agire questa settimana."
   }
 }
