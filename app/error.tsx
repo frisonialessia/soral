@@ -1,7 +1,7 @@
 // app/error.tsx
 // Error boundary del segmento: captura errores de render (no los de fetch, que
-// React Query maneja con isError en cada vista). El RootLayout (TopBar + main)
-// sigue montado, así que el usuario conserva la navegación.
+// React Query maneja con isError en cada vista). El shell (barra lateral +
+// cabecera) sigue montado, así que el usuario conserva la navegación.
 "use client";
 
 import { useEffect } from "react";

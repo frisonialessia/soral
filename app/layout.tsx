@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Providers } from "@/lib/providers";
-import { TopBar } from "@/components/top-bar";
+import { SessionProvider } from "@/lib/auth/session";
+import { AppShell } from "@/components/shell/app-shell";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,8 +22,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="font-sans">
         <Providers>
-          <TopBar />
-          <main className="mx-auto max-w-[1120px] px-[30px]">{children}</main>
+          <SessionProvider>
+            <AppShell>{children}</AppShell>
+          </SessionProvider>
         </Providers>
       </body>
     </html>
