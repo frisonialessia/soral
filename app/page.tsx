@@ -71,7 +71,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="mb-4 flex items-stretch gap-4">
+      <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-stretch">
         <Card className="min-w-0 flex-1 rounded-xl p-[22px]">
           <div className="mb-4">
             <h2 className="text-[17px] font-semibold">{t("mapTitle")}</h2>
@@ -80,7 +80,7 @@ export default function HomePage() {
           <DotField employees={data.topRisk} total={total} />
         </Card>
 
-        <div className="flex w-[200px] flex-shrink-0 flex-col gap-3">
+        <div className="flex w-full flex-col gap-3 md:w-[200px] md:flex-shrink-0">
           <StatCard label={t("statHighRisk")} value={data.highRisk} delta={t("statHighRiskDelta")} color="#EB4F6C" />
           <StatCard label={t("statWatch")} value={data.watch} delta={t("statWatchDelta")} color="#B49AED" />
           <StatCard

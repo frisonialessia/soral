@@ -44,7 +44,7 @@ export default function LinePage({ params }: { params: Promise<{ id: string }> }
         </p>
       </div>
 
-      <div className="mb-7 grid grid-cols-3 gap-3.5">
+      <div className="mb-7 grid grid-cols-1 gap-3.5 sm:grid-cols-3">
         <DetStat label={t("statTurnover")} value={data.turnover90d} note={t("statTurnoverNote")} color="#EB4F6C" />
         <DetStat label={t("statProductivity")} value={data.productivity} note={t("statProductivityNote")} color="#E59BB0" />
         <DetStat label={t("statSupervisor")} value={data.supervisorEffect} note={t("statSupervisorNote")} color="#F56C89" />

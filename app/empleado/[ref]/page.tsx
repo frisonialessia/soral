@@ -58,7 +58,7 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
         <span>{e.ref}</span>
       </div>
 
-      <Card className="my-[22px] flex items-center gap-[18px] px-[26px] py-[22px]">
+      <Card className="my-[22px] flex flex-wrap items-center gap-[18px] px-[26px] py-[22px]">
         <div
           className="flex h-[58px] w-[58px] items-center justify-center rounded-2xl font-mono text-sm font-bold text-white"
           style={{ background: c }}
@@ -79,7 +79,7 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
         </div>
       </Card>
 
-      <div className="mb-[18px] grid grid-cols-2 gap-4">
+      <div className="mb-[18px] grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card className="px-[22px] py-5">
           <h3 className="text-[14px] font-semibold">{t("radarTitle")}</h3>
           <p className="mb-3.5 mt-0.5 text-[12px] text-ink-3">{t("radarSubtitle")}</p>

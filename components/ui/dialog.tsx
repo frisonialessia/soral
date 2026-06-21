@@ -74,7 +74,7 @@ export function Dialog({ open, onClose, label, children }: DialogProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-6"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
       style={{ background: "rgba(43,45,66,.4)", backdropFilter: "blur(4px)" }}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -86,7 +86,7 @@ export function Dialog({ open, onClose, label, children }: DialogProps) {
         aria-modal="true"
         aria-label={label}
         tabIndex={-1}
-        className="w-full max-w-[560px] animate-pop rounded-xl bg-surface p-7 outline-none"
+        className="w-full max-w-[560px] animate-pop rounded-xl bg-surface p-5 sm:p-7 outline-none"
         style={{ boxShadow: "0 24px 64px rgba(43,45,66,.18)" }}
       >
         {children}
