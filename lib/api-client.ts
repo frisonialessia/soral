@@ -1,27 +1,38 @@
 // lib/api-client.ts
-// Capa de fetch (client-side). Llama a los Route Handlers de app/api/* y devuelve
-// datos con el contrato de types/index.ts. TanStack Query (lib/queries.ts) consume
-// estas funciones; los componentes no saben que hay HTTP de por medio.
-//
-// Las firmas son idénticas a las de la antigua mock-api, por eso queries.ts solo
-// cambió el import.
+// Capa de fetch (client-side). Llama a los Route Handlers de app/api/* y valida
+// cada respuesta contra el contrato Zod (types/index.ts) en la frontera: un dato
+// que no cumple el contrato lanza aquí (ZodError) y React Query lo expone como
+// isError → la vista muestra ErrorState con "Reintentar", en vez de reventar el
+// render. Los componentes no saben que hay HTTP ni validación de por medio.
 
-import type { EmployeePrediction, LineDetail, PlantSummary } from "@/types";
+import { z } from "zod";
+import {
+  PlantSummarySchema,
+  LineDetailSchema,
+  EmployeePredictionSchema,
+  AssignResultSchema,
+  type EmployeePrediction,
+  type AssignResult,
+} from "@/types";
 
-async function getJson<T>(url: string): Promise<T> {
+// GET + valida contra el esquema. Devuelve el tipo inferido del esquema.
+async function getValidated<S extends z.ZodTypeAny>(
+  url: string,
+  schema: S
+): Promise<z.infer<S>> {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`GET ${url} → ${res.status}`);
-  return res.json() as Promise<T>;
+  return schema.parse(await res.json());
 }
 
 // GET /api/plant/summary
-export function fetchPlantSummary(): Promise<PlantSummary> {
-  return getJson<PlantSummary>("/api/plant/summary");
+export function fetchPlantSummary() {
+  return getValidated("/api/plant/summary", PlantSummarySchema);
 }
 
 // GET /api/line/:id
-export function fetchLineDetail(id: string): Promise<LineDetail> {
-  return getJson<LineDetail>(`/api/line/${encodeURIComponent(id)}`);
+export function fetchLineDetail(id: string) {
+  return getValidated(`/api/line/${encodeURIComponent(id)}`, LineDetailSchema);
 }
 
 // GET /api/employee/:ref — los refs llevan "#", se codifican para la URL.
@@ -30,19 +41,19 @@ export async function fetchEmployee(ref: string): Promise<EmployeePrediction | n
   const res = await fetch(`/api/employee/${encodeURIComponent(ref)}`);
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`GET /api/employee → ${res.status}`);
-  return res.json() as Promise<EmployeePrediction>;
+  return EmployeePredictionSchema.parse(await res.json());
 }
 
 // POST /api/recommendation/:ref/assign
 export async function assignRecommendation(
   ref: string,
   line: string
-): Promise<{ ok: true; assignedAt: string }> {
+): Promise<AssignResult> {
   const res = await fetch(`/api/recommendation/${encodeURIComponent(ref)}/assign`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ line }),
   });
   if (!res.ok) throw new Error(`POST /api/recommendation → ${res.status}`);
-  return res.json() as Promise<{ ok: true; assignedAt: string }>;
+  return AssignResultSchema.parse(await res.json());
 }

@@ -32,10 +32,13 @@ sola de ellas:
   (`/api/plant/summary`, `/api/line/[id]`, `/api/employee/[ref]`,
   `/api/recommendation/[ref]/assign`).
 - `lib/api-client.ts` — **cliente fetch (client-side)**. Llama a los Route Handlers
-  y devuelve el contrato de `types/index.ts`.
+  y **valida cada respuesta con Zod** en la frontera: un dato fuera de contrato
+  produce un error claro (que la vista muestra como `ErrorState`), no un render roto.
 - `lib/queries.ts` — hooks de TanStack Query con queryKeys estables; consumen el
   api-client.
-- `types/index.ts` — el contrato de datos (mismo shape de punta a punta).
+- `lib/risk.ts` — **motor de riesgo**: fuente única de banda, color y etiqueta.
+- `types/index.ts` — el contrato de datos como **esquemas Zod**; los tipos de TS
+  se derivan con `z.infer` (una sola fuente de verdad runtime + compile-time).
 
 ## Estado y caché
 
@@ -49,6 +52,17 @@ correspondiente y muestra el estado de carga.
 Rampa de riesgo cerrada de 6 paradas en `lib/risk.ts` → `RISK_BANDS` (fuente
 única: banda, umbral, color y etiqueta), reflejada como tokens de Tailwind
 (`risk.sol` … `risk.cri`). El color de cada empleado se deriva de su score.
+
+## Tests
+
+```bash
+npm test         # Vitest, una vez
+npm run test:watch
+```
+
+Cubren la lógica de núcleo: motor de riesgo (`lib/risk.ts`, cada frontera de
+banda), agregación del `data-service` (buckets, ahorro, top-10) y el contrato
+Zod (el dataset semilla y la salida del servicio cumplen el esquema).
 
 ## Próximos pasos
 
