@@ -228,6 +228,8 @@
     "axis3": "Tenure",
     "axis4": "Productivity",
     "axis5": "Overtime",
-    "axis6": "Supervisor"
+    "axis6": "Supervisor",
+    "footerProduct": "Product",
+    "footerGetStarted": "Get started"
   }
 }

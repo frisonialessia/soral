@@ -228,6 +228,8 @@
     "axis3": "Anzianità",
     "axis4": "Produttività",
     "axis5": "Straordinari",
-    "axis6": "Supervisore"
+    "axis6": "Supervisore",
+    "footerProduct": "Prodotto",
+    "footerGetStarted": "Inizia"
   }
 }

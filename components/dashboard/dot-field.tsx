@@ -57,7 +57,7 @@ export function DotField({
   const go = (ref: string) => router.push(`/empleado/${encodeURIComponent(ref)}`);
 
   return (
-    <div className="relative">
+    <div className="relative pl-11">
       <svg
         viewBox={`0 0 ${width} ${height}`}
         width="100%"
@@ -106,7 +106,7 @@ export function DotField({
         })}
       </svg>
 
-      <div className="pointer-events-none absolute left-1 top-2 flex h-[calc(100%-32px)] flex-col justify-between font-mono text-[10px] text-ink-3">
+      <div className="pointer-events-none absolute left-0 top-2 flex h-[calc(100%-32px)] w-10 flex-col items-end justify-between pr-2 font-mono text-[9px] uppercase tracking-wide text-ink-3">
         <span>{t("critical")}</span>
         <span>{t("medium")}</span>
         <span>{t("stable")}</span>

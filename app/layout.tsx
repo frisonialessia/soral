@@ -6,8 +6,26 @@ import { SessionProvider } from "@/lib/auth/session";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Soral",
-  description: "Soral — predicción de continuidad operativa para maquilas",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://soral.vercel.app"),
+  title: {
+    default: "Soral — Turnover prediction for manufacturing",
+    template: "%s · Soral",
+  },
+  description:
+    "Soral scores each worker for 30-day turnover risk, explains why, and hands supervisors the play to retain them — built for maquiladoras on the US–Mexico border.",
+  applicationName: "Soral",
+  openGraph: {
+    type: "website",
+    siteName: "Soral",
+    title: "Know who is leaving — before they do.",
+    description:
+      "Turnover prediction for manufacturing: explainable risk scores and retention plays, a week before they walk.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Soral — Turnover prediction for manufacturing",
+    description: "Explainable turnover risk scores and retention plays for the factory floor.",
+  },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -20,7 +38,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
           rel="stylesheet"
         />
       </head>

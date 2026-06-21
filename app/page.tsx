@@ -12,6 +12,7 @@ import { ExplainabilityPreview } from "@/components/landing/explainability-previ
 
 export default async function LandingPage() {
   const t = await getTranslations("landing");
+  const tn = await getTranslations("nav");
 
   const metrics = [
     { value: t("m1Value"), label: t("m1Label") },
@@ -39,8 +40,8 @@ export default async function LandingPage() {
       <section className="relative overflow-hidden">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-[-120px] h-[620px] w-[1000px] max-w-none -translate-x-1/2 rounded-full opacity-30 blur-3xl"
-          style={{ background: "radial-gradient(closest-side, #8476FF, #E59BB0 55%, transparent)" }}
+          className="pointer-events-none absolute left-1/2 top-[-140px] h-[600px] w-[1000px] max-w-none -translate-x-1/2 rounded-full opacity-[0.22] blur-3xl"
+          style={{ background: "radial-gradient(closest-side, #6E7CF7, #9A8CFF 48%, transparent 78%)" }}
         />
         <div className="animate-fade relative mx-auto max-w-[1120px] px-5 pb-12 pt-16 text-center sm:px-6 sm:pt-20">
           <span className="inline-flex items-center gap-2 rounded-full border border-line-2 bg-surface px-3.5 py-1.5 text-[12.5px] text-ink-2">
@@ -86,7 +87,7 @@ export default async function LandingPage() {
           <div className="mx-auto grid max-w-[1120px] grid-cols-2 gap-6 px-5 py-10 sm:grid-cols-4 sm:px-6">
             {metrics.map((m) => (
               <div key={m.label} className="text-center sm:text-left">
-                <div className="font-mono text-[26px] font-semibold tracking-tight text-ink-1 sm:text-[30px]">
+                <div className="font-sans text-[28px] font-bold tracking-tight text-ink-1 sm:text-[32px]">
                   {m.value}
                 </div>
                 <div className="mt-1 text-[12.5px] text-ink-2">{m.label}</div>
@@ -188,17 +189,41 @@ export default async function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-[1120px] flex-col items-center justify-between gap-3 px-5 py-8 sm:flex-row sm:px-6">
-          <div className="flex items-center gap-2.5 text-[15px] font-semibold tracking-tight">
-            <span
-              className="h-6 w-6 rounded-full"
-              style={{ background: "conic-gradient(from 180deg,#5B6EF5,#8476FF,#E59BB0,#EB4F6C,#5B6EF5)" }}
-            />
-            Soral
+      <footer className="border-t border-line bg-surface">
+        <div className="mx-auto max-w-[1120px] px-5 py-12 sm:px-6">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
+            <div>
+              <div className="flex items-center gap-2.5 text-[16px] font-semibold tracking-tight text-ink-1">
+                <span
+                  className="h-6 w-6 rounded-full"
+                  style={{ background: "conic-gradient(from 180deg,#5B6EF5,#8476FF,#E59BB0,#EB4F6C,#5B6EF5)" }}
+                />
+                Soral
+              </div>
+              <p className="mt-3 max-w-xs text-[13px] leading-relaxed text-ink-2">{t("footerTagline")}</p>
+              <p className="mt-4 text-[12px] text-ink-3">{t("positioning")}</p>
+            </div>
+            <div>
+              <h4 className="text-[11px] font-semibold uppercase tracking-wide text-ink-3">{t("footerProduct")}</h4>
+              <ul className="mt-3 space-y-2 text-[13px] text-ink-2">
+                <li><Link href="/dashboard" className="transition-colors hover:text-risk-sol">{tn("dashboard")}</Link></li>
+                <li><Link href="/reportes" className="transition-colors hover:text-risk-sol">{tn("reports")}</Link></li>
+                <li><Link href="/integraciones" className="transition-colors hover:text-risk-sol">{tn("integrations")}</Link></li>
+                <li><Link href="/admin" className="transition-colors hover:text-risk-sol">{tn("admin")}</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-[11px] font-semibold uppercase tracking-wide text-ink-3">{t("footerGetStarted")}</h4>
+              <ul className="mt-3 space-y-2 text-[13px] text-ink-2">
+                <li><Link href="/dashboard" className="transition-colors hover:text-risk-sol">{t("ctaPrimary")}</Link></li>
+                <li><a href="#features" className="transition-colors hover:text-risk-sol">{t("ctaSecondary")}</a></li>
+              </ul>
+            </div>
           </div>
-          <p className="text-[12.5px] text-ink-3">{t("footerTagline")}</p>
-          <p className="text-[12.5px] text-ink-3">{t("rights")}</p>
+          <div className="mt-10 flex flex-col items-center justify-between gap-2 border-t border-line pt-6 sm:flex-row">
+            <p className="text-[12px] text-ink-3">{t("rights")}</p>
+            <p className="text-[12px] text-ink-3">{t("badge")}</p>
+          </div>
         </div>
       </footer>
     </div>

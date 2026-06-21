@@ -228,6 +228,8 @@
     "axis3": "Antigüedad",
     "axis4": "Productividad",
     "axis5": "Horas extra",
-    "axis6": "Supervisor"
+    "axis6": "Supervisor",
+    "footerProduct": "Producto",
+    "footerGetStarted": "Empezar"
   }
 }
