@@ -1,11 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#5B6EF5" />
-      <stop offset="0.55" stop-color="#8476FF" />
-      <stop offset="1" stop-color="#EB4F6C" />
-    </linearGradient>
-  </defs>
-  <circle cx="32" cy="32" r="30" fill="url(#g)" />
-  <ellipse cx="24" cy="22" rx="11" ry="7.5" fill="#fff" opacity="0.18" />
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="#FFFFFF" />
+  <rect x="4.5" y="4.5" width="55" height="55" rx="15.5" fill="none" stroke="#E8EAF2" />
+  <circle cx="19" cy="19" r="5.2" fill="#EB4F6C" />
+  <circle cx="32" cy="19" r="5.2" fill="#F56C89" />
+  <circle cx="45" cy="19" r="5.2" fill="#B49AED" />
+  <circle cx="19" cy="32" r="5.2" fill="#B49AED" />
+  <circle cx="32" cy="32" r="5.2" fill="#8476FF" />
+  <circle cx="45" cy="32" r="5.2" fill="#5B6EF5" />
+  <circle cx="19" cy="45" r="5.2" fill="#8476FF" />
+  <circle cx="32" cy="45" r="5.2" fill="#5B6EF5" />
+  <circle cx="45" cy="45" r="5.2" fill="#5B6EF5" />
 </svg>
