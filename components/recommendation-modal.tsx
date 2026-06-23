@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { riskColor } from "@/lib/risk";
 import { useCreateIntervention } from "@/lib/queries";
 import { useSession } from "@/lib/auth/session";
+import { ConfidenceTag } from "@/components/model/confidence-tag";
 import type { EmployeePrediction } from "@/types";
 
 export function RecommendationModal({
@@ -52,6 +53,9 @@ export function RecommendationModal({
           </Badge>
           <div className="mt-1.5 font-mono text-[15px]">
             {t("refLine", { ref: employee.ref, line: employee.line })}
+          </div>
+          <div className="mt-2">
+            <ConfidenceTag score={employee.score} />
           </div>
         </div>
         <DialogClose onClose={handleClose} />

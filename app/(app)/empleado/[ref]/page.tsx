@@ -11,6 +11,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LoadingState, ErrorState } from "@/components/ui/states";
 import { riskColor } from "@/lib/risk";
+import { ConfidenceTag } from "@/components/model/confidence-tag";
 
 export default function EmployeePage({ params }: { params: Promise<{ ref: string }> }) {
   const { ref } = use(params);
@@ -19,6 +20,7 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
   const t = useTranslations("employee");
   const tl = useTranslations("line");
   const tc = useTranslations("common");
+  const tm = useTranslations("model");
 
   if (isLoading) return <LoadingState label={t("loading")} />;
   if (isError) {
@@ -76,6 +78,12 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
           <div className="font-mono text-[32px] font-bold leading-none" style={{ color: c }}>
             {e.score}%
           </div>
+          <div className="mt-2 flex justify-end">
+            <ConfidenceTag score={e.score} />
+          </div>
+          <Link href="/modelo" className="mt-1 inline-block text-[11px] text-ink-3 hover:text-risk-sol">
+            {tm("howLink")}
+          </Link>
         </div>
       </Card>
 
