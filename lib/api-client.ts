@@ -20,6 +20,7 @@ import {
   InterventionsSummarySchema,
   CandidatesSummarySchema,
   InterviewRecapSchema,
+  VoiceSummarySchema,
   type EmployeePrediction,
   type AssignResult,
   type AskAnswer,
@@ -97,6 +98,16 @@ export async function syncConnector(id: string): Promise<SyncResult> {
 // GET /api/candidates
 export function fetchCandidates() {
   return getValidated("/api/candidates", CandidatesSummarySchema);
+}
+
+// GET /api/voice — voz del empleado (escucha con IA)
+export function fetchVoiceSummary() {
+  return getValidated("/api/voice", VoiceSummarySchema);
+}
+
+// GET /api/ai/voice-digest — lectura ejecutiva (LLM o reglas)
+export function fetchVoiceDigest() {
+  return getValidated("/api/ai/voice-digest", BriefingSchema);
 }
 
 // POST /api/candidates/:id/recap — recap de entrevista (LLM o reglas).

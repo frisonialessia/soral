@@ -23,6 +23,7 @@ import type {
   InterventionOutcome,
   Candidate,
   CandidatesSummary,
+  VoiceSummary,
 } from "@/types";
 
 const REPLACEMENT_COST_MXN = 36_800;
@@ -320,6 +321,53 @@ export async function getCandidates(): Promise<CandidatesSummary> {
 // Un candidato por id (para el recap de entrevista).
 export async function getCandidate(id: string): Promise<Candidate | null> {
   return CANDIDATES.find((c) => c.id === id) ?? null;
+}
+
+// --- Voz del empleado: escucha con IA ---
+// Hoy: temas/sentimiento semilla (lo que un motor de NLP produciría sobre encuestas
+// pulse, entrevistas de salida y tickets). Las CITAS quedan en su idioma original
+// (español de planta) a propósito — son el dato crudo. Con un motor real (Qualtrics
+// + clasificación/NLP): estas señales salen del texto; la firma no cambia.
+const VOICE: VoiceSummary = {
+  overallSentiment: -14,
+  responseRate: 71,
+  responses: 838,
+  themes: [
+    { id: "transport", mentions: 184, sentiment: -38, delta: -9, trend: [-18, -22, -25, -28, -30, -33, -36, -38] },
+    { id: "supervisor", mentions: 142, sentiment: -31, delta: -12, trend: [-12, -14, -18, -20, -22, -26, -29, -31] },
+    { id: "pay", mentions: 167, sentiment: -22, delta: -3, trend: [-16, -18, -17, -19, -20, -21, -21, -22] },
+    { id: "workload", mentions: 121, sentiment: -19, delta: -6, trend: [-8, -10, -12, -13, -15, -16, -18, -19] },
+    { id: "cafeteria", mentions: 73, sentiment: -8, delta: 2, trend: [-12, -11, -10, -10, -9, -9, -8, -8] },
+    { id: "safety", mentions: 64, sentiment: 11, delta: 4, trend: [4, 5, 6, 7, 8, 9, 10, 11] },
+    { id: "recognition", mentions: 58, sentiment: 24, delta: 7, trend: [12, 14, 16, 18, 19, 21, 23, 24] },
+  ],
+  byLine: [
+    { line: "L3", sentiment: -34 },
+    { line: "L5", sentiment: -21 },
+    { line: "L4", sentiment: -6 },
+    { line: "L2", sentiment: 8 },
+    { line: "L1", sentiment: 14 },
+    { line: "L6", sentiment: 18 },
+    { line: "L7", sentiment: 9 },
+  ],
+  verbatims: [
+    { id: "v1", text: "La ruta de transporte cambió y ahora llego tarde aunque salga de casa más temprano.", channel: "survey", line: "L3", theme: "transport", sentiment: -52 },
+    { id: "v2", text: "Mi supervisor solo nos habla para regañar; nadie reconoce cuando sacamos la meta.", channel: "exit", line: "L3", theme: "supervisor", sentiment: -61 },
+    { id: "v3", text: "El sueldo está bien pero la planta de enfrente paga más por el mismo trabajo.", channel: "survey", line: "L5", theme: "pay", sentiment: -40 },
+    { id: "v4", text: "Demasiadas horas extra obligatorias esta temporada, ya no veo a mi familia.", channel: "ticket", line: "L5", theme: "workload", sentiment: -47 },
+    { id: "v5", text: "El nuevo equipo de seguridad y los lentes nuevos sí se agradecen.", channel: "survey", line: "L1", theme: "safety", sentiment: 38 },
+    { id: "v6", text: "Me gustó que reconocieran al equipo en la junta del mes pasado.", channel: "survey", line: "L6", theme: "recognition", sentiment: 49 },
+  ],
+  alerts: [
+    { id: "a1", theme: "supervisor", line: "L3", sentiment: -31, severity: "high" },
+    { id: "a2", theme: "transport", line: "L3", sentiment: -38, severity: "high" },
+    { id: "a3", theme: "workload", line: "L5", sentiment: -19, severity: "medium" },
+  ],
+};
+
+// GET /api/voice
+export async function getVoiceSummary(): Promise<VoiceSummary> {
+  return VOICE;
 }
 
 // GET /api/reports/summary

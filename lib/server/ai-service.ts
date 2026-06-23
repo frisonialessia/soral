@@ -7,7 +7,7 @@
 // cuanto se configure la key. Solo lo importan los Route Handlers de app/api/*.
 
 import Anthropic from "@anthropic-ai/sdk";
-import { getPlantSummary, getReportSummary } from "./data-service";
+import { getPlantSummary, getReportSummary, getVoiceSummary } from "./data-service";
 import type { Briefing, Candidate, InterviewRecap } from "@/types";
 
 interface Facts {
@@ -328,5 +328,103 @@ const RECAP_TPL: Record<string, (f: RecapFacts) => RecapBuilt> = {
     strengths: f.strengths.map((s) => `Buon ${s}`),
     watchouts: f.risks.length ? f.risks.map((s) => `Attenzione a ${s}`) : ["Nessun segnale di rischio rilevante"],
     questions: f.risks.slice(0, 3).map((s) => `Come gestirà il candidato ${s} nei primi 90 giorni?`),
+  }),
+};
+
+// ---------- Voz del empleado: lectura ejecutiva (digest) ----------
+// Resume la escucha (encuestas + salidas + tickets) en un read accionable. Mismo
+// seam que el briefing: Claude si hay key; si no, reglas. Devuelve forma Briefing.
+
+const THEME_LABEL: Record<string, Record<string, string>> = {
+  en: { transport: "transport", supervisor: "supervisor relations", pay: "pay vs market", workload: "workload & overtime", cafeteria: "cafeteria", safety: "safety", recognition: "recognition" },
+  es: { transport: "transporte", supervisor: "relación con el supervisor", pay: "salario vs mercado", workload: "carga de trabajo y horas extra", cafeteria: "comedor", safety: "seguridad", recognition: "reconocimiento" },
+  it: { transport: "trasporti", supervisor: "rapporto con il supervisore", pay: "retribuzione vs mercato", workload: "carico di lavoro e straordinari", cafeteria: "mensa", safety: "sicurezza", recognition: "riconoscimento" },
+};
+
+async function gatherVoiceFacts(locale: string) {
+  const v = await getVoiceSummary();
+  const tl = THEME_LABEL[locale] ?? THEME_LABEL.en;
+  const negThemes = [...v.themes].filter((t) => t.sentiment < 0).sort((a, b) => a.sentiment - b.sentiment);
+  const worstLine = [...v.byLine].sort((a, b) => a.sentiment - b.sentiment)[0];
+  return {
+    overallSentiment: v.overallSentiment,
+    responseRate: v.responseRate,
+    responses: v.responses,
+    worstLine: worstLine ? { line: worstLine.line, sentiment: worstLine.sentiment } : null,
+    topNegativeThemes: negThemes.slice(0, 3).map((t) => ({ theme: tl[t.id] ?? t.id, sentiment: t.sentiment, mentions: t.mentions, delta: t.delta })),
+    rising: negThemes.filter((t) => t.delta <= -6).map((t) => tl[t.id] ?? t.id),
+    alerts: v.alerts.length,
+  };
+}
+
+export async function voiceDigest(locale: string): Promise<Briefing> {
+  const facts = await gatherVoiceFacts(locale);
+  const model = process.env.SORAL_AI_MODEL;
+  if (process.env.ANTHROPIC_API_KEY && model) {
+    try {
+      const client = new Anthropic();
+      const lang = LANG[locale] ?? "English";
+      const system =
+        `You are Soral's employee-listening analyst for a maquiladora plant. From survey, exit-interview and HR-ticket ` +
+        `signals (already aggregated as JSON), write a short executive read for a plant manager. Use ONLY the facts, never ` +
+        `invent numbers, focus on what is getting worse and where, and keep it actionable. Write in ${lang}. Respond with ONLY ` +
+        `valid JSON: {"headline": string (max 8 words), "summary": string (2 sentences), "points": string[] (3 imperative actions)}.`;
+      const msg = await client.messages.create({
+        model,
+        max_tokens: 600,
+        system,
+        messages: [{ role: "user", content: `Facts:\n${JSON.stringify(facts)}` }],
+      });
+      const text = msg.content.map((b) => (b.type === "text" ? b.text : "")).join("").trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "");
+      const json = JSON.parse(text) as Record<string, unknown>;
+      return {
+        headline: String(json.headline ?? ""),
+        summary: String(json.summary ?? ""),
+        points: Array.isArray(json.points) ? json.points.map(String).slice(0, 5) : [],
+        source: "llm",
+        model,
+      };
+    } catch {
+      // fallback a reglas
+    }
+  }
+  return rulesVoiceDigest(facts, locale);
+}
+
+type VoiceFacts = Awaited<ReturnType<typeof gatherVoiceFacts>>;
+function rulesVoiceDigest(f: VoiceFacts, locale: string): Briefing {
+  const t0 = f.topNegativeThemes[0];
+  const build = VOICE_TPL[locale] ?? VOICE_TPL.en;
+  return { ...build(f, t0), source: "rules", model: null };
+}
+
+type VoiceBuilt = { headline: string; summary: string; points: string[] };
+const VOICE_TPL: Record<string, (f: VoiceFacts, t0: VoiceFacts["topNegativeThemes"][number] | undefined) => VoiceBuilt> = {
+  en: (f, t0) => ({
+    headline: `Sentiment ${f.overallSentiment}, falling on ${f.worstLine?.line ?? "the floor"}`,
+    summary: `Overall sentiment is ${f.overallSentiment} from ${f.responses} responses (${f.responseRate}% response rate). The most negative theme is ${t0?.theme ?? "—"} at ${t0?.sentiment ?? 0}, and line ${f.worstLine?.line ?? "—"} is the weakest spot.`,
+    points: [
+      `Address ${t0?.theme ?? "the top theme"} — ${t0?.mentions ?? 0} mentions and still dropping.`,
+      `Prioritize line ${f.worstLine?.line ?? "—"} (sentiment ${f.worstLine?.sentiment ?? 0}).`,
+      `Review the ${f.alerts} early-warning alerts before they convert to exits.`,
+    ],
+  }),
+  es: (f, t0) => ({
+    headline: `Sentimiento ${f.overallSentiment}, cayendo en ${f.worstLine?.line ?? "piso"}`,
+    summary: `El sentimiento general es ${f.overallSentiment} de ${f.responses} respuestas (${f.responseRate}% de participación). El tema más negativo es ${t0?.theme ?? "—"} en ${t0?.sentiment ?? 0}, y la línea ${f.worstLine?.line ?? "—"} es el punto más débil.`,
+    points: [
+      `Atiende ${t0?.theme ?? "el tema principal"} — ${t0?.mentions ?? 0} menciones y sigue bajando.`,
+      `Prioriza la línea ${f.worstLine?.line ?? "—"} (sentimiento ${f.worstLine?.sentiment ?? 0}).`,
+      `Revisa las ${f.alerts} alertas tempranas antes de que se vuelvan salidas.`,
+    ],
+  }),
+  it: (f, t0) => ({
+    headline: `Sentiment ${f.overallSentiment}, in calo su ${f.worstLine?.line ?? "linea"}`,
+    summary: `Il sentiment generale è ${f.overallSentiment} su ${f.responses} risposte (${f.responseRate}% di partecipazione). Il tema più negativo è ${t0?.theme ?? "—"} a ${t0?.sentiment ?? 0}, e la linea ${f.worstLine?.line ?? "—"} è il punto più debole.`,
+    points: [
+      `Affronta ${t0?.theme ?? "il tema principale"} — ${t0?.mentions ?? 0} menzioni e ancora in calo.`,
+      `Dai priorità alla linea ${f.worstLine?.line ?? "—"} (sentiment ${f.worstLine?.sentiment ?? 0}).`,
+      `Controlla i ${f.alerts} alert precoci prima che diventino uscite.`,
+    ],
   }),
 };

@@ -4,14 +4,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { LayoutDashboard, ClipboardCheck, BarChart3, UserPlus, Plug, Settings, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, ClipboardCheck, BarChart3, UserPlus, MessageSquareText, Plug, Settings, ShieldCheck } from "lucide-react";
 import { Can } from "@/components/auth/can";
 import { BrandMark } from "@/components/brand-mark";
 import type { Permission } from "@/lib/auth/roles";
 
 interface NavItem {
   href: string;
-  labelKey: "dashboard" | "interventions" | "reports" | "hiring" | "integrations" | "admin" | "model";
+  labelKey: "dashboard" | "interventions" | "reports" | "hiring" | "voice" | "integrations" | "admin" | "model";
   icon: typeof LayoutDashboard;
   permission: Permission;
   exact?: boolean;
@@ -22,6 +22,7 @@ const NAV: NavItem[] = [
   { href: "/seguimiento", labelKey: "interventions", icon: ClipboardCheck, permission: "recommendations.assign" },
   { href: "/reportes", labelKey: "reports", icon: BarChart3, permission: "reports.view" },
   { href: "/pre-contratacion", labelKey: "hiring", icon: UserPlus, permission: "hiring.view" },
+  { href: "/voz-del-empleado", labelKey: "voice", icon: MessageSquareText, permission: "voice.view" },
   { href: "/integraciones", labelKey: "integrations", icon: Plug, permission: "integrations.view" },
   { href: "/admin", labelKey: "admin", icon: Settings, permission: "admin.view" },
   { href: "/modelo", labelKey: "model", icon: ShieldCheck, permission: "dashboard.view" },

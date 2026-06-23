@@ -15,7 +15,8 @@
     "model": "Modelo",
     "primary": "Navegación principal",
     "version": "Soral · v0.1",
-    "hiring": "Pre-contratación"
+    "hiring": "Pre-contratación",
+    "voice": "Voz del empleado"
   },
   "header": {
     "week": "Semana {week} · {year}",
@@ -112,6 +113,9 @@
     },
     "hiring": {
       "view": "Ver contratación"
+    },
+    "voice": {
+      "view": "Ver voz del empleado"
     }
   },
   "dashboard": {
@@ -507,5 +511,34 @@
     "sourceLlm": "Generado por Claude",
     "sourceRules": "Recap por reglas · agrega una key de LLM para recaps más ricos",
     "recapNote": "Este recap es solo soporte a la decisión. No debe ser la única base de una decisión de contratación, y nunca usa atributos protegidos."
+  },
+  "voice": {
+    "title": "Voz del empleado",
+    "subtitle": "Escucha con IA en encuestas, entrevistas de salida y tickets de RH — temas, sentimiento y alertas tempranas por línea.",
+    "loading": "Cargando voz del empleado…",
+    "errorTitle": "No se pudo cargar la voz del empleado",
+    "overallSentiment": "Sentimiento general",
+    "responseRate": "Participación",
+    "responses": "Respuestas",
+    "byLineTitle": "Sentimiento por línea",
+    "execTitle": "Lectura ejecutiva",
+    "sourceLlm": "Generado por Claude",
+    "sourceRules": "Resumen por reglas · agrega una key de LLM para una lectura redactada",
+    "themesTitle": "Temas",
+    "themesSub": "De qué habla la gente, por sentimiento y momentum.",
+    "mentions": "menciones",
+    "verbatimsTitle": "Comentarios recientes",
+    "verbatimsSub": "Citas anonimizadas en su idioma original.",
+    "alertMsg": "{theme} en la línea {line} está cayendo — actúa antes de que se vuelva salidas.",
+    "channel_survey": "Encuesta",
+    "channel_exit": "Salida",
+    "channel_ticket": "Ticket",
+    "theme_transport": "Transporte",
+    "theme_supervisor": "Supervisor",
+    "theme_pay": "Salario",
+    "theme_workload": "Carga y horas extra",
+    "theme_cafeteria": "Comedor",
+    "theme_safety": "Seguridad",
+    "theme_recognition": "Reconocimiento"
   }
 }

@@ -12,6 +12,7 @@ export type Permission =
   | "recommendations.assign"
   | "reports.view"
   | "hiring.view"
+  | "voice.view"
   | "integrations.view"
   | "integrations.manage"
   | "admin.view"
@@ -23,20 +24,21 @@ export type Permission =
 const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
   owner: [
     "dashboard.view", "lines.view", "employees.view", "recommendations.assign",
-    "reports.view", "hiring.view", "integrations.view", "integrations.manage",
+    "reports.view", "hiring.view", "voice.view", "integrations.view", "integrations.manage",
     "admin.view", "members.manage", "settings.manage", "billing.manage",
   ],
   admin: [
     "dashboard.view", "lines.view", "employees.view", "recommendations.assign",
-    "reports.view", "hiring.view", "integrations.view", "integrations.manage",
+    "reports.view", "hiring.view", "voice.view", "integrations.view", "integrations.manage",
     "admin.view", "members.manage", "settings.manage",
   ],
   manager: [
     "dashboard.view", "lines.view", "employees.view", "recommendations.assign",
-    "reports.view", "hiring.view",
+    "reports.view", "hiring.view", "voice.view",
   ],
   supervisor: [
     "dashboard.view", "lines.view", "employees.view", "recommendations.assign",
+    "voice.view",
   ],
   viewer: ["dashboard.view", "lines.view", "employees.view"],
 };
@@ -53,6 +55,7 @@ export const PERMISSIONS: readonly Permission[] = [
   "recommendations.assign",
   "reports.view",
   "hiring.view",
+  "voice.view",
   "integrations.view",
   "integrations.manage",
   "admin.view",

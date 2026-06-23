@@ -15,7 +15,8 @@
     "model": "Modello",
     "primary": "Navigazione principale",
     "version": "Soral · v0.1",
-    "hiring": "Pre-assunzione"
+    "hiring": "Pre-assunzione",
+    "voice": "Voce dipendenti"
   },
   "header": {
     "week": "Settimana {week} · {year}",
@@ -112,6 +113,9 @@
     },
     "hiring": {
       "view": "Vedi assunzioni"
+    },
+    "voice": {
+      "view": "Vedi voce dipendenti"
     }
   },
   "dashboard": {
@@ -507,5 +511,34 @@
     "sourceLlm": "Generato da Claude",
     "sourceRules": "Recap a regole · aggiungi una key LLM per recap più ricchi",
     "recapNote": "Questo recap è solo supporto alla decisione. Non deve essere la sola base di una decisione di assunzione, e non usa mai attributi protetti."
+  },
+  "voice": {
+    "title": "Voce dipendenti",
+    "subtitle": "Ascolto con IA su sondaggi, colloqui di uscita e ticket HR — temi, sentiment e allerte precoci per linea.",
+    "loading": "Caricamento voce dipendenti…",
+    "errorTitle": "Impossibile caricare la voce dipendenti",
+    "overallSentiment": "Sentiment generale",
+    "responseRate": "Partecipazione",
+    "responses": "Risposte",
+    "byLineTitle": "Sentiment per linea",
+    "execTitle": "Lettura esecutiva",
+    "sourceLlm": "Generato da Claude",
+    "sourceRules": "Sintesi a regole · aggiungi una key LLM per una lettura redatta",
+    "themesTitle": "Temi",
+    "themesSub": "Di cosa parlano i lavoratori, per sentiment e tendenza.",
+    "mentions": "menzioni",
+    "verbatimsTitle": "Commenti recenti",
+    "verbatimsSub": "Citazioni anonime nella lingua originale.",
+    "alertMsg": "{theme} sulla linea {line} sta calando — agisci prima che diventi uscite.",
+    "channel_survey": "Sondaggio",
+    "channel_exit": "Uscita",
+    "channel_ticket": "Ticket",
+    "theme_transport": "Trasporti",
+    "theme_supervisor": "Supervisore",
+    "theme_pay": "Retribuzione",
+    "theme_workload": "Carico e straordinari",
+    "theme_cafeteria": "Mensa",
+    "theme_safety": "Sicurezza",
+    "theme_recognition": "Riconoscimento"
   }
 }

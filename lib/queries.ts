@@ -18,6 +18,8 @@ import {
   updateIntervention,
   fetchCandidates,
   fetchInterviewRecap,
+  fetchVoiceSummary,
+  fetchVoiceDigest,
   fetchLineDetail,
   fetchEmployee,
   assignRecommendation,
@@ -31,6 +33,8 @@ export const queryKeys = {
   integrations: ["integrations"] as const,
   interventions: ["interventions", "list"] as const,
   candidates: ["candidates", "list"] as const,
+  voice: ["voice", "summary"] as const,
+  voiceDigest: ["voice", "digest"] as const,
   line: (id: string) => ["line", id] as const,
   employee: (ref: string) => ["employee", ref] as const,
 };
@@ -89,6 +93,14 @@ export function useCandidates() {
 
 export function useInterviewRecap() {
   return useMutation({ mutationFn: (id: string) => fetchInterviewRecap(id) });
+}
+
+export function useVoiceSummary() {
+  return useQuery({ queryKey: queryKeys.voice, queryFn: fetchVoiceSummary });
+}
+
+export function useVoiceDigest() {
+  return useQuery({ queryKey: queryKeys.voiceDigest, queryFn: fetchVoiceDigest });
 }
 
 export function useLineDetail(id: string) {

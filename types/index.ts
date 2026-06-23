@@ -212,3 +212,48 @@ export const InterviewRecapSchema = z.object({
   source: z.enum(["llm", "rules"]),
 });
 export type InterviewRecap = z.infer<typeof InterviewRecapSchema>;
+
+// Voz del empleado: escucha con IA de encuestas, entrevistas de salida y tickets
+// de RH. Convierte texto libre en temas, sentimiento y alertas tempranas por línea
+// — la señal "blanda" que alimenta el modelo de retención.
+export const VoiceChannelSchema = z.enum(["survey", "exit", "ticket"]);
+export type VoiceChannel = z.infer<typeof VoiceChannelSchema>;
+
+export const VoiceThemeSchema = z.object({
+  id: z.string(), // clave i18n: `theme_${id}`
+  mentions: z.number(),
+  sentiment: z.number(), // −100..100 (negativo = riesgo)
+  delta: z.number(), // cambio de sentimiento vs periodo anterior
+  trend: z.array(z.number()), // sentimiento por semana (para sparkline)
+});
+export type VoiceTheme = z.infer<typeof VoiceThemeSchema>;
+
+export const VerbatimSchema = z.object({
+  id: z.string(),
+  text: z.string(), // cita anonimizada
+  channel: VoiceChannelSchema,
+  line: z.string(),
+  theme: z.string(), // id de tema
+  sentiment: z.number(), // −100..100
+});
+export type Verbatim = z.infer<typeof VerbatimSchema>;
+
+export const VoiceAlertSchema = z.object({
+  id: z.string(),
+  theme: z.string(), // id de tema (la UI compone el mensaje localizado)
+  line: z.string(),
+  sentiment: z.number(), // −100..100
+  severity: z.enum(["high", "medium"]),
+});
+export type VoiceAlert = z.infer<typeof VoiceAlertSchema>;
+
+export const VoiceSummarySchema = z.object({
+  overallSentiment: z.number(), // −100..100
+  responseRate: z.number(), // 0–100
+  responses: z.number(),
+  themes: z.array(VoiceThemeSchema),
+  byLine: z.array(z.object({ line: z.string(), sentiment: z.number() })),
+  verbatims: z.array(VerbatimSchema),
+  alerts: z.array(VoiceAlertSchema),
+});
+export type VoiceSummary = z.infer<typeof VoiceSummarySchema>;
