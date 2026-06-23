@@ -6,7 +6,7 @@ import type { EmployeePrediction } from "@/types";
 
 export const TENANT_ID = "7f3a-tijuana-norte";
 export const WEEK_START = "2026-06-15";
-export const MODEL_VERSION = "xgb_sim_v0";
+export const MODEL_VERSION = "soral-hazard-v1";
 
 export const EMPLOYEES: EmployeePrediction[] = [
   {

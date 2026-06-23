@@ -77,16 +77,37 @@
     "permissionColumn": "Permission"
   },
   "permissions": {
-    "dashboard": { "view": "View dashboard" },
-    "lines": { "view": "View lines" },
-    "employees": { "view": "View employees" },
-    "recommendations": { "assign": "Assign recommendations" },
-    "reports": { "view": "View reports" },
-    "integrations": { "view": "View integrations", "manage": "Manage integrations" },
-    "admin": { "view": "Access administration" },
-    "members": { "manage": "Manage members" },
-    "settings": { "manage": "Manage settings" },
-    "billing": { "manage": "Manage billing" }
+    "dashboard": {
+      "view": "View dashboard"
+    },
+    "lines": {
+      "view": "View lines"
+    },
+    "employees": {
+      "view": "View employees"
+    },
+    "recommendations": {
+      "assign": "Assign recommendations"
+    },
+    "reports": {
+      "view": "View reports"
+    },
+    "integrations": {
+      "view": "View integrations",
+      "manage": "Manage integrations"
+    },
+    "admin": {
+      "view": "Access administration"
+    },
+    "members": {
+      "manage": "Manage members"
+    },
+    "settings": {
+      "manage": "Manage settings"
+    },
+    "billing": {
+      "manage": "Manage billing"
+    }
   },
   "dashboard": {
     "title": "Workforce",
@@ -377,11 +398,11 @@
     "subtitle": "How the turnover score is built, how accurate it is, and the guardrails around it.",
     "version": "Version",
     "typeLabel": "Type",
-    "typeValue": "Gradient-boosted survival model",
+    "typeValue": "Regularized logistic hazard",
     "horizonLabel": "Prediction horizon",
     "horizonValue": "{days} days",
     "trainedLabel": "Last trained",
-    "sampleLabel": "Training sample",
+    "sampleLabel": "Validation cohort",
     "sampleValue": "{n} workers",
     "mAuc": "AUC",
     "mPrecision": "Precision",
@@ -411,6 +432,34 @@
     "gov1": "No adverse action: a score must never justify discipline or termination — only retention support.",
     "gov2": "No protected attributes are used as features; bias is monitored across shifts, lines and tenure.",
     "gov3": "Every score is explainable (SHAP) and every assigned action is audit-logged.",
-    "gov4": "Human in the loop: supervisors decide and act — the model only prioritizes."
+    "gov4": "Human in the loop: supervisors decide and act — the model only prioritizes.",
+    "validationNote": "Validation cohort · n={n} · Brier {brier} · {lift}× lift over a {base} base rate · operating point at p≥{thr}. Synthetic until your data connects.",
+    "decompTitle": "Worked example",
+    "decompSub": "A night-shift L3 operator. SHAP contributions sum exactly to the score.",
+    "decompBase": "Base rate",
+    "decompFinal": "This worker",
+    "signalsTitle": "Signals the model sees",
+    "signalsSub": "Each score combines {n} signals across six families — every one tied to a connected source.",
+    "weightLabel": "Relative weight",
+    "feat_punctuality": "Punctuality & attendance",
+    "feat_productivity": "Productivity & quality",
+    "feat_climate": "Supervisor & line climate",
+    "feat_tenure": "Tenure & lifecycle",
+    "feat_context": "Context & commute",
+    "feat_pay": "Pay & incentives",
+    "sig_tardiness": "Tardiness trend",
+    "sig_absencePayday": "Post-payday absence",
+    "sig_unplannedAbsence": "Unplanned absence",
+    "sig_productivityDrop": "Productivity drop",
+    "sig_defectRate": "Defect rate",
+    "sig_bonusAttainment": "Bonus attainment",
+    "sig_supervisorTurnover": "Supervisor team turnover",
+    "sig_surveySentiment": "Pulse survey sentiment",
+    "sig_earlyTenure": "0–90 day window",
+    "sig_timeInRole": "Time in role",
+    "sig_commute": "Commute & transport route",
+    "sig_localMarket": "Local wage market",
+    "sig_payVsMarket": "Pay vs market",
+    "sig_overtimeRefusal": "Overtime refusal"
   }
 }

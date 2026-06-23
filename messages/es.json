@@ -77,16 +77,37 @@
     "permissionColumn": "Permiso"
   },
   "permissions": {
-    "dashboard": { "view": "Ver panel" },
-    "lines": { "view": "Ver líneas" },
-    "employees": { "view": "Ver empleados" },
-    "recommendations": { "assign": "Asignar recomendaciones" },
-    "reports": { "view": "Ver reportes" },
-    "integrations": { "view": "Ver integraciones", "manage": "Gestionar integraciones" },
-    "admin": { "view": "Acceder a administración" },
-    "members": { "manage": "Gestionar miembros" },
-    "settings": { "manage": "Gestionar configuración" },
-    "billing": { "manage": "Gestionar facturación" }
+    "dashboard": {
+      "view": "Ver panel"
+    },
+    "lines": {
+      "view": "Ver líneas"
+    },
+    "employees": {
+      "view": "Ver empleados"
+    },
+    "recommendations": {
+      "assign": "Asignar recomendaciones"
+    },
+    "reports": {
+      "view": "Ver reportes"
+    },
+    "integrations": {
+      "view": "Ver integraciones",
+      "manage": "Gestionar integraciones"
+    },
+    "admin": {
+      "view": "Acceder a administración"
+    },
+    "members": {
+      "manage": "Gestionar miembros"
+    },
+    "settings": {
+      "manage": "Gestionar configuración"
+    },
+    "billing": {
+      "manage": "Gestionar facturación"
+    }
   },
   "dashboard": {
     "title": "Fuerza laboral",
@@ -377,11 +398,11 @@
     "subtitle": "Cómo se construye el score de rotación, qué tan preciso es y los límites que lo rodean.",
     "version": "Versión",
     "typeLabel": "Tipo",
-    "typeValue": "Modelo de supervivencia (gradient boosting)",
+    "typeValue": "Hazard logístico regularizado",
     "horizonLabel": "Horizonte de predicción",
     "horizonValue": "{days} días",
     "trainedLabel": "Último entrenamiento",
-    "sampleLabel": "Muestra de entrenamiento",
+    "sampleLabel": "Cohorte de validación",
     "sampleValue": "{n} trabajadores",
     "mAuc": "AUC",
     "mPrecision": "Precisión",
@@ -411,6 +432,34 @@
     "gov1": "Sin acción adversa: un score nunca justifica una sanción o un despido — solo apoyo a la retención.",
     "gov2": "No se usan atributos protegidos como variables; el sesgo se monitorea por turno, línea y antigüedad.",
     "gov3": "Cada score es explicable (SHAP) y cada acción asignada queda en bitácora.",
-    "gov4": "Humano en el centro: el supervisor decide y actúa — el modelo solo prioriza."
+    "gov4": "Humano en el centro: el supervisor decide y actúa — el modelo solo prioriza.",
+    "validationNote": "Cohorte de validación · n={n} · Brier {brier} · {lift}× de lift sobre una tasa base del {base} · punto de operación en p≥{thr}. Sintético hasta conectar tus datos.",
+    "decompTitle": "Ejemplo resuelto",
+    "decompSub": "Operador de L3, turno nocturno. Las contribuciones SHAP suman exactamente el score.",
+    "decompBase": "Tasa base",
+    "decompFinal": "Este trabajador",
+    "signalsTitle": "Señales que ve el modelo",
+    "signalsSub": "Cada score combina {n} señales en seis familias, cada una ligada a una fuente conectada.",
+    "weightLabel": "Peso relativo",
+    "feat_punctuality": "Puntualidad y asistencia",
+    "feat_productivity": "Productividad y calidad",
+    "feat_climate": "Supervisor y clima de línea",
+    "feat_tenure": "Antigüedad y ciclo",
+    "feat_context": "Contexto y traslado",
+    "feat_pay": "Compensación e incentivos",
+    "sig_tardiness": "Tendencia de retardos",
+    "sig_absencePayday": "Ausencias tras nómina",
+    "sig_unplannedAbsence": "Faltas no justificadas",
+    "sig_productivityDrop": "Caída de productividad",
+    "sig_defectRate": "Tasa de defectos",
+    "sig_bonusAttainment": "Logro de bono",
+    "sig_supervisorTurnover": "Rotación del equipo del supervisor",
+    "sig_surveySentiment": "Sentimiento de encuestas",
+    "sig_earlyTenure": "Ventana 0–90 días",
+    "sig_timeInRole": "Tiempo en el puesto",
+    "sig_commute": "Traslado y ruta de transporte",
+    "sig_localMarket": "Mercado salarial local",
+    "sig_payVsMarket": "Salario vs mercado",
+    "sig_overtimeRefusal": "Rechazo de tiempo extra"
   }
 }

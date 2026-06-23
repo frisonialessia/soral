@@ -77,16 +77,37 @@
     "permissionColumn": "Permesso"
   },
   "permissions": {
-    "dashboard": { "view": "Vedi pannello" },
-    "lines": { "view": "Vedi linee" },
-    "employees": { "view": "Vedi dipendenti" },
-    "recommendations": { "assign": "Assegna raccomandazioni" },
-    "reports": { "view": "Vedi rapporti" },
-    "integrations": { "view": "Vedi integrazioni", "manage": "Gestisci integrazioni" },
-    "admin": { "view": "Accesso amministrazione" },
-    "members": { "manage": "Gestisci membri" },
-    "settings": { "manage": "Gestisci impostazioni" },
-    "billing": { "manage": "Gestisci fatturazione" }
+    "dashboard": {
+      "view": "Vedi pannello"
+    },
+    "lines": {
+      "view": "Vedi linee"
+    },
+    "employees": {
+      "view": "Vedi dipendenti"
+    },
+    "recommendations": {
+      "assign": "Assegna raccomandazioni"
+    },
+    "reports": {
+      "view": "Vedi rapporti"
+    },
+    "integrations": {
+      "view": "Vedi integrazioni",
+      "manage": "Gestisci integrazioni"
+    },
+    "admin": {
+      "view": "Accesso amministrazione"
+    },
+    "members": {
+      "manage": "Gestisci membri"
+    },
+    "settings": {
+      "manage": "Gestisci impostazioni"
+    },
+    "billing": {
+      "manage": "Gestisci fatturazione"
+    }
   },
   "dashboard": {
     "title": "Forza lavoro",
@@ -377,11 +398,11 @@
     "subtitle": "Come si costruisce il punteggio di turnover, quanto è accurato e i limiti che lo circondano.",
     "version": "Versione",
     "typeLabel": "Tipo",
-    "typeValue": "Modello di sopravvivenza (gradient boosting)",
+    "typeValue": "Hazard logistico regolarizzato",
     "horizonLabel": "Orizzonte di previsione",
     "horizonValue": "{days} giorni",
     "trainedLabel": "Ultimo addestramento",
-    "sampleLabel": "Campione di addestramento",
+    "sampleLabel": "Coorte di validazione",
     "sampleValue": "{n} lavoratori",
     "mAuc": "AUC",
     "mPrecision": "Precisione",
@@ -411,6 +432,34 @@
     "gov1": "Nessuna azione avversa: un punteggio non giustifica mai una sanzione o un licenziamento — solo supporto alla retention.",
     "gov2": "Nessun attributo protetto è usato come variabile; il bias è monitorato per turno, linea e anzianità.",
     "gov3": "Ogni punteggio è spiegabile (SHAP) e ogni azione assegnata è tracciata.",
-    "gov4": "Umano al centro: il supervisore decide e agisce — il modello solo dà priorità."
+    "gov4": "Umano al centro: il supervisore decide e agisce — il modello solo dà priorità.",
+    "validationNote": "Coorte di validazione · n={n} · Brier {brier} · {lift}× di lift su un tasso base del {base} · punto operativo a p≥{thr}. Sintetico fino a connettere i tuoi dati.",
+    "decompTitle": "Esempio svolto",
+    "decompSub": "Operatore L3, turno notturno. I contributi SHAP sommano esattamente al punteggio.",
+    "decompBase": "Tasso base",
+    "decompFinal": "Questo lavoratore",
+    "signalsTitle": "Segnali che il modello osserva",
+    "signalsSub": "Ogni punteggio combina {n} segnali in sei famiglie, ognuna legata a una fonte connessa.",
+    "weightLabel": "Peso relativo",
+    "feat_punctuality": "Puntualità e presenza",
+    "feat_productivity": "Produttività e qualità",
+    "feat_climate": "Supervisore e clima di linea",
+    "feat_tenure": "Anzianità e ciclo",
+    "feat_context": "Contesto e tragitto",
+    "feat_pay": "Retribuzione e incentivi",
+    "sig_tardiness": "Trend di ritardi",
+    "sig_absencePayday": "Assenze post-busta",
+    "sig_unplannedAbsence": "Assenze ingiustificate",
+    "sig_productivityDrop": "Calo di produttività",
+    "sig_defectRate": "Tasso di difetti",
+    "sig_bonusAttainment": "Raggiungimento bonus",
+    "sig_supervisorTurnover": "Turnover del team del supervisore",
+    "sig_surveySentiment": "Sentiment dei sondaggi",
+    "sig_earlyTenure": "Finestra 0–90 giorni",
+    "sig_timeInRole": "Tempo nel ruolo",
+    "sig_commute": "Tragitto e rotta di trasporto",
+    "sig_localMarket": "Mercato salariale locale",
+    "sig_payVsMarket": "Retribuzione vs mercato",
+    "sig_overtimeRefusal": "Rifiuto di straordinari"
   }
 }
