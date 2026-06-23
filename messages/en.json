@@ -21,7 +21,10 @@
     "evidence": "Evidence",
     "groupOperations": "Operations",
     "groupIntelligence": "Intelligence",
-    "groupSystem": "System"
+    "groupSystem": "System",
+    "groupPlanning": "Planning",
+    "actionPlan": "Action plan",
+    "simulator": "Simulator"
   },
   "header": {
     "week": "Week {week} · {year}",

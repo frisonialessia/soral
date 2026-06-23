@@ -21,7 +21,10 @@
     "evidence": "Evidencia",
     "groupOperations": "Operación",
     "groupIntelligence": "Inteligencia",
-    "groupSystem": "Sistema"
+    "groupSystem": "Sistema",
+    "groupPlanning": "Planeación",
+    "actionPlan": "Plan de acción",
+    "simulator": "Simulador"
   },
   "header": {
     "week": "Semana {week} · {year}",

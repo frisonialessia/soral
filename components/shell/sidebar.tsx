@@ -4,13 +4,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { LayoutDashboard, HardHat, ClipboardCheck, BarChart3, UserPlus, MessageSquareText, Plug, Settings, ShieldCheck, FlaskConical } from "lucide-react";
+import { LayoutDashboard, HardHat, ClipboardCheck, BarChart3, UserPlus, MessageSquareText, Plug, Settings, ShieldCheck, FlaskConical, ListChecks, SlidersHorizontal } from "lucide-react";
 import { useSession } from "@/lib/auth/session";
 import { can, type Permission } from "@/lib/auth/roles";
 import { BrandMark } from "@/components/brand-mark";
 
 type LabelKey =
-  | "dashboard" | "floor" | "interventions" | "hiring"
+  | "dashboard" | "actionPlan" | "simulator"
+  | "floor" | "interventions" | "hiring"
   | "reports" | "evidence" | "voice" | "model"
   | "integrations" | "admin";
 
@@ -26,13 +27,20 @@ interface NavItem {
 // qué pasa (Dashboard) · qué hago (Operación) · qué aprendo (Inteligencia) ·
 // cómo se configura (Sistema). Cada grupo se oculta entero si el rol no ve ninguno.
 interface NavGroup {
-  titleKey?: "groupOperations" | "groupIntelligence" | "groupSystem";
+  titleKey?: "groupPlanning" | "groupOperations" | "groupIntelligence" | "groupSystem";
   items: NavItem[];
 }
 
 const GROUPS: NavGroup[] = [
   {
     items: [{ href: "/dashboard", labelKey: "dashboard", icon: LayoutDashboard, permission: "dashboard.view", exact: true }],
+  },
+  {
+    titleKey: "groupPlanning",
+    items: [
+      { href: "/plan-de-accion", labelKey: "actionPlan", icon: ListChecks, permission: "recommendations.assign" },
+      { href: "/simulador", labelKey: "simulator", icon: SlidersHorizontal, permission: "dashboard.view" },
+    ],
   },
   {
     titleKey: "groupOperations",

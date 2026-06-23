@@ -2,8 +2,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { Download } from "lucide-react";
+import { Download, ListChecks, SlidersHorizontal, ChevronRight } from "lucide-react";
 import { usePlantSummary } from "@/lib/queries";
 import { DotField } from "@/components/dashboard/dot-field";
 import { AiBriefing } from "@/components/dashboard/ai-briefing";
@@ -11,8 +12,6 @@ import { KpiStrip } from "@/components/dashboard/kpi-strip";
 import { Gauge } from "@/components/dashboard/gauge";
 import { RiskHeatmap } from "@/components/dashboard/risk-heatmap";
 import { Leaderboard } from "@/components/dashboard/leaderboard";
-import { ActionQueue } from "@/components/dashboard/action-queue";
-import { InsightTabs } from "@/components/dashboard/insight-tabs";
 import { Card } from "@/components/ui/card";
 import { LoadingState, ErrorState } from "@/components/ui/states";
 
@@ -111,10 +110,27 @@ export default function DashboardPage() {
           <DotField employees={data.topRisk} total={total} />
         </Card>
 
-        <Card className="flex w-full flex-col items-center justify-center rounded-xl p-[22px] lg:w-[240px] lg:shrink-0">
-          <Gauge value={stability} label={t("gaugeStability")} color="#5B6EF5" />
-          <div className="mt-1 text-center text-[11.5px] text-ink-3">
-            {t("gaugeStabilitySub", { stable: data.stable, total })}
+        <Card className="flex w-full flex-col rounded-xl p-[22px] lg:w-[248px] lg:shrink-0">
+          <div className="flex flex-1 flex-col items-center justify-center">
+            <Gauge value={stability} label={t("gaugeStability")} color="#5B6EF5" />
+            <div className="mt-1 text-center text-[11.5px] text-ink-3">
+              {t("gaugeStabilitySub", { stable: data.stable, total })}
+            </div>
+          </div>
+          <div className="mt-5 space-y-2.5 border-t border-line pt-4">
+            {[
+              { label: t("statHighRisk"), value: data.highRisk, color: "#EB4F6C" },
+              { label: t("statWatch"), value: data.watch, color: "#B49AED" },
+              { label: t("statStable"), value: data.stable, color: "#5B6EF5" },
+            ].map((b) => (
+              <div key={b.label} className="flex items-center justify-between text-[12.5px]">
+                <span className="flex items-center gap-2 text-ink-2">
+                  <span className="h-2 w-2 rounded-full" style={{ backgroundColor: b.color }} />
+                  {b.label}
+                </span>
+                <span className="font-medium text-ink-1">{b.value.toLocaleString()}</span>
+              </div>
+            ))}
           </div>
         </Card>
       </div>
@@ -136,19 +152,27 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      <div className="mt-8 mb-3 flex items-center justify-between">
-        <h2 className="text-[17px] font-semibold">{t("actTitle")}</h2>
-        <span className="text-[12.5px] text-ink-3">{t("actHint")}</span>
+      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        {[
+          { href: "/plan-de-accion", icon: ListChecks, title: t("actTitle"), sub: t("actHint") },
+          { href: "/simulador", icon: SlidersHorizontal, title: t("insightsTitle"), sub: t("insightsSubtitle") },
+        ].map(({ href, icon: Icon, title, sub }) => (
+          <Link
+            key={href}
+            href={href}
+            className="group flex items-center gap-4 rounded-xl border border-line bg-surface p-[18px] transition-colors hover:border-risk-sol"
+          >
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-risk-sol-soft text-risk-sol">
+              <Icon className="h-5 w-5" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[14px] font-semibold text-ink-1">{title}</span>
+              <span className="block truncate text-[12px] text-ink-3">{sub}</span>
+            </span>
+            <ChevronRight className="h-5 w-5 shrink-0 text-ink-3 transition-transform group-hover:translate-x-0.5 group-hover:text-risk-sol" />
+          </Link>
+        ))}
       </div>
-      <ActionQueue rows={data.topRisk} />
-
-      <div className="mt-8 mb-3">
-        <h2 className="text-[17px] font-semibold">{t("insightsTitle")}</h2>
-        <p className="mt-0.5 text-[12.5px] text-ink-2">{t("insightsSubtitle")}</p>
-      </div>
-      <Card className="rounded-xl p-[22px]">
-        <InsightTabs rows={data.topRisk} />
-      </Card>
     </div>
   );
 }

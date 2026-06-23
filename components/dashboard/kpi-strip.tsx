@@ -1,10 +1,11 @@
 // components/dashboard/kpi-strip.tsx
-// Banda densa de KPIs (estilo panel de analítica): 6 métricas de planta con
-// mini-sparkline donde hay serie semanal. Reemplaza las 3 stat-cards sueltas.
+// Banda de KPIs (estilo panel de analítica): 4 métricas de planta con
+// mini-sparkline donde hay serie semanal. Plantilla y "En riesgo" se quitaron
+// por ser sumas derivables de las otras — diluían el foco.
 "use client";
 
 import { useFormatter, useLocale, useTranslations } from "next-intl";
-import { AlertTriangle, Eye, ShieldCheck, Users, Activity, Banknote } from "lucide-react";
+import { AlertTriangle, Eye, ShieldCheck, Banknote } from "lucide-react";
 import type { PlantSummary } from "@/types";
 
 function Spark({ data, color }: { data: number[]; color: string }) {
@@ -36,26 +37,23 @@ export function KpiStrip({ data }: { data: PlantSummary }) {
   const t = useTranslations("dashboard");
   const f = useFormatter();
   const locale = useLocale();
-  const total = data.highRisk + data.watch + data.stable;
-  const atRisk = data.highRisk + data.watch;
+  // Mismo formateador que el briefing (lib/server/ai-service.ts) — sin "compact",
+  // para que el costo se vea idéntico en ambos sitios y no haya "221 mil" vs "220.800".
   const cur = new Intl.NumberFormat(locale, {
     style: "currency",
     currency: "MXN",
     maximumFractionDigits: 0,
-    notation: "compact",
   });
 
   const items = [
     { icon: AlertTriangle, label: t("statHighRisk"), value: f.number(data.highRisk), series: data.trend.highRisk, color: "#EB4F6C" },
     { icon: Eye, label: t("statWatch"), value: f.number(data.watch), series: data.trend.watch, color: "#B49AED" },
     { icon: ShieldCheck, label: t("statStable"), value: f.number(data.stable), series: data.trend.stable, color: "#5B6EF5" },
-    { icon: Users, label: t("kpiHeadcount"), value: f.number(total), series: null, color: "#6B7088" },
-    { icon: Activity, label: t("kpiAtRisk"), value: f.number(atRisk), series: null, color: "#8476FF" },
     { icon: Banknote, label: t("simCostAtRisk"), value: cur.format(data.savingMxn), series: null, color: "#EB4F6C" },
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+    <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
       {items.map((it) => {
         const Icon = it.icon;
         return (
@@ -64,7 +62,7 @@ export function KpiStrip({ data }: { data: PlantSummary }) {
               <Icon className="h-3.5 w-3.5 text-ink-3" />
               <span className="text-[11px] text-ink-2">{it.label}</span>
             </div>
-            <div className="mt-1 font-mono text-[20px] font-bold leading-tight" style={{ color: it.color }}>
+            <div className="mt-1 text-[20px] font-bold leading-tight" style={{ color: it.color }}>
               {it.value}
             </div>
             <div className="mt-1">
