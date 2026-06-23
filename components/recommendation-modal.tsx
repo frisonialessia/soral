@@ -7,7 +7,8 @@ import { Dialog, DialogClose } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { riskColor } from "@/lib/risk";
-import { useAssignRecommendation } from "@/lib/queries";
+import { useCreateIntervention } from "@/lib/queries";
+import { useSession } from "@/lib/auth/session";
 import type { EmployeePrediction } from "@/types";
 
 export function RecommendationModal({
@@ -17,7 +18,8 @@ export function RecommendationModal({
   employee: EmployeePrediction | null;
   onClose: () => void;
 }) {
-  const assign = useAssignRecommendation();
+  const create = useCreateIntervention();
+  const user = useSession();
   const [assigned, setAssigned] = useState(false);
   const t = useTranslations("modal");
   const tb = useTranslations("bands");
@@ -25,18 +27,19 @@ export function RecommendationModal({
 
   if (!employee) return null;
   const c = riskColor(employee.score);
+  const play = employee.reco.split("\n").map((s) => s.trim()).find(Boolean) ?? employee.driver;
 
   function handleAssign() {
     if (!employee) return;
-    assign.mutate(
-      { ref: employee.ref, line: employee.line },
+    create.mutate(
+      { ref: employee.ref, line: employee.line, play, assignedBy: user.name },
       { onSuccess: () => setAssigned(true) }
     );
   }
 
   function handleClose() {
     setAssigned(false);
-    assign.reset();
+    create.reset();
     onClose();
   }
 
@@ -69,7 +72,7 @@ export function RecommendationModal({
         {employee.reco}
       </div>
 
-      {assign.isError && (
+      {create.isError && (
         <div
           className="mb-3 rounded-md border border-risk-cri/30 bg-risk-cri/5 px-3.5 py-2.5 text-[12.5px] text-risk-cri"
           role="alert"
@@ -85,13 +88,13 @@ export function RecommendationModal({
         <Button
           variant="primary"
           onClick={handleAssign}
-          disabled={assign.isPending || assigned}
+          disabled={create.isPending || assigned}
         >
           {assigned
             ? t("assigned")
-            : assign.isPending
+            : create.isPending
             ? t("assigning")
-            : assign.isError
+            : create.isError
             ? tc("retry")
             : t("assign")}
         </Button>

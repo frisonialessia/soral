@@ -8,6 +8,7 @@
   "nav": {
     "dashboard": "Panel",
     "reports": "Reportes",
+    "interventions": "Intervenciones",
     "integrations": "Integraciones",
     "admin": "Administración",
     "primary": "Navegación principal",
@@ -348,5 +349,26 @@
     "syncNow": "Sincronizar ahora",
     "syncing": "Sincronizando…",
     "syncedNow": "Sincronizado ahora"
+  },
+  "interventions": {
+    "title": "Intervenciones",
+    "subtitle": "Sigue cada plan de retención de asignado a resultado — esto es lo que entrena al modelo.",
+    "loading": "Cargando intervenciones…",
+    "errorTitle": "No pudimos cargar las intervenciones",
+    "kpiActive": "Activas",
+    "kpiDone": "Completadas",
+    "kpiRetained": "Retenidos",
+    "kpiSuccess": "Tasa de éxito",
+    "status_assigned": "Asignada",
+    "status_in_progress": "En curso",
+    "status_done": "Hecha",
+    "outcome_retained": "Retenido",
+    "outcome_left": "Se fue",
+    "outcome_pending": "Pendiente",
+    "start": "Iniciar",
+    "markRetained": "Retenido",
+    "markLeft": "Se fue",
+    "assignedBy": "por {name}",
+    "empty": "Aún no hay intervenciones — asigna un plan de retención desde el dashboard."
   }
 }

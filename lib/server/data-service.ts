@@ -9,7 +9,18 @@
 
 import { EMPLOYEES, TENANT_ID, WEEK_START, MODEL_VERSION } from "@/lib/data";
 import { bandOf } from "@/lib/risk";
-import type { EmployeePrediction, LineDetail, PlantSummary, ReportSummary, IntegrationsSummary, SyncResult } from "@/types";
+import type {
+  EmployeePrediction,
+  LineDetail,
+  PlantSummary,
+  ReportSummary,
+  IntegrationsSummary,
+  SyncResult,
+  Intervention,
+  InterventionsSummary,
+  InterventionStatus,
+  InterventionOutcome,
+} from "@/types";
 
 const REPLACEMENT_COST_MXN = 36_800;
 const PLANT_HEADCOUNT = 1180;
@@ -207,6 +218,56 @@ export async function getIntegrations(): Promise<IntegrationsSummary> {
 export async function syncConnector(id: string): Promise<SyncResult> {
   // En producción: dispara una corrida del pipeline del conector `id`.
   return { ok: true, syncedAt: new Date().toISOString() };
+}
+
+// --- Loop de resultados: intervenciones (seguimiento) ---
+// Store en memoria (vive lo que vive el proceso) — el seam de persistencia. Es
+// el prerequisito del modelo: los resultados medidos aquí serán las ETIQUETAS
+// con las que el cerebro aprende. Con DB: estas funciones pasan a INSERT/SELECT/
+// UPDATE; las firmas no cambian.
+const daysAgo = (d: number) => new Date(Date.now() - d * 86_400_000).toISOString();
+
+let INTERVENTIONS: Intervention[] = [
+  { id: "iv-1", ref: "#9445-1041", line: "L3", play: "1:1 con supervisor y ajuste de ruta de transporte", status: "done", outcome: "retained", assignedAt: daysAgo(6), assignedBy: "Demo Admin" },
+  { id: "iv-2", ref: "#0A25-3150", line: "L5", play: "Revisar carga de horas extra del turno", status: "done", outcome: "left", assignedAt: daysAgo(9), assignedBy: "Diego Ramírez" },
+  { id: "iv-3", ref: "#E7D9-6515", line: "L3", play: "Plan de retención prioritario; mentor asignado", status: "in_progress", outcome: "pending", assignedAt: daysAgo(3), assignedBy: "Demo Admin" },
+  { id: "iv-4", ref: "#11E2-2898", line: "L3", play: "Reasignar de cuadrilla por conflicto con supervisor", status: "in_progress", outcome: "pending", assignedAt: daysAgo(2), assignedBy: "Diego Ramírez" },
+  { id: "iv-5", ref: "#2108-2836", line: "L5", play: "Bono de asistencia posterior a nómina", status: "assigned", outcome: "pending", assignedAt: daysAgo(1), assignedBy: "Demo Admin" },
+];
+
+export async function getInterventions(): Promise<InterventionsSummary> {
+  return { interventions: [...INTERVENTIONS].sort((a, b) => b.assignedAt.localeCompare(a.assignedAt)) };
+}
+
+export async function createIntervention(input: {
+  ref: string;
+  line: string;
+  play: string;
+  assignedBy: string;
+}): Promise<Intervention> {
+  const it: Intervention = {
+    id: `iv-${Date.now().toString(36)}`,
+    ref: input.ref,
+    line: input.line,
+    play: input.play || "Plan de retención",
+    status: "assigned",
+    outcome: "pending",
+    assignedAt: new Date().toISOString(),
+    assignedBy: input.assignedBy || "—",
+  };
+  INTERVENTIONS = [it, ...INTERVENTIONS];
+  return it;
+}
+
+export async function updateIntervention(
+  id: string,
+  patch: { status?: InterventionStatus; outcome?: InterventionOutcome }
+): Promise<Intervention | null> {
+  const it = INTERVENTIONS.find((x) => x.id === id);
+  if (!it) return null;
+  if (patch.status) it.status = patch.status;
+  if (patch.outcome) it.outcome = patch.outcome;
+  return it;
 }
 
 // GET /api/reports/summary

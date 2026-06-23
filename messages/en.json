@@ -8,6 +8,7 @@
   "nav": {
     "dashboard": "Dashboard",
     "reports": "Reports",
+    "interventions": "Interventions",
     "integrations": "Integrations",
     "admin": "Administration",
     "primary": "Primary navigation",
@@ -348,5 +349,26 @@
     "syncNow": "Sync now",
     "syncing": "Syncing…",
     "syncedNow": "Synced just now"
+  },
+  "interventions": {
+    "title": "Interventions",
+    "subtitle": "Track every retention play from assigned to outcome — this is what teaches the model.",
+    "loading": "Loading interventions…",
+    "errorTitle": "We could not load the interventions",
+    "kpiActive": "Active",
+    "kpiDone": "Completed",
+    "kpiRetained": "Retained",
+    "kpiSuccess": "Success rate",
+    "status_assigned": "Assigned",
+    "status_in_progress": "In progress",
+    "status_done": "Done",
+    "outcome_retained": "Retained",
+    "outcome_left": "Left",
+    "outcome_pending": "Pending",
+    "start": "Start",
+    "markRetained": "Retained",
+    "markLeft": "Left",
+    "assignedBy": "by {name}",
+    "empty": "No interventions yet — assign a retention play from the dashboard."
   }
 }

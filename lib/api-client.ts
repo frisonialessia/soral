@@ -16,10 +16,15 @@ import {
   AskAnswerSchema,
   IntegrationsSummarySchema,
   SyncResultSchema,
+  InterventionSchema,
+  InterventionsSummarySchema,
   type EmployeePrediction,
   type AssignResult,
   type AskAnswer,
   type SyncResult,
+  type Intervention,
+  type InterventionStatus,
+  type InterventionOutcome,
 } from "@/types";
 
 // GET + valida contra el esquema. Devuelve el tipo inferido del esquema.
@@ -84,6 +89,41 @@ export async function syncConnector(id: string): Promise<SyncResult> {
   const res = await fetch(`/api/integrations/${encodeURIComponent(id)}/sync`, { method: "POST" });
   if (!res.ok) throw new Error(`POST /api/integrations/${id}/sync → ${res.status}`);
   return SyncResultSchema.parse(await res.json());
+}
+
+// GET /api/interventions
+export function fetchInterventions() {
+  return getValidated("/api/interventions", InterventionsSummarySchema);
+}
+
+// POST /api/interventions — crea una intervención al asignar una play.
+export async function createIntervention(input: {
+  ref: string;
+  line: string;
+  play: string;
+  assignedBy: string;
+}): Promise<Intervention> {
+  const res = await fetch("/api/interventions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(input),
+  });
+  if (!res.ok) throw new Error(`POST /api/interventions → ${res.status}`);
+  return InterventionSchema.parse(await res.json());
+}
+
+// POST /api/interventions/:id — actualiza estado/resultado (cierra el loop).
+export async function updateIntervention(
+  id: string,
+  patch: { status?: InterventionStatus; outcome?: InterventionOutcome }
+): Promise<Intervention> {
+  const res = await fetch(`/api/interventions/${encodeURIComponent(id)}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(patch),
+  });
+  if (!res.ok) throw new Error(`POST /api/interventions/${id} → ${res.status}`);
+  return InterventionSchema.parse(await res.json());
 }
 
 // POST /api/recommendation/:ref/assign

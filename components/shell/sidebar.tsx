@@ -4,14 +4,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { LayoutDashboard, BarChart3, Plug, Settings } from "lucide-react";
+import { LayoutDashboard, ClipboardCheck, BarChart3, Plug, Settings } from "lucide-react";
 import { Can } from "@/components/auth/can";
 import { BrandMark } from "@/components/brand-mark";
 import type { Permission } from "@/lib/auth/roles";
 
 interface NavItem {
   href: string;
-  labelKey: "dashboard" | "reports" | "integrations" | "admin";
+  labelKey: "dashboard" | "interventions" | "reports" | "integrations" | "admin";
   icon: typeof LayoutDashboard;
   permission: Permission;
   exact?: boolean;
@@ -19,6 +19,7 @@ interface NavItem {
 
 const NAV: NavItem[] = [
   { href: "/dashboard", labelKey: "dashboard", icon: LayoutDashboard, permission: "dashboard.view", exact: true },
+  { href: "/seguimiento", labelKey: "interventions", icon: ClipboardCheck, permission: "recommendations.assign" },
   { href: "/reportes", labelKey: "reports", icon: BarChart3, permission: "reports.view" },
   { href: "/integraciones", labelKey: "integrations", icon: Plug, permission: "integrations.view" },
   { href: "/admin", labelKey: "admin", icon: Settings, permission: "admin.view" },

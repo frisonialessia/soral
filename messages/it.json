@@ -8,6 +8,7 @@
   "nav": {
     "dashboard": "Pannello",
     "reports": "Rapporti",
+    "interventions": "Interventi",
     "integrations": "Integrazioni",
     "admin": "Amministrazione",
     "primary": "Navigazione principale",
@@ -348,5 +349,26 @@
     "syncNow": "Sincronizza ora",
     "syncing": "Sincronizzazione…",
     "syncedNow": "Sincronizzato ora"
+  },
+  "interventions": {
+    "title": "Interventi",
+    "subtitle": "Segui ogni piano di retention da assegnato a esito — è ciò che addestra il modello.",
+    "loading": "Caricamento interventi…",
+    "errorTitle": "Non è stato possibile caricare gli interventi",
+    "kpiActive": "Attivi",
+    "kpiDone": "Completati",
+    "kpiRetained": "Trattenuti",
+    "kpiSuccess": "Tasso di successo",
+    "status_assigned": "Assegnato",
+    "status_in_progress": "In corso",
+    "status_done": "Fatto",
+    "outcome_retained": "Trattenuto",
+    "outcome_left": "Andato via",
+    "outcome_pending": "In sospeso",
+    "start": "Avvia",
+    "markRetained": "Trattenuto",
+    "markLeft": "Andato via",
+    "assignedBy": "da {name}",
+    "empty": "Nessun intervento ancora — assegna un piano di retention dalla dashboard."
   }
 }

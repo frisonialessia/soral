@@ -5,7 +5,7 @@
 // queryFn → lib/api-client (fetch a los Route Handlers de app/api/*). Los
 // componentes solo ven estos hooks; no saben de HTTP.
 
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   fetchPlantSummary,
   fetchReportSummary,
@@ -13,16 +13,21 @@ import {
   fetchAsk,
   fetchIntegrations,
   syncConnector,
+  fetchInterventions,
+  createIntervention,
+  updateIntervention,
   fetchLineDetail,
   fetchEmployee,
   assignRecommendation,
 } from "./api-client";
+import type { InterventionStatus, InterventionOutcome } from "@/types";
 
 export const queryKeys = {
   plant: ["plant", "summary"] as const,
   reports: ["reports", "summary"] as const,
   briefing: ["ai", "briefing"] as const,
   integrations: ["integrations"] as const,
+  interventions: ["interventions", "list"] as const,
   line: (id: string) => ["line", id] as const,
   employee: (ref: string) => ["employee", ref] as const,
 };
@@ -51,6 +56,28 @@ export function useIntegrations() {
 
 export function useSyncConnector() {
   return useMutation({ mutationFn: (id: string) => syncConnector(id) });
+}
+
+export function useInterventions() {
+  return useQuery({ queryKey: queryKeys.interventions, queryFn: fetchInterventions });
+}
+
+export function useCreateIntervention() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (input: { ref: string; line: string; play: string; assignedBy: string }) =>
+      createIntervention(input),
+    onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.interventions }),
+  });
+}
+
+export function useUpdateIntervention() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: { id: string; patch: { status?: InterventionStatus; outcome?: InterventionOutcome } }) =>
+      updateIntervention(v.id, v.patch),
+    onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.interventions }),
+  });
 }
 
 export function useLineDetail(id: string) {

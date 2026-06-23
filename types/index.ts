@@ -133,3 +133,27 @@ export type IntegrationsSummary = z.infer<typeof IntegrationsSummarySchema>;
 
 export const SyncResultSchema = z.object({ ok: z.literal(true), syncedAt: z.string() });
 export type SyncResult = z.infer<typeof SyncResultSchema>;
+
+// Loop de resultados: una intervención rastreada (asignar play → seguir →
+// resultado). Los resultados medidos aquí son las etiquetas del futuro modelo.
+export const InterventionStatusSchema = z.enum(["assigned", "in_progress", "done"]);
+export type InterventionStatus = z.infer<typeof InterventionStatusSchema>;
+export const InterventionOutcomeSchema = z.enum(["pending", "retained", "left"]);
+export type InterventionOutcome = z.infer<typeof InterventionOutcomeSchema>;
+
+export const InterventionSchema = z.object({
+  id: z.string(),
+  ref: z.string(),
+  line: z.string(),
+  play: z.string(),
+  status: InterventionStatusSchema,
+  outcome: InterventionOutcomeSchema,
+  assignedAt: z.string(),
+  assignedBy: z.string(),
+});
+export type Intervention = z.infer<typeof InterventionSchema>;
+
+export const InterventionsSummarySchema = z.object({
+  interventions: z.array(InterventionSchema),
+});
+export type InterventionsSummary = z.infer<typeof InterventionsSummarySchema>;
