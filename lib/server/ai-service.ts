@@ -8,7 +8,7 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import { getPlantSummary, getReportSummary } from "./data-service";
-import type { Briefing } from "@/types";
+import type { Briefing, Candidate, InterviewRecap } from "@/types";
 
 interface Facts {
   highRisk: number;
@@ -217,5 +217,116 @@ const ANSWER_TPL: Record<string, (f: Facts, money: string, refs: string) => Answ
     driver: `Le principali cause di turnover tra i segnalati sono ${f.topDrivers.map((d) => `${d.factor} (${d.weight}%)`).join(", ")}.`,
     cost: `Il costo stimato a rischio se non si agisce è ${money} — ${f.highRisk} lavoratori ad alto rischio al costo di sostituzione.`,
     fallback: `${f.highRisk} lavoratori ad alto rischio e ${f.watch} in osservazione su ${f.headcount}. Il focus è la linea ${f.topByLine[0].line}. Chiedimi di linee, cause, costo o chi seguire. (Aggiungi una key LLM per risposte libere.)`,
+  }),
+};
+
+// ---------- Recap de entrevista (pre-contratación) ----------
+// Estructurado y job-related. Nunca un veredicto "contratar/no": evidencia para
+// que decida el reclutador (humano en el loop). Claude si hay key; si no, reglas.
+
+const HFEAT_LABEL: Record<string, Record<string, string>> = {
+  en: { sourceQuality: "hiring channel", commuteFit: "commute distance", tenureHistory: "prior job stability", payFit: "pay vs market", interviewSignal: "structured interview", roleStability: "role stability" },
+  es: { sourceQuality: "canal de origen", commuteFit: "distancia de traslado", tenureHistory: "estabilidad laboral previa", payFit: "salario vs mercado", interviewSignal: "entrevista estructurada", roleStability: "estabilidad del puesto" },
+  it: { sourceQuality: "canale di origine", commuteFit: "distanza del tragitto", tenureHistory: "stabilità lavorativa precedente", payFit: "retribuzione vs mercato", interviewSignal: "colloquio strutturato", roleStability: "stabilità del ruolo" },
+};
+const SOURCE_LABEL: Record<string, Record<string, string>> = {
+  en: { referral: "referral", rehire: "rehire", job_board: "job board", agency: "staffing agency", walk_in: "walk-in" },
+  es: { referral: "referido", rehire: "recontratación", job_board: "bolsa de trabajo", agency: "agencia", walk_in: "espontáneo" },
+  it: { referral: "referral", rehire: "riassunzione", job_board: "annuncio", agency: "agenzia", walk_in: "spontaneo" },
+};
+const REC_LABEL: Record<string, Record<string, string>> = {
+  en: { advance: "advance", review: "review", caution: "caution" },
+  es: { advance: "avanzar", review: "revisar", caution: "precaución" },
+  it: { advance: "avanzare", review: "rivedere", caution: "cautela" },
+};
+
+function recapFacts(c: Candidate, locale: string) {
+  const hl = HFEAT_LABEL[locale] ?? HFEAT_LABEL.en;
+  const strengths = c.drivers.filter((d) => d.direction === "down").slice(0, 3).map((d) => hl[d.factor] ?? d.factor);
+  const risks = c.drivers.filter((d) => d.direction === "up").slice(0, 3).map((d) => hl[d.factor] ?? d.factor);
+  return {
+    role: c.role,
+    source: (SOURCE_LABEL[locale] ?? SOURCE_LABEL.en)[c.source] ?? c.source,
+    survival90: c.survival90,
+    survival12m: c.survival12m,
+    expectedTenureMonths: c.expectedTenureMonths,
+    recommendation: (REC_LABEL[locale] ?? REC_LABEL.en)[c.recommendation] ?? c.recommendation,
+    interviewDone: c.interviewDone,
+    strengths,
+    risks,
+  };
+}
+
+export async function interviewRecap(candidate: Candidate, locale: string): Promise<InterviewRecap> {
+  const facts = recapFacts(candidate, locale);
+  const model = process.env.SORAL_AI_MODEL;
+  if (process.env.ANTHROPIC_API_KEY && model) {
+    try {
+      return await llmRecap(facts, locale, model);
+    } catch {
+      // Caemos a reglas si el LLM falla.
+    }
+  }
+  return rulesRecap(facts, locale);
+}
+
+type RecapFacts = ReturnType<typeof recapFacts>;
+
+async function llmRecap(facts: RecapFacts, locale: string, model: string): Promise<InterviewRecap> {
+  const client = new Anthropic();
+  const lang = LANG[locale] ?? "English";
+  const system =
+    `You are Soral's hiring-intelligence assistant for a maquiladora plant. Produce a STRUCTURED interview recap ` +
+    `for a recruiter, grounded ONLY in the JSON facts — never invent numbers, never reference protected attributes ` +
+    `(age, sex, origin, health, etc.), and NEVER output a hire/no-hire verdict. This is decision support; the human ` +
+    `decides. Be specific and job-related. Write in ${lang}. Respond with ONLY valid JSON matching: ` +
+    `{"summary": string (2 sentences), "strengths": string[] (2-3), "watchouts": string[] (2-3), "questions": string[] (3 structured, job-related interview questions targeting the watchouts)}.`;
+  const msg = await client.messages.create({
+    model,
+    max_tokens: 700,
+    system,
+    messages: [{ role: "user", content: `Facts:\n${JSON.stringify(facts)}` }],
+  });
+  const text = msg.content
+    .map((b) => (b.type === "text" ? b.text : ""))
+    .join("")
+    .trim()
+    .replace(/^```(?:json)?\s*/i, "")
+    .replace(/\s*```$/i, "");
+  const json = JSON.parse(text) as Record<string, unknown>;
+  const arr = (v: unknown) => (Array.isArray(v) ? v.map(String).slice(0, 4) : []);
+  return {
+    summary: String(json.summary ?? ""),
+    strengths: arr(json.strengths),
+    watchouts: arr(json.watchouts),
+    questions: arr(json.questions),
+    source: "llm",
+  };
+}
+
+function rulesRecap(facts: RecapFacts, locale: string): InterviewRecap {
+  const build = RECAP_TPL[locale] ?? RECAP_TPL.en;
+  return { ...build(facts), source: "rules" };
+}
+
+type RecapBuilt = { summary: string; strengths: string[]; watchouts: string[]; questions: string[] };
+const RECAP_TPL: Record<string, (f: RecapFacts) => RecapBuilt> = {
+  en: (f) => ({
+    summary: `${f.role} candidate via ${f.source}. The model estimates ${f.survival90}% 90-day survival and ~${f.expectedTenureMonths} months expected tenure — recommendation: ${f.recommendation}.`,
+    strengths: f.strengths.map((s) => `Strong ${s}`),
+    watchouts: f.risks.length ? f.risks.map((s) => `Watch ${s}`) : ["No major risk signals"],
+    questions: f.risks.slice(0, 3).map((s) => `How will the candidate handle ${s} in the first 90 days?`),
+  }),
+  es: (f) => ({
+    summary: `Candidato a ${f.role} vía ${f.source}. El modelo estima ${f.survival90}% de supervivencia a 90 días y ~${f.expectedTenureMonths} meses de permanencia esperada — recomendación: ${f.recommendation}.`,
+    strengths: f.strengths.map((s) => `Buen ${s}`),
+    watchouts: f.risks.length ? f.risks.map((s) => `Vigilar ${s}`) : ["Sin señales de riesgo relevantes"],
+    questions: f.risks.slice(0, 3).map((s) => `¿Cómo manejaría el candidato ${s} en los primeros 90 días?`),
+  }),
+  it: (f) => ({
+    summary: `Candidato per ${f.role} via ${f.source}. Il modello stima ${f.survival90}% di sopravvivenza a 90 giorni e ~${f.expectedTenureMonths} mesi di permanenza attesa — raccomandazione: ${f.recommendation}.`,
+    strengths: f.strengths.map((s) => `Buon ${s}`),
+    watchouts: f.risks.length ? f.risks.map((s) => `Attenzione a ${s}`) : ["Nessun segnale di rischio rilevante"],
+    questions: f.risks.slice(0, 3).map((s) => `Come gestirà il candidato ${s} nei primi 90 giorni?`),
   }),
 };

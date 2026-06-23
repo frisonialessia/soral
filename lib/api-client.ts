@@ -18,6 +18,8 @@ import {
   SyncResultSchema,
   InterventionSchema,
   InterventionsSummarySchema,
+  CandidatesSummarySchema,
+  InterviewRecapSchema,
   type EmployeePrediction,
   type AssignResult,
   type AskAnswer,
@@ -25,6 +27,7 @@ import {
   type Intervention,
   type InterventionStatus,
   type InterventionOutcome,
+  type InterviewRecap,
 } from "@/types";
 
 // GET + valida contra el esquema. Devuelve el tipo inferido del esquema.
@@ -89,6 +92,18 @@ export async function syncConnector(id: string): Promise<SyncResult> {
   const res = await fetch(`/api/integrations/${encodeURIComponent(id)}/sync`, { method: "POST" });
   if (!res.ok) throw new Error(`POST /api/integrations/${id}/sync → ${res.status}`);
   return SyncResultSchema.parse(await res.json());
+}
+
+// GET /api/candidates
+export function fetchCandidates() {
+  return getValidated("/api/candidates", CandidatesSummarySchema);
+}
+
+// POST /api/candidates/:id/recap — recap de entrevista (LLM o reglas).
+export async function fetchInterviewRecap(id: string): Promise<InterviewRecap> {
+  const res = await fetch(`/api/candidates/${encodeURIComponent(id)}/recap`, { method: "POST" });
+  if (!res.ok) throw new Error(`POST /api/candidates/${id}/recap → ${res.status}`);
+  return InterviewRecapSchema.parse(await res.json());
 }
 
 // GET /api/interventions

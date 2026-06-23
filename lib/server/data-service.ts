@@ -9,6 +9,7 @@
 
 import { EMPLOYEES, TENANT_ID, WEEK_START, MODEL_VERSION } from "@/lib/data";
 import { bandOf } from "@/lib/risk";
+import { scoreCandidate } from "@/lib/hiring";
 import type {
   EmployeePrediction,
   LineDetail,
@@ -20,6 +21,8 @@ import type {
   InterventionsSummary,
   InterventionStatus,
   InterventionOutcome,
+  Candidate,
+  CandidatesSummary,
 } from "@/types";
 
 const REPLACEMENT_COST_MXN = 36_800;
@@ -268,6 +271,55 @@ export async function updateIntervention(
   if (patch.status) it.status = patch.status;
   if (patch.outcome) it.outcome = patch.outcome;
   return it;
+}
+
+// --- Pre-contratación: candidatos ---
+// Semilla de vectores de features (estabilidad, 0–1) + meta. El score, la
+// supervivencia, el costo y los drivers los CALCULA el motor (lib/hiring.ts), no
+// están escritos a mano. Con un ATS real (Greenhouse, Oracle Recruiting): estas
+// señales salen del candidato y de su contexto; la firma no cambia.
+interface CandidateSeed {
+  id: string;
+  ref: string;
+  role: string;
+  line: string;
+  source: Candidate["source"];
+  appliedAt: string;
+  interviewDone: boolean;
+  features: number[]; // [sourceQuality, commuteFit, tenureHistory, payFit, interviewSignal, roleStability]
+}
+
+const CANDIDATE_SEED: CandidateSeed[] = [
+  { id: "cn-7731", ref: "#CN-7731", role: "Operador de ensamble", line: "L3", source: "referral", appliedAt: daysAgo(1), interviewDone: true, features: [0.9, 0.85, 0.8, 0.7, 0.8, 0.7] },
+  { id: "cn-6620", ref: "#CN-6620", role: "Operador de soldadura", line: "L2", source: "rehire", appliedAt: daysAgo(2), interviewDone: true, features: [0.85, 0.6, 0.9, 0.65, 0.7, 0.6] },
+  { id: "cn-5093", ref: "#CN-5093", role: "Inspector de calidad", line: "L5", source: "job_board", appliedAt: daysAgo(2), interviewDone: true, features: [0.5, 0.3, 0.55, 0.55, 0.6, 0.5] },
+  { id: "cn-4471", ref: "#CN-4471", role: "Operador de línea SMT", line: "L4", source: "agency", appliedAt: daysAgo(3), interviewDone: false, features: [0.35, 0.45, 0.25, 0.4, 0.45, 0.4] },
+  { id: "cn-3380", ref: "#CN-3380", role: "Operador de empaque", line: "L7", source: "walk_in", appliedAt: daysAgo(4), interviewDone: false, features: [0.3, 0.25, 0.3, 0.35, 0.4, 0.3] },
+  { id: "cn-2954", ref: "#CN-2954", role: "Operador de ensamble", line: "L3", source: "referral", appliedAt: daysAgo(1), interviewDone: true, features: [0.85, 0.25, 0.55, 0.45, 0.55, 0.5] },
+  { id: "cn-8812", ref: "#CN-8812", role: "Montacarguista", line: "L1", source: "job_board", appliedAt: daysAgo(5), interviewDone: true, features: [0.55, 0.6, 0.6, 0.8, 0.85, 0.6] },
+  { id: "cn-7106", ref: "#CN-7106", role: "Operador de soldadura", line: "L5", source: "agency", appliedAt: daysAgo(3), interviewDone: true, features: [0.45, 0.5, 0.45, 0.45, 0.6, 0.45] },
+  { id: "cn-9237", ref: "#CN-9237", role: "Inspector de calidad", line: "L2", source: "referral", appliedAt: daysAgo(1), interviewDone: true, features: [0.9, 0.8, 0.85, 0.75, 0.9, 0.8] },
+];
+
+const CANDIDATES: Candidate[] = CANDIDATE_SEED.map(scoreCandidate).sort((a, b) => b.costRisk - a.costRisk);
+
+// GET /api/candidates
+export async function getCandidates(): Promise<CandidatesSummary> {
+  const atRisk = CANDIDATES.filter((c) => c.recommendation !== "advance");
+  return {
+    candidates: CANDIDATES,
+    kpis: {
+      pipeline: CANDIDATES.length,
+      avgSurvival90: Math.round(CANDIDATES.reduce((s, c) => s + c.survival90, 0) / CANDIDATES.length),
+      costAtRiskMxn: atRisk.reduce((s, c) => s + c.costRisk, 0),
+      advanceReady: CANDIDATES.filter((c) => c.recommendation === "advance").length,
+    },
+  };
+}
+
+// Un candidato por id (para el recap de entrevista).
+export async function getCandidate(id: string): Promise<Candidate | null> {
+  return CANDIDATES.find((c) => c.id === id) ?? null;
 }
 
 // GET /api/reports/summary

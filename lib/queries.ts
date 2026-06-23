@@ -16,6 +16,8 @@ import {
   fetchInterventions,
   createIntervention,
   updateIntervention,
+  fetchCandidates,
+  fetchInterviewRecap,
   fetchLineDetail,
   fetchEmployee,
   assignRecommendation,
@@ -28,6 +30,7 @@ export const queryKeys = {
   briefing: ["ai", "briefing"] as const,
   integrations: ["integrations"] as const,
   interventions: ["interventions", "list"] as const,
+  candidates: ["candidates", "list"] as const,
   line: (id: string) => ["line", id] as const,
   employee: (ref: string) => ["employee", ref] as const,
 };
@@ -78,6 +81,14 @@ export function useUpdateIntervention() {
       updateIntervention(v.id, v.patch),
     onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.interventions }),
   });
+}
+
+export function useCandidates() {
+  return useQuery({ queryKey: queryKeys.candidates, queryFn: fetchCandidates });
+}
+
+export function useInterviewRecap() {
+  return useMutation({ mutationFn: (id: string) => fetchInterviewRecap(id) });
 }
 
 export function useLineDetail(id: string) {

@@ -3,7 +3,8 @@
     "retry": "Riprova",
     "retrying": "Nuovo tentativo…",
     "back": "Indietro",
-    "checkConnection": "Controlla la connessione e riprova."
+    "checkConnection": "Controlla la connessione e riprova.",
+    "close": "Chiudi"
   },
   "nav": {
     "dashboard": "Pannello",
@@ -13,7 +14,8 @@
     "admin": "Amministrazione",
     "model": "Modello",
     "primary": "Navigazione principale",
-    "version": "Soral · v0.1"
+    "version": "Soral · v0.1",
+    "hiring": "Pre-assunzione"
   },
   "header": {
     "week": "Settimana {week} · {year}",
@@ -107,6 +109,9 @@
     },
     "billing": {
       "manage": "Gestisci fatturazione"
+    },
+    "hiring": {
+      "view": "Vedi assunzioni"
     }
   },
   "dashboard": {
@@ -461,5 +466,46 @@
     "sig_localMarket": "Mercato salariale locale",
     "sig_payVsMarket": "Retribuzione vs mercato",
     "sig_overtimeRefusal": "Rifiuto di straordinari"
+  },
+  "hiring": {
+    "title": "Rischio e costo di assunzione",
+    "subtitle": "Prevedi chi resterà e quanto costerebbe una assunzione breve, prima di assumere.",
+    "loading": "Caricamento candidati…",
+    "errorTitle": "Impossibile caricare il pipeline",
+    "govNote": "Supporto alla decisione, non rifiuto automatico. Soral usa solo segnali job-related —mai attributi protetti— e il recruiter decide sempre.",
+    "kpiPipeline": "Pipeline aperto",
+    "kpiSurvival": "Sopravvivenza 90 giorni",
+    "kpiCostRisk": "Costo a rischio",
+    "kpiAdvanceReady": "Pronti ad avanzare",
+    "pipelineTitle": "Pipeline candidati",
+    "pipelineSub": "Sopravvivenza, permanenza attesa e costo di uscita precoce — ordinato per costo a rischio.",
+    "colSurvival90": "90 giorni",
+    "colSurvival12": "· 12 mesi",
+    "colCostRisk": "Costo a rischio",
+    "tenureMonths": "~{n} mesi",
+    "recapBtn": "Recap",
+    "src_referral": "Referral",
+    "src_rehire": "Riassunzione",
+    "src_job_board": "Annuncio",
+    "src_agency": "Agenzia",
+    "src_walk_in": "Spontaneo",
+    "rec_advance": "Avanzare",
+    "rec_review": "Rivedere",
+    "rec_caution": "Cautela",
+    "calcTitle": "Calcolatore del costo di assunzione",
+    "calcHint": "Una assunzione breve (uscita entro 90 giorni) costa circa {cost} tra recruiting, formazione e produzione persa.",
+    "calcHires": "Assunzioni pianificate questo mese",
+    "calcExits": "Uscite precoci attese ({rate})",
+    "calcCost": "Costo proiettato a rischio",
+    "calcFoot": "Aumentare la sopravvivenza a 90 giorni anche di pochi punti si accumula in fretta ai volumi di assunzione di una maquila.",
+    "recapTitle": "Recap del colloquio",
+    "recapLoading": "Generazione del recap…",
+    "recapError": "Impossibile generare il recap. Riprova.",
+    "recapStrengths": "Punti di forza",
+    "recapWatchouts": "Punti di attenzione",
+    "recapQuestions": "Domande strutturate suggerite",
+    "sourceLlm": "Generato da Claude",
+    "sourceRules": "Recap a regole · aggiungi una key LLM per recap più ricchi",
+    "recapNote": "Questo recap è solo supporto alla decisione. Non deve essere la sola base di una decisione di assunzione, e non usa mai attributi protetti."
   }
 }

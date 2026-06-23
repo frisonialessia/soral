@@ -157,3 +157,58 @@ export const InterventionsSummarySchema = z.object({
   interventions: z.array(InterventionSchema),
 });
 export type InterventionsSummary = z.infer<typeof InterventionsSummarySchema>;
+
+// Pre-contratación: riesgo y costo de una contratación. El mismo motor de
+// supervivencia, pero en t=0. NO decide a quién contratar (eso es del humano):
+// estima cuánto tiempo se quedaría un candidato y cuánto costaría si rota pronto.
+export const HireSourceSchema = z.enum(["referral", "rehire", "job_board", "agency", "walk_in"]);
+export type HireSource = z.infer<typeof HireSourceSchema>;
+
+export const HireRecommendationSchema = z.enum(["advance", "review", "caution"]);
+export type HireRecommendation = z.infer<typeof HireRecommendationSchema>;
+
+export const HireDriverSchema = z.object({
+  factor: z.string(), // clave i18n: `hfeat_${id}`
+  contrib: z.number(), // |φ| relativo 0–100
+  direction: z.enum(["up", "down"]), // up = sube riesgo; down = protege
+});
+export type HireDriver = z.infer<typeof HireDriverSchema>;
+
+export const CandidateSchema = z.object({
+  id: z.string(),
+  ref: z.string(), // ref anonimizado del candidato
+  role: z.string(),
+  line: z.string(), // línea de destino
+  source: HireSourceSchema,
+  appliedAt: z.string(),
+  interviewDone: z.boolean(),
+  survival90: z.number(), // 0–100, prob. de seguir a 90 días
+  survival12m: z.number(), // 0–100, prob. de seguir a 12 meses
+  expectedTenureMonths: z.number(),
+  costRisk: z.number(), // MXN: costo esperado si rota antes de 90 días
+  recommendation: HireRecommendationSchema,
+  drivers: z.array(HireDriverSchema),
+});
+export type Candidate = z.infer<typeof CandidateSchema>;
+
+export const CandidatesSummarySchema = z.object({
+  candidates: z.array(CandidateSchema),
+  kpis: z.object({
+    pipeline: z.number(),
+    avgSurvival90: z.number(), // 0–100
+    costAtRiskMxn: z.number(), // suma de costRisk de review + caution
+    advanceReady: z.number(),
+  }),
+});
+export type CandidatesSummary = z.infer<typeof CandidatesSummarySchema>;
+
+// Recap de entrevista (IA o reglas). Estructurado y job-related: nunca un
+// veredicto de "contratar/no", sino evidencia para que decida el reclutador.
+export const InterviewRecapSchema = z.object({
+  summary: z.string(),
+  strengths: z.array(z.string()),
+  watchouts: z.array(z.string()),
+  questions: z.array(z.string()), // preguntas estructuradas sugeridas
+  source: z.enum(["llm", "rules"]),
+});
+export type InterviewRecap = z.infer<typeof InterviewRecapSchema>;
