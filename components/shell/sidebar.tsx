@@ -100,7 +100,7 @@ export function Sidebar({
           className="flex items-center gap-2.5 px-5 py-[18px]"
         >
           <BrandMark size={26} className="shrink-0" />
-          <span className="text-[15px] font-semibold tracking-tight text-ink-1">Soral</span>
+          <span className="text-body font-semibold tracking-tight text-ink-1">Soral</span>
         </Link>
 
         <nav className="flex flex-1 flex-col gap-[18px] overflow-y-auto px-3 py-2" aria-label={t("primary")}>
@@ -110,7 +110,7 @@ export function Sidebar({
             return (
               <div key={group.titleKey ?? `g${i}`} className="flex flex-col gap-0.5">
                 {group.titleKey && (
-                  <div className="mb-1 px-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-3">
+                  <div className="mb-1 px-3 text-micro font-semibold uppercase tracking-[0.08em] text-ink-3">
                     {t(group.titleKey)}
                   </div>
                 )}
@@ -123,7 +123,7 @@ export function Sidebar({
                       href={item.href}
                       onClick={onClose}
                       aria-current={active ? "page" : undefined}
-                      className={`group/item flex items-center gap-3 rounded-lg px-3 py-[9px] text-[14px] font-medium transition-colors ${
+                      className={`group/item flex items-center gap-3 rounded-lg px-3 py-[9px] text-body font-medium transition-colors ${
                         active
                           ? "bg-risk-sol-soft text-risk-sol"
                           : "text-ink-1 hover:bg-surface-2"
@@ -146,11 +146,11 @@ export function Sidebar({
           onClick={onClose}
           className="flex items-center justify-between gap-2 border-t border-line px-5 py-3.5 transition-colors hover:bg-surface-2"
         >
-          <span className="flex items-center gap-2 text-[12px] font-medium text-ink-2">
+          <span className="flex items-center gap-2 text-meta font-medium text-ink-2">
             <span className="h-2 w-2 rounded-full bg-risk-sol" aria-hidden="true" />
             {t("modelStatus")}
           </span>
-          <span className="text-[11px] text-ink-3">{t("version")}</span>
+          <span className="text-micro text-ink-3">{t("version")}</span>
         </Link>
       </aside>
     </>

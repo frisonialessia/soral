@@ -26,16 +26,16 @@ export function Timeline({ refId }: { refId: string }) {
     <Card className="mb-[18px] px-[22px] py-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h3 className="text-[14px] font-semibold">{t("timelineTitle")}</h3>
-          <p className="mt-0.5 text-[12px] text-ink-3">{t("timelineSub")}</p>
+          <h3 className="text-body font-semibold">{t("timelineTitle")}</h3>
+          <p className="mt-0.5 text-meta text-ink-3">{t("timelineSub")}</p>
         </div>
-        <span className="flex items-center gap-1.5 rounded-full bg-risk-sol-soft px-2.5 py-1 text-[10.5px] font-medium text-risk-sol">
+        <span className="flex items-center gap-1.5 rounded-full bg-risk-sol-soft px-2.5 py-1 text-micro font-medium text-risk-sol">
           <ShieldCheck className="h-3 w-3" />
           {t("piiBadge")}
         </span>
       </div>
 
-      {isLoading && <p className="py-6 text-[13px] text-ink-3">{t("loading")}</p>}
+      {isLoading && <p className="py-6 text-copy text-ink-3">{t("loading")}</p>}
 
       {data && data.events.length > 0 && (
         <ol className="mt-4">
@@ -58,16 +58,16 @@ export function Timeline({ refId }: { refId: string }) {
                 <div className={last ? "pb-1" : "pb-5"}>
                   <div className="flex items-center gap-2">
                     <span
-                      className="rounded px-1.5 py-0.5 text-[9.5px] font-semibold uppercase tracking-wide"
+                      className="rounded px-1.5 py-0.5 text-micro font-semibold uppercase tracking-wide"
                       style={{ color, background: `${color}14` }}
                     >
                       {t(`tag_${e.kind}`)}
                     </span>
-                    <span className="text-[11px] text-ink-3">
+                    <span className="text-micro text-ink-3">
                       {f.dateTime(new Date(e.at), { dateStyle: "medium" })}
                     </span>
                   </div>
-                  <p className="mt-1 text-[13px] leading-snug text-ink-1">{label(e, t)}</p>
+                  <p className="mt-1 text-copy leading-snug text-ink-1">{label(e, t)}</p>
                 </div>
               </li>
             );
@@ -75,7 +75,7 @@ export function Timeline({ refId }: { refId: string }) {
         </ol>
       )}
 
-      <p className="mt-2 text-[11px] leading-relaxed text-ink-3">{t("piiNote")}</p>
+      <p className="mt-2 text-micro leading-relaxed text-ink-3">{t("piiNote")}</p>
     </Card>
   );
 }

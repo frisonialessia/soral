@@ -29,7 +29,7 @@ export function RiskHeatmap({ rows }: { rows: EmployeePrediction[] }) {
           <tr>
             <th />
             {SHIFTS.map((s) => (
-              <th key={s} className="pb-1 text-[10.5px] font-medium text-ink-3">
+              <th key={s} className="pb-1 text-micro font-medium text-ink-3">
                 {t(`shift_${s}`)}
               </th>
             ))}
@@ -38,13 +38,13 @@ export function RiskHeatmap({ rows }: { rows: EmployeePrediction[] }) {
         <tbody>
           {lines.map((line) => (
             <tr key={line}>
-              <td className="pr-2 text-right font-mono text-[12px] text-ink-2">{line}</td>
+              <td className="pr-2 text-right font-mono text-meta text-ink-2">{line}</td>
               {SHIFTS.map((s) => {
                 const c = cells.get(`${line}|${s}`);
                 return (
                   <td key={s} className="p-0">
                     <div
-                      className="flex h-9 items-center justify-center rounded-md text-[12px] font-semibold"
+                      className="flex h-9 items-center justify-center rounded-md text-meta font-semibold"
                       style={{ background: c ? riskColor(c.max) : "#EEF1F8", color: c ? "#fff" : "#C7CCDC" }}
                       title={c ? `${line} · ${t(`shift_${s}`)}: ${c.count}` : undefined}
                     >

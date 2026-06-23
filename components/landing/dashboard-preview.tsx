@@ -65,7 +65,7 @@ export function DashboardPreview() {
         <span className="h-3 w-3 rounded-full bg-[#EB4F6C]/70" />
         <span className="h-3 w-3 rounded-full bg-[#E5C07B]/80" />
         <span className="h-3 w-3 rounded-full bg-[#5B6EF5]/60" />
-        <span className="mx-auto rounded-md bg-surface px-3 py-1 text-[11px] text-ink-3">
+        <span className="mx-auto rounded-md bg-surface px-3 py-1 text-micro text-ink-3">
           {t("windowTitle")}
         </span>
       </div>
@@ -73,7 +73,7 @@ export function DashboardPreview() {
       <div className="flex">
         {/* Barra lateral */}
         <aside className="hidden w-44 shrink-0 flex-col gap-0.5 border-r border-line p-3 sm:flex">
-          <div className="flex items-center gap-2 px-2 pb-3 text-[14px] font-semibold">
+          <div className="flex items-center gap-2 px-2 pb-3 text-body font-semibold">
             <BrandMark size={20} className="shrink-0" />
             Soral
           </div>
@@ -82,7 +82,7 @@ export function DashboardPreview() {
             return (
               <div
                 key={n.key}
-                className={`flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-[12.5px] ${
+                className={`flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-copy ${
                   n.active ? "bg-surface-2 font-medium text-ink-1" : "text-ink-2"
                 }`}
               >
@@ -95,14 +95,14 @@ export function DashboardPreview() {
 
         {/* Contenido */}
         <div className="min-w-0 flex-1 p-4 sm:p-5">
-          <h3 className="text-[18px] font-semibold tracking-tight">{td("title")}</h3>
-          <p className="mt-0.5 line-clamp-1 text-[12px] text-ink-2">
+          <h3 className="text-subhead font-semibold tracking-tight">{td("title")}</h3>
+          <p className="mt-0.5 line-clamp-1 text-meta text-ink-2">
             {td("subtitle", { count: PREVIEW_TOTAL })}
           </p>
 
           <div className="mt-4 flex flex-col gap-3 lg:flex-row lg:items-stretch">
             <div className="min-w-0 flex-1 rounded-xl border border-line p-3.5">
-              <div className="mb-2 text-[13px] font-semibold">{td("mapTitle")}</div>
+              <div className="mb-2 text-copy font-semibold">{td("mapTitle")}</div>
               <div className="pointer-events-none">
                 <DotField employees={PREVIEW_EMPLOYEES} total={PREVIEW_TOTAL} />
               </div>
@@ -110,8 +110,8 @@ export function DashboardPreview() {
             <div className="flex gap-3 lg:w-[150px] lg:flex-col">
               {STATS.map((s) => (
                 <div key={s.key} className="flex-1 rounded-xl border border-line px-3.5 py-2.5">
-                  <div className="text-[10.5px] text-ink-2">{td(s.key)}</div>
-                  <div className="mt-0.5 font-mono text-[21px] font-semibold leading-tight" style={{ color: s.color }}>
+                  <div className="text-micro text-ink-2">{td(s.key)}</div>
+                  <div className="mt-0.5 font-mono text-heading font-semibold leading-tight" style={{ color: s.color }}>
                     {s.value}
                   </div>
                 </div>
@@ -121,7 +121,7 @@ export function DashboardPreview() {
 
           {/* Mini tabla top en riesgo */}
           <div className="mt-4 overflow-hidden rounded-xl border border-line">
-            <div className="grid grid-cols-[1fr_auto] gap-2 border-b border-line bg-surface-2 px-4 py-2 text-[10.5px] font-semibold uppercase tracking-wide text-ink-3">
+            <div className="grid grid-cols-[1fr_auto] gap-2 border-b border-line bg-surface-2 px-4 py-2 text-micro font-semibold uppercase tracking-wide text-ink-3">
               <span>{tt("driver")}</span>
               <span>{tt("score")}</span>
             </div>
@@ -130,12 +130,12 @@ export function DashboardPreview() {
               return (
                 <div key={r.ref} className="grid grid-cols-[1fr_auto] items-center gap-2 border-b border-line px-4 py-2.5 last:border-b-0">
                   <div className="min-w-0">
-                    <span className="font-mono text-[12px] text-ink-1">{r.ref}</span>
-                    <span className="ml-2 truncate text-[12px] text-ink-2">· {r.driver}</span>
+                    <span className="font-mono text-meta text-ink-1">{r.ref}</span>
+                    <span className="ml-2 truncate text-meta text-ink-2">· {r.driver}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="hidden font-mono text-[11px] text-ink-3 sm:inline">{r.line}</span>
-                    <span className="min-w-[34px] text-right font-mono text-[13px] font-bold" style={{ color: c }}>
+                    <span className="hidden font-mono text-micro text-ink-3 sm:inline">{r.line}</span>
+                    <span className="min-w-[34px] text-right font-mono text-copy font-bold" style={{ color: c }}>
                       {r.score}%
                     </span>
                   </div>

@@ -13,8 +13,8 @@ export default function AdminPage() {
   if (!allowed) {
     return (
       <div className="animate-fade py-6">
-        <h1 className="text-[27px] font-semibold tracking-tight">{t("title")}</h1>
-        <Card className="mt-6 px-6 py-12 text-center text-[13.5px] text-ink-2" role="alert">
+        <h1 className="text-title font-semibold tracking-tight">{t("title")}</h1>
+        <Card className="mt-6 px-6 py-12 text-center text-body text-ink-2" role="alert">
           {t("forbidden")}
         </Card>
       </div>
@@ -24,8 +24,8 @@ export default function AdminPage() {
   return (
     <div className="animate-fade py-6">
       <div className="mb-6">
-        <h1 className="text-[27px] font-semibold tracking-tight">{t("title")}</h1>
-        <p className="mt-1 text-sm text-ink-2">{t("subtitle")}</p>
+        <h1 className="text-title font-semibold tracking-tight">{t("title")}</h1>
+        <p className="mt-1 text-body text-ink-2">{t("subtitle")}</p>
       </div>
       <MembersSection />
       <RolesMatrix />

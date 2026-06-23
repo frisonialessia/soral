@@ -22,28 +22,28 @@ export function DepartureForecast({ rows }: { rows: EmployeePrediction[] }) {
 
   return (
     <div>
-      <p className="text-[13px] font-medium text-ink-1">{t("fcLead", { n: within4 })}</p>
+      <p className="text-copy font-medium text-ink-1">{t("fcLead", { n: within4 })}</p>
 
       <ul className="mt-4 space-y-1">
         {buckets.map((b, i) => (
           <li key={i} className="flex items-start gap-3 border-b border-line py-2.5 last:border-0">
-            <span className="flex w-[96px] shrink-0 items-center gap-2 pt-1 text-[12px] text-ink-2">
+            <span className="flex w-[96px] shrink-0 items-center gap-2 pt-1 text-meta text-ink-2">
               {labels[i]}
               {i === 0 && b.length > 0 && (
-                <span className="rounded-full bg-risk-cri/10 px-1.5 py-0.5 text-[9.5px] font-semibold uppercase text-risk-cri">
+                <span className="rounded-full bg-risk-cri/10 px-1.5 py-0.5 text-micro font-semibold uppercase text-risk-cri">
                   {t("fcActNow")}
                 </span>
               )}
             </span>
             <div className="flex flex-1 flex-wrap gap-1.5">
               {b.length === 0 ? (
-                <span className="pt-1 text-[12px] text-ink-3">—</span>
+                <span className="pt-1 text-meta text-ink-3">—</span>
               ) : (
                 b.map((e) => (
                   <Link
                     key={e.ref}
                     href={`/empleado/${encodeURIComponent(e.ref)}`}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-line px-2 py-1 text-[11.5px] transition-colors hover:border-risk-sol hover:bg-surface-2"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-line px-2 py-1 text-meta transition-colors hover:border-risk-sol hover:bg-surface-2"
                   >
                     <span className="h-2 w-2 rounded-full" style={{ background: riskColor(e.score) }} />
                     <span className="font-mono text-ink-1">{e.ref}</span>

@@ -15,13 +15,13 @@ export async function SectionPlaceholder({
 
   return (
     <div className="animate-fade py-6">
-      <h1 className="text-[27px] font-semibold tracking-tight">{title}</h1>
+      <h1 className="text-title font-semibold tracking-tight">{title}</h1>
       <Card className="mt-6 flex flex-col items-center gap-3 px-6 py-16 text-center">
-        <span className="rounded-full bg-risk-sol-soft px-3 py-1 text-[12px] font-semibold text-risk-sol">
+        <span className="rounded-full bg-risk-sol-soft px-3 py-1 text-meta font-semibold text-risk-sol">
           {t("underConstruction")}
         </span>
-        <p className="max-w-md text-[13.5px] text-ink-2">{description}</p>
-        <p className="text-[11.5px] text-ink-3">{t("supabaseNote")}</p>
+        <p className="max-w-md text-body text-ink-2">{description}</p>
+        <p className="text-meta text-ink-3">{t("supabaseNote")}</p>
       </Card>
     </div>
   );

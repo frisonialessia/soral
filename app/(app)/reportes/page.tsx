@@ -81,13 +81,13 @@ export default function ReportsPage() {
     <div className="animate-fade pb-12">
       <div className="flex flex-wrap items-end justify-between gap-3.5 py-5">
         <div>
-          <h1 className="text-[27px] font-semibold tracking-tight">{t("title")}</h1>
-          <p className="mt-1 text-sm text-ink-2">{t("subtitle")}</p>
+          <h1 className="text-title font-semibold tracking-tight">{t("title")}</h1>
+          <p className="mt-1 text-body text-ink-2">{t("subtitle")}</p>
         </div>
         <button
           type="button"
           onClick={downloadCsv}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-line-2 bg-surface px-3.5 py-2 text-[12.5px] font-medium text-ink-1 transition-colors hover:border-risk-sol hover:text-risk-sol"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-line-2 bg-surface px-3.5 py-2 text-copy font-medium text-ink-1 transition-colors hover:border-risk-sol hover:text-risk-sol"
         >
           <Download className="h-4 w-4" />
           {t("exportCsv")}
@@ -97,19 +97,19 @@ export default function ReportsPage() {
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {kpis.map((k) => (
           <Card key={k.label} className="px-[17px] py-[15px]">
-            <div className="text-[11.5px] text-ink-2">{k.label}</div>
-            <div className="mt-1 font-mono text-[23px] font-semibold leading-tight" style={{ color: k.color }}>
+            <div className="text-meta text-ink-2">{k.label}</div>
+            <div className="mt-1 font-mono text-heading font-semibold leading-tight" style={{ color: k.color }}>
               {k.value}
             </div>
-            <div className="mt-0.5 text-[11px] text-ink-3">{k.sub}</div>
+            <div className="mt-0.5 text-micro text-ink-3">{k.sub}</div>
           </Card>
         ))}
       </div>
 
       <Card className="mt-4 rounded-xl p-[22px]">
         <div className="mb-4">
-          <h2 className="text-[17px] font-semibold">{t("turnoverTitle")}</h2>
-          <p className="mt-0.5 text-[12.5px] text-ink-2">{t("turnoverSub")}</p>
+          <h2 className="text-subhead font-semibold">{t("turnoverTitle")}</h2>
+          <p className="mt-0.5 text-copy text-ink-2">{t("turnoverSub")}</p>
         </div>
         <AreaChart data={data.attrition} labels={months} ariaLabel={t("turnoverAria")} />
       </Card>
@@ -117,15 +117,15 @@ export default function ReportsPage() {
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <Card className="rounded-xl p-[22px]">
           <div className="mb-4">
-            <h2 className="text-[17px] font-semibold">{t("byLineTitle")}</h2>
-            <p className="mt-0.5 text-[12.5px] text-ink-2">{t("byLineSub")}</p>
+            <h2 className="text-subhead font-semibold">{t("byLineTitle")}</h2>
+            <p className="mt-0.5 text-copy text-ink-2">{t("byLineSub")}</p>
           </div>
           <BarList items={lineItems} />
         </Card>
         <Card className="rounded-xl p-[22px]">
           <div className="mb-4">
-            <h2 className="text-[17px] font-semibold">{t("driversTitle")}</h2>
-            <p className="mt-0.5 text-[12.5px] text-ink-2">{t("driversSub")}</p>
+            <h2 className="text-subhead font-semibold">{t("driversTitle")}</h2>
+            <p className="mt-0.5 text-copy text-ink-2">{t("driversSub")}</p>
           </div>
           <BarList items={driverItems} />
         </Card>

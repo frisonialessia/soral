@@ -46,8 +46,8 @@ export function ConnectorModal({
             <Icon className="h-5 w-5" />
           </span>
           <div>
-            <div className="text-[16px] font-semibold text-ink-1">{c.name}</div>
-            <div className="text-[12px] text-ink-3">{t(`cat_${c.category}`)}</div>
+            <div className="text-subhead font-semibold text-ink-1">{c.name}</div>
+            <div className="text-meta text-ink-3">{t(`cat_${c.category}`)}</div>
           </div>
         </div>
         <DialogClose onClose={onClose} />
@@ -68,17 +68,17 @@ export function ConnectorModal({
       </div>
 
       <div className="mt-4">
-        <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ink-3">{t("fieldMapping")}</div>
+        <div className="mb-2 text-micro font-semibold uppercase tracking-wide text-ink-3">{t("fieldMapping")}</div>
         {c.fields.length === 0 ? (
-          <p className="text-[12.5px] text-ink-3">{t("noFields")}</p>
+          <p className="text-copy text-ink-3">{t("noFields")}</p>
         ) : (
           <div className="overflow-hidden rounded-lg border border-line">
-            <div className="grid grid-cols-2 bg-surface-2 px-3 py-1.5 text-[10.5px] font-semibold uppercase tracking-wide text-ink-3">
+            <div className="grid grid-cols-2 bg-surface-2 px-3 py-1.5 text-micro font-semibold uppercase tracking-wide text-ink-3">
               <span>{t("source")}</span>
               <span>{t("target")}</span>
             </div>
             {c.fields.map((f) => (
-              <div key={f.source} className="grid grid-cols-2 items-center border-t border-line px-3 py-2 text-[12.5px]">
+              <div key={f.source} className="grid grid-cols-2 items-center border-t border-line px-3 py-2 text-copy">
                 <span className="font-mono text-ink-2">{f.source}</span>
                 <span className="font-mono text-ink-1">→ {f.target}</span>
               </div>
@@ -92,7 +92,7 @@ export function ConnectorModal({
           type="button"
           onClick={() => sync.mutate(c.id, { onSuccess: () => setJustSynced(true) })}
           disabled={sync.isPending || c.status === "disconnected"}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-risk-sol px-4 py-2 text-[13px] font-medium text-white transition-opacity disabled:opacity-40"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-risk-sol px-4 py-2 text-copy font-medium text-white transition-opacity disabled:opacity-40"
         >
           {justSynced ? (
             <>
@@ -119,8 +119,8 @@ export function ConnectorModal({
 function Meta({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="rounded-lg border border-line bg-surface-2 px-3 py-2">
-      <div className="text-[10.5px] uppercase tracking-wide text-ink-3">{label}</div>
-      <div className="mt-0.5 text-[12.5px] font-medium text-ink-1">{value}</div>
+      <div className="text-micro uppercase tracking-wide text-ink-3">{label}</div>
+      <div className="mt-0.5 text-copy font-medium text-ink-1">{value}</div>
     </div>
   );
 }

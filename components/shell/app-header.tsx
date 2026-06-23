@@ -32,8 +32,8 @@ export function AppHeader({ onMenu }: { onMenu: () => void }) {
       </button>
 
       <div className="min-w-0">
-        <div className="truncate text-sm font-semibold text-ink-1">{user.tenantName}</div>
-        <div className="text-[11.5px] text-ink-3">{t("week", { week: 24, year: 2026 })}</div>
+        <div className="truncate text-body font-semibold text-ink-1">{user.tenantName}</div>
+        <div className="text-meta text-ink-3">{t("week", { week: 24, year: 2026 })}</div>
       </div>
 
       <div className="ml-auto flex items-center gap-1.5">
@@ -47,12 +47,12 @@ export function AppHeader({ onMenu }: { onMenu: () => void }) {
             aria-expanded={open}
             className="flex items-center gap-2.5 rounded-full py-1 pl-1 pr-2 hover:bg-surface-2"
           >
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-risk-sol text-[12px] font-bold text-white">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-risk-sol text-meta font-bold text-white">
               {initials}
             </span>
             <span className="hidden text-left leading-tight sm:block">
-              <span className="block text-[13px] font-medium text-ink-1">{user.name}</span>
-              <span className="block text-[11px] text-ink-3">{tr(user.role)}</span>
+              <span className="block text-copy font-medium text-ink-1">{user.name}</span>
+              <span className="block text-micro text-ink-3">{tr(user.role)}</span>
             </span>
           </button>
 
@@ -64,13 +64,13 @@ export function AppHeader({ onMenu }: { onMenu: () => void }) {
                 className="absolute right-0 z-50 mt-2 w-52 rounded-lg border border-line bg-surface p-1 shadow-lg"
               >
                 <div className="px-3 py-2 sm:hidden">
-                  <div className="text-[13px] font-medium text-ink-1">{user.name}</div>
-                  <div className="text-[11px] text-ink-3">{tr(user.role)}</div>
+                  <div className="text-copy font-medium text-ink-1">{user.name}</div>
+                  <div className="text-micro text-ink-3">{tr(user.role)}</div>
                 </div>
                 <button
                   role="menuitem"
                   onClick={() => setOpen(false)}
-                  className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-[13px] text-ink-1 hover:bg-surface-2"
+                  className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-copy text-ink-1 hover:bg-surface-2"
                 >
                   <User className="h-4 w-4 text-ink-3" /> {t("profile")}
                 </button>
@@ -80,7 +80,7 @@ export function AppHeader({ onMenu }: { onMenu: () => void }) {
                     setOpen(false);
                     signOut();
                   }}
-                  className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-[13px] text-ink-1 hover:bg-surface-2"
+                  className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-copy text-ink-1 hover:bg-surface-2"
                 >
                   <LogOut className="h-4 w-4 text-ink-3" /> {t("signOut")}
                 </button>

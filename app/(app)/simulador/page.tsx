@@ -30,8 +30,8 @@ export default function PlanningToolsPage() {
   return (
     <div className="animate-fade pb-12">
       <div className="py-5">
-        <h1 className="text-[27px] font-semibold tracking-tight">{t("insightsTitle")}</h1>
-        <p className="mt-1 max-w-3xl text-sm text-ink-2">{t("insightsSubtitle")}</p>
+        <h1 className="text-title font-semibold tracking-tight">{t("insightsTitle")}</h1>
+        <p className="mt-1 max-w-3xl text-body text-ink-2">{t("insightsSubtitle")}</p>
       </div>
       <Card className="rounded-xl p-[22px]">
         <InsightTabs rows={data.topRisk} />

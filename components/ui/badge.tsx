@@ -9,7 +9,7 @@ export function Badge({ className, color, style, ...props }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-block rounded-md px-2.5 py-1 text-[11.5px] font-semibold",
+        "inline-block rounded-md px-2.5 py-1 text-meta font-semibold",
         className
       )}
       style={{

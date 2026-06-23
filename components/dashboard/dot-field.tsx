@@ -106,7 +106,7 @@ export function DotField({
         })}
       </svg>
 
-      <div className="pointer-events-none absolute left-0 top-2 flex h-[calc(100%-32px)] w-10 flex-col items-end justify-between pr-2 font-mono text-[9px] uppercase tracking-wide text-ink-3">
+      <div className="pointer-events-none absolute left-0 top-2 flex h-[calc(100%-32px)] w-10 flex-col items-end justify-between pr-2 font-mono text-micro uppercase tracking-wide text-ink-3">
         <span>{t("critical")}</span>
         <span>{t("medium")}</span>
         <span>{t("stable")}</span>
@@ -114,14 +114,14 @@ export function DotField({
 
       {hover && (
         <div className="pointer-events-none absolute right-2 top-2 rounded-md border border-line-2 bg-surface px-4 py-3">
-          <div className="font-mono text-[12px] text-ink-2">{hover.ref}</div>
+          <div className="font-mono text-meta text-ink-2">{hover.ref}</div>
           <div
-            className="font-mono text-[20px] font-bold leading-tight"
+            className="font-mono text-heading font-bold leading-tight"
             style={{ color: riskColor(hover.score) }}
           >
             {hover.score}%
           </div>
-          <div className="text-[11.5px] text-ink-2">
+          <div className="text-meta text-ink-2">
             {tb(hover.band)}
             {hover.driver ? ` · ${hover.driver}` : ""}
           </div>

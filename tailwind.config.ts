@@ -38,6 +38,19 @@ const config: Config = {
         sans: ["Inter", "system-ui", "sans-serif"],
         mono: ["JetBrains Mono", "ui-monospace", "monospace"],
       },
+      // Escala tipográfica única (size + line-height). El peso y el tracking se
+      // dejan explícitos en cada uso. Reemplaza ~26 tamaños text-[Npx] sueltos.
+      fontSize: {
+        hero: ["52px", { lineHeight: "1.05" }],     // hero de la landing
+        display: ["30px", { lineHeight: "1.1" }],   // cifras grandes / gauge
+        title: ["27px", { lineHeight: "1.18" }],    // H1 de página
+        heading: ["21px", { lineHeight: "1.25" }],  // sección mayor
+        subhead: ["17px", { lineHeight: "1.35" }],  // título de tarjeta / H2
+        body: ["14px", { lineHeight: "1.5" }],      // cuerpo, nav, inputs
+        copy: ["13px", { lineHeight: "1.5" }],      // cuerpo secundario, celdas
+        meta: ["12px", { lineHeight: "1.45" }],     // captions, ayudas
+        micro: ["11px", { lineHeight: "1.4" }],     // etiquetas diminutas / uppercase
+      },
       borderRadius: {
         md: "10px",
         lg: "14px",

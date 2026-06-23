@@ -40,14 +40,14 @@ export default function HiringPage() {
   return (
     <div className="animate-fade pb-12">
       <div className="py-5">
-        <h1 className="text-[27px] font-semibold tracking-tight">{t("title")}</h1>
-        <p className="mt-1 text-sm text-ink-2">{t("subtitle")}</p>
+        <h1 className="text-title font-semibold tracking-tight">{t("title")}</h1>
+        <p className="mt-1 text-body text-ink-2">{t("subtitle")}</p>
       </div>
 
       {/* Gobernanza: soporte a la decisión, no rechazo automático */}
       <div className="mb-4 flex items-start gap-2.5 rounded-xl border border-risk-sol/20 bg-risk-sol-soft/50 px-4 py-3">
         <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-risk-sol" />
-        <p className="text-[12.5px] leading-relaxed text-ink-2">{t("govNote")}</p>
+        <p className="text-copy leading-relaxed text-ink-2">{t("govNote")}</p>
       </div>
 
       {/* KPIs */}
@@ -62,8 +62,8 @@ export default function HiringPage() {
         {/* Pipeline de candidatos */}
         <Card className="overflow-hidden rounded-xl">
           <div className="border-b border-line px-[18px] py-3.5">
-            <h3 className="text-[14px] font-semibold">{t("pipelineTitle")}</h3>
-            <p className="mt-0.5 text-[12px] text-ink-3">{t("pipelineSub")}</p>
+            <h3 className="text-body font-semibold">{t("pipelineTitle")}</h3>
+            <p className="mt-0.5 text-meta text-ink-3">{t("pipelineSub")}</p>
           </div>
           <div className="divide-y divide-line">
             {candidates.map((c) => (
@@ -84,8 +84,8 @@ export default function HiringPage() {
 function Kpi({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
     <Card className="px-[17px] py-[15px]">
-      <div className="text-[11.5px] text-ink-2">{label}</div>
-      <div className="mt-1 font-mono text-[22px] font-bold leading-tight" style={{ color: color ?? "#2B2D42" }}>
+      <div className="text-meta text-ink-2">{label}</div>
+      <div className="mt-1 font-mono text-heading font-bold leading-tight" style={{ color: color ?? "#2B2D42" }}>
         {value}
       </div>
     </Card>
@@ -107,30 +107,30 @@ function CandidateRow({
     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-[18px] py-3 hover:bg-surface-2/50">
       <div className="min-w-[150px] flex-1">
         <div className="flex items-center gap-2">
-          <span className="font-mono text-[13px] font-semibold">{c.ref}</span>
+          <span className="font-mono text-copy font-semibold">{c.ref}</span>
           <RecChip rec={c.recommendation} label={t(`rec_${c.recommendation}`)} />
         </div>
-        <div className="mt-0.5 text-[12px] text-ink-2">
+        <div className="mt-0.5 text-meta text-ink-2">
           {c.role} · {c.line} · <span className="text-ink-3">{t(`src_${c.source}`)}</span>
         </div>
       </div>
 
       <div className="w-[150px]">
-        <div className="mb-1 flex justify-between text-[11px]">
+        <div className="mb-1 flex justify-between text-micro">
           <span className="text-ink-3">{t("colSurvival90")}</span>
           <span className="font-mono font-semibold" style={{ color: survivalColor(c.survival90) }}>{c.survival90}%</span>
         </div>
         <div className="h-2 overflow-hidden rounded bg-surface-bg">
           <div className="h-full rounded" style={{ width: `${c.survival90}%`, background: survivalColor(c.survival90) }} />
         </div>
-        <div className="mt-1 text-[10.5px] text-ink-3">
+        <div className="mt-1 text-micro text-ink-3">
           {t("tenureMonths", { n: c.expectedTenureMonths })} · {t("colSurvival12")} {c.survival12m}%
         </div>
       </div>
 
       <div className="w-[110px] text-right">
-        <div className="text-[10.5px] text-ink-3">{t("colCostRisk")}</div>
-        <div className="font-mono text-[13px] font-semibold text-risk-cri">{mxn(c.costRisk)}</div>
+        <div className="text-micro text-ink-3">{t("colCostRisk")}</div>
+        <div className="font-mono text-copy font-semibold text-risk-cri">{mxn(c.costRisk)}</div>
       </div>
 
       <Button variant="default" onClick={onRecap} className="shrink-0">
@@ -145,7 +145,7 @@ function RecChip({ rec, label }: { rec: HireRecommendation; label: string }) {
   const c = REC_COLOR[rec];
   return (
     <span
-      className="rounded-full px-2 py-0.5 text-[10.5px] font-semibold"
+      className="rounded-full px-2 py-0.5 text-micro font-semibold"
       style={{ color: c, background: `${c}1a` }}
     >
       {label}
@@ -171,11 +171,11 @@ function CostCalculator({
 
   return (
     <Card className="rounded-xl p-[18px]">
-      <h3 className="text-[14px] font-semibold">{t("calcTitle")}</h3>
-      <p className="mt-0.5 text-[12px] text-ink-3">{t("calcHint", { cost: mxn(EARLY_EXIT_COST_MXN) })}</p>
+      <h3 className="text-body font-semibold">{t("calcTitle")}</h3>
+      <p className="mt-0.5 text-meta text-ink-3">{t("calcHint", { cost: mxn(EARLY_EXIT_COST_MXN) })}</p>
 
       <div className="mt-4">
-        <div className="mb-1 flex items-center justify-between text-[12.5px]">
+        <div className="mb-1 flex items-center justify-between text-copy">
           <span className="text-ink-1">{t("calcHires")}</span>
           <span className="font-mono font-semibold text-ink-1">{hires}</span>
         </div>
@@ -193,15 +193,15 @@ function CostCalculator({
 
       <div className="mt-4 space-y-2.5">
         <div className="flex items-center justify-between rounded-lg border border-line bg-surface-2 px-3.5 py-2.5">
-          <span className="text-[12px] text-ink-2">{t("calcExits", { rate: `${Math.round(earlyExitRate * 100)}%` })}</span>
-          <span className="font-mono text-[16px] font-bold text-ink-1">{exits}</span>
+          <span className="text-meta text-ink-2">{t("calcExits", { rate: `${Math.round(earlyExitRate * 100)}%` })}</span>
+          <span className="font-mono text-subhead font-bold text-ink-1">{exits}</span>
         </div>
         <div className="flex items-center justify-between rounded-lg border border-risk-cri/25 bg-risk-cri/5 px-3.5 py-2.5">
-          <span className="text-[12px] text-ink-2">{t("calcCost")}</span>
-          <span className="font-mono text-[16px] font-bold text-risk-cri">{mxn(cost)}</span>
+          <span className="text-meta text-ink-2">{t("calcCost")}</span>
+          <span className="font-mono text-subhead font-bold text-risk-cri">{mxn(cost)}</span>
         </div>
       </div>
-      <p className="mt-3 text-[11px] leading-relaxed text-ink-3">{t("calcFoot")}</p>
+      <p className="mt-3 text-micro leading-relaxed text-ink-3">{t("calcFoot")}</p>
     </Card>
   );
 }
@@ -238,34 +238,34 @@ function RecapModal({
         <div>
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-risk-sol" />
-            <h2 className="text-[16px] font-semibold">{t("recapTitle")}</h2>
+            <h2 className="text-subhead font-semibold">{t("recapTitle")}</h2>
           </div>
-          <div className="mt-1 font-mono text-[13px] text-ink-2">
+          <div className="mt-1 font-mono text-copy text-ink-2">
             {candidate.ref} · {candidate.role} · {candidate.line}
           </div>
         </div>
         <DialogClose onClose={handleClose} />
       </div>
 
-      {recap.isPending && <p className="py-6 text-center text-[13px] text-ink-3">{t("recapLoading")}</p>}
+      {recap.isPending && <p className="py-6 text-center text-copy text-ink-3">{t("recapLoading")}</p>}
       {recap.isError && (
-        <div className="rounded-md border border-risk-cri/30 bg-risk-cri/5 px-3.5 py-2.5 text-[12.5px] text-risk-cri" role="alert">
+        <div className="rounded-md border border-risk-cri/30 bg-risk-cri/5 px-3.5 py-2.5 text-copy text-risk-cri" role="alert">
           {t("recapError")}
         </div>
       )}
 
       {r && (
         <div className="space-y-4">
-          <p className="text-[13.5px] leading-relaxed text-ink-1">{r.summary}</p>
+          <p className="text-body leading-relaxed text-ink-1">{r.summary}</p>
 
           <RecapList title={t("recapStrengths")} items={r.strengths} dot="#5B6EF5" />
           <RecapList title={t("recapWatchouts")} items={r.watchouts} dot="#EB4F6C" />
 
           <div>
-            <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-3">{t("recapQuestions")}</div>
+            <div className="mb-1.5 text-micro font-semibold uppercase tracking-wide text-ink-3">{t("recapQuestions")}</div>
             <ol className="space-y-1.5">
               {r.questions.map((q, i) => (
-                <li key={i} className="flex gap-2 text-[13px] text-ink-1">
+                <li key={i} className="flex gap-2 text-copy text-ink-1">
                   <span className="font-mono text-ink-3">{i + 1}.</span>
                   {q}
                 </li>
@@ -274,12 +274,12 @@ function RecapModal({
           </div>
 
           <div className="flex items-center justify-between border-t border-line pt-3">
-            <span className="text-[11px] text-ink-3">
+            <span className="text-micro text-ink-3">
               {r.source === "llm" ? t("sourceLlm") : t("sourceRules")}
             </span>
             <Button variant="default" onClick={handleClose}>{tc("close")}</Button>
           </div>
-          <p className="text-[11px] leading-relaxed text-ink-3">{t("recapNote")}</p>
+          <p className="text-micro leading-relaxed text-ink-3">{t("recapNote")}</p>
         </div>
       )}
     </Dialog>
@@ -290,10 +290,10 @@ function RecapList({ title, items, dot }: { title: string; items: string[]; dot:
   if (!items.length) return null;
   return (
     <div>
-      <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-3">{title}</div>
+      <div className="mb-1.5 text-micro font-semibold uppercase tracking-wide text-ink-3">{title}</div>
       <ul className="space-y-1.5">
         {items.map((it, i) => (
-          <li key={i} className="flex items-start gap-2 text-[13px] text-ink-1">
+          <li key={i} className="flex items-start gap-2 text-copy text-ink-1">
             <span className="mt-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: dot }} />
             {it}
           </li>

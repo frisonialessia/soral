@@ -20,9 +20,9 @@ export function AiBriefing() {
         <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-risk-sol text-white">
           <Sparkles className="h-4 w-4" />
         </span>
-        <span className="text-[13px] font-semibold text-ink-1">{t("aiBriefingTitle")}</span>
+        <span className="text-copy font-semibold text-ink-1">{t("aiBriefingTitle")}</span>
         {data && (
-          <span className="rounded-full border border-line-2 bg-surface px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-ink-3">
+          <span className="rounded-full border border-line-2 bg-surface px-2 py-0.5 text-micro font-medium uppercase tracking-wide text-ink-3">
             {data.source === "llm" ? t("aiBriefingLive") : t("aiBriefingSample")}
           </span>
         )}
@@ -36,12 +36,12 @@ export function AiBriefing() {
         </div>
       ) : (
         <>
-          <h3 className="text-[16px] font-semibold tracking-tight text-ink-1">{data.headline}</h3>
-          <p className="mt-1 max-w-3xl text-[13px] leading-relaxed text-ink-2">{data.summary}</p>
+          <h3 className="text-subhead font-semibold tracking-tight text-ink-1">{data.headline}</h3>
+          <p className="mt-1 max-w-3xl text-copy leading-relaxed text-ink-2">{data.summary}</p>
           {data.points.length > 0 && (
             <ul className="mt-3 grid gap-1.5 sm:grid-cols-2">
               {data.points.map((p, i) => (
-                <li key={i} className="flex gap-2 text-[12.5px] text-ink-1">
+                <li key={i} className="flex gap-2 text-copy text-ink-1">
                   <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full bg-risk-sol" />
                   <span>{p}</span>
                 </li>

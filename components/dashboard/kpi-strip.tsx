@@ -60,9 +60,9 @@ export function KpiStrip({ data }: { data: PlantSummary }) {
           <div key={it.label} className="rounded-xl border border-line bg-surface px-3.5 py-3">
             <div className="flex items-center gap-1.5">
               <Icon className="h-3.5 w-3.5 text-ink-3" />
-              <span className="text-[11px] text-ink-2">{it.label}</span>
+              <span className="text-micro text-ink-2">{it.label}</span>
             </div>
-            <div className="mt-1 text-[20px] font-bold leading-tight" style={{ color: it.color }}>
+            <div className="mt-1 text-heading font-bold leading-tight" style={{ color: it.color }}>
               {it.value}
             </div>
             <div className="mt-1">

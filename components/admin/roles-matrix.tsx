@@ -15,8 +15,8 @@ export function RolesMatrix() {
 
   return (
     <section className="mt-9">
-      <h2 className="text-[17px] font-semibold">{t("rolesTitle")}</h2>
-      <p className="mb-3 mt-0.5 text-[12.5px] text-ink-2">{t("rolesSubtitle")}</p>
+      <h2 className="text-subhead font-semibold">{t("rolesTitle")}</h2>
+      <p className="mb-3 mt-0.5 text-copy text-ink-2">{t("rolesSubtitle")}</p>
 
       <Table>
         <THead>

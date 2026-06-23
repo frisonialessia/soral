@@ -32,7 +32,7 @@ export function LanguageSwitcher() {
         aria-expanded={open}
         aria-label={t("language")}
         disabled={isPending}
-        className="flex h-9 items-center gap-1.5 rounded-lg px-2.5 text-[13px] text-ink-2 hover:bg-surface-2 hover:text-ink-1 disabled:opacity-50"
+        className="flex h-9 items-center gap-1.5 rounded-lg px-2.5 text-copy text-ink-2 hover:bg-surface-2 hover:text-ink-1 disabled:opacity-50"
       >
         <Globe className="h-[18px] w-[18px]" />
         <span className="hidden uppercase sm:inline">{active}</span>
@@ -51,7 +51,7 @@ export function LanguageSwitcher() {
                 role="menuitemradio"
                 aria-checked={loc === active}
                 onClick={() => change(loc)}
-                className="flex w-full items-center justify-between gap-2 rounded-md px-3 py-2 text-left text-[13px] text-ink-1 hover:bg-surface-2"
+                className="flex w-full items-center justify-between gap-2 rounded-md px-3 py-2 text-left text-copy text-ink-1 hover:bg-surface-2"
               >
                 {localeNames[loc]}
                 {loc === active && <Check className="h-4 w-4 text-risk-sol" />}

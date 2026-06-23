@@ -55,10 +55,10 @@ export default function FloorPage() {
       {/* Header */}
       <div className="pt-5">
         <div className="flex items-center justify-between">
-          <h1 className="text-[24px] font-semibold tracking-tight">{t("title")}</h1>
-          <span className="text-[12px] text-ink-3">{t("plant")}</span>
+          <h1 className="text-heading font-semibold tracking-tight">{t("title")}</h1>
+          <span className="text-meta text-ink-3">{t("plant")}</span>
         </div>
-        <p className="mt-0.5 text-[13px] text-ink-2">{t("greeting", { name: user.name })}</p>
+        <p className="mt-0.5 text-copy text-ink-2">{t("greeting", { name: user.name })}</p>
       </div>
 
       {/* Selector de línea */}
@@ -70,7 +70,7 @@ export default function FloorPage() {
               key={l.id}
               type="button"
               onClick={() => setLine(l.id)}
-              className={`flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors ${
+              className={`flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-copy font-medium transition-colors ${
                 on ? "border-risk-sol bg-risk-sol text-white" : "border-line bg-surface text-ink-2"
               }`}
             >
@@ -90,7 +90,7 @@ export default function FloorPage() {
 
       {/* Actuar ahora */}
       <SectionTitle title={t("actNow")} sub={t("actNowSub")} />
-      {detail.isLoading && <p className="px-1 py-4 text-[13px] text-ink-3">{tc("loading")}</p>}
+      {detail.isLoading && <p className="px-1 py-4 text-copy text-ink-3">{tc("loading")}</p>}
       <div className="space-y-2.5">
         {workers.length === 0 && !detail.isLoading && (
           <Empty>{t("noAlerts")}</Empty>
@@ -101,21 +101,21 @@ export default function FloorPage() {
             <div key={w.ref} className="rounded-2xl border border-line bg-surface p-3.5">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl font-mono text-white" style={{ background: c }}>
-                  <span className="text-[15px] font-bold leading-none">{w.score}</span>
+                  <span className="text-body font-bold leading-none">{w.score}</span>
                 </div>
                 <div className="min-w-0 flex-1">
-                  <Link href={`/empleado/${encodeURIComponent(w.ref)}`} className="flex items-center font-mono text-[14px] font-semibold hover:text-risk-sol">
+                  <Link href={`/empleado/${encodeURIComponent(w.ref)}`} className="flex items-center font-mono text-body font-semibold hover:text-risk-sol">
                     {w.ref}
                     <ChevronRight className="h-3.5 w-3.5 text-ink-3" />
                   </Link>
-                  <p className="truncate text-[12px] text-ink-2">{w.driver}</p>
+                  <p className="truncate text-meta text-ink-2">{w.driver}</p>
                   <div className="mt-1"><ConfidenceTag score={w.score} /></div>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setAssignEmp(w)}
-                className="mt-3 w-full rounded-xl bg-risk-sol py-2.5 text-[13.5px] font-semibold text-white transition-colors hover:bg-risk-sol/90"
+                className="mt-3 w-full rounded-xl bg-risk-sol py-2.5 text-body font-semibold text-white transition-colors hover:bg-risk-sol/90"
               >
                 {assignedRefs.has(w.ref) ? t("reassignPlan") : t("assignPlan")}
               </button>
@@ -131,14 +131,14 @@ export default function FloorPage() {
         {pending.map((i) => (
           <div key={i.id} className="rounded-2xl border border-line bg-surface p-3.5">
             <div className="flex items-center gap-2">
-              <Link href={`/empleado/${encodeURIComponent(i.ref)}`} className="font-mono text-[13px] font-semibold hover:text-risk-sol">{i.ref}</Link>
-              <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10.5px] font-medium" style={{ background: `${STATUS_COLOR[i.status]}1A`, color: STATUS_COLOR[i.status] }}>
+              <Link href={`/empleado/${encodeURIComponent(i.ref)}`} className="font-mono text-copy font-semibold hover:text-risk-sol">{i.ref}</Link>
+              <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-micro font-medium" style={{ background: `${STATUS_COLOR[i.status]}1A`, color: STATUS_COLOR[i.status] }}>
                 <span className="h-1.5 w-1.5 rounded-full" style={{ background: STATUS_COLOR[i.status] }} />
                 {ti(`status_${i.status}`)}
               </span>
-              <span className="ml-auto text-[11px] text-ink-3">{f.relativeTime(new Date(i.assignedAt))}</span>
+              <span className="ml-auto text-micro text-ink-3">{f.relativeTime(new Date(i.assignedAt))}</span>
             </div>
-            <p className="mt-1.5 text-[12.5px] text-ink-1">{i.play}</p>
+            <p className="mt-1.5 text-copy text-ink-1">{i.play}</p>
             <div className="mt-3 flex gap-2">
               {i.status === "assigned" && (
                 <Btn full onClick={() => set(i.id, { status: "in_progress" })} disabled={update.isPending}>{ti("start")}</Btn>
@@ -162,8 +162,8 @@ export default function FloorPage() {
 function Stat({ label, value, color }: { label: string; value: string; color: string }) {
   return (
     <div className="rounded-2xl border border-line bg-surface px-4 py-3">
-      <div className="font-mono text-[24px] font-bold leading-none" style={{ color }}>{value}</div>
-      <div className="mt-1 text-[11.5px] text-ink-2">{label}</div>
+      <div className="font-mono text-heading font-bold leading-none" style={{ color }}>{value}</div>
+      <div className="mt-1 text-meta text-ink-2">{label}</div>
     </div>
   );
 }
@@ -171,14 +171,14 @@ function Stat({ label, value, color }: { label: string; value: string; color: st
 function SectionTitle({ title, sub }: { title: string; sub: string }) {
   return (
     <div className="mb-2.5 mt-6">
-      <h2 className="text-[15px] font-semibold">{title}</h2>
-      <p className="text-[12px] text-ink-3">{sub}</p>
+      <h2 className="text-body font-semibold">{title}</h2>
+      <p className="text-meta text-ink-3">{sub}</p>
     </div>
   );
 }
 
 function Empty({ children }: { children: ReactNode }) {
-  return <div className="rounded-2xl border border-dashed border-line bg-surface p-6 text-center text-[13px] text-ink-3">{children}</div>;
+  return <div className="rounded-2xl border border-dashed border-line bg-surface p-6 text-center text-copy text-ink-3">{children}</div>;
 }
 
 function Btn({ children, onClick, disabled, primary, full }: { children: ReactNode; onClick: () => void; disabled?: boolean; primary?: boolean; full?: boolean }) {
@@ -187,7 +187,7 @@ function Btn({ children, onClick, disabled, primary, full }: { children: ReactNo
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`rounded-xl py-2.5 text-[13px] font-semibold transition-colors disabled:opacity-40 ${full ? "flex-1" : "px-4"} ${
+      className={`rounded-xl py-2.5 text-copy font-semibold transition-colors disabled:opacity-40 ${full ? "flex-1" : "px-4"} ${
         primary ? "bg-risk-sol text-white hover:bg-risk-sol/90" : "border border-line-2 text-ink-1 hover:border-risk-sol hover:text-risk-sol"
       }`}
     >

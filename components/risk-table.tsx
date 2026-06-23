@@ -46,7 +46,7 @@ export function RiskTable({ rows, showLine = true, emptyLabel }: RiskTableProps)
                 <TD>
                   <Link
                     href={`/empleado/${encodeURIComponent(e.ref)}`}
-                    className="font-mono text-[13px] text-ink-1 hover:text-risk-sol"
+                    className="font-mono text-copy text-ink-1 hover:text-risk-sol"
                   >
                     {e.ref}
                   </Link>
@@ -62,11 +62,11 @@ export function RiskTable({ rows, showLine = true, emptyLabel }: RiskTableProps)
                   </div>
                 </TD>
                 <TD>{e.driver}</TD>
-                {showLine && <TD className="font-mono text-[13px] text-ink-2">{e.line}</TD>}
+                {showLine && <TD className="font-mono text-copy text-ink-2">{e.line}</TD>}
                 <TD className="text-right">
                   <button
                     onClick={() => setModalEmp(e)}
-                    className="whitespace-nowrap rounded-lg border border-line-2 px-3.5 py-[7px] text-[12.5px] font-medium text-ink-1 transition-colors hover:border-risk-sol hover:bg-risk-sol-soft hover:text-risk-sol"
+                    className="whitespace-nowrap rounded-lg border border-line-2 px-3.5 py-[7px] text-copy font-medium text-ink-1 transition-colors hover:border-risk-sol hover:bg-risk-sol-soft hover:text-risk-sol"
                   >
                     {t("action")}
                   </button>

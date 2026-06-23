@@ -56,8 +56,8 @@ export default function InterventionsPage() {
   return (
     <div className="animate-fade pb-12">
       <div className="py-5">
-        <h1 className="text-[27px] font-semibold tracking-tight">{t("title")}</h1>
-        <p className="mt-1 text-sm text-ink-2">{t("subtitle")}</p>
+        <h1 className="text-title font-semibold tracking-tight">{t("title")}</h1>
+        <p className="mt-1 text-body text-ink-2">{t("subtitle")}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -73,7 +73,7 @@ export default function InterventionsPage() {
 
       <ul className="mt-4 space-y-2.5">
         {iv.length === 0 && (
-          <li className="rounded-xl border border-line bg-surface p-8 text-center text-[13px] text-ink-3">
+          <li className="rounded-xl border border-line bg-surface p-8 text-center text-copy text-ink-3">
             {t("empty")}
           </li>
         )}
@@ -86,26 +86,26 @@ export default function InterventionsPage() {
               <div className="flex flex-wrap items-center gap-2.5">
                 <Link
                   href={`/empleado/${encodeURIComponent(i.ref)}`}
-                  className="font-mono text-[13px] text-ink-1 hover:text-risk-sol"
+                  className="font-mono text-copy text-ink-1 hover:text-risk-sol"
                 >
                   {i.ref}
                 </Link>
-                <span className="text-[11px] text-ink-3">{i.line}</span>
+                <span className="text-micro text-ink-3">{i.line}</span>
                 <span
-                  className="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10.5px] font-medium"
+                  className="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-micro font-medium"
                   style={{ background: `${STATUS_COLOR[i.status]}1A`, color: STATUS_COLOR[i.status] }}
                 >
                   <span className="h-1.5 w-1.5 rounded-full" style={{ background: STATUS_COLOR[i.status] }} />
                   {t(`status_${i.status}`)}
                 </span>
                 {i.status === "done" && (
-                  <span className="text-[10.5px] font-semibold" style={{ color: OUTCOME_COLOR[i.outcome] }}>
+                  <span className="text-micro font-semibold" style={{ color: OUTCOME_COLOR[i.outcome] }}>
                     · {t(`outcome_${i.outcome}`)}
                   </span>
                 )}
               </div>
-              <p className="mt-1 text-[12.5px] text-ink-2">{i.play}</p>
-              <p className="mt-0.5 text-[11px] text-ink-3">
+              <p className="mt-1 text-copy text-ink-2">{i.play}</p>
+              <p className="mt-0.5 text-micro text-ink-3">
                 {t("assignedBy", { name: i.assignedBy })} · {format.relativeTime(new Date(i.assignedAt))}
               </p>
             </div>
@@ -136,8 +136,8 @@ export default function InterventionsPage() {
 function Kpi({ label, value, color }: { label: string; value: string; color: string }) {
   return (
     <Card className="px-[17px] py-[15px]">
-      <div className="text-[11.5px] text-ink-2">{label}</div>
-      <div className="mt-1 font-mono text-[23px] font-bold leading-tight" style={{ color }}>
+      <div className="text-meta text-ink-2">{label}</div>
+      <div className="mt-1 font-mono text-heading font-bold leading-tight" style={{ color }}>
         {value}
       </div>
     </Card>
@@ -160,7 +160,7 @@ function Btn({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`rounded-lg px-3 py-1.5 text-[12px] font-medium transition-colors disabled:opacity-40 ${
+      className={`rounded-lg px-3 py-1.5 text-meta font-medium transition-colors disabled:opacity-40 ${
         primary
           ? "bg-risk-sol text-white hover:bg-risk-sol/90"
           : "border border-line-2 text-ink-1 hover:border-risk-sol hover:text-risk-sol"

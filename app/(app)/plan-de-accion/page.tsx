@@ -29,8 +29,8 @@ export default function ActionPlanPage() {
   return (
     <div className="animate-fade pb-12">
       <div className="py-5">
-        <h1 className="text-[27px] font-semibold tracking-tight">{t("actTitle")}</h1>
-        <p className="mt-1 text-sm text-ink-2">{t("actHint")}</p>
+        <h1 className="text-title font-semibold tracking-tight">{t("actTitle")}</h1>
+        <p className="mt-1 text-body text-ink-2">{t("actHint")}</p>
       </div>
       <ActionQueue rows={data.topRisk} />
     </div>

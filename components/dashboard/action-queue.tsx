@@ -46,11 +46,11 @@ export function ActionQueue({ rows }: { rows: EmployeePrediction[] }) {
                 <div className="min-w-0">
                   <Link
                     href={`/empleado/${encodeURIComponent(e.ref)}`}
-                    className="font-mono text-[13px] text-ink-1 hover:text-risk-sol"
+                    className="font-mono text-copy text-ink-1 hover:text-risk-sol"
                   >
                     {e.ref}
                   </Link>
-                  <div className="truncate text-[11px] text-ink-3">
+                  <div className="truncate text-micro text-ink-3">
                     {tb(e.band)} · {e.line} · {e.driver}
                   </div>
                 </div>
@@ -59,9 +59,9 @@ export function ActionQueue({ rows }: { rows: EmployeePrediction[] }) {
                 const { action, window } = nextPlay(e.reco);
                 return (
                   <div className="min-w-0 flex-1">
-                    <p className="line-clamp-2 text-[12.5px] leading-relaxed text-ink-2">{action}</p>
+                    <p className="line-clamp-2 text-copy leading-relaxed text-ink-2">{action}</p>
                     {window && (
-                      <span className="mt-1 inline-flex items-center gap-1 text-[11px] text-ink-3">
+                      <span className="mt-1 inline-flex items-center gap-1 text-micro text-ink-3">
                         <Clock className="h-3 w-3" />
                         {window}
                       </span>
@@ -72,7 +72,7 @@ export function ActionQueue({ rows }: { rows: EmployeePrediction[] }) {
               <button
                 type="button"
                 onClick={() => setModalEmp(e)}
-                className="shrink-0 self-start whitespace-nowrap rounded-lg bg-risk-sol px-3.5 py-[7px] text-[12.5px] font-medium text-white transition-colors hover:bg-risk-sol/90 sm:self-auto"
+                className="shrink-0 self-start whitespace-nowrap rounded-lg bg-risk-sol px-3.5 py-[7px] text-copy font-medium text-white transition-colors hover:bg-risk-sol/90 sm:self-auto"
               >
                 {t("assign")}
               </button>

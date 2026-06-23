@@ -51,7 +51,7 @@ export function RecommendationModal({
           <Badge color={c}>
             {tb(employee.band)} · {employee.score}%
           </Badge>
-          <div className="mt-1.5 font-mono text-[15px]">
+          <div className="mt-1.5 font-mono text-body">
             {t("refLine", { ref: employee.ref, line: employee.line })}
           </div>
           <div className="mt-2">
@@ -62,23 +62,23 @@ export function RecommendationModal({
       </div>
 
       <div className="mb-[18px] rounded-md border border-line bg-surface-2 px-4 py-3.5">
-        <div className="mb-1.5 text-[10.5px] font-semibold uppercase tracking-wide text-ink-3">
+        <div className="mb-1.5 text-micro font-semibold uppercase tracking-wide text-ink-3">
           {t("evidenceTitle")}
         </div>
-        <p className="text-[13.5px] leading-relaxed text-ink-1">{employee.evidence}</p>
+        <p className="text-body leading-relaxed text-ink-1">{employee.evidence}</p>
       </div>
 
-      <div className="mb-[11px] flex items-center gap-2 text-[12.5px] font-semibold text-risk-sol">
+      <div className="mb-[11px] flex items-center gap-2 text-copy font-semibold text-risk-sol">
         <span className="h-3.5 w-3.5 rounded-full bg-risk-sol" />
         {t("recoTitle")}
       </div>
-      <div className="mb-[22px] whitespace-pre-line text-[13.5px] leading-relaxed text-ink-1">
+      <div className="mb-[22px] whitespace-pre-line text-body leading-relaxed text-ink-1">
         {employee.reco}
       </div>
 
       {create.isError && (
         <div
-          className="mb-3 rounded-md border border-risk-cri/30 bg-risk-cri/5 px-3.5 py-2.5 text-[12.5px] text-risk-cri"
+          className="mb-3 rounded-md border border-risk-cri/30 bg-risk-cri/5 px-3.5 py-2.5 text-copy text-risk-cri"
           role="alert"
         >
           {t("assignError")}

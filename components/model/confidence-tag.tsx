@@ -17,7 +17,7 @@ export function ConfidenceTag({ score }: { score: number }) {
   const color = COLOR[level];
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-medium"
+      className="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-micro font-medium"
       style={{ background: `${color}1A`, color }}
       title={t("confTitle")}
     >

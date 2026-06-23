@@ -35,7 +35,7 @@ export function InsightTabs({ rows }: { rows: EmployeePrediction[] }) {
               role="tab"
               aria-selected={active}
               onClick={() => setTab(tb)}
-              className={`rounded-full px-3.5 py-1.5 text-[12.5px] transition-colors ${
+              className={`rounded-full px-3.5 py-1.5 text-copy transition-colors ${
                 active ? "bg-surface font-medium text-ink-1 shadow-sm" : "text-ink-2 hover:text-ink-1"
               }`}
             >

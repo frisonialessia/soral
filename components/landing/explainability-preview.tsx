@@ -33,8 +33,8 @@ export function ExplainabilityPreview() {
       className="rounded-2xl border border-line bg-surface p-5 shadow-[0_24px_64px_-24px_rgba(43,45,66,0.3)] sm:p-6"
     >
       <div className="flex items-center justify-between">
-        <span className="font-mono text-[14px] font-bold text-ink-1">#A3F9-4471</span>
-        <span className="font-mono text-[22px] font-bold leading-none" style={{ color: COLOR }}>
+        <span className="font-mono text-body font-bold text-ink-1">#A3F9-4471</span>
+        <span className="font-mono text-heading font-bold leading-none" style={{ color: COLOR }}>
           94%
         </span>
       </div>
@@ -46,7 +46,7 @@ export function ExplainabilityPreview() {
         <div className="space-y-3">
           {shap.map((s) => (
             <div key={s.label}>
-              <div className="mb-1 flex items-center justify-between text-[12px]">
+              <div className="mb-1 flex items-center justify-between text-meta">
                 <span className="text-ink-1">{s.label}</span>
                 <span className="font-mono font-bold" style={{ color: COLOR }}>
                   {s.contrib}%

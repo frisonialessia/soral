@@ -77,11 +77,11 @@ export function BarList({
     <ul className="space-y-3.5">
       {items.map((it) => (
         <li key={it.label}>
-          <div className="mb-1.5 flex items-center justify-between gap-3 text-[12.5px]">
+          <div className="mb-1.5 flex items-center justify-between gap-3 text-copy">
             <span className="min-w-0 truncate text-ink-1">{it.label}</span>
             <span className="shrink-0">
               <span className="font-mono font-semibold text-ink-1">{it.value}%</span>
-              {it.caption ? <span className="ml-1.5 text-[11px] text-ink-3">{it.caption}</span> : null}
+              {it.caption ? <span className="ml-1.5 text-micro text-ink-3">{it.caption}</span> : null}
             </span>
           </div>
           <div className="h-2 overflow-hidden rounded bg-surface-bg">

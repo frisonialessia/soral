@@ -49,7 +49,7 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
 
   return (
     <div className="animate-fade pb-12">
-      <div className="flex items-center gap-2 pt-5 pb-0.5 text-[13px] text-ink-3">
+      <div className="flex items-center gap-2 pt-5 pb-0.5 text-copy text-ink-3">
         <Link href="/dashboard" className="text-ink-2 hover:text-risk-sol">
           {tl("crumbPlant")}
         </Link>
@@ -63,26 +63,26 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
 
       <Card className="my-[22px] flex flex-wrap items-center gap-[18px] px-[26px] py-[22px]">
         <div
-          className="flex h-[58px] w-[58px] items-center justify-center rounded-2xl font-mono text-sm font-bold text-white"
+          className="flex h-[58px] w-[58px] items-center justify-center rounded-2xl font-mono text-body font-bold text-white"
           style={{ background: c }}
         >
           {e.ref.slice(1, 3)}
         </div>
         <div>
-          <h2 className="font-mono text-[19px] font-bold">{e.ref}</h2>
-          <p className="mt-0.5 text-[13px] text-ink-2">
+          <h2 className="font-mono text-subhead font-bold">{e.ref}</h2>
+          <p className="mt-0.5 text-copy text-ink-2">
             {t("subtitle", { line: e.line, shift: e.shift, tenure: e.tenure })}
           </p>
         </div>
         <div className="ml-auto text-right">
-          <div className="text-[11px] font-semibold uppercase tracking-wide text-ink-3">{t("scoreNow")}</div>
-          <div className="font-mono text-[32px] font-bold leading-none" style={{ color: c }}>
+          <div className="text-micro font-semibold uppercase tracking-wide text-ink-3">{t("scoreNow")}</div>
+          <div className="font-mono text-display font-bold leading-none" style={{ color: c }}>
             {e.score}%
           </div>
           <div className="mt-2 flex justify-end">
             <ConfidenceTag score={e.score} />
           </div>
-          <Link href="/modelo" className="mt-1 inline-block text-[11px] text-ink-3 hover:text-risk-sol">
+          <Link href="/modelo" className="mt-1 inline-block text-micro text-ink-3 hover:text-risk-sol">
             {tm("howLink")}
           </Link>
         </div>
@@ -90,22 +90,22 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
 
       <div className="mb-[18px] grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card className="px-[22px] py-5">
-          <h3 className="text-[14px] font-semibold">{t("radarTitle")}</h3>
-          <p className="mb-3.5 mt-0.5 text-[12px] text-ink-3">{t("radarSubtitle")}</p>
+          <h3 className="text-body font-semibold">{t("radarTitle")}</h3>
+          <p className="mb-3.5 mt-0.5 text-meta text-ink-3">{t("radarSubtitle")}</p>
           <div className="flex min-h-[230px] items-center justify-center">
             <RiskRadar axes={e.radar} color={c} />
           </div>
         </Card>
 
         <Card className="px-[22px] py-5">
-          <h3 className="text-[14px] font-semibold">{t("driversTitle")}</h3>
-          <p className="mb-3.5 mt-0.5 text-[12px] text-ink-3">{t("driversSubtitle")}</p>
+          <h3 className="text-body font-semibold">{t("driversTitle")}</h3>
+          <p className="mb-3.5 mt-0.5 text-meta text-ink-3">{t("driversSubtitle")}</p>
           <div className="pt-1.5">
             {e.drivers.map((d) => (
               <div key={d.factor} className="mb-3.5 last:mb-0">
                 <div className="mb-1.5 flex justify-between">
-                  <span className="text-[12.5px] text-ink-1">{d.factor}</span>
-                  <span className="font-mono text-[12.5px] font-bold" style={{ color: c }}>
+                  <span className="text-copy text-ink-1">{d.factor}</span>
+                  <span className="font-mono text-copy font-bold" style={{ color: c }}>
                     {d.contrib}%
                   </span>
                 </div>
@@ -119,8 +119,8 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
       </div>
 
       <Card className="mb-[18px] px-[22px] py-5">
-        <h3 className="text-[14px] font-semibold">{t("trendTitle")}</h3>
-        <p className="mb-3.5 mt-0.5 text-[12px] text-ink-3">{t("trendSubtitle")}</p>
+        <h3 className="text-body font-semibold">{t("trendTitle")}</h3>
+        <p className="mb-3.5 mt-0.5 text-meta text-ink-3">{t("trendSubtitle")}</p>
         <TrendChart data={e.trend} color={c} />
       </Card>
 

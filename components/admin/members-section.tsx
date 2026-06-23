@@ -38,8 +38,8 @@ export function MembersSection() {
     <section>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="text-[17px] font-semibold">{t("membersTitle")}</h2>
-          <p className="mt-0.5 text-[12.5px] text-ink-2">{t("membersSubtitle")}</p>
+          <h2 className="text-subhead font-semibold">{t("membersTitle")}</h2>
+          <p className="mt-0.5 text-copy text-ink-2">{t("membersSubtitle")}</p>
         </div>
         {canManage && (
           <Button variant="primary" onClick={() => setInviteOpen(true)}>
@@ -48,7 +48,7 @@ export function MembersSection() {
           </Button>
         )}
       </div>
-      <p className="mb-3 mt-1.5 text-[11px] text-ink-3">{t("sampleNote")}</p>
+      <p className="mb-3 mt-1.5 text-micro text-ink-3">{t("sampleNote")}</p>
 
       <Table>
         <THead>
@@ -63,14 +63,14 @@ export function MembersSection() {
           {members.map((m) => (
             <TR key={m.id}>
               <TD className="whitespace-nowrap font-medium text-ink-1">{m.name}</TD>
-              <TD className="whitespace-nowrap font-mono text-[12.5px] text-ink-2">{m.email}</TD>
+              <TD className="whitespace-nowrap font-mono text-copy text-ink-2">{m.email}</TD>
               <TD>
                 {canManage ? (
                   <select
                     value={m.role}
                     onChange={(e) => changeRole(m.id, e.target.value as Role)}
                     aria-label={t("changeRole")}
-                    className="rounded-lg border border-line-2 bg-surface px-2.5 py-1.5 text-[13px] text-ink-1 outline-none transition-colors hover:border-risk-sol focus:border-risk-sol"
+                    className="rounded-lg border border-line-2 bg-surface px-2.5 py-1.5 text-copy text-ink-1 outline-none transition-colors hover:border-risk-sol focus:border-risk-sol"
                   >
                     {ROLES.map((r) => (
                       <option key={r} value={r}>
@@ -79,7 +79,7 @@ export function MembersSection() {
                     ))}
                   </select>
                 ) : (
-                  <span className="text-[13px] text-ink-1">{tr(m.role)}</span>
+                  <span className="text-copy text-ink-1">{tr(m.role)}</span>
                 )}
               </TD>
               <TD>
@@ -101,7 +101,7 @@ export function MembersSection() {
 function StatusBadge({ active, label }: { active: boolean; label: string }) {
   return (
     <span
-      className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-[11.5px] font-medium ${
+      className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-meta font-medium ${
         active ? "bg-risk-sol-soft text-risk-sol" : "bg-surface-2 text-ink-2"
       }`}
     >
@@ -126,24 +126,24 @@ function InviteDialog({
 
   return (
     <Dialog open onClose={onClose} label={t("inviteTitle")}>
-      <h3 className="text-[16px] font-semibold">{t("inviteTitle")}</h3>
+      <h3 className="text-subhead font-semibold">{t("inviteTitle")}</h3>
       <div className="mt-4 space-y-3">
         <label className="block">
-          <span className="mb-1 block text-[12px] text-ink-2">{t("inviteEmail")}</span>
+          <span className="mb-1 block text-meta text-ink-2">{t("inviteEmail")}</span>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder={t("inviteEmailPlaceholder")}
-            className="w-full rounded-lg border border-line-2 px-3 py-2 text-sm text-ink-1 outline-none focus:border-risk-sol"
+            className="w-full rounded-lg border border-line-2 px-3 py-2 text-body text-ink-1 outline-none focus:border-risk-sol"
           />
         </label>
         <label className="block">
-          <span className="mb-1 block text-[12px] text-ink-2">{t("inviteRole")}</span>
+          <span className="mb-1 block text-meta text-ink-2">{t("inviteRole")}</span>
           <select
             value={role}
             onChange={(e) => setRole(e.target.value as Role)}
-            className="w-full rounded-lg border border-line-2 bg-surface px-3 py-2 text-sm text-ink-1 outline-none focus:border-risk-sol"
+            className="w-full rounded-lg border border-line-2 bg-surface px-3 py-2 text-body text-ink-1 outline-none focus:border-risk-sol"
           >
             {ROLES.map((r) => (
               <option key={r} value={r}>

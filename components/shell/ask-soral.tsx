@@ -49,7 +49,7 @@ export function AskSoral() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex items-center gap-1.5 rounded-full border border-line-2 bg-surface px-3 py-1.5 text-[12.5px] font-medium text-ink-1 transition-colors hover:border-risk-sol hover:text-risk-sol"
+        className="flex items-center gap-1.5 rounded-full border border-line-2 bg-surface px-3 py-1.5 text-copy font-medium text-ink-1 transition-colors hover:border-risk-sol hover:text-risk-sol"
       >
         <Sparkles className="h-4 w-4 text-risk-sol" />
         <span className="hidden sm:inline">{t("trigger")}</span>
@@ -61,9 +61,9 @@ export function AskSoral() {
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-risk-sol text-white">
               <Sparkles className="h-4 w-4" />
             </span>
-            <span className="text-[15px] font-semibold">{t("title")}</span>
+            <span className="text-body font-semibold">{t("title")}</span>
             {source && (
-              <span className="rounded-full border border-line-2 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-ink-3">
+              <span className="rounded-full border border-line-2 px-2 py-0.5 text-micro font-medium uppercase tracking-wide text-ink-3">
                 {source === "llm" ? t("live") : t("sample")}
               </span>
             )}
@@ -75,14 +75,14 @@ export function AskSoral() {
           <div ref={scrollRef} className="min-h-0 flex-1 space-y-3 overflow-y-auto pr-1">
             {messages.length === 0 ? (
               <div className="pt-2">
-                <p className="text-[13px] text-ink-2">{t("empty")}</p>
+                <p className="text-copy text-ink-2">{t("empty")}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {suggestions.map((sug) => (
                     <button
                       key={sug}
                       type="button"
                       onClick={() => send(sug)}
-                      className="rounded-full border border-line bg-surface-2 px-3 py-1.5 text-[12px] text-ink-1 transition-colors hover:border-risk-sol hover:text-risk-sol"
+                      className="rounded-full border border-line bg-surface-2 px-3 py-1.5 text-meta text-ink-1 transition-colors hover:border-risk-sol hover:text-risk-sol"
                     >
                       {sug}
                     </button>
@@ -93,7 +93,7 @@ export function AskSoral() {
               messages.map((m, i) => (
                 <div key={i} className={m.role === "user" ? "flex justify-end" : "flex justify-start"}>
                   <div
-                    className={`max-w-[85%] whitespace-pre-line rounded-2xl px-3.5 py-2 text-[13px] leading-relaxed ${
+                    className={`max-w-[85%] whitespace-pre-line rounded-2xl px-3.5 py-2 text-copy leading-relaxed ${
                       m.role === "user" ? "bg-risk-sol text-white" : "bg-surface-2 text-ink-1"
                     }`}
                   >
@@ -104,7 +104,7 @@ export function AskSoral() {
             )}
             {ask.isPending && (
               <div className="flex justify-start">
-                <div className="rounded-2xl bg-surface-2 px-3.5 py-2 text-[15px] text-ink-3">…</div>
+                <div className="rounded-2xl bg-surface-2 px-3.5 py-2 text-body text-ink-3">…</div>
               </div>
             )}
           </div>
@@ -121,7 +121,7 @@ export function AskSoral() {
               onChange={(e) => setInput(e.target.value)}
               placeholder={t("placeholder")}
               aria-label={t("placeholder")}
-              className="min-w-0 flex-1 rounded-lg border border-line bg-surface px-3 py-2 text-[13px] outline-none focus:border-risk-sol"
+              className="min-w-0 flex-1 rounded-lg border border-line bg-surface px-3 py-2 text-copy outline-none focus:border-risk-sol"
             />
             <button
               type="submit"

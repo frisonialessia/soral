@@ -33,8 +33,8 @@ export default function ModelPage() {
   return (
     <div className="animate-fade pb-12">
       <div className="py-5">
-        <h1 className="text-[27px] font-semibold tracking-tight">{t("title")}</h1>
-        <p className="mt-1 text-sm text-ink-2">{t("subtitle")}</p>
+        <h1 className="text-title font-semibold tracking-tight">{t("title")}</h1>
+        <p className="mt-1 text-body text-ink-2">{t("subtitle")}</p>
       </div>
 
       <Card className="rounded-xl p-[22px]">
@@ -54,7 +54,7 @@ export default function ModelPage() {
         <Metric label={t("mLead")} value={t("leadValue", { days: m.metrics.leadTimeDays })} color="#5B6EF5" />
       </div>
 
-      <p className="mt-2.5 text-[12px] text-ink-3">
+      <p className="mt-2.5 text-meta text-ink-3">
         {t("validationNote", {
           n: f.number(m.sampleSize),
           brier: m.brier.toFixed(2),
@@ -66,16 +66,16 @@ export default function ModelPage() {
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <Card className="rounded-xl p-[22px]">
-          <h3 className="text-[15px] font-semibold">{t("calibTitle")}</h3>
-          <p className="mt-0.5 text-[12.5px] text-ink-2">{t("calibSub")}</p>
+          <h3 className="text-body font-semibold">{t("calibTitle")}</h3>
+          <p className="mt-0.5 text-copy text-ink-2">{t("calibSub")}</p>
           <Calibration points={m.calibration} predicted={t("calibPredicted")} observed={t("calibObserved")} />
         </Card>
 
         <Card className="rounded-xl p-[22px]">
-          <h3 className="text-[15px] font-semibold">{t("howTitle")}</h3>
-          <p className="mt-1 text-[12.5px] leading-relaxed text-ink-2">{t("howBody")}</p>
-          <h4 className="mt-4 text-[13px] font-semibold">{t("decompTitle")}</h4>
-          <p className="mt-0.5 text-[12px] text-ink-2">{t("decompSub")}</p>
+          <h3 className="text-body font-semibold">{t("howTitle")}</h3>
+          <p className="mt-1 text-copy leading-relaxed text-ink-2">{t("howBody")}</p>
+          <h4 className="mt-4 text-copy font-semibold">{t("decompTitle")}</h4>
+          <p className="mt-0.5 text-meta text-ink-2">{t("decompSub")}</p>
           <Decomposition ex={ex} t={t} baseLabel={t("decompBase")} finalLabel={t("decompFinal")} />
         </Card>
       </div>
@@ -83,10 +83,10 @@ export default function ModelPage() {
       <Card className="mt-4 rounded-xl p-[22px]">
         <div className="flex flex-wrap items-end justify-between gap-2">
           <div>
-            <h3 className="text-[15px] font-semibold">{t("signalsTitle")}</h3>
-            <p className="mt-0.5 text-[12.5px] text-ink-2">{t("signalsSub", { n: 14 })}</p>
+            <h3 className="text-body font-semibold">{t("signalsTitle")}</h3>
+            <p className="mt-0.5 text-copy text-ink-2">{t("signalsSub", { n: 14 })}</p>
           </div>
-          <span className="text-[11px] font-semibold uppercase tracking-wide text-ink-3">{t("weightLabel")}</span>
+          <span className="text-micro font-semibold uppercase tracking-wide text-ink-3">{t("weightLabel")}</span>
         </div>
         <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {FEATURES.map((feat) => (
@@ -96,10 +96,10 @@ export default function ModelPage() {
       </Card>
 
       <Card className="mt-4 rounded-xl p-[22px]">
-        <h3 className="text-[15px] font-semibold">{t("govTitle")}</h3>
+        <h3 className="text-body font-semibold">{t("govTitle")}</h3>
         <ul className="mt-3 grid gap-2.5 sm:grid-cols-2">
           {gov.map((g) => (
-            <li key={g} className="flex gap-2 text-[12.5px] leading-relaxed text-ink-1">
+            <li key={g} className="flex gap-2 text-copy leading-relaxed text-ink-1">
               <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-risk-sol-soft text-risk-sol">
                 <Check className="h-3 w-3" />
               </span>
@@ -115,8 +115,8 @@ export default function ModelPage() {
 function Field({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
     <div>
-      <div className="text-[10.5px] font-semibold uppercase tracking-wide text-ink-3">{label}</div>
-      <div className={`mt-1 text-[14px] font-medium text-ink-1 ${mono ? "font-mono" : ""}`}>{value}</div>
+      <div className="text-micro font-semibold uppercase tracking-wide text-ink-3">{label}</div>
+      <div className={`mt-1 text-body font-medium text-ink-1 ${mono ? "font-mono" : ""}`}>{value}</div>
     </div>
   );
 }
@@ -124,8 +124,8 @@ function Field({ label, value, mono }: { label: string; value: string; mono?: bo
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
     <Card className="px-[17px] py-[15px]">
-      <div className="text-[11.5px] text-ink-2">{label}</div>
-      <div className="mt-1 font-mono text-[23px] font-bold leading-tight" style={{ color }}>
+      <div className="text-meta text-ink-2">{label}</div>
+      <div className="mt-1 font-mono text-heading font-bold leading-tight" style={{ color }}>
         {value}
       </div>
     </Card>
@@ -139,15 +139,15 @@ function FamilyCard({ feature, t }: { feature: Feature; t: (k: string) => string
   return (
     <div className="rounded-lg border border-line bg-surface-bg/60 p-3.5">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[13px] font-semibold text-ink-1">{t(`feat_${feature.id}`)}</span>
-        <span className="font-mono text-[11px] text-ink-3">×{feature.beta.toFixed(1)}</span>
+        <span className="text-copy font-semibold text-ink-1">{t(`feat_${feature.id}`)}</span>
+        <span className="font-mono text-micro text-ink-3">×{feature.beta.toFixed(1)}</span>
       </div>
       <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-line">
         <div className="h-full rounded-full bg-risk-sol" style={{ width: `${(feature.beta / MAX_BETA) * 100}%` }} />
       </div>
       <ul className="mt-3 space-y-2">
         {signals.map((s) => (
-          <li key={s.id} className="flex items-center justify-between gap-2 text-[12px]">
+          <li key={s.id} className="flex items-center justify-between gap-2 text-meta">
             <span className="flex items-center gap-1.5 text-ink-1">
               <span
                 className="inline-block h-1.5 w-1.5 shrink-0 rounded-full"
@@ -156,7 +156,7 @@ function FamilyCard({ feature, t }: { feature: Feature; t: (k: string) => string
               />
               {t(`sig_${s.id}`)}
             </span>
-            <span className="shrink-0 font-mono text-[10.5px] text-ink-3">{s.source}</span>
+            <span className="shrink-0 font-mono text-micro text-ink-3">{s.source}</span>
           </li>
         ))}
       </ul>
@@ -186,7 +186,7 @@ function Decomposition({
           const up = c.phi >= 0;
           const w = (Math.abs(c.phi) / maxAbs) * 50; // % del ancho (centro = 50%)
           return (
-            <div key={c.id} className="flex items-center gap-2 text-[11.5px]">
+            <div key={c.id} className="flex items-center gap-2 text-meta">
               <span className="w-[124px] shrink-0 truncate text-ink-2">{t(`feat_${c.id}`)}</span>
               <div className="relative h-3.5 flex-1">
                 <div className="absolute inset-y-0 left-1/2 w-px bg-line" />
@@ -199,7 +199,7 @@ function Decomposition({
                   }}
                 />
               </div>
-              <span className="w-[44px] shrink-0 text-right font-mono text-[10.5px]" style={{ color: up ? "#EB4F6C" : "#5B6EF5" }}>
+              <span className="w-[44px] shrink-0 text-right font-mono text-micro" style={{ color: up ? "#EB4F6C" : "#5B6EF5" }}>
                 {up ? "+" : "−"}
                 {Math.abs(c.phi).toFixed(2)}
               </span>
@@ -215,8 +215,8 @@ function Decomposition({
 function Row({ label, value, muted }: { label: string; value: string; muted?: boolean }) {
   return (
     <div className="flex items-center justify-between rounded-md bg-surface-bg px-3 py-1.5">
-      <span className="text-[12px] text-ink-2">{label}</span>
-      <span className={`font-mono text-[14px] font-bold ${muted ? "text-ink-3" : "text-risk-sol"}`}>{value}</span>
+      <span className="text-meta text-ink-2">{label}</span>
+      <span className={`font-mono text-body font-bold ${muted ? "text-ink-3" : "text-risk-sol"}`}>{value}</span>
     </div>
   );
 }

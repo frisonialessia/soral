@@ -29,7 +29,7 @@ export default function LinePage({ params }: { params: Promise<{ id: string }> }
 
   return (
     <div className="animate-fade pb-12">
-      <div className="flex items-center gap-2 pt-5 pb-0.5 text-[13px] text-ink-3">
+      <div className="flex items-center gap-2 pt-5 pb-0.5 text-copy text-ink-3">
         <Link href="/dashboard" className="text-ink-2 hover:text-risk-sol">
           {t("crumbPlant")}
         </Link>
@@ -38,8 +38,8 @@ export default function LinePage({ params }: { params: Promise<{ id: string }> }
       </div>
 
       <div className="py-4">
-        <h1 className="text-[27px] font-semibold tracking-tight">{t("title", { id: data.id })}</h1>
-        <p className="mt-1 text-sm text-ink-2">
+        <h1 className="text-title font-semibold tracking-tight">{t("title", { id: data.id })}</h1>
+        <p className="mt-1 text-body text-ink-2">
           {t("subtitle", { count: data.employees.length, shift: data.shift })}
         </p>
       </div>
@@ -51,8 +51,8 @@ export default function LinePage({ params }: { params: Promise<{ id: string }> }
       </div>
 
       <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-[17px] font-semibold">{t("employeesTitle")}</h2>
-        <span className="text-[12.5px] text-ink-3">{t("employeesHint")}</span>
+        <h2 className="text-subhead font-semibold">{t("employeesTitle")}</h2>
+        <span className="text-copy text-ink-3">{t("employeesHint")}</span>
       </div>
       <RiskTable rows={data.employees} showLine={false} emptyLabel={t("emptyLine")} />
     </div>
@@ -72,11 +72,11 @@ function DetStat({
 }) {
   return (
     <Card className="px-5 py-[18px]">
-      <div className="text-[11.5px] font-semibold uppercase tracking-wide text-ink-3">{label}</div>
-      <div className="mt-1.5 font-mono text-[28px] font-semibold tracking-tight" style={{ color }}>
+      <div className="text-meta font-semibold uppercase tracking-wide text-ink-3">{label}</div>
+      <div className="mt-1.5 font-mono text-title font-semibold tracking-tight" style={{ color }}>
         {value}
       </div>
-      <div className="mt-0.5 text-[11.5px] text-ink-3">{note}</div>
+      <div className="mt-0.5 text-meta text-ink-3">{note}</div>
     </Card>
   );
 }

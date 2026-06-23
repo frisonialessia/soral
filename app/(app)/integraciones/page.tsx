@@ -40,8 +40,8 @@ export default function IntegrationsPage() {
   return (
     <div className="animate-fade pb-12">
       <div className="py-5">
-        <h1 className="text-[27px] font-semibold tracking-tight">{t("title")}</h1>
-        <p className="mt-1 text-sm text-ink-2">{t("subtitle")}</p>
+        <h1 className="text-title font-semibold tracking-tight">{t("title")}</h1>
+        <p className="mt-1 text-body text-ink-2">{t("subtitle")}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -67,7 +67,7 @@ export default function IntegrationsPage() {
                   <Icon className="h-[18px] w-[18px]" />
                 </span>
                 <span
-                  className="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-medium"
+                  className="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-micro font-medium"
                   style={{ background: `${color}1A`, color }}
                 >
                   <span
@@ -77,11 +77,11 @@ export default function IntegrationsPage() {
                   {t(`status_${c.status}`)}
                 </span>
               </div>
-              <div className="mt-3 text-[14px] font-semibold text-ink-1">{c.name}</div>
-              <div className="text-[12px] text-ink-3">
+              <div className="mt-3 text-body font-semibold text-ink-1">{c.name}</div>
+              <div className="text-meta text-ink-3">
                 {t(`cat_${c.category}`)} · {t(`freq_${c.frequency}`)}
               </div>
-              <div className="mt-3 flex items-center justify-between border-t border-line pt-2.5 text-[11.5px] text-ink-3">
+              <div className="mt-3 flex items-center justify-between border-t border-line pt-2.5 text-meta text-ink-3">
                 <span>
                   {t("lastSync")}: {rel(c.lastSyncMin)}
                 </span>
@@ -102,9 +102,9 @@ function Kpi({ icon: Icon, label, value, color }: { icon: LucideIcon; label: str
     <Card className="px-[17px] py-[15px]">
       <div className="flex items-center gap-1.5">
         <Icon className="h-3.5 w-3.5 text-ink-3" />
-        <span className="text-[11.5px] text-ink-2">{label}</span>
+        <span className="text-meta text-ink-2">{label}</span>
       </div>
-      <div className="mt-1 font-mono text-[23px] font-bold leading-tight" style={{ color }}>
+      <div className="mt-1 font-mono text-heading font-bold leading-tight" style={{ color }}>
         {value}
       </div>
     </Card>

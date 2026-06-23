@@ -65,14 +65,14 @@ export function RetentionSimulator({ rows }: { rows: EmployeePrediction[] }) {
 
   return (
     <div>
-      <p className="text-[12.5px] text-ink-2">{t("simHint")}</p>
+      <p className="text-copy text-ink-2">{t("simHint")}</p>
 
       <div className="mt-4 grid gap-6 lg:grid-cols-2">
         {/* Palancas */}
         <div className="space-y-3.5">
           {LEVERS.map((l) => (
             <div key={l.key}>
-              <div className="mb-1 flex items-center justify-between text-[12.5px]">
+              <div className="mb-1 flex items-center justify-between text-copy">
                 <span className="text-ink-1">{t(LABEL_KEY[l.key])}</span>
                 <span className="font-mono text-ink-3">{lv[l.key]}%</span>
               </div>
@@ -92,7 +92,7 @@ export function RetentionSimulator({ rows }: { rows: EmployeePrediction[] }) {
             <button
               type="button"
               onClick={() => setLv({ overtime: 0, supervisor: 0, transport: 0, pay: 0, climate: 0 })}
-              className="text-[12px] font-medium text-risk-sol hover:underline"
+              className="text-meta font-medium text-risk-sol hover:underline"
             >
               {t("simReset")}
             </button>
@@ -109,8 +109,8 @@ export function RetentionSimulator({ rows }: { rows: EmployeePrediction[] }) {
             good={simHigh < baseHigh}
           />
           <div className="flex items-center justify-between rounded-lg border border-line bg-surface-2 px-3.5 py-2.5">
-            <span className="text-[12px] text-ink-2">{t("simRetained")}</span>
-            <span className="font-mono text-[18px] font-bold" style={{ color: retained > 0 ? "#5B6EF5" : "#A9AEC2" }}>
+            <span className="text-meta text-ink-2">{t("simRetained")}</span>
+            <span className="font-mono text-subhead font-bold" style={{ color: retained > 0 ? "#5B6EF5" : "#A9AEC2" }}>
               {retained}
             </span>
           </div>
@@ -120,7 +120,7 @@ export function RetentionSimulator({ rows }: { rows: EmployeePrediction[] }) {
               const a = adjusted(e);
               const kept = a < 80;
               return (
-                <li key={e.ref} className="flex items-center gap-2.5 text-[11.5px]">
+                <li key={e.ref} className="flex items-center gap-2.5 text-meta">
                   <span className="w-[74px] shrink-0 font-mono text-ink-2">{e.ref}</span>
                   <div className="relative h-2 flex-1 overflow-hidden rounded bg-surface-bg">
                     <div className="absolute inset-y-0 left-0 rounded bg-ink-3/25" style={{ width: `${e.score}%` }} />
@@ -145,8 +145,8 @@ export function RetentionSimulator({ rows }: { rows: EmployeePrediction[] }) {
 function ResultRow({ label, from, to, good }: { label: string; from: string; to: string; good: boolean }) {
   return (
     <div className="flex items-center justify-between rounded-lg border border-line bg-surface-2 px-3.5 py-2.5">
-      <span className="text-[12px] text-ink-2">{label}</span>
-      <span className="font-mono text-[15px] font-bold">
+      <span className="text-meta text-ink-2">{label}</span>
+      <span className="font-mono text-body font-bold">
         <span className="text-ink-3">{from}</span>
         <span className="mx-1.5 text-ink-3">→</span>
         <span style={{ color: good ? "#5B6EF5" : "#2B2D42" }}>{to}</span>

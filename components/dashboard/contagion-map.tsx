@@ -34,7 +34,7 @@ export function ContagionMap({ rows }: { rows: EmployeePrediction[] }) {
 
   return (
     <div>
-      <p className="text-[12.5px] text-ink-2">{t("conLead")}</p>
+      <p className="text-copy text-ink-2">{t("conLead")}</p>
 
       <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H} role="img" aria-label={t("conLead")} className="mt-2">
         {clusters.map((c, i) => {
@@ -69,7 +69,7 @@ export function ContagionMap({ rows }: { rows: EmployeePrediction[] }) {
       </svg>
 
       {top && (
-        <div className="mt-1 rounded-lg border border-risk-cri/25 bg-risk-cri/5 px-3.5 py-2.5 text-[12.5px]">
+        <div className="mt-1 rounded-lg border border-risk-cri/25 bg-risk-cri/5 px-3.5 py-2.5 text-copy">
           <span className="font-mono font-semibold text-ink-1">{top.line}</span>{" "}
           <span className="text-ink-2">· {t("conKeystone")} · </span>
           <span className="font-medium text-risk-cri">
@@ -79,12 +79,12 @@ export function ContagionMap({ rows }: { rows: EmployeePrediction[] }) {
       )}
 
       <div className="mt-3">
-        <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ink-3">{t("conRankTitle")}</div>
+        <div className="mb-2 text-micro font-semibold uppercase tracking-wide text-ink-3">{t("conRankTitle")}</div>
         <ul className="space-y-2">
           {clusters.map((c) => {
             const max = clusters[0].cascade || 1;
             return (
-              <li key={c.line} className="flex items-center gap-3 text-[12.5px]">
+              <li key={c.line} className="flex items-center gap-3 text-copy">
                 <span className="w-8 shrink-0 font-mono text-ink-1">{c.line}</span>
                 <div className="h-2 flex-1 overflow-hidden rounded bg-surface-bg">
                   <div className="h-full rounded" style={{ width: `${(c.cascade / max) * 100}%`, background: riskColor(c.avg) }} />
