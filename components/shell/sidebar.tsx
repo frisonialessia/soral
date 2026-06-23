@@ -5,29 +5,59 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { LayoutDashboard, HardHat, ClipboardCheck, BarChart3, UserPlus, MessageSquareText, Plug, Settings, ShieldCheck, FlaskConical } from "lucide-react";
-import { Can } from "@/components/auth/can";
+import { useSession } from "@/lib/auth/session";
+import { can, type Permission } from "@/lib/auth/roles";
 import { BrandMark } from "@/components/brand-mark";
-import type { Permission } from "@/lib/auth/roles";
+
+type LabelKey =
+  | "dashboard" | "floor" | "interventions" | "hiring"
+  | "reports" | "evidence" | "voice" | "model"
+  | "integrations" | "admin";
 
 interface NavItem {
   href: string;
-  labelKey: "dashboard" | "floor" | "interventions" | "reports" | "hiring" | "voice" | "integrations" | "admin" | "model" | "evidence";
+  labelKey: LabelKey;
   icon: typeof LayoutDashboard;
   permission: Permission;
   exact?: boolean;
 }
 
-const NAV: NavItem[] = [
-  { href: "/dashboard", labelKey: "dashboard", icon: LayoutDashboard, permission: "dashboard.view", exact: true },
-  { href: "/piso", labelKey: "floor", icon: HardHat, permission: "recommendations.assign" },
-  { href: "/seguimiento", labelKey: "interventions", icon: ClipboardCheck, permission: "recommendations.assign" },
-  { href: "/reportes", labelKey: "reports", icon: BarChart3, permission: "reports.view" },
-  { href: "/pre-contratacion", labelKey: "hiring", icon: UserPlus, permission: "hiring.view" },
-  { href: "/voz-del-empleado", labelKey: "voice", icon: MessageSquareText, permission: "voice.view" },
-  { href: "/integraciones", labelKey: "integrations", icon: Plug, permission: "integrations.view" },
-  { href: "/admin", labelKey: "admin", icon: Settings, permission: "admin.view" },
-  { href: "/evidencia", labelKey: "evidence", icon: FlaskConical, permission: "reports.view" },
-  { href: "/modelo", labelKey: "model", icon: ShieldCheck, permission: "dashboard.view" },
+// La navegación se agrupa por intención para que no sea una lista plana de 10:
+// qué pasa (Dashboard) · qué hago (Operación) · qué aprendo (Inteligencia) ·
+// cómo se configura (Sistema). Cada grupo se oculta entero si el rol no ve ninguno.
+interface NavGroup {
+  titleKey?: "groupOperations" | "groupIntelligence" | "groupSystem";
+  items: NavItem[];
+}
+
+const GROUPS: NavGroup[] = [
+  {
+    items: [{ href: "/dashboard", labelKey: "dashboard", icon: LayoutDashboard, permission: "dashboard.view", exact: true }],
+  },
+  {
+    titleKey: "groupOperations",
+    items: [
+      { href: "/piso", labelKey: "floor", icon: HardHat, permission: "recommendations.assign" },
+      { href: "/seguimiento", labelKey: "interventions", icon: ClipboardCheck, permission: "recommendations.assign" },
+      { href: "/pre-contratacion", labelKey: "hiring", icon: UserPlus, permission: "hiring.view" },
+    ],
+  },
+  {
+    titleKey: "groupIntelligence",
+    items: [
+      { href: "/reportes", labelKey: "reports", icon: BarChart3, permission: "reports.view" },
+      { href: "/evidencia", labelKey: "evidence", icon: FlaskConical, permission: "reports.view" },
+      { href: "/voz-del-empleado", labelKey: "voice", icon: MessageSquareText, permission: "voice.view" },
+      { href: "/modelo", labelKey: "model", icon: ShieldCheck, permission: "dashboard.view" },
+    ],
+  },
+  {
+    titleKey: "groupSystem",
+    items: [
+      { href: "/integraciones", labelKey: "integrations", icon: Plug, permission: "integrations.view" },
+      { href: "/admin", labelKey: "admin", icon: Settings, permission: "admin.view" },
+    ],
+  },
 ];
 
 export function Sidebar({
@@ -39,6 +69,7 @@ export function Sidebar({
 }) {
   const pathname = usePathname();
   const t = useTranslations("nav");
+  const user = useSession();
 
   return (
     <>
@@ -63,26 +94,38 @@ export function Sidebar({
           Soral
         </Link>
 
-        <nav className="flex flex-1 flex-col gap-0.5 px-3 py-2" aria-label={t("primary")}>
-          {NAV.map((item) => {
-            const active = item.exact ? pathname === item.href : pathname.startsWith(item.href);
-            const Icon = item.icon;
+        <nav className="flex flex-1 flex-col gap-3 overflow-y-auto px-3 py-2" aria-label={t("primary")}>
+          {GROUPS.map((group, i) => {
+            const visible = group.items.filter((item) => can(user.role, item.permission));
+            if (visible.length === 0) return null;
             return (
-              <Can key={item.href} permission={item.permission}>
-                <Link
-                  href={item.href}
-                  onClick={onClose}
-                  aria-current={active ? "page" : undefined}
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2 text-[13.5px] transition-colors ${
-                    active
-                      ? "bg-surface-2 font-medium text-ink-1"
-                      : "text-ink-2 hover:bg-surface-2 hover:text-ink-1"
-                  }`}
-                >
-                  <Icon className="h-[18px] w-[18px] shrink-0" />
-                  {t(item.labelKey)}
-                </Link>
-              </Can>
+              <div key={group.titleKey ?? `g${i}`} className="flex flex-col gap-0.5">
+                {group.titleKey && (
+                  <div className="px-3 pb-1 pt-1 text-[10px] font-semibold uppercase tracking-wider text-ink-3">
+                    {t(group.titleKey)}
+                  </div>
+                )}
+                {visible.map((item) => {
+                  const active = item.exact ? pathname === item.href : pathname.startsWith(item.href);
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={onClose}
+                      aria-current={active ? "page" : undefined}
+                      className={`flex items-center gap-3 rounded-lg px-3 py-2 text-[13.5px] transition-colors ${
+                        active
+                          ? "bg-surface-2 font-medium text-ink-1"
+                          : "text-ink-2 hover:bg-surface-2 hover:text-ink-1"
+                      }`}
+                    >
+                      <Icon className="h-[18px] w-[18px] shrink-0" />
+                      {t(item.labelKey)}
+                    </Link>
+                  );
+                })}
+              </div>
             );
           })}
         </nav>

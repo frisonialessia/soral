@@ -18,7 +18,10 @@
     "hiring": "Pre-assunzione",
     "voice": "Voce dipendenti",
     "floor": "Reparto",
-    "evidence": "Evidenza"
+    "evidence": "Evidenza",
+    "groupOperations": "Operazioni",
+    "groupIntelligence": "Intelligence",
+    "groupSystem": "Sistema"
   },
   "header": {
     "week": "Settimana {week} · {year}",

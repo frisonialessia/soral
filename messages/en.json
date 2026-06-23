@@ -18,7 +18,10 @@
     "hiring": "Pre-hire",
     "voice": "Employee voice",
     "floor": "Floor",
-    "evidence": "Evidence"
+    "evidence": "Evidence",
+    "groupOperations": "Operations",
+    "groupIntelligence": "Intelligence",
+    "groupSystem": "System"
   },
   "header": {
     "week": "Week {week} · {year}",

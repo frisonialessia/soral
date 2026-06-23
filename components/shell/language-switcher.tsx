@@ -7,7 +7,7 @@
 import { useState, useTransition } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { Check, Languages } from "lucide-react";
+import { Check, Globe } from "lucide-react";
 import { locales, localeNames, type Locale } from "@/i18n/config";
 
 export function LanguageSwitcher() {
@@ -34,7 +34,7 @@ export function LanguageSwitcher() {
         disabled={isPending}
         className="flex h-9 items-center gap-1.5 rounded-lg px-2.5 text-[13px] text-ink-2 hover:bg-surface-2 hover:text-ink-1 disabled:opacity-50"
       >
-        <Languages className="h-[18px] w-[18px]" />
+        <Globe className="h-[18px] w-[18px]" />
         <span className="hidden uppercase sm:inline">{active}</span>
       </button>
 

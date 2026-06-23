@@ -18,7 +18,10 @@
     "hiring": "Pre-contratación",
     "voice": "Voz del empleado",
     "floor": "Piso",
-    "evidence": "Evidencia"
+    "evidence": "Evidencia",
+    "groupOperations": "Operación",
+    "groupIntelligence": "Inteligencia",
+    "groupSystem": "Sistema"
   },
   "header": {
     "week": "Semana {week} · {year}",
