@@ -16,7 +16,8 @@
     "primary": "Primary navigation",
     "version": "Soral · v0.1",
     "hiring": "Pre-hire",
-    "voice": "Employee voice"
+    "voice": "Employee voice",
+    "floor": "Floor"
   },
   "header": {
     "week": "Week {week} · {year}",
@@ -554,5 +555,22 @@
     "theme_cafeteria": "Cafeteria",
     "theme_safety": "Safety",
     "theme_recognition": "Recognition"
+  },
+  "floor": {
+    "title": "Floor",
+    "plant": "Tijuana Norte",
+    "greeting": "Your shift, {name}",
+    "highRisk": "High-risk on this line",
+    "pendingActions": "Pending actions",
+    "actNow": "Act now",
+    "actNowSub": "Workers who need a play today.",
+    "noAlerts": "No high-risk workers on this line.",
+    "assignPlan": "Assign a play",
+    "reassignPlan": "Assign another play",
+    "myActions": "Actions today",
+    "myActionsSub": "Advance each play and log the outcome.",
+    "noActions": "No pending actions.",
+    "loading": "Loading the floor…",
+    "errorTitle": "Could not load the floor"
   }
 }

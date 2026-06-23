@@ -16,7 +16,8 @@
     "primary": "Navegación principal",
     "version": "Soral · v0.1",
     "hiring": "Pre-contratación",
-    "voice": "Voz del empleado"
+    "voice": "Voz del empleado",
+    "floor": "Piso"
   },
   "header": {
     "week": "Semana {week} · {year}",
@@ -554,5 +555,22 @@
     "theme_cafeteria": "Comedor",
     "theme_safety": "Seguridad",
     "theme_recognition": "Reconocimiento"
+  },
+  "floor": {
+    "title": "Piso",
+    "plant": "Tijuana Norte",
+    "greeting": "Tu turno, {name}",
+    "highRisk": "Alto riesgo en esta línea",
+    "pendingActions": "Acciones pendientes",
+    "actNow": "Actuar ahora",
+    "actNowSub": "Trabajadores que necesitan un plan hoy.",
+    "noAlerts": "Sin trabajadores de alto riesgo en esta línea.",
+    "assignPlan": "Asignar plan",
+    "reassignPlan": "Asignar otro plan",
+    "myActions": "Acciones de hoy",
+    "myActionsSub": "Avanza cada plan y registra el resultado.",
+    "noActions": "Sin acciones pendientes.",
+    "loading": "Cargando el piso…",
+    "errorTitle": "No se pudo cargar el piso"
   }
 }

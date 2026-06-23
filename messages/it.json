@@ -16,7 +16,8 @@
     "primary": "Navigazione principale",
     "version": "Soral · v0.1",
     "hiring": "Pre-assunzione",
-    "voice": "Voce dipendenti"
+    "voice": "Voce dipendenti",
+    "floor": "Reparto"
   },
   "header": {
     "week": "Settimana {week} · {year}",
@@ -554,5 +555,22 @@
     "theme_cafeteria": "Mensa",
     "theme_safety": "Sicurezza",
     "theme_recognition": "Riconoscimento"
+  },
+  "floor": {
+    "title": "Reparto",
+    "plant": "Tijuana Norte",
+    "greeting": "Il tuo turno, {name}",
+    "highRisk": "Alto rischio su questa linea",
+    "pendingActions": "Azioni in sospeso",
+    "actNow": "Agire ora",
+    "actNowSub": "Lavoratori che necessitano un piano oggi.",
+    "noAlerts": "Nessun lavoratore ad alto rischio su questa linea.",
+    "assignPlan": "Assegna un piano",
+    "reassignPlan": "Assegna un altro piano",
+    "myActions": "Azioni di oggi",
+    "myActionsSub": "Fai avanzare ogni piano e registra il risultato.",
+    "noActions": "Nessuna azione in sospeso.",
+    "loading": "Caricamento reparto…",
+    "errorTitle": "Impossibile caricare il reparto"
   }
 }
