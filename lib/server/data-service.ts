@@ -10,6 +10,7 @@
 import { EMPLOYEES, TENANT_ID, WEEK_START, MODEL_VERSION } from "@/lib/data";
 import { bandOf } from "@/lib/risk";
 import { scoreCandidate } from "@/lib/hiring";
+import { PILOT_SUMMARY } from "@/lib/causal";
 import type {
   EmployeePrediction,
   LineDetail,
@@ -26,6 +27,7 @@ import type {
   VoiceSummary,
   EmployeeTimeline,
   TimelineEvent,
+  PilotSummary,
 } from "@/types";
 
 const REPLACEMENT_COST_MXN = 36_800;
@@ -442,4 +444,10 @@ export async function getReportSummary(): Promise<ReportSummary> {
     byLine,
     drivers,
   };
+}
+
+// Pilot causal: el experimento aleatorizado que prueba el ROI. Se computa en el
+// motor (lib/causal.ts) con estadística real; aquí solo se expone por la frontera.
+export async function getPilotSummary(): Promise<PilotSummary> {
+  return PILOT_SUMMARY;
 }

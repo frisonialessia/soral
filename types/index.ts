@@ -278,3 +278,64 @@ export const EmployeeTimelineSchema = z.object({
   events: z.array(TimelineEventSchema),
 });
 export type EmployeeTimeline = z.infer<typeof EmployeeTimelineSchema>;
+
+// Pilot causal: la PRUEBA de que actuar reduce la rotación. Un experimento
+// aleatorizado (tratados vs. control) mide el efecto causal de las intervenciones
+// con estadística real (ATE, IC 95 %, valor p, NNT, ROI). Es el artefacto que
+// convierte "predecimos quién se va" en "demostramos que lo evitamos".
+export const PilotArmSchema = z.object({
+  n: z.number(),
+  retained: z.number(),
+  rate: z.number(), // % de retención del brazo (0–100)
+});
+export type PilotArm = z.infer<typeof PilotArmSchema>;
+
+export const PilotLineUpliftSchema = z.object({
+  line: z.string(),
+  nT: z.number(),
+  nC: z.number(),
+  uplift: z.number(), // puntos porcentuales de retención
+  ciLow: z.number(),
+  ciHigh: z.number(),
+});
+export type PilotLineUplift = z.infer<typeof PilotLineUpliftSchema>;
+
+export const PilotTrendPointSchema = z.object({
+  week: z.number(),
+  ate: z.number(), // pp
+  ciLow: z.number(),
+  ciHigh: z.number(),
+  n: z.number(),
+});
+export type PilotTrendPoint = z.infer<typeof PilotTrendPointSchema>;
+
+export const RetrainPointSchema = z.object({
+  version: z.string(),
+  labels: z.number(), // etiquetas (resultados del loop) acumuladas
+  auc: z.number(), // 0–1
+  projected: z.boolean(), // true = aún no embarcado (proyección)
+});
+export type RetrainPoint = z.infer<typeof RetrainPointSchema>;
+
+export const PilotSummarySchema = z.object({
+  designN: z.number(),
+  treated: PilotArmSchema,
+  control: PilotArmSchema,
+  ate: z.number(), // uplift de retención en pp
+  ciLow: z.number(),
+  ciHigh: z.number(),
+  relUplift: z.number(), // % relativo vs. retención del control
+  pValue: z.number(),
+  significant: z.boolean(),
+  nnt: z.number(), // number needed to treat
+  extraRetainedPilot: z.number(),
+  costAvoidedPilot: z.number(), // MXN, en el pilot
+  annualEligible: z.number(),
+  extraRetainedAnnual: z.number(),
+  costAvoidedAnnual: z.number(), // MXN, proyección anual
+  replacementCostMxn: z.number(),
+  byLine: z.array(PilotLineUpliftSchema),
+  trend: z.array(PilotTrendPointSchema),
+  retrains: z.array(RetrainPointSchema),
+});
+export type PilotSummary = z.infer<typeof PilotSummarySchema>;

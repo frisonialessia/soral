@@ -22,6 +22,7 @@ import {
   InterviewRecapSchema,
   VoiceSummarySchema,
   EmployeeTimelineSchema,
+  PilotSummarySchema,
   type EmployeePrediction,
   type AssignResult,
   type AskAnswer,
@@ -50,6 +51,11 @@ export function fetchPlantSummary() {
 // GET /api/reports/summary
 export function fetchReportSummary() {
   return getValidated("/api/reports/summary", ReportSummarySchema);
+}
+
+// GET /api/pilot/summary
+export function fetchPilotSummary() {
+  return getValidated("/api/pilot/summary", PilotSummarySchema);
 }
 
 // GET /api/ai/briefing

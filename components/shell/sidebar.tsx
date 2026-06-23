@@ -4,14 +4,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { LayoutDashboard, HardHat, ClipboardCheck, BarChart3, UserPlus, MessageSquareText, Plug, Settings, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, HardHat, ClipboardCheck, BarChart3, UserPlus, MessageSquareText, Plug, Settings, ShieldCheck, FlaskConical } from "lucide-react";
 import { Can } from "@/components/auth/can";
 import { BrandMark } from "@/components/brand-mark";
 import type { Permission } from "@/lib/auth/roles";
 
 interface NavItem {
   href: string;
-  labelKey: "dashboard" | "floor" | "interventions" | "reports" | "hiring" | "voice" | "integrations" | "admin" | "model";
+  labelKey: "dashboard" | "floor" | "interventions" | "reports" | "hiring" | "voice" | "integrations" | "admin" | "model" | "evidence";
   icon: typeof LayoutDashboard;
   permission: Permission;
   exact?: boolean;
@@ -26,6 +26,7 @@ const NAV: NavItem[] = [
   { href: "/voz-del-empleado", labelKey: "voice", icon: MessageSquareText, permission: "voice.view" },
   { href: "/integraciones", labelKey: "integrations", icon: Plug, permission: "integrations.view" },
   { href: "/admin", labelKey: "admin", icon: Settings, permission: "admin.view" },
+  { href: "/evidencia", labelKey: "evidence", icon: FlaskConical, permission: "reports.view" },
   { href: "/modelo", labelKey: "model", icon: ShieldCheck, permission: "dashboard.view" },
 ];
 

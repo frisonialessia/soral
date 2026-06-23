@@ -9,6 +9,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   fetchPlantSummary,
   fetchReportSummary,
+  fetchPilotSummary,
   fetchBriefing,
   fetchAsk,
   fetchIntegrations,
@@ -30,6 +31,7 @@ import type { InterventionStatus, InterventionOutcome } from "@/types";
 export const queryKeys = {
   plant: ["plant", "summary"] as const,
   reports: ["reports", "summary"] as const,
+  pilot: ["pilot", "summary"] as const,
   briefing: ["ai", "briefing"] as const,
   integrations: ["integrations"] as const,
   interventions: ["interventions", "list"] as const,
@@ -47,6 +49,10 @@ export function usePlantSummary() {
 
 export function useReportSummary() {
   return useQuery({ queryKey: queryKeys.reports, queryFn: fetchReportSummary });
+}
+
+export function usePilotSummary() {
+  return useQuery({ queryKey: queryKeys.pilot, queryFn: fetchPilotSummary });
 }
 
 export function useBriefing() {
