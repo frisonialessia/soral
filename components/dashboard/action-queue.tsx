@@ -7,13 +7,23 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { riskColor } from "@/lib/risk";
 import { RecommendationModal } from "@/components/recommendation-modal";
 import type { EmployeePrediction } from "@/types";
 
-function firstLine(text: string): string {
-  return text.split("\n").map((s) => s.trim()).find(Boolean) ?? "";
+// De la reco multilínea sacamos la JUGADA recomendada (primer paso numerado) y la
+// ventana de acción. Antes se mostraba la línea "Diagnóstico: …", que sólo repetía
+// el driver — ya visible en el subtítulo — sin decir qué hacer.
+function nextPlay(text: string): { action: string; window: string | null } {
+  const lines = text.split("\n").map((s) => s.trim()).filter(Boolean);
+  const step = lines.find((l) => /^\d+[.)]/.test(l));
+  const fallback = lines.find((l) => !/^diagn[óo]stico/i.test(l)) ?? lines[0] ?? "";
+  const action = (step ?? fallback).replace(/^\d+[.)]\s*/, "");
+  const win = lines.find((l) => /ventana de acci[óo]n/i.test(l));
+  const window = win ? (win.split(/:/)[1]?.trim().replace(/[.\s]+$/, "") ?? null) : null;
+  return { action, window };
 }
 
 export function ActionQueue({ rows }: { rows: EmployeePrediction[] }) {
@@ -45,9 +55,20 @@ export function ActionQueue({ rows }: { rows: EmployeePrediction[] }) {
                   </div>
                 </div>
               </div>
-              <p className="line-clamp-2 min-w-0 flex-1 text-[12.5px] leading-relaxed text-ink-2">
-                {firstLine(e.reco)}
-              </p>
+              {(() => {
+                const { action, window } = nextPlay(e.reco);
+                return (
+                  <div className="min-w-0 flex-1">
+                    <p className="line-clamp-2 text-[12.5px] leading-relaxed text-ink-2">{action}</p>
+                    {window && (
+                      <span className="mt-1 inline-flex items-center gap-1 text-[11px] text-ink-3">
+                        <Clock className="h-3 w-3" />
+                        {window}
+                      </span>
+                    )}
+                  </div>
+                );
+              })()}
               <button
                 type="button"
                 onClick={() => setModalEmp(e)}

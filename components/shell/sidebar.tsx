@@ -81,7 +81,7 @@ export function Sidebar({
         />
       )}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 transform flex-col border-r border-line bg-surface transition-transform duration-200 md:static md:z-auto md:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 transform flex-col border-r border-line bg-surface transition-transform duration-200 md:sticky md:top-0 md:z-auto md:h-screen md:translate-x-0 md:self-start ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
