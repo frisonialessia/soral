@@ -257,3 +257,24 @@ export const VoiceSummarySchema = z.object({
   alerts: z.array(VoiceAlertSchema),
 });
 export type VoiceSummary = z.infer<typeof VoiceSummarySchema>;
+
+// Expediente 360: la línea de tiempo del trabajador — señal → alerta →
+// intervención → resultado. Une la señal del modelo con las intervenciones REALES
+// (loop de resultados). La UI compone el texto localizado a partir de estos campos.
+export const TimelineEventSchema = z.object({
+  id: z.string(),
+  kind: z.enum(["signal", "alert", "intervention", "outcome"]),
+  at: z.string(), // ISO
+  driver: z.string().optional(), // signal: factor que se movió
+  score: z.number().optional(), // alert: score al disparar
+  play: z.string().optional(), // intervention: la jugada asignada
+  by: z.string().optional(), // intervention: quién la asignó
+  outcome: z.enum(["retained", "left"]).optional(), // outcome
+});
+export type TimelineEvent = z.infer<typeof TimelineEventSchema>;
+
+export const EmployeeTimelineSchema = z.object({
+  ref: z.string(),
+  events: z.array(TimelineEventSchema),
+});
+export type EmployeeTimeline = z.infer<typeof EmployeeTimelineSchema>;

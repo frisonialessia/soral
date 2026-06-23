@@ -229,7 +229,21 @@
     "trendTitle": "Evolución del score de riesgo",
     "trendSubtitle": "Últimas 12 semanas · tendencia sobre la PK (employee_id, week_start)",
     "backToLine": "Volver a la línea",
-    "viewAction": "Ver acción sugerida"
+    "viewAction": "Ver acción sugerida",
+    "timelineTitle": "Línea de tiempo",
+    "timelineSub": "Señal → alerta → acción → resultado de este trabajador.",
+    "piiBadge": "PII protegida",
+    "piiNote": "La identidad está pseudonimizada. La PII se restringe por rol y cada consulta queda auditada.",
+    "tag_signal": "Señal",
+    "tag_alert": "Alerta",
+    "tag_intervention": "Acción",
+    "tag_outcome": "Resultado",
+    "tlSignal": "{driver} en aumento",
+    "tlAlert": "Marcado alto riesgo en {score}%",
+    "tlIntervention": "Acción asignada: {play}",
+    "tlBy": "por {by}",
+    "tlOutcomeRetained": "Resultado: retenido ✓",
+    "tlOutcomeLeft": "Resultado: salió de la planta"
   },
   "modal": {
     "label": "Recomendación de retención · {ref}",

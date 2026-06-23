@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useEmployee } from "@/lib/queries";
 import { RiskRadar, TrendChart } from "@/components/employee/charts";
+import { Timeline } from "@/components/employee/timeline";
 import { RecommendationModal } from "@/components/recommendation-modal";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -122,6 +123,8 @@ export default function EmployeePage({ params }: { params: Promise<{ ref: string
         <p className="mb-3.5 mt-0.5 text-[12px] text-ink-3">{t("trendSubtitle")}</p>
         <TrendChart data={e.trend} color={c} />
       </Card>
+
+      <Timeline refId={e.ref} />
 
       <div className="mb-10 flex justify-end gap-2.5">
         <Link href={`/linea/${e.line}`}>

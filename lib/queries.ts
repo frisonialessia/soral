@@ -22,6 +22,7 @@ import {
   fetchVoiceDigest,
   fetchLineDetail,
   fetchEmployee,
+  fetchEmployeeTimeline,
   assignRecommendation,
 } from "./api-client";
 import type { InterventionStatus, InterventionOutcome } from "@/types";
@@ -37,6 +38,7 @@ export const queryKeys = {
   voiceDigest: ["voice", "digest"] as const,
   line: (id: string) => ["line", id] as const,
   employee: (ref: string) => ["employee", ref] as const,
+  employeeTimeline: (ref: string) => ["employee", ref, "timeline"] as const,
 };
 
 export function usePlantSummary() {
@@ -115,6 +117,14 @@ export function useEmployee(ref: string) {
   return useQuery({
     queryKey: queryKeys.employee(ref),
     queryFn: () => fetchEmployee(ref),
+    enabled: !!ref,
+  });
+}
+
+export function useEmployeeTimeline(ref: string) {
+  return useQuery({
+    queryKey: queryKeys.employeeTimeline(ref),
+    queryFn: () => fetchEmployeeTimeline(ref),
     enabled: !!ref,
   });
 }

@@ -229,7 +229,21 @@
     "trendTitle": "Risk score evolution",
     "trendSubtitle": "Last 12 weeks · trend over the PK (employee_id, week_start)",
     "backToLine": "Back to line",
-    "viewAction": "View suggested action"
+    "viewAction": "View suggested action",
+    "timelineTitle": "Case timeline",
+    "timelineSub": "Signal → alert → action → outcome for this worker.",
+    "piiBadge": "PII protected",
+    "piiNote": "Identity is pseudonymized. PII is role-gated and every view is audit-logged.",
+    "tag_signal": "Signal",
+    "tag_alert": "Alert",
+    "tag_intervention": "Action",
+    "tag_outcome": "Outcome",
+    "tlSignal": "{driver} trending up",
+    "tlAlert": "Flagged high-risk at {score}%",
+    "tlIntervention": "Action assigned: {play}",
+    "tlBy": "by {by}",
+    "tlOutcomeRetained": "Outcome: retained ✓",
+    "tlOutcomeLeft": "Outcome: left the plant"
   },
   "modal": {
     "label": "Retention recommendation · {ref}",

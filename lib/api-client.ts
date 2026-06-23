@@ -21,6 +21,7 @@ import {
   CandidatesSummarySchema,
   InterviewRecapSchema,
   VoiceSummarySchema,
+  EmployeeTimelineSchema,
   type EmployeePrediction,
   type AssignResult,
   type AskAnswer,
@@ -81,6 +82,14 @@ export async function fetchEmployee(ref: string): Promise<EmployeePrediction | n
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`GET /api/employee → ${res.status}`);
   return EmployeePredictionSchema.parse(await res.json());
+}
+
+// GET /api/employee/:ref/timeline — expediente 360 (señales, alertas, acciones).
+export async function fetchEmployeeTimeline(ref: string) {
+  const res = await fetch(`/api/employee/${encodeURIComponent(ref)}/timeline`);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`GET /api/employee/${ref}/timeline → ${res.status}`);
+  return EmployeeTimelineSchema.parse(await res.json());
 }
 
 // GET /api/integrations

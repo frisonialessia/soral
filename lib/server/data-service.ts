@@ -24,6 +24,8 @@ import type {
   Candidate,
   CandidatesSummary,
   VoiceSummary,
+  EmployeeTimeline,
+  TimelineEvent,
 } from "@/types";
 
 const REPLACEMENT_COST_MXN = 36_800;
@@ -104,6 +106,33 @@ export async function getLineDetail(id: string): Promise<LineDetail> {
 // El ref llega ya decodificado por Next (el handler recibe params decodificados).
 export async function getEmployee(ref: string): Promise<EmployeePrediction | null> {
   return ALL.find((e) => e.ref === ref) ?? null;
+}
+
+// GET /api/employee/:ref/timeline
+// Expediente 360: cose la señal del modelo (drivers/score) con las intervenciones
+// REALES del loop de resultados (mismo store INTERVENTIONS). Con datos reales, los
+// eventos vendrán de la tabla de eventos del trabajador; la firma no cambia.
+export async function getEmployeeTimeline(ref: string): Promise<EmployeeTimeline | null> {
+  const e = ALL.find((x) => x.ref === ref);
+  if (!e) return null;
+
+  const events: TimelineEvent[] = [];
+  // Señales del modelo (de los dos drivers principales).
+  if (e.drivers[0]) events.push({ id: `${e.ref}-s1`, kind: "signal", at: daysAgo(28), driver: e.drivers[0].factor });
+  if (e.drivers[1]) events.push({ id: `${e.ref}-s2`, kind: "signal", at: daysAgo(19), driver: e.drivers[1].factor });
+  // Alerta cuando el score cruzó el umbral.
+  events.push({ id: `${e.ref}-a1`, kind: "alert", at: daysAgo(13), score: e.score });
+  // Intervenciones REALES de este trabajador + su resultado.
+  for (const iv of INTERVENTIONS.filter((i) => i.ref === e.ref)) {
+    events.push({ id: `${iv.id}-iv`, kind: "intervention", at: iv.assignedAt, play: iv.play, by: iv.assignedBy });
+    if (iv.outcome !== "pending") {
+      const at = new Date(new Date(iv.assignedAt).getTime() + 5 * 86_400_000).toISOString();
+      events.push({ id: `${iv.id}-out`, kind: "outcome", at, outcome: iv.outcome });
+    }
+  }
+
+  events.sort((a, b) => b.at.localeCompare(a.at)); // más reciente primero
+  return { ref: e.ref, events };
 }
 
 // POST /api/recommendation/:ref/assign
