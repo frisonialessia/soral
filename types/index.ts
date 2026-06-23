@@ -102,3 +102,10 @@ export const BriefingSchema = z.object({
   model: z.string().nullable(),
 });
 export type Briefing = z.infer<typeof BriefingSchema>;
+
+// Respuesta del asistente "Ask Soral".
+export const AskAnswerSchema = z.object({
+  answer: z.string(),
+  source: z.enum(["llm", "rules"]),
+});
+export type AskAnswer = z.infer<typeof AskAnswerSchema>;

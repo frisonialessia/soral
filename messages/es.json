@@ -290,5 +290,19 @@
     "driversTitle": "Principales causas de rotación",
     "driversSub": "Peso del modelo entre los marcados",
     "flagged": "{n} marcados"
+  },
+  "ask": {
+    "trigger": "Pregúntale a Soral",
+    "title": "Pregúntale a Soral",
+    "empty": "Pregunta lo que quieras sobre tu plantilla — con base en los datos de esta semana.",
+    "placeholder": "Pregunta sobre riesgo, líneas, causas o costo…",
+    "send": "Enviar",
+    "error": "No pude obtener una respuesta. Inténtalo de nuevo.",
+    "live": "en vivo",
+    "sample": "muestra",
+    "s1": "¿Quién es de alto riesgo esta semana?",
+    "s2": "¿Cuál es la peor línea?",
+    "s3": "¿Cuáles son las causas principales?",
+    "s4": "¿Cuánto está en riesgo?"
   }
 }

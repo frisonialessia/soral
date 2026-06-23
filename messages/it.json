@@ -290,5 +290,19 @@
     "driversTitle": "Principali cause di turnover",
     "driversSub": "Peso del modello tra i segnalati",
     "flagged": "{n} segnalati"
+  },
+  "ask": {
+    "trigger": "Chiedi a Soral",
+    "title": "Chiedi a Soral",
+    "empty": "Chiedi qualsiasi cosa sul tuo organico — sui dati di questa settimana.",
+    "placeholder": "Chiedi su rischio, linee, cause o costo…",
+    "send": "Invia",
+    "error": "Non sono riuscito a ottenere una risposta. Riprova.",
+    "live": "live",
+    "sample": "esempio",
+    "s1": "Chi è ad alto rischio questa settimana?",
+    "s2": "Qual è la linea peggiore?",
+    "s3": "Quali sono le cause principali?",
+    "s4": "Quanto è a rischio?"
   }
 }

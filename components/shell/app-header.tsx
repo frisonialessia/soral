@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Menu, LogOut, User } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth/session";
 import { LanguageSwitcher } from "./language-switcher";
+import { AskSoral } from "./ask-soral";
 
 export function AppHeader({ onMenu }: { onMenu: () => void }) {
   const user = useSession();
@@ -35,7 +36,8 @@ export function AppHeader({ onMenu }: { onMenu: () => void }) {
         <div className="text-[11.5px] text-ink-3">{t("week", { week: 24, year: 2026 })}</div>
       </div>
 
-      <div className="ml-auto flex items-center gap-1">
+      <div className="ml-auto flex items-center gap-1.5">
+        <AskSoral />
         <LanguageSwitcher />
 
         <div className="relative">

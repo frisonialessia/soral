@@ -290,5 +290,19 @@
     "driversTitle": "Top turnover drivers",
     "driversSub": "Share of model weight across flagged workers",
     "flagged": "{n} flagged"
+  },
+  "ask": {
+    "trigger": "Ask Soral",
+    "title": "Ask Soral",
+    "empty": "Ask anything about your workforce — grounded in this week's data.",
+    "placeholder": "Ask about risk, lines, drivers or cost…",
+    "send": "Send",
+    "error": "Sorry, I could not get an answer. Please try again.",
+    "live": "live",
+    "sample": "sample",
+    "s1": "Who is high-risk this week?",
+    "s2": "Which line is worst?",
+    "s3": "What are the top drivers?",
+    "s4": "How much is at risk?"
   }
 }

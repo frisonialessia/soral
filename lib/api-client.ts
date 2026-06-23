@@ -13,8 +13,10 @@ import {
   AssignResultSchema,
   ReportSummarySchema,
   BriefingSchema,
+  AskAnswerSchema,
   type EmployeePrediction,
   type AssignResult,
+  type AskAnswer,
 } from "@/types";
 
 // GET + valida contra el esquema. Devuelve el tipo inferido del esquema.
@@ -40,6 +42,19 @@ export function fetchReportSummary() {
 // GET /api/ai/briefing
 export function fetchBriefing() {
   return getValidated("/api/ai/briefing", BriefingSchema);
+}
+
+// POST /api/ai/ask — asistente conversacional. Valida la respuesta en la frontera.
+export async function fetchAsk(
+  messages: { role: "user" | "assistant"; content: string }[]
+): Promise<AskAnswer> {
+  const res = await fetch("/api/ai/ask", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ messages }),
+  });
+  if (!res.ok) throw new Error(`POST /api/ai/ask → ${res.status}`);
+  return AskAnswerSchema.parse(await res.json());
 }
 
 // GET /api/line/:id

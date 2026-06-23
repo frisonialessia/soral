@@ -10,6 +10,7 @@ import {
   fetchPlantSummary,
   fetchReportSummary,
   fetchBriefing,
+  fetchAsk,
   fetchLineDetail,
   fetchEmployee,
   assignRecommendation,
@@ -33,6 +34,12 @@ export function useReportSummary() {
 
 export function useBriefing() {
   return useQuery({ queryKey: queryKeys.briefing, queryFn: fetchBriefing });
+}
+
+export function useAskSoral() {
+  return useMutation({
+    mutationFn: (messages: { role: "user" | "assistant"; content: string }[]) => fetchAsk(messages),
+  });
 }
 
 export function useLineDetail(id: string) {
