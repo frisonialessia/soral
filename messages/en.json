@@ -140,7 +140,16 @@
     "gaugeStabilitySub": "{stable} of {total} stable",
     "aiBriefingTitle": "Weekly AI briefing",
     "aiBriefingLive": "live",
-    "aiBriefingSample": "sample"
+    "aiBriefingSample": "sample",
+    "export": "Export",
+    "heatTitle": "Risk by line × shift",
+    "heatSub": "Flagged workers per cell · color shows severity",
+    "lbTitle": "Lines by risk",
+    "lbSub": "Ranked by flagged workers",
+    "shift_matutino": "Morning",
+    "shift_vespertino": "Afternoon",
+    "shift_nocturno": "Night",
+    "shift_mixto": "Mixed"
   },
   "table": {
     "employee": "Employee",

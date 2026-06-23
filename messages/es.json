@@ -140,7 +140,16 @@
     "gaugeStabilitySub": "{stable} de {total} estables",
     "aiBriefingTitle": "Briefing semanal con IA",
     "aiBriefingLive": "en vivo",
-    "aiBriefingSample": "muestra"
+    "aiBriefingSample": "muestra",
+    "export": "Exportar",
+    "heatTitle": "Riesgo por línea × turno",
+    "heatSub": "Trabajadores marcados por celda · el color indica severidad",
+    "lbTitle": "Líneas por riesgo",
+    "lbSub": "Ordenadas por trabajadores marcados",
+    "shift_matutino": "Matutino",
+    "shift_vespertino": "Vespertino",
+    "shift_nocturno": "Nocturno",
+    "shift_mixto": "Mixto"
   },
   "table": {
     "employee": "Empleado",

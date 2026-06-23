@@ -3,11 +3,14 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { Download } from "lucide-react";
 import { usePlantSummary } from "@/lib/queries";
 import { DotField } from "@/components/dashboard/dot-field";
 import { AiBriefing } from "@/components/dashboard/ai-briefing";
 import { KpiStrip } from "@/components/dashboard/kpi-strip";
 import { Gauge } from "@/components/dashboard/gauge";
+import { RiskHeatmap } from "@/components/dashboard/risk-heatmap";
+import { Leaderboard } from "@/components/dashboard/leaderboard";
 import { ActionQueue } from "@/components/dashboard/action-queue";
 import { InsightTabs } from "@/components/dashboard/insight-tabs";
 import { Card } from "@/components/ui/card";
@@ -41,6 +44,21 @@ export default function DashboardPage() {
     Todo: t("rangeAll"),
   };
 
+  function exportCsv() {
+    if (!data) return;
+    const rows: string[][] = [
+      ["ref", "score", "band", "line", "shift", "driver"],
+      ...data.topRisk.map((e) => [e.ref, String(e.score), e.band, e.line, e.shift, e.driver]),
+    ];
+    const csv = rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "soral-workforce.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <div className="animate-fade pb-12">
       <div className="flex flex-wrap items-end justify-between gap-3.5 py-5">
@@ -48,23 +66,33 @@ export default function DashboardPage() {
           <h1 className="text-[27px] font-semibold tracking-tight">{t("title")}</h1>
           <p className="mt-1 text-sm text-ink-2">{t("subtitle", { count: total })}</p>
         </div>
-        <div role="group" aria-label={t("rangeGroup")} className="flex gap-1 rounded-full bg-surface-bg p-1">
-          {(["3M", "1A", "Todo"] as const).map((s) => {
-            const active = range === s;
-            return (
-              <button
-                key={s}
-                type="button"
-                aria-pressed={active}
-                onClick={() => setRange(s)}
-                className={`rounded-full px-4 py-1.5 text-[12.5px] transition-colors ${
-                  active ? "bg-surface font-medium text-ink-1 shadow-sm" : "text-ink-2 hover:text-ink-1"
-                }`}
-              >
-                {rangeLabel[s]}
-              </button>
-            );
-          })}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={exportCsv}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-line-2 bg-surface px-3 py-2 text-[12.5px] font-medium text-ink-1 transition-colors hover:border-risk-sol hover:text-risk-sol"
+          >
+            <Download className="h-4 w-4" />
+            {t("export")}
+          </button>
+          <div role="group" aria-label={t("rangeGroup")} className="flex gap-1 rounded-full bg-surface-bg p-1">
+            {(["3M", "1A", "Todo"] as const).map((s) => {
+              const active = range === s;
+              return (
+                <button
+                  key={s}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => setRange(s)}
+                  className={`rounded-full px-4 py-1.5 text-[12.5px] transition-colors ${
+                    active ? "bg-surface font-medium text-ink-1 shadow-sm" : "text-ink-2 hover:text-ink-1"
+                  }`}
+                >
+                  {rangeLabel[s]}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -88,6 +116,23 @@ export default function DashboardPage() {
           <div className="mt-1 text-center text-[11.5px] text-ink-3">
             {t("gaugeStabilitySub", { stable: data.stable, total })}
           </div>
+        </Card>
+      </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-[1.6fr_1fr]">
+        <Card className="rounded-xl p-[22px]">
+          <div className="mb-4">
+            <h2 className="text-[17px] font-semibold">{t("heatTitle")}</h2>
+            <p className="mt-0.5 text-[12.5px] text-ink-2">{t("heatSub")}</p>
+          </div>
+          <RiskHeatmap rows={data.topRisk} />
+        </Card>
+        <Card className="rounded-xl p-[22px]">
+          <div className="mb-4">
+            <h2 className="text-[17px] font-semibold">{t("lbTitle")}</h2>
+            <p className="mt-0.5 text-[12.5px] text-ink-2">{t("lbSub")}</p>
+          </div>
+          <Leaderboard rows={data.topRisk} />
         </Card>
       </div>
 
