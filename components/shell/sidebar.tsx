@@ -23,9 +23,10 @@ interface NavItem {
   exact?: boolean;
 }
 
-// La navegación se agrupa por intención para que no sea una lista plana de 10:
-// qué pasa (Dashboard) · qué hago (Operación) · qué aprendo (Inteligencia) ·
-// cómo se configura (Sistema). Cada grupo se oculta entero si el rol no ve ninguno.
+// La navegación se agrupa por intención para que no sea una lista plana:
+// qué pasa (Dashboard) · qué planeo (Planeación) · qué hago (Operación) ·
+// qué aprendo (Inteligencia) · cómo se configura (Sistema). Cada grupo se oculta
+// entero si el rol no ve ninguno de sus ítems.
 interface NavGroup {
   titleKey?: "groupPlanning" | "groupOperations" | "groupIntelligence" | "groupSystem";
   items: NavItem[];
@@ -96,20 +97,20 @@ export function Sidebar({
         <Link
           href="/dashboard"
           onClick={onClose}
-          className="flex items-center gap-3 px-5 py-[18px] text-[16px] font-semibold tracking-tight"
+          className="flex items-center gap-2.5 px-5 py-[18px]"
         >
-          <BrandMark size={28} className="shrink-0" />
-          Soral
+          <BrandMark size={26} className="shrink-0" />
+          <span className="text-[15px] font-semibold tracking-tight text-ink-1">Soral</span>
         </Link>
 
-        <nav className="flex flex-1 flex-col gap-3 overflow-y-auto px-3 py-2" aria-label={t("primary")}>
+        <nav className="flex flex-1 flex-col gap-[18px] overflow-y-auto px-3 py-2" aria-label={t("primary")}>
           {GROUPS.map((group, i) => {
             const visible = group.items.filter((item) => can(user.role, item.permission));
             if (visible.length === 0) return null;
             return (
               <div key={group.titleKey ?? `g${i}`} className="flex flex-col gap-0.5">
                 {group.titleKey && (
-                  <div className="px-3 pb-1 pt-1 text-[10px] font-semibold uppercase tracking-wider text-ink-3">
+                  <div className="mb-1 px-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-3">
                     {t(group.titleKey)}
                   </div>
                 )}
@@ -122,13 +123,15 @@ export function Sidebar({
                       href={item.href}
                       onClick={onClose}
                       aria-current={active ? "page" : undefined}
-                      className={`flex items-center gap-3 rounded-lg px-3 py-2 text-[13.5px] transition-colors ${
+                      className={`group/item flex items-center gap-3 rounded-lg px-3 py-[9px] text-[14px] font-medium transition-colors ${
                         active
-                          ? "bg-surface-2 font-medium text-ink-1"
-                          : "text-ink-2 hover:bg-surface-2 hover:text-ink-1"
+                          ? "bg-risk-sol-soft text-risk-sol"
+                          : "text-ink-1 hover:bg-surface-2"
                       }`}
                     >
-                      <Icon className="h-[18px] w-[18px] shrink-0" />
+                      <Icon
+                        className={`h-[18px] w-[18px] shrink-0 ${active ? "text-risk-sol" : "text-ink-3 group-hover/item:text-ink-2"}`}
+                      />
                       {t(item.labelKey)}
                     </Link>
                   );
@@ -138,7 +141,17 @@ export function Sidebar({
           })}
         </nav>
 
-        <div className="px-5 py-4 text-[11px] text-ink-3">{t("version")}</div>
+        <Link
+          href="/modelo"
+          onClick={onClose}
+          className="flex items-center justify-between gap-2 border-t border-line px-5 py-3.5 transition-colors hover:bg-surface-2"
+        >
+          <span className="flex items-center gap-2 text-[12px] font-medium text-ink-2">
+            <span className="h-2 w-2 rounded-full bg-risk-sol" aria-hidden="true" />
+            {t("modelStatus")}
+          </span>
+          <span className="text-[11px] text-ink-3">{t("version")}</span>
+        </Link>
       </aside>
     </>
   );

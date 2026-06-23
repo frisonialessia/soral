@@ -24,7 +24,8 @@
     "groupSystem": "System",
     "groupPlanning": "Planning",
     "actionPlan": "Action plan",
-    "simulator": "Simulator"
+    "simulator": "Simulator",
+    "modelStatus": "Model stable"
   },
   "header": {
     "week": "Week {week} · {year}",
