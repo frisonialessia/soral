@@ -109,3 +109,27 @@ export const AskAnswerSchema = z.object({
   source: z.enum(["llm", "rules"]),
 });
 export type AskAnswer = z.infer<typeof AskAnswerSchema>;
+
+// Integraciones: conectores que alimentan el modelo (HRIS, nómina, reloj, etc.).
+export const ConnectorStatusSchema = z.enum(["connected", "syncing", "error", "disconnected"]);
+export type ConnectorStatus = z.infer<typeof ConnectorStatusSchema>;
+
+export const IntegrationConnectorSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  category: z.enum(["hris", "payroll", "time", "biometrics", "erp", "files"]),
+  status: ConnectorStatusSchema,
+  lastSyncMin: z.number().nullable(), // minutos desde la última sync; null = nunca
+  records: z.number(),
+  frequency: z.enum(["realtime", "hourly", "daily", "manual"]),
+  fields: z.array(z.object({ source: z.string(), target: z.string() })),
+});
+export type IntegrationConnector = z.infer<typeof IntegrationConnectorSchema>;
+
+export const IntegrationsSummarySchema = z.object({
+  connectors: z.array(IntegrationConnectorSchema),
+});
+export type IntegrationsSummary = z.infer<typeof IntegrationsSummarySchema>;
+
+export const SyncResultSchema = z.object({ ok: z.literal(true), syncedAt: z.string() });
+export type SyncResult = z.infer<typeof SyncResultSchema>;

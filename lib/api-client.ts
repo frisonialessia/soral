@@ -14,9 +14,12 @@ import {
   ReportSummarySchema,
   BriefingSchema,
   AskAnswerSchema,
+  IntegrationsSummarySchema,
+  SyncResultSchema,
   type EmployeePrediction,
   type AssignResult,
   type AskAnswer,
+  type SyncResult,
 } from "@/types";
 
 // GET + valida contra el esquema. Devuelve el tipo inferido del esquema.
@@ -69,6 +72,18 @@ export async function fetchEmployee(ref: string): Promise<EmployeePrediction | n
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`GET /api/employee → ${res.status}`);
   return EmployeePredictionSchema.parse(await res.json());
+}
+
+// GET /api/integrations
+export function fetchIntegrations() {
+  return getValidated("/api/integrations", IntegrationsSummarySchema);
+}
+
+// POST /api/integrations/:id/sync
+export async function syncConnector(id: string): Promise<SyncResult> {
+  const res = await fetch(`/api/integrations/${encodeURIComponent(id)}/sync`, { method: "POST" });
+  if (!res.ok) throw new Error(`POST /api/integrations/${id}/sync → ${res.status}`);
+  return SyncResultSchema.parse(await res.json());
 }
 
 // POST /api/recommendation/:ref/assign

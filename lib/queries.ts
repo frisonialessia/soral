@@ -11,6 +11,8 @@ import {
   fetchReportSummary,
   fetchBriefing,
   fetchAsk,
+  fetchIntegrations,
+  syncConnector,
   fetchLineDetail,
   fetchEmployee,
   assignRecommendation,
@@ -20,6 +22,7 @@ export const queryKeys = {
   plant: ["plant", "summary"] as const,
   reports: ["reports", "summary"] as const,
   briefing: ["ai", "briefing"] as const,
+  integrations: ["integrations"] as const,
   line: (id: string) => ["line", id] as const,
   employee: (ref: string) => ["employee", ref] as const,
 };
@@ -40,6 +43,14 @@ export function useAskSoral() {
   return useMutation({
     mutationFn: (messages: { role: "user" | "assistant"; content: string }[]) => fetchAsk(messages),
   });
+}
+
+export function useIntegrations() {
+  return useQuery({ queryKey: queryKeys.integrations, queryFn: fetchIntegrations });
+}
+
+export function useSyncConnector() {
+  return useMutation({ mutationFn: (id: string) => syncConnector(id) });
 }
 
 export function useLineDetail(id: string) {

@@ -9,7 +9,7 @@
 
 import { EMPLOYEES, TENANT_ID, WEEK_START, MODEL_VERSION } from "@/lib/data";
 import { bandOf } from "@/lib/risk";
-import type { EmployeePrediction, LineDetail, PlantSummary, ReportSummary } from "@/types";
+import type { EmployeePrediction, LineDetail, PlantSummary, ReportSummary, IntegrationsSummary, SyncResult } from "@/types";
 
 const REPLACEMENT_COST_MXN = 36_800;
 const PLANT_HEADCOUNT = 1180;
@@ -98,6 +98,115 @@ export async function assignRecommendation(
 ): Promise<{ ok: true; assignedAt: string }> {
   // En producción: persiste la intervención y notifica al supervisor.
   return { ok: true, assignedAt: new Date().toISOString() };
+}
+
+// GET /api/integrations
+// Conectores que alimentan el modelo. Hoy mock; mañana, estado real de cada
+// pipeline ERP/HRIS/biométrico. Los campos source→target reflejan el mapeo que
+// usa el conector para producir las señales del dataset.
+const CONNECTORS: IntegrationsSummary["connectors"] = [
+  {
+    id: "successfactors",
+    name: "SAP SuccessFactors",
+    category: "hris",
+    status: "connected",
+    lastSyncMin: 12,
+    records: PLANT_HEADCOUNT,
+    frequency: "hourly",
+    fields: [
+      { source: "employee_id", target: "ref" },
+      { source: "hire_date", target: "tenure" },
+      { source: "position", target: "role" },
+      { source: "employment_status", target: "active" },
+    ],
+  },
+  {
+    id: "adp",
+    name: "ADP Payroll",
+    category: "payroll",
+    status: "connected",
+    lastSyncMin: 140,
+    records: PLANT_HEADCOUNT,
+    frequency: "daily",
+    fields: [
+      { source: "pay_date", target: "pay_cycle" },
+      { source: "gross_pay", target: "pay_level" },
+      { source: "deductions", target: "pay_signal" },
+    ],
+  },
+  {
+    id: "ukg",
+    name: "UKG / Kronos",
+    category: "time",
+    status: "connected",
+    lastSyncMin: 8,
+    records: 38420,
+    frequency: "hourly",
+    fields: [
+      { source: "clock_in", target: "punctuality" },
+      { source: "late_minutes", target: "tardiness" },
+      { source: "absence_flag", target: "absences" },
+    ],
+  },
+  {
+    id: "zkteco",
+    name: "ZKTeco",
+    category: "biometrics",
+    status: "syncing",
+    lastSyncMin: 1,
+    records: 36910,
+    frequency: "realtime",
+    fields: [
+      { source: "device_id", target: "gate" },
+      { source: "event_ts", target: "entry_time" },
+    ],
+  },
+  {
+    id: "oracle-erp",
+    name: "Oracle ERP",
+    category: "erp",
+    status: "error",
+    lastSyncMin: 1440,
+    records: 0,
+    frequency: "daily",
+    fields: [
+      { source: "cost_center", target: "line" },
+      { source: "shift_code", target: "shift" },
+    ],
+  },
+  {
+    id: "sftp-survey",
+    name: "Pulse survey (SFTP)",
+    category: "files",
+    status: "connected",
+    lastSyncMin: 300,
+    records: 920,
+    frequency: "daily",
+    fields: [
+      { source: "survey_score", target: "climate" },
+      { source: "supervisor_id", target: "supervisor" },
+    ],
+  },
+  {
+    id: "workday",
+    name: "Workday",
+    category: "hris",
+    status: "disconnected",
+    lastSyncMin: null,
+    records: 0,
+    frequency: "manual",
+    fields: [],
+  },
+];
+
+export async function getIntegrations(): Promise<IntegrationsSummary> {
+  return { connectors: CONNECTORS };
+}
+
+// POST /api/integrations/:id/sync
+export async function syncConnector(id: string): Promise<SyncResult> {
+  // En producción: dispara una corrida del pipeline del conector `id`.
+  return { ok: true, syncedAt: new Date().toISOString() };
 }
 
 // GET /api/reports/summary

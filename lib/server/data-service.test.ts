@@ -4,8 +4,10 @@ import {
   getLineDetail,
   getEmployee,
   getReportSummary,
+  getIntegrations,
+  syncConnector,
 } from "@/lib/server/data-service";
-import { ReportSummarySchema } from "@/types";
+import { ReportSummarySchema, IntegrationsSummarySchema } from "@/types";
 
 describe("getPlantSummary", () => {
   it("agrega los buckets de riesgo y el ahorro sobre el dataset semilla", async () => {
@@ -63,5 +65,21 @@ describe("getReportSummary", () => {
     expect(r.drivers.every((d) => d.weight >= 0)).toBe(true);
     // ROI: costo evitado = retenidos × costo de reemplazo
     expect(r.kpis.costAvoidedMxn).toBe(r.kpis.retained * 36_800);
+  });
+});
+
+describe("getIntegrations", () => {
+  it("cumple el contrato y expone conectores con estado", async () => {
+    const r = await getIntegrations();
+    expect(() => IntegrationsSummarySchema.parse(r)).not.toThrow();
+    expect(r.connectors.length).toBeGreaterThan(3);
+    expect(r.connectors.some((c) => c.status === "connected")).toBe(true);
+    expect(r.connectors.some((c) => c.status === "error")).toBe(true);
+  });
+
+  it("syncConnector devuelve ok con timestamp", async () => {
+    const res = await syncConnector("ukg");
+    expect(res.ok).toBe(true);
+    expect(typeof res.syncedAt).toBe("string");
   });
 });
