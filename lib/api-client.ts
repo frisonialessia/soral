@@ -23,6 +23,7 @@ import {
   VoiceSummarySchema,
   EmployeeTimelineSchema,
   PilotSummarySchema,
+  GovernanceSummarySchema,
   type EmployeePrediction,
   type AssignResult,
   type AskAnswer,
@@ -56,6 +57,11 @@ export function fetchReportSummary() {
 // GET /api/pilot/summary
 export function fetchPilotSummary() {
   return getValidated("/api/pilot/summary", PilotSummarySchema);
+}
+
+// GET /api/governance
+export function fetchGovernance() {
+  return getValidated("/api/governance", GovernanceSummarySchema);
 }
 
 // GET /api/ai/briefing

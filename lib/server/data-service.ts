@@ -11,6 +11,7 @@ import { EMPLOYEES, TENANT_ID, WEEK_START, MODEL_VERSION } from "@/lib/data";
 import { bandOf } from "@/lib/risk";
 import { scoreCandidate } from "@/lib/hiring";
 import { PILOT_SUMMARY } from "@/lib/causal";
+import { buildFairness, buildProxies, parity } from "@/lib/governance";
 import type {
   EmployeePrediction,
   LineDetail,
@@ -28,6 +29,8 @@ import type {
   EmployeeTimeline,
   TimelineEvent,
   PilotSummary,
+  GovernanceSummary,
+  GovernanceDecision,
 } from "@/types";
 
 const REPLACEMENT_COST_MXN = 36_800;
@@ -450,4 +453,45 @@ export async function getReportSummary(): Promise<ReportSummary> {
 // motor (lib/causal.ts) con estadística real; aquí solo se expone por la frontera.
 export async function getPilotSummary(): Promise<PilotSummary> {
   return PILOT_SUMMARY;
+}
+
+// GET /api/governance
+// Gobernanza y equidad: equidad por grupo (lib/governance), señales proxy sobre
+// los MISMOS drivers agregados que ve /reportes, y el registro de decisiones —
+// las intervenciones reales unidas a la banda/driver del trabajador (el "por qué").
+export async function getGovernanceSummary(): Promise<GovernanceSummary> {
+  const fairness = buildFairness();
+  const par = parity(fairness);
+  const report = await getReportSummary();
+  const proxies = buildProxies(report.drivers);
+
+  const log: GovernanceDecision[] = [...INTERVENTIONS]
+    .sort((a, b) => b.assignedAt.localeCompare(a.assignedAt))
+    .map((iv) => {
+      const e = ALL.find((x) => x.ref === iv.ref);
+      return {
+        id: iv.id,
+        ref: iv.ref,
+        line: iv.line,
+        play: iv.play,
+        by: iv.assignedBy,
+        at: iv.assignedAt,
+        status: iv.status,
+        outcome: iv.outcome,
+        band: e?.band ?? "alto",
+        driver: e?.driver ?? "—",
+      };
+    });
+  const measured = log.filter((d) => d.outcome !== "pending").length;
+
+  return {
+    parityRatio: par.ratio,
+    parityStatus: par.status,
+    proxyCount: proxies.filter((p) => p.risk !== "low").length,
+    decisionCount: log.length,
+    measuredPct: log.length ? Math.round((measured / log.length) * 100) : 0,
+    fairness,
+    proxies,
+    log,
+  };
 }

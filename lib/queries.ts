@@ -10,6 +10,7 @@ import {
   fetchPlantSummary,
   fetchReportSummary,
   fetchPilotSummary,
+  fetchGovernance,
   fetchBriefing,
   fetchAsk,
   fetchIntegrations,
@@ -32,6 +33,7 @@ export const queryKeys = {
   plant: ["plant", "summary"] as const,
   reports: ["reports", "summary"] as const,
   pilot: ["pilot", "summary"] as const,
+  governance: ["governance", "summary"] as const,
   briefing: ["ai", "briefing"] as const,
   integrations: ["integrations"] as const,
   interventions: ["interventions", "list"] as const,
@@ -49,6 +51,10 @@ export function usePlantSummary() {
 
 export function useReportSummary() {
   return useQuery({ queryKey: queryKeys.reports, queryFn: fetchReportSummary });
+}
+
+export function useGovernance() {
+  return useQuery({ queryKey: queryKeys.governance, queryFn: fetchGovernance });
 }
 
 export function usePilotSummary() {

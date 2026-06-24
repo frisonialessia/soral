@@ -339,3 +339,57 @@ export const PilotSummarySchema = z.object({
   retrains: z.array(RetrainPointSchema),
 });
 export type PilotSummary = z.infer<typeof PilotSummarySchema>;
+
+// Gobernanza y equidad: el lente de RESPONSABILIDAD sobre el modelo. Complementa
+// la model card (/modelo, qué tan preciso es) con tres cosas que un comité de ética,
+// Legal o el sindicato exigen: ¿el modelo trata distinto a unos grupos que a otros?
+// ¿alguna señal es proxy de un atributo protegido? ¿quién decidió qué y por qué?
+export const FairnessGroupSchema = z.object({
+  group: z.string(), // "L3" (línea, literal) | clave i18n para turno/antigüedad
+  size: z.number(), // personas en el grupo
+  rate: z.number(), // % del grupo que el modelo coloca en banda elevada (0–100)
+});
+export type FairnessGroup = z.infer<typeof FairnessGroupSchema>;
+
+export const FairnessDimensionSchema = z.object({
+  dimension: z.enum(["line", "shift", "tenure"]),
+  sensitive: z.boolean(), // ¿es proxy de un atributo protegido? (turno/antigüedad sí; línea no)
+  groups: z.array(FairnessGroupSchema),
+  ratio: z.number(), // razón de impacto (regla de 4/5): min/max de las tasas, 0–1
+  status: z.enum(["ok", "review"]),
+});
+export type FairnessDimension = z.infer<typeof FairnessDimensionSchema>;
+
+export const ProxySignalSchema = z.object({
+  factor: z.string(), // el driver, tal cual (dato)
+  weight: z.number(), // peso en el modelo, 0–100
+  risk: z.enum(["high", "medium", "low"]),
+  proxyFor: z.enum(["age", "location", "finance", "family", "none"]),
+});
+export type ProxySignal = z.infer<typeof ProxySignalSchema>;
+
+export const GovernanceDecisionSchema = z.object({
+  id: z.string(),
+  ref: z.string(),
+  line: z.string(),
+  play: z.string(),
+  by: z.string(),
+  at: z.string(),
+  status: InterventionStatusSchema,
+  outcome: InterventionOutcomeSchema,
+  band: RiskBandSchema, // el "por qué": banda de riesgo al decidir
+  driver: z.string(), // el "por qué": driver principal
+});
+export type GovernanceDecision = z.infer<typeof GovernanceDecisionSchema>;
+
+export const GovernanceSummarySchema = z.object({
+  parityRatio: z.number(), // peor razón de impacto entre las dimensiones sensibles (0–1)
+  parityStatus: z.enum(["ok", "review"]),
+  proxyCount: z.number(), // señales proxy de riesgo alto+medio
+  decisionCount: z.number(),
+  measuredPct: z.number(), // % de decisiones con resultado medido (0–100)
+  fairness: z.array(FairnessDimensionSchema),
+  proxies: z.array(ProxySignalSchema),
+  log: z.array(GovernanceDecisionSchema),
+});
+export type GovernanceSummary = z.infer<typeof GovernanceSummarySchema>;

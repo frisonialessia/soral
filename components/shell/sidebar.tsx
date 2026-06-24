@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { LayoutDashboard, HardHat, ClipboardCheck, BarChart3, UserPlus, MessageSquareText, Plug, Settings, ShieldCheck, FlaskConical, ListChecks, SlidersHorizontal } from "lucide-react";
+import { LayoutDashboard, HardHat, ClipboardCheck, BarChart3, UserPlus, MessageSquareText, Plug, Settings, ShieldCheck, FlaskConical, ListChecks, SlidersHorizontal, Scale } from "lucide-react";
 import { useSession } from "@/lib/auth/session";
 import { can, type Permission } from "@/lib/auth/roles";
 import { BrandMark } from "@/components/brand-mark";
@@ -12,7 +12,7 @@ import { BrandMark } from "@/components/brand-mark";
 type LabelKey =
   | "dashboard" | "actionPlan" | "simulator"
   | "floor" | "interventions" | "hiring"
-  | "reports" | "evidence" | "voice" | "model"
+  | "reports" | "evidence" | "voice" | "model" | "governance"
   | "integrations" | "admin";
 
 interface NavItem {
@@ -58,6 +58,7 @@ const GROUPS: NavGroup[] = [
       { href: "/evidencia", labelKey: "evidence", icon: FlaskConical, permission: "reports.view" },
       { href: "/voz-del-empleado", labelKey: "voice", icon: MessageSquareText, permission: "voice.view" },
       { href: "/modelo", labelKey: "model", icon: ShieldCheck, permission: "dashboard.view" },
+      { href: "/gobernanza", labelKey: "governance", icon: Scale, permission: "reports.view" },
     ],
   },
   {
