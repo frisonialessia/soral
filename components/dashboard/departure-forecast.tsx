@@ -11,7 +11,14 @@ import type { EmployeePrediction } from "@/types";
 
 const bucketOf = (score: number) => Math.min(4, Math.max(0, Math.floor((100 - score) / 7)));
 
-export function DepartureForecast({ rows }: { rows: EmployeePrediction[] }) {
+export function DepartureForecast({
+  rows,
+  onSelect,
+}: {
+  rows: EmployeePrediction[];
+  // Override del click — la landing lo usa para no navegar a refs de muestra.
+  onSelect?: (ref: string) => void;
+}) {
   const t = useTranslations("dashboard");
 
   const buckets: EmployeePrediction[][] = [[], [], [], [], []];
@@ -27,10 +34,10 @@ export function DepartureForecast({ rows }: { rows: EmployeePrediction[] }) {
       <ul className="mt-4 space-y-1">
         {buckets.map((b, i) => (
           <li key={i} className="flex items-start gap-3 border-b border-line py-2.5 last:border-0">
-            <span className="flex w-[96px] shrink-0 items-center gap-2 pt-1 text-meta text-ink-2">
-              {labels[i]}
+            <span className="flex w-[104px] shrink-0 flex-col items-start gap-1 pt-1 text-meta text-ink-2">
+              <span>{labels[i]}</span>
               {i === 0 && b.length > 0 && (
-                <span className="rounded-full bg-risk-cri/10 px-1.5 py-0.5 text-micro font-semibold uppercase text-risk-cri">
+                <span className="whitespace-nowrap rounded-full bg-risk-cri/10 px-2 py-0.5 text-micro font-semibold uppercase tracking-wide text-risk-cri">
                   {t("fcActNow")}
                 </span>
               )}
@@ -39,17 +46,26 @@ export function DepartureForecast({ rows }: { rows: EmployeePrediction[] }) {
               {b.length === 0 ? (
                 <span className="pt-1 text-meta text-ink-3">—</span>
               ) : (
-                b.map((e) => (
-                  <Link
-                    key={e.ref}
-                    href={`/empleado/${encodeURIComponent(e.ref)}`}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-line px-2 py-1 text-meta transition-colors hover:border-risk-sol hover:bg-surface-2"
-                  >
-                    <span className="h-2 w-2 rounded-full" style={{ background: riskColor(e.score) }} />
-                    <span className="font-mono text-ink-1">{e.ref}</span>
-                    <span className="font-mono text-ink-3">{e.score}</span>
-                  </Link>
-                ))
+                b.map((e) => {
+                  const chip = (
+                    <>
+                      <span className="h-2 w-2 rounded-full" style={{ background: riskColor(e.score) }} />
+                      <span className="font-mono text-ink-1">{e.ref}</span>
+                      <span className="font-mono text-ink-3">{e.score}</span>
+                    </>
+                  );
+                  const cls =
+                    "inline-flex items-center gap-1.5 rounded-full border border-line px-2 py-1 text-meta transition-colors hover:border-risk-sol hover:bg-surface-2";
+                  return onSelect ? (
+                    <button key={e.ref} type="button" onClick={() => onSelect(e.ref)} className={cls}>
+                      {chip}
+                    </button>
+                  ) : (
+                    <Link key={e.ref} href={`/empleado/${encodeURIComponent(e.ref)}`} className={cls}>
+                      {chip}
+                    </Link>
+                  );
+                })
               )}
             </div>
           </li>

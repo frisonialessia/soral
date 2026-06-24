@@ -16,7 +16,7 @@ import {
   Sparkles, AlertTriangle, Eye, Banknote, ArrowRight,
 } from "lucide-react";
 import { DotField } from "@/components/dashboard/dot-field";
-import { RetentionSimulatorDemo } from "@/components/landing/retention-simulator-demo";
+import { PlanningToolsDemo } from "@/components/landing/planning-tools-demo";
 import { bandOf, riskColor } from "@/lib/risk";
 import type { EmployeePrediction } from "@/types";
 import { BrandMark } from "@/components/brand-mark";
@@ -71,6 +71,8 @@ export function DashboardPreview() {
     { icon: Banknote, label: td("simCostAtRisk"), value: cur.format(PREVIEW_HIGH_RISK * REPLACEMENT_COST_MXN), color: "#EB4F6C" },
   ];
   const rows = PREVIEW_BASE.slice(0, 5).map((e, i) => ({ ...e, driver: driverPool[i % driverPool.length] }));
+  const plays = [t("previewPlay1"), t("previewPlay2"), t("previewPlay3"), t("previewPlay4")];
+  const planRows = PREVIEW_BASE.slice(0, 7).map((e, i) => ({ ...e, driver: driverPool[i % driverPool.length], play: plays[i % plays.length] }));
 
   function onNav(item: NavItem) {
     setView(item.key);
@@ -179,11 +181,17 @@ export function DashboardPreview() {
               <h3 className="text-subhead font-semibold tracking-tight">{td("actTitle")}</h3>
               <p className="mt-0.5 text-meta text-ink-2">{td("actHint")}</p>
               <div className="mt-3 overflow-hidden rounded-xl border border-line">
-                {rows.map((r) => (
-                  <div key={r.ref} className="flex items-center gap-3 border-b border-line px-4 py-3 last:border-b-0">
-                    <span className="rounded-md px-2 py-1 text-micro font-bold" style={{ color: riskColor(r.score), background: `${riskColor(r.score)}22` }}>{r.score}%</span>
-                    <div className="min-w-0 flex-1"><span className="font-mono text-meta text-ink-1">{r.ref}</span><div className="truncate text-micro text-ink-3">{r.line} · {r.driver}</div></div>
-                    <span className="shrink-0 rounded-lg bg-risk-sol px-3 py-1.5 text-micro font-medium text-white">{td("assign")}</span>
+                {planRows.map((r) => (
+                  <div key={r.ref} className="flex flex-col gap-2 border-b border-line px-4 py-3 last:border-b-0 sm:flex-row sm:items-center">
+                    <div className="flex items-center gap-3 sm:w-[220px] sm:shrink-0">
+                      <span className="rounded-md px-2 py-1 text-micro font-bold" style={{ color: riskColor(r.score), background: `${riskColor(r.score)}22` }}>{r.score}%</span>
+                      <div className="min-w-0">
+                        <span className="font-mono text-meta text-ink-1">{r.ref}</span>
+                        <div className="truncate text-micro text-ink-3">{r.line} · {r.driver}</div>
+                      </div>
+                    </div>
+                    <p className="line-clamp-1 min-w-0 flex-1 text-meta text-ink-2">{r.play}</p>
+                    <span className="shrink-0 self-start rounded-lg bg-risk-sol px-3 py-1.5 text-micro font-medium text-white sm:self-auto">{td("assign")}</span>
                   </div>
                 ))}
               </div>
@@ -193,8 +201,8 @@ export function DashboardPreview() {
           {view === "simulator" && (
             <>
               <h3 className="text-subhead font-semibold tracking-tight">{td("insightsTitle")}</h3>
-              <p className="mt-0.5 line-clamp-1 text-meta text-ink-2">{td("tabSimulator")}</p>
-              <div className="mt-3"><RetentionSimulatorDemo /></div>
+              <p className="mt-0.5 text-meta text-ink-2">{td("insightsSubtitle")}</p>
+              <div className="mt-3"><PlanningToolsDemo employees={employees} /></div>
             </>
           )}
 

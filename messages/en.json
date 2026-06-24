@@ -348,7 +348,11 @@
     "navDocs": "Docs",
     "previewBriefing": "6 high-risk this week — the focus is line L3 (22% turnover). Assign retention plans.",
     "previewLiveHint": "This view is available in Soral. Open it to see it with your data.",
-    "previewOpen": "Open in the app"
+    "previewOpen": "Open in the app",
+    "previewPlay1": "Supervisor 1:1 within 48 h.",
+    "previewPlay2": "Audit supervision style on the line.",
+    "previewPlay3": "Validate and adjust the transport route.",
+    "previewPlay4": "Review pay competitiveness vs market."
   },
   "reports": {
     "title": "Reports",

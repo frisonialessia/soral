@@ -348,7 +348,11 @@
     "navDocs": "Docs",
     "previewBriefing": "6 ad alto rischio questa settimana — il focus è la linea L3 (22% di turnover). Assegna piani di retention.",
     "previewLiveHint": "Questa vista è disponibile in Soral. Aprila per vederla con i tuoi dati.",
-    "previewOpen": "Apri nell'app"
+    "previewOpen": "Apri nell'app",
+    "previewPlay1": "Colloquio 1:1 col supervisore entro 48 h.",
+    "previewPlay2": "Audit dello stile di supervisione sulla linea.",
+    "previewPlay3": "Validare e correggere il percorso di trasporto.",
+    "previewPlay4": "Rivedere la competitività salariale vs mercato."
   },
   "reports": {
     "title": "Report",
