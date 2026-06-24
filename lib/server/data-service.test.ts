@@ -6,6 +6,7 @@ import {
   getReportSummary,
   getIntegrations,
   syncConnector,
+  listEmployees,
 } from "@/lib/server/data-service";
 import { ReportSummarySchema, IntegrationsSummarySchema } from "@/types";
 
@@ -35,6 +36,32 @@ describe("getEmployee", () => {
   it("encuentra por ref y devuelve null si no existe", async () => {
     expect((await getEmployee("#E7D9-6515"))?.score).toBe(100);
     expect(await getEmployee("#NO-EXISTE")).toBeNull();
+  });
+});
+
+describe("listEmployees (consulta filtrable/paginada)", () => {
+  it("filtra por línea y umbral de score, devolviendo página + total", async () => {
+    const page = await listEmployees({ line: "L3", minScore: 55 });
+    expect(page.rows.every((e) => e.line === "L3" && e.score >= 55)).toBe(true);
+    expect(page.total).toBe(page.rows.length); // sin paginar, página == total
+  });
+
+  it("busca por ref/driver (case-insensitive)", async () => {
+    const page = await listEmployees({ search: "e7d9" });
+    expect(page.rows.some((e) => e.ref.includes("E7D9"))).toBe(true);
+  });
+
+  it("ordena ascendente cuando se pide", async () => {
+    const { rows } = await listEmployees({ sort: "score", order: "asc" });
+    const scores = rows.map((e) => e.score);
+    expect([...scores].sort((a, b) => a - b)).toEqual(scores);
+  });
+
+  it("pagina con limit/offset sin perder el total real", async () => {
+    const all = await listEmployees({});
+    const first = await listEmployees({ limit: 3, offset: 0 });
+    expect(first.rows).toHaveLength(3);
+    expect(first.total).toBe(all.total);
   });
 });
 

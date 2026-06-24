@@ -1,23 +1,28 @@
 // lib/server/data-service.ts
-// Capa de datos — SERVER ONLY. Es la única capa que conoce el origen de los datos.
-// Hoy lee del dataset semilla (lib/data.ts); mañana consultará PostgreSQL/Supabase.
+// El CEREBRO de datos — SERVER ONLY. Contiene la lógica de dominio (filtrar,
+// buscar, agregar, unir) y expone las funciones que consumen los Route Handlers.
 //
-// Solo los Route Handlers de app/api/* importan este módulo (nunca un componente
-// cliente). Migrar a Supabase = cambiar SOLO el cuerpo de estas funciones: las
-// firmas y el contrato de types/index.ts no se tocan, así que ni los handlers ni
-// la UI cambian.
+// No toca el store directamente: lee y escribe a través de la capa de acceso
+// (lib/server/mock-db), cuya interfaz imita una base de datos real. Por eso migrar
+// a Supabase = reemplazar el cuerpo de mock-db (o de estas funciones) por llamadas
+// a supabase-js; las firmas, los Route Handlers y la UI NO cambian.
+//
+// Capas:  Route Handler (HTTP) → data-service (dominio) → mock-db (acceso a datos)
 
 import { EMPLOYEES, TENANT_ID, WEEK_START, MODEL_VERSION } from "@/lib/data";
 import { bandOf } from "@/lib/risk";
 import { scoreCandidate } from "@/lib/hiring";
 import { PILOT_SUMMARY } from "@/lib/causal";
 import { buildFairness, buildProxies, parity, buildCalibration, calibrationGap } from "@/lib/governance";
+import { createTable, type Page } from "./mock-db";
 import type {
   EmployeePrediction,
+  RiskBand,
   LineDetail,
   PlantSummary,
   ReportSummary,
   IntegrationsSummary,
+  IntegrationConnector,
   SyncResult,
   Intervention,
   InterventionsSummary,
@@ -33,15 +38,22 @@ import type {
   GovernanceDecision,
 } from "@/types";
 
+export type { Page } from "./mock-db";
+
 const REPLACEMENT_COST_MXN = 36_800;
 const PLANT_HEADCOUNT = 1180;
+const daysAgo = (d: number) => new Date(Date.now() - d * 86_400_000).toISOString();
 
-// Normaliza: asegura que cada registro tenga banda (defensa de contrato) y ordena
-// por score descendente. Cuando esto sea SQL, será un ORDER BY score DESC.
-const ALL: EmployeePrediction[] = EMPLOYEES.map((e) => ({
+// ── Tablas (semilla → capa de acceso) ───────────────────────────────────────
+// Cada createTable es lo que mañana será `supabase.from('<tabla>')`.
+
+// Empleados: normaliza la banda (defensa de contrato) y ordena por score desc —
+// con Supabase, un ORDER BY score DESC en el seed/migración.
+const EMPLOYEE_SEED: EmployeePrediction[] = EMPLOYEES.map((e) => ({
   ...e,
   band: e.band ?? bandOf(e.score),
 })).sort((a, b) => b.score - a.score);
+const employees = createTable<EmployeePrediction>(EMPLOYEE_SEED);
 
 // Serie semanal sintética (determinista) que termina en el valor actual — solo
 // para las sparklines del dashboard. Con Supabase será un GROUP BY por semana.
@@ -56,19 +68,54 @@ function trendSeries(end: number, volatility: number, weeks = 10): number[] {
   return out;
 }
 
-// GET /api/plant/summary
+// ── Empleados: consultas ─────────────────────────────────────────────────────
+
+// Opciones de consulta sobre la tabla de empleados — la forma exacta que tendría
+// un endpoint de listado real (filtros + búsqueda + orden + paginación).
+export interface EmployeeQuery {
+  line?: string;
+  shift?: string;
+  band?: RiskBand;
+  minScore?: number;
+  maxScore?: number;
+  search?: string; // busca en ref + driver
+  sort?: "score" | "tenure" | "ref";
+  order?: "asc" | "desc";
+  limit?: number;
+  offset?: number;
+}
+
+// GET /api/employees — listado paginado/filtrable. La consulta "real" sobre la
+// tabla; devuelve la página + total (para que el cliente pueda paginar).
+export async function listEmployees(query: EmployeeQuery = {}): Promise<Page<EmployeePrediction>> {
+  return employees.findMany({
+    eq: {
+      ...(query.line ? { line: query.line } : {}),
+      ...(query.shift ? { shift: query.shift } : {}),
+      ...(query.band ? { band: query.band } : {}),
+    },
+    gte: query.minScore != null ? { score: query.minScore } : undefined,
+    lte: query.maxScore != null ? { score: query.maxScore } : undefined,
+    search: query.search ? { term: query.search, fields: ["ref", "driver"] } : undefined,
+    order: { field: query.sort ?? "score", ascending: (query.order ?? "desc") === "asc" },
+    limit: query.limit,
+    offset: query.offset,
+  });
+}
+
+// GET /api/plant/summary — agrega los buckets de riesgo y arma el resumen de planta.
 export async function getPlantSummary(): Promise<PlantSummary> {
-  const highRisk = ALL.filter((e) => e.score >= 80).length;
-  const watch = ALL.filter((e) => e.score >= 55 && e.score < 80).length;
+  // Varias consultas en paralelo, como harías contra la DB.
+  const [highRisk, atRisk, top] = await Promise.all([
+    employees.count({ gte: { score: 80 } }),
+    employees.findMany({ gte: { score: 55 } }), // marcados (alto + vigilancia)
+    employees.findMany({ order: { field: "score", ascending: false }, limit: 10 }),
+  ]);
+  const watch = atRisk.total - highRisk;
   const stable = PLANT_HEADCOUNT - highRisk - watch;
 
-  // Conteo por línea (de los empleados en riesgo conocidos + líneas vacías del demo)
-  const lineCounts: Record<string, number> = {
-    L1: 0, L2: 0, L3: 0, L4: 0, L5: 0, L6: 0, L7: 0,
-  };
-  ALL.forEach((e) => {
-    if (e.score >= 55) lineCounts[e.line] = (lineCounts[e.line] ?? 0) + 1;
-  });
+  const lineCounts: Record<string, number> = { L1: 0, L2: 0, L3: 0, L4: 0, L5: 0, L6: 0, L7: 0 };
+  for (const e of atRisk.rows) lineCounts[e.line] = (lineCounts[e.line] ?? 0) + 1;
 
   return {
     tenantId: TENANT_ID,
@@ -84,13 +131,17 @@ export async function getPlantSummary(): Promise<PlantSummary> {
       stable: trendSeries(stable, 0.015),
     },
     lines: Object.entries(lineCounts).map(([id, count]) => ({ id, count })),
-    topRisk: ALL.slice(0, 10),
+    topRisk: top.rows,
   };
 }
 
 // GET /api/line/:id
 export async function getLineDetail(id: string): Promise<LineDetail> {
-  const employees = ALL.filter((e) => e.line === id && e.score >= 55);
+  const { rows } = await employees.findMany({
+    eq: { line: id },
+    gte: { score: 55 },
+    order: { field: "score", ascending: false },
+  });
   const meta: Record<string, { t: string; p: string; s: string }> = {
     L3: { t: "22%", p: "−12%", s: "Alto" },
     L5: { t: "16%", p: "−8%", s: "Medio" },
@@ -102,23 +153,26 @@ export async function getLineDetail(id: string): Promise<LineDetail> {
     turnover90d: m.t,
     productivity: m.p,
     supervisorEffect: m.s,
-    shift: employees[0]?.shift ?? "mixto",
-    employees,
+    shift: rows[0]?.shift ?? "mixto",
+    employees: rows,
   };
 }
 
 // GET /api/employee/:ref
 // El ref llega ya decodificado por Next (el handler recibe params decodificados).
 export async function getEmployee(ref: string): Promise<EmployeePrediction | null> {
-  return ALL.find((e) => e.ref === ref) ?? null;
+  return employees.findOne({ ref });
 }
 
 // GET /api/employee/:ref/timeline
 // Expediente 360: cose la señal del modelo (drivers/score) con las intervenciones
-// REALES del loop de resultados (mismo store INTERVENTIONS). Con datos reales, los
-// eventos vendrán de la tabla de eventos del trabajador; la firma no cambia.
+// REALES del loop de resultados. Con datos reales, los eventos vendrán de la tabla
+// de eventos del trabajador; la firma no cambia.
 export async function getEmployeeTimeline(ref: string): Promise<EmployeeTimeline | null> {
-  const e = ALL.find((x) => x.ref === ref);
+  const [e, ivs] = await Promise.all([
+    employees.findOne({ ref }),
+    interventions.findMany({ eq: { ref } }),
+  ]);
   if (!e) return null;
 
   const events: TimelineEvent[] = [];
@@ -128,7 +182,7 @@ export async function getEmployeeTimeline(ref: string): Promise<EmployeeTimeline
   // Alerta cuando el score cruzó el umbral.
   events.push({ id: `${e.ref}-a1`, kind: "alert", at: daysAgo(13), score: e.score });
   // Intervenciones REALES de este trabajador + su resultado.
-  for (const iv of INTERVENTIONS.filter((i) => i.ref === e.ref)) {
+  for (const iv of ivs.rows) {
     events.push({ id: `${iv.id}-iv`, kind: "intervention", at: iv.assignedAt, play: iv.play, by: iv.assignedBy });
     if (iv.outcome !== "pending") {
       const at = new Date(new Date(iv.assignedAt).getTime() + 5 * 86_400_000).toISOString();
@@ -142,18 +196,18 @@ export async function getEmployeeTimeline(ref: string): Promise<EmployeeTimeline
 
 // POST /api/recommendation/:ref/assign
 export async function assignRecommendation(
-  ref: string,
-  line: string
+  _ref: string,
+  _line: string
 ): Promise<{ ok: true; assignedAt: string }> {
   // En producción: persiste la intervención y notifica al supervisor.
   return { ok: true, assignedAt: new Date().toISOString() };
 }
 
-// GET /api/integrations
+// ── Integraciones ────────────────────────────────────────────────────────────
 // Conectores que alimentan el modelo. Hoy mock; mañana, estado real de cada
 // pipeline ERP/HRIS/biométrico. Los campos source→target reflejan el mapeo que
 // usa el conector para producir las señales del dataset.
-const CONNECTORS: IntegrationsSummary["connectors"] = [
+const CONNECTOR_SEED: IntegrationConnector[] = [
   {
     id: "successfactors",
     name: "SAP SuccessFactors",
@@ -247,34 +301,40 @@ const CONNECTORS: IntegrationsSummary["connectors"] = [
     fields: [],
   },
 ];
+const connectors = createTable<IntegrationConnector>(CONNECTOR_SEED);
 
+// GET /api/integrations
 export async function getIntegrations(): Promise<IntegrationsSummary> {
-  return { connectors: CONNECTORS };
+  const { rows } = await connectors.findMany();
+  return { connectors: rows };
+}
+
+// Un conector por id (para validar antes de sincronizar).
+export async function getConnector(id: string): Promise<IntegrationConnector | null> {
+  return connectors.findOne({ id });
 }
 
 // POST /api/integrations/:id/sync
-export async function syncConnector(id: string): Promise<SyncResult> {
+export async function syncConnector(_id: string): Promise<SyncResult> {
   // En producción: dispara una corrida del pipeline del conector `id`.
   return { ok: true, syncedAt: new Date().toISOString() };
 }
 
-// --- Loop de resultados: intervenciones (seguimiento) ---
-// Store en memoria (vive lo que vive el proceso) — el seam de persistencia. Es
-// el prerequisito del modelo: los resultados medidos aquí serán las ETIQUETAS
-// con las que el cerebro aprende. Con DB: estas funciones pasan a INSERT/SELECT/
-// UPDATE; las firmas no cambian.
-const daysAgo = (d: number) => new Date(Date.now() - d * 86_400_000).toISOString();
-
-let INTERVENTIONS: Intervention[] = [
+// ── Loop de resultados: intervenciones (seguimiento) ─────────────────────────
+// La tabla `interventions` ES el store. Los resultados medidos aquí serán las
+// ETIQUETAS con las que el modelo aprende. Con DB: insert/select/update reales.
+const INTERVENTION_SEED: Intervention[] = [
   { id: "iv-1", ref: "#9445-1041", line: "L3", play: "1:1 con supervisor y ajuste de ruta de transporte", status: "done", outcome: "retained", assignedAt: daysAgo(6), assignedBy: "Demo Admin" },
   { id: "iv-2", ref: "#0A25-3150", line: "L5", play: "Revisar carga de horas extra del turno", status: "done", outcome: "left", assignedAt: daysAgo(9), assignedBy: "Diego Ramírez" },
   { id: "iv-3", ref: "#E7D9-6515", line: "L3", play: "Plan de retención prioritario; mentor asignado", status: "in_progress", outcome: "pending", assignedAt: daysAgo(3), assignedBy: "Demo Admin" },
   { id: "iv-4", ref: "#11E2-2898", line: "L3", play: "Reasignar de cuadrilla por conflicto con supervisor", status: "in_progress", outcome: "pending", assignedAt: daysAgo(2), assignedBy: "Diego Ramírez" },
   { id: "iv-5", ref: "#2108-2836", line: "L5", play: "Bono de asistencia posterior a nómina", status: "assigned", outcome: "pending", assignedAt: daysAgo(1), assignedBy: "Demo Admin" },
 ];
+const interventions = createTable<Intervention>(INTERVENTION_SEED);
 
 export async function getInterventions(): Promise<InterventionsSummary> {
-  return { interventions: [...INTERVENTIONS].sort((a, b) => b.assignedAt.localeCompare(a.assignedAt)) };
+  const { rows } = await interventions.findMany({ order: { field: "assignedAt", ascending: false } });
+  return { interventions: rows };
 }
 
 export async function createIntervention(input: {
@@ -283,7 +343,7 @@ export async function createIntervention(input: {
   play: string;
   assignedBy: string;
 }): Promise<Intervention> {
-  const it: Intervention = {
+  return interventions.insert({
     id: `iv-${Date.now().toString(36)}`,
     ref: input.ref,
     line: input.line,
@@ -292,27 +352,23 @@ export async function createIntervention(input: {
     outcome: "pending",
     assignedAt: new Date().toISOString(),
     assignedBy: input.assignedBy || "—",
-  };
-  INTERVENTIONS = [it, ...INTERVENTIONS];
-  return it;
+  });
 }
 
 export async function updateIntervention(
   id: string,
   patch: { status?: InterventionStatus; outcome?: InterventionOutcome }
 ): Promise<Intervention | null> {
-  const it = INTERVENTIONS.find((x) => x.id === id);
-  if (!it) return null;
-  if (patch.status) it.status = patch.status;
-  if (patch.outcome) it.outcome = patch.outcome;
-  return it;
+  const clean: Partial<Intervention> = {};
+  if (patch.status) clean.status = patch.status;
+  if (patch.outcome) clean.outcome = patch.outcome;
+  return interventions.update({ id }, clean);
 }
 
-// --- Pre-contratación: candidatos ---
+// ── Pre-contratación: candidatos ─────────────────────────────────────────────
 // Semilla de vectores de features (estabilidad, 0–1) + meta. El score, la
 // supervivencia, el costo y los drivers los CALCULA el motor (lib/hiring.ts), no
-// están escritos a mano. Con un ATS real (Greenhouse, Oracle Recruiting): estas
-// señales salen del candidato y de su contexto; la firma no cambia.
+// están escritos a mano. Con un ATS real: estas señales salen del candidato.
 interface CandidateSeed {
   id: string;
   ref: string;
@@ -336,32 +392,31 @@ const CANDIDATE_SEED: CandidateSeed[] = [
   { id: "cn-9237", ref: "#CN-9237", role: "Inspector de calidad", line: "L2", source: "referral", appliedAt: daysAgo(1), interviewDone: true, features: [0.9, 0.8, 0.85, 0.75, 0.9, 0.8] },
 ];
 
-const CANDIDATES: Candidate[] = CANDIDATE_SEED.map(scoreCandidate).sort((a, b) => b.costRisk - a.costRisk);
+const candidates = createTable<Candidate>(CANDIDATE_SEED.map(scoreCandidate).sort((a, b) => b.costRisk - a.costRisk));
 
 // GET /api/candidates
 export async function getCandidates(): Promise<CandidatesSummary> {
-  const atRisk = CANDIDATES.filter((c) => c.recommendation !== "advance");
+  const { rows } = await candidates.findMany();
+  const atRisk = rows.filter((c) => c.recommendation !== "advance");
   return {
-    candidates: CANDIDATES,
+    candidates: rows,
     kpis: {
-      pipeline: CANDIDATES.length,
-      avgSurvival90: Math.round(CANDIDATES.reduce((s, c) => s + c.survival90, 0) / CANDIDATES.length),
+      pipeline: rows.length,
+      avgSurvival90: Math.round(rows.reduce((s, c) => s + c.survival90, 0) / rows.length),
       costAtRiskMxn: atRisk.reduce((s, c) => s + c.costRisk, 0),
-      advanceReady: CANDIDATES.filter((c) => c.recommendation === "advance").length,
+      advanceReady: rows.filter((c) => c.recommendation === "advance").length,
     },
   };
 }
 
 // Un candidato por id (para el recap de entrevista).
 export async function getCandidate(id: string): Promise<Candidate | null> {
-  return CANDIDATES.find((c) => c.id === id) ?? null;
+  return candidates.findOne({ id });
 }
 
-// --- Voz del empleado: escucha con IA ---
-// Hoy: temas/sentimiento semilla (lo que un motor de NLP produciría sobre encuestas
-// pulse, entrevistas de salida y tickets). Las CITAS quedan en su idioma original
-// (español de planta) a propósito — son el dato crudo. Con un motor real (Qualtrics
-// + clasificación/NLP): estas señales salen del texto; la firma no cambia.
+// ── Voz del empleado: escucha con IA ─────────────────────────────────────────
+// Hoy: temas/sentimiento semilla (lo que un motor de NLP produciría). Las CITAS
+// quedan en su idioma original (español de planta) a propósito — son el dato crudo.
 const VOICE: VoiceSummary = {
   overallSentiment: -14,
   responseRate: 71,
@@ -405,13 +460,15 @@ export async function getVoiceSummary(): Promise<VoiceSummary> {
 }
 
 // GET /api/reports/summary
-// Mira hacia atrás: histórico de rotación + impacto (ROI) de las intervenciones.
-// byLine y drivers se agregan del dataset real; KPIs y serie mensual son mock
-// determinista (con Supabase: GROUP BY mes / línea / factor).
+// Mira hacia atrás: histórico de rotación + impacto (ROI). byLine y drivers se
+// agregan del dataset real (lectura completa + agregación en el cerebro); KPIs y
+// serie mensual son mock determinista (con Supabase: GROUP BY mes / línea / factor).
 export async function getReportSummary(): Promise<ReportSummary> {
+  const { rows: all } = await employees.findMany();
+
   const byLineCount: Record<string, number> = {};
   const factorWeight: Record<string, number> = {};
-  for (const e of ALL) {
+  for (const e of all) {
     byLineCount[e.line] = (byLineCount[e.line] ?? 0) + 1;
     for (const d of e.drivers) {
       factorWeight[d.factor] = (factorWeight[d.factor] ?? 0) + d.contrib;
@@ -449,6 +506,7 @@ export async function getReportSummary(): Promise<ReportSummary> {
   };
 }
 
+// GET /api/pilot/summary
 // Pilot causal: el experimento aleatorizado que prueba el ROI. Se computa en el
 // motor (lib/causal.ts) con estadística real; aquí solo se expone por la frontera.
 export async function getPilotSummary(): Promise<PilotSummary> {
@@ -457,33 +515,37 @@ export async function getPilotSummary(): Promise<PilotSummary> {
 
 // GET /api/governance
 // Gobernanza y equidad: equidad por grupo (lib/governance), señales proxy sobre
-// los MISMOS drivers agregados que ve /reportes, y el registro de decisiones —
-// las intervenciones reales unidas a la banda/driver del trabajador (el "por qué").
+// los MISMOS drivers agregados que ve /reportes, y el registro de decisiones — las
+// intervenciones unidas (join en memoria) a la banda/driver del trabajador.
 export async function getGovernanceSummary(): Promise<GovernanceSummary> {
   const fairness = buildFairness();
   const par = parity(fairness);
   const calibration = buildCalibration();
   const cal = calibrationGap(calibration);
-  const report = await getReportSummary();
-  const proxies = buildProxies(report.drivers);
 
-  const log: GovernanceDecision[] = [...INTERVENTIONS]
-    .sort((a, b) => b.assignedAt.localeCompare(a.assignedAt))
-    .map((iv) => {
-      const e = ALL.find((x) => x.ref === iv.ref);
-      return {
-        id: iv.id,
-        ref: iv.ref,
-        line: iv.line,
-        play: iv.play,
-        by: iv.assignedBy,
-        at: iv.assignedAt,
-        status: iv.status,
-        outcome: iv.outcome,
-        band: e?.band ?? "alto",
-        driver: e?.driver ?? "—",
-      };
-    });
+  const [report, ivPage, empPage] = await Promise.all([
+    getReportSummary(),
+    interventions.findMany({ order: { field: "assignedAt", ascending: false } }),
+    employees.findMany(),
+  ]);
+  const proxies = buildProxies(report.drivers);
+  const byRef = new Map(empPage.rows.map((e) => [e.ref, e]));
+
+  const log: GovernanceDecision[] = ivPage.rows.map((iv) => {
+    const e = byRef.get(iv.ref);
+    return {
+      id: iv.id,
+      ref: iv.ref,
+      line: iv.line,
+      play: iv.play,
+      by: iv.assignedBy,
+      at: iv.assignedAt,
+      status: iv.status,
+      outcome: iv.outcome,
+      band: e?.band ?? "alto",
+      driver: e?.driver ?? "—",
+    };
+  });
   const measured = log.filter((d) => d.outcome !== "pending").length;
 
   return {
