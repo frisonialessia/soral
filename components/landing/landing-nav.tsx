@@ -17,6 +17,11 @@ export function LandingNav() {
           <BrandMark size={26} className="shrink-0" />
           Soral
         </Link>
+        <nav className="ml-9 hidden items-center gap-6 text-copy text-ink-2 md:flex">
+          <a href="/#features" className="transition-colors hover:text-ink-1">{t("navFeatures")}</a>
+          <Link href="/casos" className="transition-colors hover:text-ink-1">{t("navCases")}</Link>
+          <Link href="/docs" className="transition-colors hover:text-ink-1">{t("navDocs")}</Link>
+        </nav>
         <div className="ml-auto flex items-center gap-2">
           <LanguageSwitcher />
           <Link

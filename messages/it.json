@@ -344,7 +344,12 @@
     "simCostLabel": "Costo a rischio",
     "simRetainLabel": "Recuperabili",
     "simRetainNote": "{cost} evitato",
-    "simReset": "Reimposta"
+    "simReset": "Reimposta",
+    "ctaExplain": "Come funziona",
+    "navFeatures": "Funzionalità",
+    "navCases": "Casi d'uso",
+    "navDocs": "Docs",
+    "previewBriefing": "6 ad alto rischio questa settimana — il focus è la linea L3 (22% di turnover). Assegna piani di retention."
   },
   "reports": {
     "title": "Report",
@@ -701,5 +706,42 @@
     "gapUnit": "pp",
     "methodTitle": "Come leggere",
     "method": "Sono statistiche a livello di popolazione (non il worklist settimanale). Il rapporto di impatto segue la regola dei 4/5: sotto 0.80 va rivisto. La calibrazione confronta il rischio previsto con il turnover osservato per gruppo."
+  },
+  "docs": {
+    "title": "Documentazione",
+    "subtitle": "Come funziona Soral, dal segnale all'azione — e come resta spiegabile, dimostrato e governato.",
+    "toc": "In questa pagina",
+    "ctaTitle": "Pronto a vederlo in azione?",
+    "sec1Title": "Cos'è Soral",
+    "sec1Body": "Soral prevede l'abbandono di ogni lavoratore con 30 giorni di anticipo, spiega il perché e dà al supervisore la mossa per trattenerlo. Creato per le maquiladoras, dove il turnover è alto e costoso.",
+    "sec2Title": "Come funziona",
+    "sec2Body": "Un ciclo in cinque passi: colleghi i dati HR, il modello assegna un punteggio e spiega il rischio, il supervisore riceve una raccomandazione e agisce, l'esito viene misurato e quelle etichette riaddestrano il modello. Ogni giro lo rende più preciso.",
+    "sec3Title": "Modello e spiegabilità",
+    "sec3Body": "Un modello di sopravvivenza ordina il rischio a 30 giorni su sei dimensioni: puntualità, presenza, anzianità, produttività, straordinari e supervisore. Ogni punteggio include la sua scomposizione SHAP — mai una scatola nera, sempre il perché.",
+    "sec4Title": "Pianificazione ed evidenza",
+    "sec4Body": "Il piano d'azione trasforma il rischio in una worklist settimanale, e il simulatore what-if mostra l'effetto di ogni intervento prima di applicarlo. Un pilot randomizzato misura l'effetto causale reale (ATE, IC 95%, ROI): la prova che agire riduce il turnover.",
+    "sec5Title": "Governance ed equità",
+    "sec5Body": "Soral misura come il modello tratta ogni gruppo (linea, turno, anzianità) con la regola dei 4/5, segnala i segnali che potrebbero essere proxy di un attributo protetto e mantiene un registro verificabile di ogni decisione. Ciò che un comitato etico o un sindacato esige.",
+    "sec6Title": "Dati, integrazioni e sicurezza",
+    "sec6Body": "Si collega a HRIS, paghe, timbrature e biometria (SuccessFactors, ADP, UKG, ZKTeco…). RBAC dal primo giorno, interfaccia in tre lingue, e i dati sensibili non lasciano mai il server — il confine client/server è il livello di sicurezza."
+  },
+  "cases": {
+    "title": "Casi d'uso",
+    "subtitle": "Come i team di stabilimento usano Soral per ridurre il turnover, assumere meglio e dimostrare il ROI.",
+    "c1Tag": "Operazioni",
+    "c1Title": "Ridurre il turnover sulle linee critiche",
+    "c1Body": "Una linea con il 22% di turnover a 90 giorni appare come punto rosso sulla mappa. Il supervisore vede chi è a rischio e perché, e assegna la mossa di retention della settimana — prima che se ne vadano.",
+    "c2Tag": "Pre-assunzione",
+    "c2Title": "Assumere con meno rischio",
+    "c2Body": "Prima di assumere, Soral stima quanto resterebbe un candidato e quanto costerebbe se se ne va presto. Non decide per te: ti dà l'evidenza per decidere meglio.",
+    "c3Tag": "Voce",
+    "c3Title": "Ascoltare la voce del dipendente",
+    "c3Body": "Sondaggi, colloqui di uscita e ticket diventano temi e sentiment per linea. Gli avvisi precoci segnalano dove cresce il malcontento prima che si traduca in uscite.",
+    "c4Tag": "Evidenza",
+    "c4Title": "Dimostrare il ROI con un pilot",
+    "c4Body": "Un esperimento randomizzato (trattati vs controllo) misura l'effetto causale degli interventi con statistica reale. Trasformi «pensiamo che funzioni» in un business case con numeri.",
+    "c5Tag": "Conformità",
+    "c5Title": "Governance per il comitato",
+    "c5Body": "Equità per gruppo, segnali proxy e un registro di ogni decisione, pronti per il Legale, il comitato etico o il sindacato. IA che riguarda le persone, con responsabilità."
   }
 }

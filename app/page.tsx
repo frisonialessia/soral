@@ -10,11 +10,10 @@ import { DashboardPreview } from "@/components/landing/dashboard-preview";
 import { Reveal } from "@/components/landing/reveal";
 import { ExplainabilityPreview } from "@/components/landing/explainability-preview";
 import { RetentionSimulatorDemo } from "@/components/landing/retention-simulator-demo";
-import { BrandMark } from "@/components/brand-mark";
+import { LandingFooter } from "@/components/landing/landing-footer";
 
 export default async function LandingPage() {
   const t = await getTranslations("landing");
-  const tn = await getTranslations("nav");
 
   const metrics = [
     { value: t("m1Value"), label: t("m1Label") },
@@ -62,12 +61,12 @@ export default async function LandingPage() {
               {t("ctaPrimary")}
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <a
-              href="#features"
+            <Link
+              href="/docs"
               className="inline-flex items-center gap-1.5 rounded-full border border-line-2 bg-surface px-5 py-2.5 text-body font-medium text-ink-1 transition-colors hover:border-risk-sol hover:text-risk-sol"
             >
-              {t("ctaSecondary")}
-            </a>
+              {t("ctaExplain")}
+            </Link>
           </div>
           <p className="mt-6 text-copy text-ink-3">{t("positioning")}</p>
         </div>
@@ -203,41 +202,7 @@ export default async function LandingPage() {
         </Reveal>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-line bg-surface">
-        <div className="mx-auto max-w-[1120px] px-5 py-12 sm:px-6">
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
-            <div>
-              <div className="flex items-center gap-2.5 text-subhead font-semibold tracking-tight text-ink-1">
-                <BrandMark size={24} className="shrink-0" />
-                Soral
-              </div>
-              <p className="mt-3 max-w-xs text-copy leading-relaxed text-ink-2">{t("footerTagline")}</p>
-              <p className="mt-4 text-meta text-ink-3">{t("positioning")}</p>
-            </div>
-            <div>
-              <h4 className="text-micro font-semibold uppercase tracking-wide text-ink-3">{t("footerProduct")}</h4>
-              <ul className="mt-3 space-y-2 text-copy text-ink-2">
-                <li><Link href="/dashboard" className="transition-colors hover:text-risk-sol">{tn("dashboard")}</Link></li>
-                <li><Link href="/reportes" className="transition-colors hover:text-risk-sol">{tn("reports")}</Link></li>
-                <li><Link href="/modelo" className="transition-colors hover:text-risk-sol">{tn("model")}</Link></li>
-                <li><Link href="/gobernanza" className="transition-colors hover:text-risk-sol">{tn("governance")}</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-micro font-semibold uppercase tracking-wide text-ink-3">{t("footerGetStarted")}</h4>
-              <ul className="mt-3 space-y-2 text-copy text-ink-2">
-                <li><Link href="/dashboard" className="transition-colors hover:text-risk-sol">{t("ctaPrimary")}</Link></li>
-                <li><a href="#features" className="transition-colors hover:text-risk-sol">{t("ctaSecondary")}</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="mt-10 flex flex-col items-center justify-between gap-2 border-t border-line pt-6 sm:flex-row">
-            <p className="text-meta text-ink-3">{t("rights")}</p>
-            <p className="text-meta text-ink-3">{t("badge")}</p>
-          </div>
-        </div>
-      </footer>
+      <LandingFooter />
     </div>
   );
 }

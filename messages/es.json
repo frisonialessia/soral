@@ -344,7 +344,12 @@
     "simCostLabel": "Costo en riesgo",
     "simRetainLabel": "Retenibles",
     "simRetainNote": "{cost} evitado",
-    "simReset": "Reiniciar"
+    "simReset": "Reiniciar",
+    "ctaExplain": "Cómo funciona",
+    "navFeatures": "Características",
+    "navCases": "Casos de uso",
+    "navDocs": "Docs",
+    "previewBriefing": "6 de alto riesgo esta semana — el foco es la línea L3 (22 % de rotación). Asigna planes de retención."
   },
   "reports": {
     "title": "Reportes",
@@ -701,5 +706,42 @@
     "gapUnit": "pp",
     "methodTitle": "Cómo leer esto",
     "method": "Son estadísticos a nivel población (no el worklist semanal). La razón de impacto sigue la regla de los 4/5: por debajo de 0.80 conviene revisar. La calibración compara el riesgo predicho con la rotación observada por grupo."
+  },
+  "docs": {
+    "title": "Documentación",
+    "subtitle": "Cómo funciona Soral, de la señal a la acción — y cómo se mantiene explicable, probado y gobernado.",
+    "toc": "En esta página",
+    "ctaTitle": "¿Listo para verlo en acción?",
+    "sec1Title": "Qué es Soral",
+    "sec1Body": "Soral predice la rotación de cada trabajador con 30 días de anticipación, explica por qué, y le da al supervisor la jugada para retenerlo. Hecho para maquiladoras, donde la rotación es alta y costosa.",
+    "sec2Title": "Cómo funciona",
+    "sec2Body": "Un loop de cinco pasos: conectas tus datos de RR. HH., el modelo puntúa y explica el riesgo, el supervisor recibe una recomendación y actúa, se mide el resultado, y esas etiquetas reentrenan el modelo. Cada vuelta lo hace más preciso.",
+    "sec3Title": "Modelo y explicabilidad",
+    "sec3Body": "Un modelo de supervivencia ordena el riesgo a 30 días sobre seis dimensiones: puntualidad, asistencia, antigüedad, productividad, horas extra y supervisor. Cada score trae su descomposición SHAP — nunca una caja negra, siempre el porqué.",
+    "sec4Title": "Planeación y evidencia",
+    "sec4Body": "El plan de acción convierte el riesgo en un worklist semanal, y el simulador what-if deja ver el efecto de cada intervención antes de aplicarla. Un pilot aleatorizado mide el efecto causal real (ATE, IC 95 %, ROI): la prueba de que actuar reduce la rotación.",
+    "sec5Title": "Gobernanza y equidad",
+    "sec5Body": "Soral mide cómo trata el modelo a cada grupo (línea, turno, antigüedad) con la regla de los 4/5, marca señales que podrían ser proxy de un atributo protegido, y deja un registro auditable de cada decisión. Lo que un comité de ética o el sindicato exigen.",
+    "sec6Title": "Datos, integraciones y seguridad",
+    "sec6Body": "Se conecta a HRIS, nómina, reloj checador y biométricos (SuccessFactors, ADP, UKG, ZKTeco…). RBAC desde el inicio, interfaz en tres idiomas, y los datos sensibles nunca salen del servidor — la frontera cliente/servidor es la capa de seguridad."
+  },
+  "cases": {
+    "title": "Casos de uso",
+    "subtitle": "Cómo los equipos de planta usan Soral para frenar la rotación, contratar mejor y probar el ROI.",
+    "c1Tag": "Operación",
+    "c1Title": "Frenar la rotación en líneas críticas",
+    "c1Body": "Una línea con 22 % de rotación a 90 días aparece como foco rojo en el mapa. El supervisor ve quién está en riesgo y por qué, y asigna la jugada de retención de la semana — antes de que renuncien.",
+    "c2Tag": "Pre-contratación",
+    "c2Title": "Contratar con menos riesgo",
+    "c2Body": "Antes de contratar, Soral estima cuánto se quedaría un candidato y cuánto costaría si rota pronto. No decide por ti: te da la evidencia para decidir mejor.",
+    "c3Tag": "Voz",
+    "c3Title": "Escuchar la voz del empleado",
+    "c3Body": "Encuestas, entrevistas de salida y tickets se convierten en temas y sentimiento por línea. Las alertas tempranas avisan dónde sube el malestar antes de que se traduzca en salidas.",
+    "c4Tag": "Evidencia",
+    "c4Title": "Probar el ROI con un pilot",
+    "c4Body": "Un experimento aleatorizado (tratados vs. control) mide el efecto causal de las intervenciones con estadística real. Conviertes «creemos que funciona» en un caso de negocio con números.",
+    "c5Tag": "Cumplimiento",
+    "c5Title": "Gobernanza para el comité",
+    "c5Body": "Equidad por grupo, señales proxy y un registro de cada decisión, listos para Legal, el comité de ética o el sindicato. La IA que afecta a personas, con rendición de cuentas."
   }
 }

@@ -344,7 +344,12 @@
     "simCostLabel": "Cost at risk",
     "simRetainLabel": "Retainable",
     "simRetainNote": "{cost} averted",
-    "simReset": "Reset"
+    "simReset": "Reset",
+    "ctaExplain": "How it works",
+    "navFeatures": "Features",
+    "navCases": "Use cases",
+    "navDocs": "Docs",
+    "previewBriefing": "6 high-risk this week — the focus is line L3 (22% turnover). Assign retention plans."
   },
   "reports": {
     "title": "Reports",
@@ -701,5 +706,42 @@
     "gapUnit": "pp",
     "methodTitle": "How to read this",
     "method": "These are population-level statistics (not the weekly worklist). The impact ratio follows the 4/5ths rule: below 0.80 warrants review. Calibration compares predicted risk with observed attrition per group."
+  },
+  "docs": {
+    "title": "Documentation",
+    "subtitle": "How Soral works, from signal to action — and how it stays explainable, proven, and governed.",
+    "toc": "On this page",
+    "ctaTitle": "Ready to see it in action?",
+    "sec1Title": "What Soral is",
+    "sec1Body": "Soral predicts each worker's attrition 30 days ahead, explains why, and hands the supervisor the play to retain them. Built for maquiladoras, where turnover is high and expensive.",
+    "sec2Title": "How it works",
+    "sec2Body": "A five-step loop: connect your HR data, the model scores and explains the risk, the supervisor gets a recommendation and acts, the outcome is measured, and those labels retrain the model. Every loop makes it sharper.",
+    "sec3Title": "Model & explainability",
+    "sec3Body": "A survival model ranks 30-day risk across six dimensions: punctuality, attendance, tenure, productivity, overtime, and supervisor. Every score ships with its SHAP breakdown — never a black box, always the why.",
+    "sec4Title": "Planning & evidence",
+    "sec4Body": "The action plan turns risk into a weekly worklist, and the what-if simulator shows each intervention's effect before you apply it. A randomized pilot measures the real causal effect (ATE, 95% CI, ROI): proof that acting cuts turnover.",
+    "sec5Title": "Governance & fairness",
+    "sec5Body": "Soral measures how the model treats each group (line, shift, tenure) with the 4/5ths rule, flags signals that could proxy a protected attribute, and keeps an auditable record of every decision. What an ethics committee or a union expects.",
+    "sec6Title": "Data, integrations & security",
+    "sec6Body": "It connects to HRIS, payroll, time-clock and biometrics (SuccessFactors, ADP, UKG, ZKTeco…). RBAC from day one, a three-language interface, and sensitive data never leaves the server — the client/server boundary is the security layer."
+  },
+  "cases": {
+    "title": "Use cases",
+    "subtitle": "How plant teams use Soral to curb turnover, hire better, and prove ROI.",
+    "c1Tag": "Operations",
+    "c1Title": "Curb turnover on critical lines",
+    "c1Body": "A line running 22% 90-day turnover shows up as a red hotspot on the map. The supervisor sees who's at risk and why, and assigns the week's retention play — before they quit.",
+    "c2Tag": "Pre-hire",
+    "c2Title": "Hire with less risk",
+    "c2Body": "Before hiring, Soral estimates how long a candidate would stay and what it'd cost if they leave early. It doesn't decide for you — it gives you the evidence to decide better.",
+    "c3Tag": "Voice",
+    "c3Title": "Hear the employee voice",
+    "c3Body": "Surveys, exit interviews and tickets become themes and sentiment by line. Early alerts flag where discontent is rising before it turns into exits.",
+    "c4Tag": "Evidence",
+    "c4Title": "Prove ROI with a pilot",
+    "c4Body": "A randomized experiment (treated vs control) measures the causal effect of interventions with real statistics. You turn 'we think it works' into a business case with numbers.",
+    "c5Tag": "Compliance",
+    "c5Title": "Governance for the committee",
+    "c5Body": "Fairness by group, proxy signals and a record of every decision, ready for Legal, the ethics committee or the union. AI that affects people, with accountability."
   }
 }

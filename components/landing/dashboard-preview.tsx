@@ -1,12 +1,15 @@
 // components/landing/dashboard-preview.tsx
 // Simulación del producto para la landing: un "marco de app" con la barra lateral
-// y el dashboard real (mapa de riesgo + stats + tabla) usando datos de ejemplo.
-// Es DECORATIVO — pointer-events-none + aria-hidden — para mostrar las herramientas
-// sin navegar ni duplicar contenido para lectores de pantalla.
+// y el dashboard real (briefing IA + KPIs + mapa de riesgo + tabla) con datos de
+// ejemplo. Es DECORATIVO — pointer-events-none + aria-hidden — para mostrar las
+// herramientas sin navegar ni duplicar contenido para lectores de pantalla.
 "use client";
 
-import { useTranslations } from "next-intl";
-import { LayoutDashboard, BarChart3, Plug, Settings } from "lucide-react";
+import { useTranslations, useLocale } from "next-intl";
+import {
+  LayoutDashboard, BarChart3, Plug, Settings,
+  Sparkles, AlertTriangle, Eye, ShieldCheck, Banknote,
+} from "lucide-react";
 import { DotField } from "@/components/dashboard/dot-field";
 import { bandOf, riskColor } from "@/lib/risk";
 import type { EmployeePrediction } from "@/types";
@@ -20,6 +23,9 @@ function emp(ref: string, score: number, line: string): EmployeePrediction {
 }
 
 const PREVIEW_TOTAL = 1240;
+const REPLACEMENT_COST_MXN = 36_800;
+const PREVIEW_HIGH_RISK = 38;
+
 const PREVIEW_EMPLOYEES: EmployeePrediction[] = [
   emp("#A3F9-4471", 96, "L3"), emp("#B7C2-1180", 92, "L7"), emp("#C1D8-3320", 89, "L2"),
   emp("#D4E1-5567", 86, "L5"), emp("#E2A0-7781", 84, "L3"), emp("#F3B1-2290", 82, "L1"),
@@ -28,12 +34,6 @@ const PREVIEW_EMPLOYEES: EmployeePrediction[] = [
   emp("#A1C0-7763", 70, "L1"), emp("#B3D1-2284", 68, "L7"), emp("#C5E2-5590", 66, "L4"),
   emp("#D7F3-8817", 64, "L2"),
 ];
-
-const STATS = [
-  { key: "statHighRisk", value: 38, color: "#EB4F6C" },
-  { key: "statWatch", value: 211, color: "#B49AED" },
-  { key: "statStable", value: "991", color: "#5B6EF5" },
-] as const;
 
 const NAV = [
   { icon: LayoutDashboard, key: "dashboard", active: true },
@@ -47,6 +47,17 @@ export function DashboardPreview() {
   const td = useTranslations("dashboard");
   const tt = useTranslations("table");
   const tn = useTranslations("nav");
+  const locale = useLocale();
+
+  const cur = new Intl.NumberFormat(locale, {
+    style: "currency", currency: "MXN", maximumFractionDigits: 1, notation: "compact",
+  });
+  const kpis = [
+    { icon: AlertTriangle, label: td("statHighRisk"), value: String(PREVIEW_HIGH_RISK), color: "#EB4F6C" },
+    { icon: Eye, label: td("statWatch"), value: "211", color: "#B49AED" },
+    { icon: ShieldCheck, label: td("statStable"), value: "991", color: "#5B6EF5" },
+    { icon: Banknote, label: td("simCostAtRisk"), value: cur.format(PREVIEW_HIGH_RISK * REPLACEMENT_COST_MXN), color: "#EB4F6C" },
+  ];
 
   const rows = [
     { ref: "#A3F9-4471", score: 96, driver: t("previewDriver1"), line: "L3" },
@@ -60,11 +71,11 @@ export function DashboardPreview() {
       aria-hidden="true"
       className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_30px_80px_-20px_rgba(43,45,66,0.35)]"
     >
-      {/* Barra de título estilo ventana */}
+      {/* Barra de título estilo ventana — semáforo macOS auténtico */}
       <div className="flex items-center gap-2 border-b border-line bg-surface-2 px-4 py-3">
-        <span className="h-3 w-3 rounded-full bg-[#EB4F6C]/70" />
-        <span className="h-3 w-3 rounded-full bg-[#E5C07B]/80" />
-        <span className="h-3 w-3 rounded-full bg-[#5B6EF5]/60" />
+        <span className="h-3 w-3 rounded-full bg-[#FF5F57]" />
+        <span className="h-3 w-3 rounded-full bg-[#FEBC2E]" />
+        <span className="h-3 w-3 rounded-full bg-[#28C840]" />
         <span className="mx-auto rounded-md bg-surface px-3 py-1 text-micro text-ink-3">
           {t("windowTitle")}
         </span>
@@ -104,27 +115,48 @@ export function DashboardPreview() {
             {td("subtitle", { count: PREVIEW_TOTAL })}
           </p>
 
-          <div className="mt-4 flex flex-col gap-3 lg:flex-row lg:items-stretch">
-            <div className="min-w-0 flex-1 rounded-xl border border-line p-3.5">
-              <div className="mb-2 text-copy font-semibold">{td("mapTitle")}</div>
-              <div className="pointer-events-none">
-                <DotField employees={PREVIEW_EMPLOYEES} total={PREVIEW_TOTAL} />
-              </div>
+          {/* Briefing semanal con IA */}
+          <div className="mt-3 rounded-xl border border-line bg-gradient-to-br from-risk-sol-soft/70 via-surface to-surface p-3.5">
+            <div className="flex items-center gap-2">
+              <span className="flex h-5 w-5 items-center justify-center rounded-md bg-risk-sol text-white">
+                <Sparkles className="h-3 w-3" />
+              </span>
+              <span className="text-meta font-semibold text-ink-1">{td("aiBriefingTitle")}</span>
+              <span className="rounded-full border border-line-2 bg-surface px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wide text-ink-3">
+                {td("aiBriefingSample")}
+              </span>
             </div>
-            <div className="flex gap-3 lg:w-[150px] lg:flex-col">
-              {STATS.map((s) => (
-                <div key={s.key} className="flex-1 rounded-xl border border-line px-3.5 py-2.5">
-                  <div className="text-micro text-ink-2">{td(s.key)}</div>
-                  <div className="mt-0.5 text-heading font-semibold leading-tight" style={{ color: s.color }}>
-                    {s.value}
+            <p className="mt-1.5 line-clamp-2 text-meta leading-relaxed text-ink-2">{t("previewBriefing")}</p>
+          </div>
+
+          {/* KPIs */}
+          <div className="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+            {kpis.map((k) => {
+              const Icon = k.icon;
+              return (
+                <div key={k.label} className="rounded-xl border border-line px-3 py-2.5">
+                  <div className="flex items-center gap-1.5">
+                    <Icon className="h-3 w-3 text-ink-3" />
+                    <span className="truncate text-micro text-ink-2">{k.label}</span>
+                  </div>
+                  <div className="mt-0.5 text-subhead font-bold leading-tight" style={{ color: k.color }}>
+                    {k.value}
                   </div>
                 </div>
-              ))}
+              );
+            })}
+          </div>
+
+          {/* Mapa de riesgo */}
+          <div className="mt-3 rounded-xl border border-line p-3.5">
+            <div className="mb-2 text-copy font-semibold">{td("mapTitle")}</div>
+            <div className="pointer-events-none">
+              <DotField employees={PREVIEW_EMPLOYEES} total={PREVIEW_TOTAL} />
             </div>
           </div>
 
           {/* Mini tabla top en riesgo */}
-          <div className="mt-4 overflow-hidden rounded-xl border border-line">
+          <div className="mt-3 overflow-hidden rounded-xl border border-line">
             <div className="grid grid-cols-[1fr_auto] gap-2 border-b border-line bg-surface-2 px-4 py-2 text-micro font-semibold uppercase tracking-wide text-ink-3">
               <span>{tt("driver")}</span>
               <span>{tt("score")}</span>
