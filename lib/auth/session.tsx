@@ -37,9 +37,12 @@ export function useSession(): SessionUser {
   return useContext(SessionContext);
 }
 
-// TODO(supabase): supabase.auth.signOut(). Stub por ahora.
+// Cierra la sesión y devuelve a la landing pública. Hoy es un stub: como no hay
+// sesión real que invalidar, basta con navegar a "/" con recarga completa (limpia
+// el estado de cliente y el caché de React Query).
+// TODO(supabase): await supabase.auth.signOut() ANTES de redirigir.
 export function signOut() {
   if (typeof window !== "undefined") {
-    console.info("[soral] signOut (stub) — se cableará con Supabase Auth");
+    window.location.assign("/");
   }
 }
