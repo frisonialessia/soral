@@ -4,7 +4,7 @@
 // el dashboard real en simulación para que se vean las herramientas.
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { ArrowRight, Map, Sparkles, Zap, ShieldCheck } from "lucide-react";
+import { ArrowRight, Map, Sparkles, Zap, Scale } from "lucide-react";
 import { LandingNav } from "@/components/landing/landing-nav";
 import { DashboardPreview } from "@/components/landing/dashboard-preview";
 import { Reveal } from "@/components/landing/reveal";
@@ -25,7 +25,7 @@ export default async function LandingPage() {
     { icon: Map, title: t("f1Title"), desc: t("f1Desc") },
     { icon: Sparkles, title: t("f2Title"), desc: t("f2Desc") },
     { icon: Zap, title: t("f3Title"), desc: t("f3Desc") },
-    { icon: ShieldCheck, title: t("f4Title"), desc: t("f4Desc") },
+    { icon: Scale, title: t("f4Title"), desc: t("f4Desc") },
   ];
   const steps = [
     { title: t("step1Title"), desc: t("step1Desc") },
@@ -203,8 +203,8 @@ export default async function LandingPage() {
               <ul className="mt-3 space-y-2 text-copy text-ink-2">
                 <li><Link href="/dashboard" className="transition-colors hover:text-risk-sol">{tn("dashboard")}</Link></li>
                 <li><Link href="/reportes" className="transition-colors hover:text-risk-sol">{tn("reports")}</Link></li>
-                <li><Link href="/integraciones" className="transition-colors hover:text-risk-sol">{tn("integrations")}</Link></li>
-                <li><Link href="/admin" className="transition-colors hover:text-risk-sol">{tn("admin")}</Link></li>
+                <li><Link href="/modelo" className="transition-colors hover:text-risk-sol">{tn("model")}</Link></li>
+                <li><Link href="/gobernanza" className="transition-colors hover:text-risk-sol">{tn("governance")}</Link></li>
               </ul>
             </div>
             <div>

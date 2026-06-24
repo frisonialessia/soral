@@ -82,15 +82,19 @@ export function DashboardPreview() {
             return (
               <div
                 key={n.key}
-                className={`flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-copy ${
-                  n.active ? "bg-surface-2 font-medium text-ink-1" : "text-ink-2"
+                className={`flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-copy font-medium ${
+                  n.active ? "bg-risk-sol-soft text-risk-sol" : "text-ink-1"
                 }`}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className={`h-4 w-4 ${n.active ? "text-risk-sol" : "text-ink-3"}`} />
                 {tn(n.key)}
               </div>
             );
           })}
+          <div className="mt-3 flex items-center gap-2 border-t border-line px-2.5 pt-3 text-micro text-ink-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-risk-sol" />
+            {tn("modelStatus")}
+          </div>
         </aside>
 
         {/* Contenido */}
@@ -111,7 +115,7 @@ export function DashboardPreview() {
               {STATS.map((s) => (
                 <div key={s.key} className="flex-1 rounded-xl border border-line px-3.5 py-2.5">
                   <div className="text-micro text-ink-2">{td(s.key)}</div>
-                  <div className="mt-0.5 font-mono text-heading font-semibold leading-tight" style={{ color: s.color }}>
+                  <div className="mt-0.5 text-heading font-semibold leading-tight" style={{ color: s.color }}>
                     {s.value}
                   </div>
                 </div>
