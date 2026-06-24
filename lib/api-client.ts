@@ -24,6 +24,7 @@ import {
   EmployeeTimelineSchema,
   PilotSummarySchema,
   GovernanceSummarySchema,
+  EmployeePageSchema,
   type EmployeePrediction,
   type AssignResult,
   type AskAnswer,
@@ -80,6 +81,29 @@ export async function fetchAsk(
   });
   if (!res.ok) throw new Error(`POST /api/ai/ask → ${res.status}`);
   return AskAnswerSchema.parse(await res.json());
+}
+
+// GET /api/employees — listado filtrable/paginado. Devuelve { rows, total, limit, offset }.
+export interface EmployeesQuery {
+  line?: string;
+  shift?: string;
+  band?: string;
+  minScore?: number;
+  maxScore?: number;
+  search?: string;
+  sort?: "score" | "tenure" | "ref";
+  order?: "asc" | "desc";
+  limit?: number;
+  offset?: number;
+}
+
+export function fetchEmployees(query: EmployeesQuery = {}) {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(query)) {
+    if (value !== undefined && value !== "") params.set(key, String(value));
+  }
+  const qs = params.toString();
+  return getValidated(`/api/employees${qs ? `?${qs}` : ""}`, EmployeePageSchema);
 }
 
 // GET /api/line/:id

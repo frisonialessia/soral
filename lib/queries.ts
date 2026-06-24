@@ -24,8 +24,10 @@ import {
   fetchVoiceDigest,
   fetchLineDetail,
   fetchEmployee,
+  fetchEmployees,
   fetchEmployeeTimeline,
   assignRecommendation,
+  type EmployeesQuery,
 } from "./api-client";
 import type { InterventionStatus, InterventionOutcome } from "@/types";
 
@@ -41,6 +43,7 @@ export const queryKeys = {
   voice: ["voice", "summary"] as const,
   voiceDigest: ["voice", "digest"] as const,
   line: (id: string) => ["line", id] as const,
+  employees: (query: EmployeesQuery) => ["employees", query] as const,
   employee: (ref: string) => ["employee", ref] as const,
   employeeTimeline: (ref: string) => ["employee", ref, "timeline"] as const,
 };
@@ -122,6 +125,13 @@ export function useLineDetail(id: string) {
     queryKey: queryKeys.line(id),
     queryFn: () => fetchLineDetail(id),
     enabled: !!id,
+  });
+}
+
+export function useEmployees(query: EmployeesQuery = {}) {
+  return useQuery({
+    queryKey: queryKeys.employees(query),
+    queryFn: () => fetchEmployees(query),
   });
 }
 

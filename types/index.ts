@@ -45,6 +45,16 @@ export const EmployeePredictionSchema = z.object({
 });
 export type EmployeePrediction = z.infer<typeof EmployeePredictionSchema>;
 
+// Página de resultados de un listado (GET /api/employees): filas + total previo a
+// paginar, como devolvería supabase con count:'exact'. Contrato de RESPUESTA.
+export const EmployeePageSchema = z.object({
+  rows: z.array(EmployeePredictionSchema),
+  total: z.number(),
+  limit: z.number(),
+  offset: z.number(),
+});
+export type EmployeePage = z.infer<typeof EmployeePageSchema>;
+
 export const LineDetailSchema = z.object({
   id: z.string(), // "L3"
   turnover90d: z.string(), // "22%"
