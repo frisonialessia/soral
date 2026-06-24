@@ -678,6 +678,15 @@
     "col_who": "Asignó",
     "out_pending": "En curso",
     "out_retained": "Retenido",
-    "out_left": "Se fue"
+    "out_left": "Se fue",
+    "expectedTag": "Variación esperada",
+    "exportLog": "Exportar",
+    "calTitle": "Calibración por grupo",
+    "calSub": "Marcar parejo no basta: el modelo debe acertar parejo. Compara el riesgo predicho con la rotación observada; una brecha grande significa que sobre o infra-estima a ese grupo.",
+    "predicted": "Predicho",
+    "observed": "Observado",
+    "gapUnit": "pp",
+    "methodTitle": "Cómo leer esto",
+    "method": "Son estadísticos a nivel población (no el worklist semanal). La razón de impacto sigue la regla de los 4/5: por debajo de 0.80 conviene revisar. La calibración compara el riesgo predicho con la rotación observada por grupo."
   }
 }

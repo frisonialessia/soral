@@ -2,7 +2,7 @@
 // Lógica de gobernanza y equidad — pura y testeable. No conoce HTTP ni React.
 // El data-service la usa para armar GovernanceSummary; la UI solo la pinta.
 
-import type { FairnessDimension, ProxySignal } from "@/types";
+import type { FairnessDimension, ProxySignal, CalibrationDimension } from "@/types";
 
 // --- Equidad por grupo ---
 // Tasa de riesgo = % del grupo que el modelo coloca en banda elevada. Son
@@ -77,6 +77,46 @@ export function parity(fairness: FairnessDimension[]): { ratio: number; status: 
   const sensitive = fairness.filter((d) => d.sensitive);
   const ratio = sensitive.length ? Math.min(...sensitive.map((d) => d.ratio)) : 1;
   return { ratio, status: ratio < 0.8 ? "review" : "ok" };
+}
+
+// --- Calibración por grupo ---
+// Riesgo predicho por el modelo vs. rotación observada. Bien calibrado ⇒ predicho ≈
+// observado. Una brecha marca que el modelo sobre/infra-estima a ese grupo (aquí el
+// turno nocturno está sobre-estimado 3 pp). Solo dimensiones sensibles.
+const CALIBRATION: CalibrationDimension[] = [
+  {
+    dimension: "shift",
+    groups: [
+      { group: "morning", predicted: 7, observed: 6 },
+      { group: "evening", predicted: 9, observed: 9 },
+      { group: "night", predicted: 16, observed: 13 },
+      { group: "rotating", predicted: 8, observed: 8 },
+    ],
+  },
+  {
+    dimension: "tenure",
+    groups: [
+      { group: "lt3m", predicted: 18, observed: 19 },
+      { group: "m3_12", predicted: 12, observed: 11 },
+      { group: "y1_3", predicted: 8, observed: 8 },
+      { group: "gt3y", predicted: 6, observed: 7 },
+    ],
+  },
+];
+
+// Umbral: una brecha de ≥ 3 pp entre predicho y observado merece revisión.
+const CAL_THRESHOLD = 3;
+
+export function buildCalibration(): CalibrationDimension[] {
+  return CALIBRATION;
+}
+
+export function calibrationGap(calibration: CalibrationDimension[]): { gap: number; status: "ok" | "review" } {
+  const gap = Math.max(
+    0,
+    ...calibration.flatMap((d) => d.groups.map((g) => Math.abs(g.predicted - g.observed)))
+  );
+  return { gap, status: gap >= CAL_THRESHOLD ? "review" : "ok" };
 }
 
 // --- Señales proxy ---

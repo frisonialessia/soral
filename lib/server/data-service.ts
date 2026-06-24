@@ -11,7 +11,7 @@ import { EMPLOYEES, TENANT_ID, WEEK_START, MODEL_VERSION } from "@/lib/data";
 import { bandOf } from "@/lib/risk";
 import { scoreCandidate } from "@/lib/hiring";
 import { PILOT_SUMMARY } from "@/lib/causal";
-import { buildFairness, buildProxies, parity } from "@/lib/governance";
+import { buildFairness, buildProxies, parity, buildCalibration, calibrationGap } from "@/lib/governance";
 import type {
   EmployeePrediction,
   LineDetail,
@@ -462,6 +462,8 @@ export async function getPilotSummary(): Promise<PilotSummary> {
 export async function getGovernanceSummary(): Promise<GovernanceSummary> {
   const fairness = buildFairness();
   const par = parity(fairness);
+  const calibration = buildCalibration();
+  const cal = calibrationGap(calibration);
   const report = await getReportSummary();
   const proxies = buildProxies(report.drivers);
 
@@ -490,7 +492,10 @@ export async function getGovernanceSummary(): Promise<GovernanceSummary> {
     proxyCount: proxies.filter((p) => p.risk !== "low").length,
     decisionCount: log.length,
     measuredPct: log.length ? Math.round((measured / log.length) * 100) : 0,
+    calibrationGap: cal.gap,
+    calibrationStatus: cal.status,
     fairness,
+    calibration,
     proxies,
     log,
   };

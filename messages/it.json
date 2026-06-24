@@ -678,6 +678,15 @@
     "col_who": "Assegnato da",
     "out_pending": "In corso",
     "out_retained": "Trattenuto",
-    "out_left": "Uscito"
+    "out_left": "Uscito",
+    "expectedTag": "Variazione attesa",
+    "exportLog": "Esporta",
+    "calTitle": "Calibrazione per gruppo",
+    "calSub": "Segnalare in modo uniforme non basta: il modello deve azzeccare in modo uniforme. Confronta il rischio previsto con il turnover osservato; un divario ampio significa che sovra o sottostima quel gruppo.",
+    "predicted": "Previsto",
+    "observed": "Osservato",
+    "gapUnit": "pp",
+    "methodTitle": "Come leggere",
+    "method": "Sono statistiche a livello di popolazione (non il worklist settimanale). Il rapporto di impatto segue la regola dei 4/5: sotto 0.80 va rivisto. La calibrazione confronta il rischio previsto con il turnover osservato per gruppo."
   }
 }

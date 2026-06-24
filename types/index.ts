@@ -382,13 +382,33 @@ export const GovernanceDecisionSchema = z.object({
 });
 export type GovernanceDecision = z.infer<typeof GovernanceDecisionSchema>;
 
+// Calibración por grupo: la OTRA mitad de la equidad. No basta con marcar a los
+// grupos en igual proporción; el modelo debe ACERTAR igual. Compara el riesgo
+// predicho con la rotación observada por grupo — una brecha grande significa que
+// sobre/infra-estima a ese grupo.
+export const CalibrationGroupSchema = z.object({
+  group: z.string(),
+  predicted: z.number(), // riesgo medio predicho por el modelo (0–100)
+  observed: z.number(), // rotación observada del grupo (0–100)
+});
+export type CalibrationGroup = z.infer<typeof CalibrationGroupSchema>;
+
+export const CalibrationDimensionSchema = z.object({
+  dimension: z.enum(["line", "shift", "tenure"]),
+  groups: z.array(CalibrationGroupSchema),
+});
+export type CalibrationDimension = z.infer<typeof CalibrationDimensionSchema>;
+
 export const GovernanceSummarySchema = z.object({
   parityRatio: z.number(), // peor razón de impacto entre las dimensiones sensibles (0–1)
   parityStatus: z.enum(["ok", "review"]),
   proxyCount: z.number(), // señales proxy de riesgo alto+medio
   decisionCount: z.number(),
   measuredPct: z.number(), // % de decisiones con resultado medido (0–100)
+  calibrationGap: z.number(), // mayor |predicho − observado| entre grupos sensibles (pp)
+  calibrationStatus: z.enum(["ok", "review"]),
   fairness: z.array(FairnessDimensionSchema),
+  calibration: z.array(CalibrationDimensionSchema),
   proxies: z.array(ProxySignalSchema),
   log: z.array(GovernanceDecisionSchema),
 });

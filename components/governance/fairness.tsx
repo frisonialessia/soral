@@ -36,10 +36,19 @@ function DimensionCard({ d }: { d: FairnessDimension }) {
         </div>
         <div className="shrink-0 text-right">
           <div className="text-micro uppercase tracking-wide text-ink-3">{t("impactRatio")}</div>
-          <div className="text-heading font-bold" style={{ color: d.status === "review" ? "#EB4F6C" : "#5B6EF5" }}>
+          {/* La línea es operativa: su brecha es esperada, no se marca como alarma.
+              Solo las dimensiones sensibles muestran el chip de revisión en rojo. */}
+          <div
+            className="text-heading font-bold"
+            style={{ color: d.sensitive && d.status === "review" ? "#EB4F6C" : "#2B2D42" }}
+          >
             {d.ratio.toFixed(2)}
           </div>
-          <Chip tone={d.status === "review" ? "review" : "ok"}>{t(d.status)}</Chip>
+          {d.sensitive ? (
+            <Chip tone={d.status === "review" ? "review" : "ok"}>{t(d.status)}</Chip>
+          ) : (
+            <span className="text-micro text-ink-3">{t("expectedTag")}</span>
+          )}
         </div>
       </div>
 

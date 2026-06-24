@@ -678,6 +678,15 @@
     "col_who": "Assigned by",
     "out_pending": "In progress",
     "out_retained": "Retained",
-    "out_left": "Left"
+    "out_left": "Left",
+    "expectedTag": "Expected variance",
+    "exportLog": "Export",
+    "calTitle": "Calibration by group",
+    "calSub": "Flagging evenly isn't enough — the model must be right evenly. Compares predicted risk with observed attrition; a large gap means it over- or under-estimates that group.",
+    "predicted": "Predicted",
+    "observed": "Observed",
+    "gapUnit": "pp",
+    "methodTitle": "How to read this",
+    "method": "These are population-level statistics (not the weekly worklist). The impact ratio follows the 4/5ths rule: below 0.80 warrants review. Calibration compares predicted risk with observed attrition per group."
   }
 }

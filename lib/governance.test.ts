@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { impactRatio, assessProxy, buildFairness, buildProxies, parity } from "./governance";
+import { impactRatio, assessProxy, buildFairness, buildProxies, parity, buildCalibration, calibrationGap } from "./governance";
 
 describe("impactRatio (4/5ths rule)", () => {
   it("is min/max of the rates", () => {
@@ -57,5 +57,22 @@ describe("buildProxies", () => {
     ]);
     expect(out[0].factor).toBe("antigüedad en zona crítica");
     expect(out[0].risk).toBe("high");
+  });
+});
+
+describe("calibrationGap", () => {
+  it("covers the sensitive dimensions", () => {
+    expect(buildCalibration().map((d) => d.dimension).sort()).toEqual(["shift", "tenure"]);
+  });
+  it("reports the max predicted-vs-observed gap and flags review at >= 3pp", () => {
+    const c = calibrationGap(buildCalibration());
+    expect(c.gap).toBe(3); // night shift: predicted 16 vs observed 13
+    expect(c.status).toBe("review");
+  });
+  it("stays ok when every group is within tolerance", () => {
+    expect(calibrationGap([{ dimension: "tenure", groups: [{ group: "g", predicted: 10, observed: 9 }] }])).toEqual({
+      gap: 1,
+      status: "ok",
+    });
   });
 });
