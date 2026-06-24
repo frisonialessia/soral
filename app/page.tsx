@@ -9,7 +9,7 @@ import { LandingNav } from "@/components/landing/landing-nav";
 import { DashboardPreview } from "@/components/landing/dashboard-preview";
 import { Reveal } from "@/components/landing/reveal";
 import { ExplainabilityPreview } from "@/components/landing/explainability-preview";
-import { RetentionSimulatorDemo } from "@/components/landing/retention-simulator-demo";
+import { BeforeAfter } from "@/components/landing/before-after";
 import { LandingFooter } from "@/components/landing/landing-footer";
 
 export default async function LandingPage() {
@@ -126,21 +126,8 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* Simulador what-if (interactivo — demo) */}
-      <section className="mx-auto max-w-[1120px] px-5 py-16 sm:px-6">
-        <Reveal>
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="text-copy font-semibold uppercase tracking-wide text-risk-est">{t("simEyebrow")}</span>
-            <h2 className="mt-2 text-title font-semibold tracking-tight text-ink-1">{t("simTitle")}</h2>
-            <p className="mt-2 text-body text-ink-2">{t("simText")}</p>
-          </div>
-        </Reveal>
-        <Reveal delay={100}>
-          <div className="mt-8">
-            <RetentionSimulatorDemo />
-          </div>
-        </Reveal>
-      </section>
+      {/* Antes vs Después — el cambio que trae Soral (reemplaza al simulador duplicado) */}
+      <BeforeAfter />
 
       {/* Explicabilidad (showcase de herramienta) */}
       <section className="mx-auto max-w-[1120px] px-5 py-16 sm:px-6">
