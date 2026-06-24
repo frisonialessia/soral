@@ -191,7 +191,8 @@
     "shift_matutino": "Matutino",
     "shift_vespertino": "Vespertino",
     "shift_nocturno": "Nocturno",
-    "shift_mixto": "Mixto"
+    "shift_mixto": "Mixto",
+    "leverMentor": "Mentoría a nuevos"
   },
   "table": {
     "employee": "Empleado",
@@ -334,11 +335,7 @@
     "footerGetStarted": "Empezar",
     "simEyebrow": "Simulador what-if",
     "simTitle": "Mueve las palancas. Mira caer el riesgo.",
-    "simText": "Ajusta las intervenciones y el alto riesgo de la planta y el costo en riesgo se recalculan en vivo. Aquí es solo una demo — en Soral, el efecto de cada palanca se deriva del SHAP real de cada trabajador.",
-    "lever_overtime": "Carga de horas extra",
-    "lever_supervisor": "Coaching de supervisores",
-    "lever_transport": "Ruta de transporte",
-    "lever_pay": "Bono de asistencia",
+    "simText": "Cada palanca es una jugada de retención: súbela para aplicarla con más intensidad y mira caer el alto riesgo y el costo. Es solo una demo — en Soral, el efecto de cada palanca se deriva del SHAP real de cada trabajador.",
     "simHighRiskLabel": "Alto riesgo",
     "simBaselineNote": "de {n} esta semana",
     "simCostLabel": "Costo en riesgo",

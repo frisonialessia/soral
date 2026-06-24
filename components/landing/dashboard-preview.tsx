@@ -1,23 +1,25 @@
 // components/landing/dashboard-preview.tsx
-// Simulación del producto para la landing: un "marco de app" con la barra lateral
-// y el dashboard real (briefing IA + KPIs + mapa de riesgo + tabla) con datos de
-// ejemplo. Es DECORATIVO — pointer-events-none + aria-hidden — para mostrar las
-// herramientas sin navegar ni duplicar contenido para lectores de pantalla.
+// Simulación INTERACTIVA del producto para la landing: marco de app con la barra
+// lateral agrupada real + el dashboard (briefing IA + KPIs + mapa de riesgo + tabla)
+// con datos de ejemplo. El mapa es el DotField real: al pasar el cursor muestra la
+// ficha del trabajador; al hacer clic lleva al dashboard real (sus refs son demo).
 "use client";
 
 import { useTranslations, useLocale } from "next-intl";
+import { useRouter } from "next/navigation";
 import {
-  LayoutDashboard, BarChart3, Plug, Settings,
-  Sparkles, AlertTriangle, Eye, ShieldCheck, Banknote,
+  LayoutDashboard, ListChecks, SlidersHorizontal, HardHat, ClipboardCheck, UserPlus,
+  BarChart3, FlaskConical, MessageSquareText, ShieldCheck, Scale, Plug, Settings,
+  Sparkles, AlertTriangle, Eye, Banknote,
 } from "lucide-react";
 import { DotField } from "@/components/dashboard/dot-field";
 import { bandOf, riskColor } from "@/lib/risk";
 import type { EmployeePrediction } from "@/types";
 import { BrandMark } from "@/components/brand-mark";
 
-function emp(ref: string, score: number, line: string): EmployeePrediction {
+function emp(ref: string, score: number, line: string, driver: string): EmployeePrediction {
   return {
-    ref, score, band: bandOf(score), driver: "", line,
+    ref, score, band: bandOf(score), driver, line,
     shift: "", tenure: 0, evidence: "", drivers: [], radar: [], trend: [], reco: "",
   };
 }
@@ -26,21 +28,27 @@ const PREVIEW_TOTAL = 1240;
 const REPLACEMENT_COST_MXN = 36_800;
 const PREVIEW_HIGH_RISK = 38;
 
-const PREVIEW_EMPLOYEES: EmployeePrediction[] = [
-  emp("#A3F9-4471", 96, "L3"), emp("#B7C2-1180", 92, "L7"), emp("#C1D8-3320", 89, "L2"),
-  emp("#D4E1-5567", 86, "L5"), emp("#E2A0-7781", 84, "L3"), emp("#F3B1-2290", 82, "L1"),
-  emp("#A8C4-6612", 80, "L7"), emp("#B0D5-9943", 78, "L4"), emp("#C9E6-3375", 76, "L2"),
-  emp("#D1F7-8806", 74, "L6"), emp("#E5A8-1129", 72, "L3"), emp("#F6B9-4452", 71, "L5"),
-  emp("#A1C0-7763", 70, "L1"), emp("#B3D1-2284", 68, "L7"), emp("#C5E2-5590", 66, "L4"),
-  emp("#D7F3-8817", 64, "L2"),
+const PREVIEW_BASE: { ref: string; score: number; line: string }[] = [
+  { ref: "#A3F9-4471", score: 96, line: "L3" }, { ref: "#B7C2-1180", score: 92, line: "L7" },
+  { ref: "#C1D8-3320", score: 89, line: "L2" }, { ref: "#D4E1-5567", score: 86, line: "L5" },
+  { ref: "#E2A0-7781", score: 84, line: "L3" }, { ref: "#F3B1-2290", score: 82, line: "L1" },
+  { ref: "#A8C4-6612", score: 80, line: "L7" }, { ref: "#B0D5-9943", score: 78, line: "L4" },
+  { ref: "#C9E6-3375", score: 76, line: "L2" }, { ref: "#D1F7-8806", score: 74, line: "L6" },
+  { ref: "#E5A8-1129", score: 72, line: "L3" }, { ref: "#F6B9-4452", score: 71, line: "L5" },
+  { ref: "#A1C0-7763", score: 70, line: "L1" }, { ref: "#B3D1-2284", score: 68, line: "L7" },
+  { ref: "#C5E2-5590", score: 66, line: "L4" }, { ref: "#D7F3-8817", score: 64, line: "L2" },
 ];
 
-const NAV = [
-  { icon: LayoutDashboard, key: "dashboard", active: true },
-  { icon: BarChart3, key: "reports", active: false },
-  { icon: Plug, key: "integrations", active: false },
-  { icon: Settings, key: "admin", active: false },
-] as const;
+// Barra lateral agrupada — espejo de la IA real de la app.
+interface PreviewNavItem { icon: typeof LayoutDashboard; key: string; active?: boolean }
+interface PreviewNavGroup { titleKey?: string; items: PreviewNavItem[] }
+const NAV_GROUPS: PreviewNavGroup[] = [
+  { items: [{ icon: LayoutDashboard, key: "dashboard", active: true }] },
+  { titleKey: "groupPlanning", items: [{ icon: ListChecks, key: "actionPlan" }, { icon: SlidersHorizontal, key: "simulator" }] },
+  { titleKey: "groupOperations", items: [{ icon: HardHat, key: "floor" }, { icon: ClipboardCheck, key: "interventions" }, { icon: UserPlus, key: "hiring" }] },
+  { titleKey: "groupIntelligence", items: [{ icon: BarChart3, key: "reports" }, { icon: FlaskConical, key: "evidence" }, { icon: MessageSquareText, key: "voice" }, { icon: ShieldCheck, key: "model" }, { icon: Scale, key: "governance" }] },
+  { titleKey: "groupSystem", items: [{ icon: Plug, key: "integrations" }, { icon: Settings, key: "admin" }] },
+];
 
 export function DashboardPreview() {
   const t = useTranslations("landing");
@@ -48,6 +56,12 @@ export function DashboardPreview() {
   const tt = useTranslations("table");
   const tn = useTranslations("nav");
   const locale = useLocale();
+  const router = useRouter();
+
+  const driverPool = [t("previewDriver1"), t("previewDriver2"), t("previewDriver3"), t("previewDriver4")];
+  const employees: EmployeePrediction[] = PREVIEW_BASE.map((e, i) =>
+    emp(e.ref, e.score, e.line, driverPool[i % driverPool.length])
+  );
 
   const cur = new Intl.NumberFormat(locale, {
     style: "currency", currency: "MXN", maximumFractionDigits: 1, notation: "compact",
@@ -67,42 +81,49 @@ export function DashboardPreview() {
   ];
 
   return (
-    <div
-      aria-hidden="true"
-      className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_30px_80px_-20px_rgba(43,45,66,0.35)]"
-    >
+    <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_30px_80px_-20px_rgba(43,45,66,0.35)]">
       {/* Barra de título estilo ventana — semáforo macOS auténtico */}
       <div className="flex items-center gap-2 border-b border-line bg-surface-2 px-4 py-3">
         <span className="h-3 w-3 rounded-full bg-[#FF5F57]" />
         <span className="h-3 w-3 rounded-full bg-[#FEBC2E]" />
         <span className="h-3 w-3 rounded-full bg-[#28C840]" />
-        <span className="mx-auto rounded-md bg-surface px-3 py-1 text-micro text-ink-3">
-          {t("windowTitle")}
-        </span>
+        <span className="mx-auto rounded-md bg-surface px-3 py-1 text-micro text-ink-3">{t("windowTitle")}</span>
       </div>
 
       <div className="flex">
-        {/* Barra lateral */}
-        <aside className="hidden w-44 shrink-0 flex-col gap-0.5 border-r border-line p-3 sm:flex">
+        {/* Barra lateral agrupada */}
+        <aside className="hidden w-48 shrink-0 flex-col border-r border-line p-3 sm:flex">
           <div className="flex items-center gap-2 px-2 pb-3 text-body font-semibold">
             <BrandMark size={20} className="shrink-0" />
             Soral
           </div>
-          {NAV.map((n) => {
-            const Icon = n.icon;
-            return (
-              <div
-                key={n.key}
-                className={`flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-copy font-medium ${
-                  n.active ? "bg-risk-sol-soft text-risk-sol" : "text-ink-1"
-                }`}
-              >
-                <Icon className={`h-4 w-4 ${n.active ? "text-risk-sol" : "text-ink-3"}`} />
-                {tn(n.key)}
+          <div className="flex flex-1 flex-col gap-2">
+            {NAV_GROUPS.map((g, gi) => (
+              <div key={g.titleKey ?? `g${gi}`} className="flex flex-col gap-0.5">
+                {g.titleKey && (
+                  <div className="px-2.5 pb-0.5 pt-1 text-[9px] font-semibold uppercase tracking-wider text-ink-3">
+                    {tn(g.titleKey)}
+                  </div>
+                )}
+                {g.items.map((it) => {
+                  const Icon = it.icon;
+                  const active = it.active;
+                  return (
+                    <div
+                      key={it.key}
+                      className={`flex items-center gap-2 rounded-md px-2.5 py-1 text-meta font-medium ${
+                        active ? "bg-risk-sol-soft text-risk-sol" : "text-ink-1"
+                      }`}
+                    >
+                      <Icon className={`h-3.5 w-3.5 shrink-0 ${active ? "text-risk-sol" : "text-ink-3"}`} />
+                      <span className="truncate">{tn(it.key)}</span>
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
-          <div className="mt-3 flex items-center gap-2 border-t border-line px-2.5 pt-3 text-micro text-ink-2">
+            ))}
+          </div>
+          <div className="mt-2 flex items-center gap-2 border-t border-line px-2.5 pt-3 text-micro text-ink-2">
             <span className="h-1.5 w-1.5 rounded-full bg-risk-sol" />
             {tn("modelStatus")}
           </div>
@@ -111,9 +132,7 @@ export function DashboardPreview() {
         {/* Contenido */}
         <div className="min-w-0 flex-1 p-4 sm:p-5">
           <h3 className="text-subhead font-semibold tracking-tight">{td("title")}</h3>
-          <p className="mt-0.5 line-clamp-1 text-meta text-ink-2">
-            {td("subtitle", { count: PREVIEW_TOTAL })}
-          </p>
+          <p className="mt-0.5 line-clamp-1 text-meta text-ink-2">{td("subtitle", { count: PREVIEW_TOTAL })}</p>
 
           {/* Briefing semanal con IA */}
           <div className="mt-3 rounded-xl border border-line bg-gradient-to-br from-risk-sol-soft/70 via-surface to-surface p-3.5">
@@ -147,12 +166,10 @@ export function DashboardPreview() {
             })}
           </div>
 
-          {/* Mapa de riesgo */}
+          {/* Mapa de riesgo — interactivo (hover = ficha, clic = dashboard real) */}
           <div className="mt-3 rounded-xl border border-line p-3.5">
             <div className="mb-2 text-copy font-semibold">{td("mapTitle")}</div>
-            <div className="pointer-events-none">
-              <DotField employees={PREVIEW_EMPLOYEES} total={PREVIEW_TOTAL} />
-            </div>
+            <DotField employees={employees} total={PREVIEW_TOTAL} onSelect={() => router.push("/dashboard")} />
           </div>
 
           {/* Mini tabla top en riesgo */}

@@ -191,7 +191,8 @@
     "shift_matutino": "Morning",
     "shift_vespertino": "Afternoon",
     "shift_nocturno": "Night",
-    "shift_mixto": "Mixed"
+    "shift_mixto": "Mixed",
+    "leverMentor": "New-hire mentorship"
   },
   "table": {
     "employee": "Employee",
@@ -334,11 +335,7 @@
     "footerGetStarted": "Get started",
     "simEyebrow": "What-if simulator",
     "simTitle": "Move the levers. Watch risk drop.",
-    "simText": "Adjust interventions and the plant's high risk and cost-at-risk recalculate live. This is just a demo — in Soral, each lever's effect is derived from every worker's real SHAP.",
-    "lever_overtime": "Overtime load",
-    "lever_supervisor": "Supervisor coaching",
-    "lever_transport": "Transport route",
-    "lever_pay": "Attendance bonus",
+    "simText": "Each lever is a retention play: raise it to apply it harder and watch high risk and cost drop. Just a demo — in Soral, each lever's effect is derived from every worker's real SHAP.",
     "simHighRiskLabel": "High risk",
     "simBaselineNote": "of {n} this week",
     "simCostLabel": "Cost at risk",

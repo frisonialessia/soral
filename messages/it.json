@@ -191,7 +191,8 @@
     "shift_matutino": "Mattino",
     "shift_vespertino": "Pomeriggio",
     "shift_nocturno": "Notte",
-    "shift_mixto": "Misto"
+    "shift_mixto": "Misto",
+    "leverMentor": "Mentoring per i nuovi"
   },
   "table": {
     "employee": "Dipendente",
@@ -334,11 +335,7 @@
     "footerGetStarted": "Inizia",
     "simEyebrow": "Simulatore what-if",
     "simTitle": "Muovi le leve. Guarda scendere il rischio.",
-    "simText": "Regola gli interventi e l'alto rischio dell'impianto e il costo a rischio si ricalcolano in tempo reale. Qui è solo una demo — in Soral, l'effetto di ogni leva deriva dallo SHAP reale di ogni lavoratore.",
-    "lever_overtime": "Carico di straordinari",
-    "lever_supervisor": "Coaching dei supervisori",
-    "lever_transport": "Percorso di trasporto",
-    "lever_pay": "Bonus presenza",
+    "simText": "Ogni leva è una mossa di retention: alzala per applicarla con più intensità e guarda scendere l'alto rischio e il costo. Solo una demo — in Soral, l'effetto di ogni leva deriva dallo SHAP reale di ogni lavoratore.",
     "simHighRiskLabel": "Alto rischio",
     "simBaselineNote": "su {n} questa settimana",
     "simCostLabel": "Costo a rischio",

@@ -40,9 +40,13 @@ const CalmLayer = memo(function CalmLayer({ cells }: { cells: Cell[] }) {
 export function DotField({
   employees,
   total,
+  onSelect,
 }: {
   employees: EmployeePrediction[];
   total: number;
+  // Override del click. Por defecto abre la ficha del empleado; la landing lo usa
+  // para llevar al dashboard real (sus refs de muestra no existen en los datos).
+  onSelect?: (ref: string) => void;
 }) {
   const router = useRouter();
   const t = useTranslations("dotField");
@@ -54,7 +58,8 @@ export function DotField({
     [employees, total]
   );
 
-  const go = (ref: string) => router.push(`/empleado/${encodeURIComponent(ref)}`);
+  const go = (ref: string) =>
+    onSelect ? onSelect(ref) : router.push(`/empleado/${encodeURIComponent(ref)}`);
 
   return (
     <div className="relative pl-11">

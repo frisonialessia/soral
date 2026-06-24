@@ -13,19 +13,26 @@ const COST_MXN = 36_800; // costo de reemplazo por salida (mismo que la app)
 const BASELINE_HIGH_RISK = 38;
 const EFFECT = 0.7; // efectividad máxima de una palanca
 
-// Cada palanca puede evitar hasta `max` salidas de alto riesgo (∑ ≈ baseline).
+// Cada palanca es una INTERVENCIÓN (jugada de retención), no el nivel del factor:
+// subirla = aplicarla con más intensidad → evita hasta `max` salidas (∑·EFFECT ≈
+// baseline). Las etiquetas se comparten con la app real (namespace dashboard).
 const LEVERS = [
-  { key: "overtime", max: 11 },
-  { key: "supervisor", max: 12 },
-  { key: "transport", max: 8 },
-  { key: "pay", max: 7 },
+  { key: "overtime", labelKey: "leverOvertime", max: 10 }, // tope de horas extra
+  { key: "supervisor", labelKey: "leverSupervisor", max: 11 },
+  { key: "transport", labelKey: "leverTransport", max: 7 },
+  { key: "pay", labelKey: "leverPay", max: 9 },
+  { key: "climate", labelKey: "leverClimate", max: 7 },
+  { key: "mentor", labelKey: "leverMentor", max: 10 },
 ] as const;
 
 type LeverKey = (typeof LEVERS)[number]["key"];
-const ZERO: Record<LeverKey, number> = { overtime: 0, supervisor: 0, transport: 0, pay: 0 };
+const ZERO: Record<LeverKey, number> = {
+  overtime: 0, supervisor: 0, transport: 0, pay: 0, climate: 0, mentor: 0,
+};
 
 export function RetentionSimulatorDemo() {
   const t = useTranslations("landing");
+  const td = useTranslations("dashboard");
   const locale = useLocale();
   const [levers, setLevers] = useState<Record<LeverKey, number>>(ZERO);
 
@@ -51,7 +58,7 @@ export function RetentionSimulatorDemo() {
           {LEVERS.map((l) => (
             <div key={l.key}>
               <div className="mb-1.5 flex items-center justify-between text-copy">
-                <span className="font-medium text-ink-1">{t(`lever_${l.key}`)}</span>
+                <span className="font-medium text-ink-1">{td(l.labelKey)}</span>
                 <span className="tabular-nums text-ink-3">{levers[l.key]}%</span>
               </div>
               <input
@@ -61,7 +68,7 @@ export function RetentionSimulatorDemo() {
                 value={levers[l.key]}
                 onChange={(e) => setLevers((p) => ({ ...p, [l.key]: Number(e.target.value) }))}
                 className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-surface-bg accent-risk-sol"
-                aria-label={t(`lever_${l.key}`)}
+                aria-label={td(l.labelKey)}
               />
             </div>
           ))}
