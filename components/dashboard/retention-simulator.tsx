@@ -9,8 +9,8 @@ import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { riskColor } from "@/lib/risk";
 import type { EmployeePrediction } from "@/types";
+import { EstimateBadge } from "./estimate-badge";
 
-const COST_MXN = 36_800; // costo de reemplazo por salida
 const EFFECT = 0.7; // efectividad máxima de una palanca sobre su factor
 
 const LEVERS = [
@@ -30,7 +30,15 @@ const LABEL_KEY: Record<LeverKey, string> = {
   climate: "leverClimate",
 };
 
-export function RetentionSimulator({ rows }: { rows: EmployeePrediction[] }) {
+export function RetentionSimulator({
+  rows,
+  costPerReplacement = 36_800,
+  costEstimated = false,
+}: {
+  rows: EmployeePrediction[];
+  costPerReplacement?: number;
+  costEstimated?: boolean;
+}) {
   const t = useTranslations("dashboard");
   const locale = useLocale();
   const [lv, setLv] = useState<Record<LeverKey, number>>({
@@ -104,10 +112,15 @@ export function RetentionSimulator({ rows }: { rows: EmployeePrediction[] }) {
           <ResultRow label={t("statHighRisk")} from={String(baseHigh)} to={String(simHigh)} good={simHigh < baseHigh} />
           <ResultRow
             label={t("simCostAtRisk")}
-            from={currency.format(baseHigh * COST_MXN)}
-            to={currency.format(simHigh * COST_MXN)}
+            from={currency.format(baseHigh * costPerReplacement)}
+            to={currency.format(simHigh * costPerReplacement)}
             good={simHigh < baseHigh}
           />
+          {costEstimated && (
+            <div className="flex justify-end">
+              <EstimateBadge />
+            </div>
+          )}
           <div className="flex items-center justify-between rounded-lg border border-line bg-surface-2 px-3.5 py-2.5">
             <span className="text-meta text-ink-2">{t("simRetained")}</span>
             <span className="font-mono text-subhead font-bold" style={{ color: retained > 0 ? "#5B6EF5" : "#A9AEC2" }}>

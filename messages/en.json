@@ -308,8 +308,8 @@
     "positioning": "Built for maquiladoras.",
     "m1Value": "30 days",
     "m1Label": "of early warning",
-    "m2Value": "$36,800 MXN",
-    "m2Label": "cost of each departure",
+    "m2Value": "~$36,800 MXN",
+    "m2Label": "reference cost per departure",
     "m3Value": "Daily",
     "m3Label": "risk recalculation",
     "m4Value": "100%",
@@ -360,12 +360,12 @@
     "baAfterTitle": "With Soral",
     "baBefore1": "The resignation lands on Monday, no warning.",
     "baBefore2": "The line runs short by midweek.",
-    "baBefore3": "Hire and train: $36,800 MXN per replacement.",
+    "baBefore3": "Recruiting, training and the ramp-up cost thousands per departure.",
     "baBefore4": "You find out once the worker is already gone.",
     "baAfter1": "Alert 30 days before the resignation.",
     "baAfter2": "A 1:1 retention plan in the supervisor's hands.",
     "baAfter3": "A timely conversation — the worker stays.",
-    "baAfter4": "Every $36,800 MXN replacement, avoided."
+    "baAfter4": "You know the real cost of each departure — and you prevent it."
   },
   "reports": {
     "title": "Reports",
@@ -759,5 +759,31 @@
     "c5Tag": "Compliance",
     "c5Title": "Governance for the committee",
     "c5Body": "Fairness by group, proxy signals and a record of every decision, ready for Legal, the ethics committee or the union. AI that affects people, with accountability."
+  },
+  "costModel": {
+    "loading": "Loading…",
+    "errorTitle": "Couldn’t load the cost model",
+    "title": "Turnover cost",
+    "subtitle": "Calculate the real cost of each departure with your own numbers. Until you configure it, Soral uses a reference estimate and labels it as such across the app.",
+    "estBadge": "estimate",
+    "estAdjust": "adjust",
+    "estimateNote": "Reference estimate — configure it with your plant’s numbers.",
+    "estimateRef": "reference estimate",
+    "configured": "Configured by HR",
+    "modeComponents": "By components",
+    "modeSimple": "Simple mode",
+    "simpleLabel": "Total cost per replacement",
+    "comp_recruiting": "Recruiting & selection",
+    "comp_screening": "Screening & onboarding paperwork",
+    "comp_training": "Training & induction",
+    "comp_productivity": "Productivity ramp-up",
+    "comp_coverage": "Coverage (overtime)",
+    "comp_separation": "Severance / separation",
+    "appliesNote": "Applies to the \"Cost at risk\" KPI, the simulator and ROI.",
+    "save": "Save cost",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "saveError": "Couldn’t save. Try again.",
+    "useReference": "Use reference values"
   }
 }

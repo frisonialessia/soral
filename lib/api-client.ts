@@ -25,6 +25,9 @@ import {
   PilotSummarySchema,
   GovernanceSummarySchema,
   EmployeePageSchema,
+  CostModelSchema,
+  type CostModel,
+  type CostComponents,
   type EmployeePrediction,
   type AssignResult,
   type AskAnswer,
@@ -48,6 +51,22 @@ async function getValidated<S extends z.ZodTypeAny>(
 // GET /api/plant/summary
 export function fetchPlantSummary() {
   return getValidated("/api/plant/summary", PlantSummarySchema);
+}
+
+// GET /api/settings/cost-model — modelo de costo de rotación (configurable por RH).
+export function fetchCostModel() {
+  return getValidated("/api/settings/cost-model", CostModelSchema);
+}
+
+// PUT /api/settings/cost-model — guarda los componentes capturados por RH.
+export async function updateCostModel(components: CostComponents): Promise<CostModel> {
+  const res = await fetch("/api/settings/cost-model", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(components),
+  });
+  if (!res.ok) throw new Error(`PUT /api/settings/cost-model → ${res.status}`);
+  return CostModelSchema.parse(await res.json());
 }
 
 // GET /api/reports/summary

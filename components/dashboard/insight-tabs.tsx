@@ -14,7 +14,15 @@ import { DepartureForecast } from "./departure-forecast";
 const TABS = ["simulator", "contagion", "forecast"] as const;
 type Tab = (typeof TABS)[number];
 
-export function InsightTabs({ rows }: { rows: EmployeePrediction[] }) {
+export function InsightTabs({
+  rows,
+  costPerReplacement,
+  costEstimated,
+}: {
+  rows: EmployeePrediction[];
+  costPerReplacement: number;
+  costEstimated: boolean;
+}) {
   const t = useTranslations("dashboard");
   const [tab, setTab] = useState<Tab>("simulator");
   const label: Record<Tab, string> = {
@@ -45,7 +53,9 @@ export function InsightTabs({ rows }: { rows: EmployeePrediction[] }) {
         })}
       </div>
 
-      {tab === "simulator" && <RetentionSimulator rows={rows} />}
+      {tab === "simulator" && (
+        <RetentionSimulator rows={rows} costPerReplacement={costPerReplacement} costEstimated={costEstimated} />
+      )}
       {tab === "contagion" && <ContagionMap rows={rows} />}
       {tab === "forecast" && <DepartureForecast rows={rows} />}
     </div>

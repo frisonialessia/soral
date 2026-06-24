@@ -16,6 +16,7 @@ import {
   Sparkles, AlertTriangle, Eye, Banknote, ArrowRight,
 } from "lucide-react";
 import { DotField } from "@/components/dashboard/dot-field";
+import { EstimateBadge } from "@/components/dashboard/estimate-badge";
 import { PlanningToolsDemo } from "@/components/landing/planning-tools-demo";
 import { bandOf, riskColor } from "@/lib/risk";
 import type { EmployeePrediction } from "@/types";
@@ -65,10 +66,10 @@ export function DashboardPreview() {
   const cur = new Intl.NumberFormat(locale, { style: "currency", currency: "MXN", maximumFractionDigits: 1, notation: "compact" });
 
   const kpis = [
-    { icon: AlertTriangle, label: td("statHighRisk"), value: String(PREVIEW_HIGH_RISK), color: "#EB4F6C" },
-    { icon: Eye, label: td("statWatch"), value: "211", color: "#B49AED" },
-    { icon: ShieldCheck, label: td("statStable"), value: "991", color: "#5B6EF5" },
-    { icon: Banknote, label: td("simCostAtRisk"), value: cur.format(PREVIEW_HIGH_RISK * REPLACEMENT_COST_MXN), color: "#EB4F6C" },
+    { icon: AlertTriangle, label: td("statHighRisk"), value: String(PREVIEW_HIGH_RISK), color: "#EB4F6C", estimate: false },
+    { icon: Eye, label: td("statWatch"), value: "211", color: "#B49AED", estimate: false },
+    { icon: ShieldCheck, label: td("statStable"), value: "991", color: "#5B6EF5", estimate: false },
+    { icon: Banknote, label: td("simCostAtRisk"), value: cur.format(PREVIEW_HIGH_RISK * REPLACEMENT_COST_MXN), color: "#EB4F6C", estimate: true },
   ];
   const rows = PREVIEW_BASE.slice(0, 5).map((e, i) => ({ ...e, driver: driverPool[i % driverPool.length] }));
   const plays = [t("previewPlay1"), t("previewPlay2"), t("previewPlay3"), t("previewPlay4")];
@@ -152,6 +153,7 @@ export function DashboardPreview() {
                     <div key={k.label} className="rounded-xl border border-line px-3 py-2.5">
                       <div className="flex items-center gap-1.5"><Icon className="h-3 w-3 text-ink-3" /><span className="truncate text-micro text-ink-2">{k.label}</span></div>
                       <div className="mt-0.5 text-subhead font-bold leading-tight" style={{ color: k.color }}>{k.value}</div>
+                      {k.estimate && <div className="mt-1"><EstimateBadge link={false} /></div>}
                     </div>
                   );
                 })}

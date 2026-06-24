@@ -308,8 +308,8 @@
     "positioning": "Hecho para maquiladoras.",
     "m1Value": "30 días",
     "m1Label": "anticipación a la salida",
-    "m2Value": "$36,800 MXN",
-    "m2Label": "costo por cada salida",
+    "m2Value": "~$36,800 MXN",
+    "m2Label": "costo de referencia por salida",
     "m3Value": "Diario",
     "m3Label": "recálculo del riesgo",
     "m4Value": "100%",
@@ -360,12 +360,12 @@
     "baAfterTitle": "Con Soral",
     "baBefore1": "La renuncia llega el lunes, sin aviso.",
     "baBefore2": "La línea se queda corta a media semana.",
-    "baBefore3": "Reclutar y capacitar: $36,800 MXN por reemplazo.",
+    "baBefore3": "Reclutar, capacitar y la curva de aprendizaje cuestan miles por salida.",
     "baBefore4": "Te enteras cuando el trabajador ya se fue.",
     "baAfter1": "Alerta 30 días antes de la renuncia.",
     "baAfter2": "Plan de retención 1:1 en manos del supervisor.",
     "baAfter3": "Conversación a tiempo — el trabajador se queda.",
-    "baAfter4": "Cada $36,800 MXN de reemplazo, evitado."
+    "baAfter4": "Sabes el costo real de cada salida — y lo evitas."
   },
   "reports": {
     "title": "Reportes",
@@ -759,5 +759,31 @@
     "c5Tag": "Cumplimiento",
     "c5Title": "Gobernanza para el comité",
     "c5Body": "Equidad por grupo, señales proxy y un registro de cada decisión, listos para Legal, el comité de ética o el sindicato. La IA que afecta a personas, con rendición de cuentas."
+  },
+  "costModel": {
+    "loading": "Cargando…",
+    "errorTitle": "No se pudo cargar el costo",
+    "title": "Costo de rotación",
+    "subtitle": "Calcula el costo real de cada salida con tus números. Mientras no lo configures, Soral usa una estimación de referencia y la marca como tal en toda la app.",
+    "estBadge": "estimación",
+    "estAdjust": "ajustar",
+    "estimateNote": "Estimación de referencia — configúralo con los números de tu planta.",
+    "estimateRef": "estimación de referencia",
+    "configured": "Configurado por RH",
+    "modeComponents": "Por componentes",
+    "modeSimple": "Modo simple",
+    "simpleLabel": "Costo total por reemplazo",
+    "comp_recruiting": "Reclutamiento y selección",
+    "comp_screening": "Exámenes y trámites de alta",
+    "comp_training": "Capacitación e inducción",
+    "comp_productivity": "Curva de productividad",
+    "comp_coverage": "Cobertura del hueco (horas extra)",
+    "comp_separation": "Finiquito / separación",
+    "appliesNote": "Se aplica al KPI \"Costo en riesgo\", al simulador y al ROI.",
+    "save": "Guardar costo",
+    "saving": "Guardando…",
+    "saved": "Guardado",
+    "saveError": "No se pudo guardar. Intenta de nuevo.",
+    "useReference": "Usar valores de referencia"
   }
 }

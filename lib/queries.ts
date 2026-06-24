@@ -27,15 +27,18 @@ import {
   fetchEmployees,
   fetchEmployeeTimeline,
   assignRecommendation,
+  fetchCostModel,
+  updateCostModel,
   type EmployeesQuery,
 } from "./api-client";
-import type { InterventionStatus, InterventionOutcome } from "@/types";
+import type { InterventionStatus, InterventionOutcome, CostComponents } from "@/types";
 
 export const queryKeys = {
   plant: ["plant", "summary"] as const,
   reports: ["reports", "summary"] as const,
   pilot: ["pilot", "summary"] as const,
   governance: ["governance", "summary"] as const,
+  costModel: ["settings", "cost-model"] as const,
   briefing: ["ai", "briefing"] as const,
   integrations: ["integrations"] as const,
   interventions: ["interventions", "list"] as const,
@@ -62,6 +65,23 @@ export function useGovernance() {
 
 export function usePilotSummary() {
   return useQuery({ queryKey: queryKeys.pilot, queryFn: fetchPilotSummary });
+}
+
+export function useCostModel() {
+  return useQuery({ queryKey: queryKeys.costModel, queryFn: fetchCostModel });
+}
+
+// Guardar el costo recalcula los montos en todo: planta, reportes, ROI y candidatos.
+export function useUpdateCostModel() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (components: CostComponents) => updateCostModel(components),
+    onSuccess: () => {
+      for (const key of [queryKeys.costModel, queryKeys.plant, queryKeys.reports, queryKeys.pilot, queryKeys.candidates]) {
+        qc.invalidateQueries({ queryKey: key });
+      }
+    },
+  });
 }
 
 export function useBriefing() {

@@ -34,7 +34,7 @@ export default function PlanningToolsPage() {
         <p className="mt-1 max-w-3xl text-body text-ink-2">{t("insightsSubtitle")}</p>
       </div>
       <Card className="rounded-xl p-[22px]">
-        <InsightTabs rows={data.topRisk} />
+        <InsightTabs rows={data.topRisk} costPerReplacement={data.costPerReplacement} costEstimated={data.costEstimated} />
       </Card>
     </div>
   );

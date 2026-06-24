@@ -7,6 +7,7 @@
 import { useFormatter, useLocale, useTranslations } from "next-intl";
 import { AlertTriangle, Eye, ShieldCheck, Banknote } from "lucide-react";
 import type { PlantSummary } from "@/types";
+import { EstimateBadge } from "./estimate-badge";
 
 function Spark({ data, color }: { data: number[]; color: string }) {
   if (!data || data.length < 2) return <div className="h-5" />;
@@ -46,10 +47,10 @@ export function KpiStrip({ data }: { data: PlantSummary }) {
   });
 
   const items = [
-    { icon: AlertTriangle, label: t("statHighRisk"), value: f.number(data.highRisk), series: data.trend.highRisk, color: "#EB4F6C" },
-    { icon: Eye, label: t("statWatch"), value: f.number(data.watch), series: data.trend.watch, color: "#B49AED" },
-    { icon: ShieldCheck, label: t("statStable"), value: f.number(data.stable), series: data.trend.stable, color: "#5B6EF5" },
-    { icon: Banknote, label: t("simCostAtRisk"), value: cur.format(data.savingMxn), series: null, color: "#EB4F6C" },
+    { icon: AlertTriangle, label: t("statHighRisk"), value: f.number(data.highRisk), series: data.trend.highRisk, color: "#EB4F6C", estimate: false },
+    { icon: Eye, label: t("statWatch"), value: f.number(data.watch), series: data.trend.watch, color: "#B49AED", estimate: false },
+    { icon: ShieldCheck, label: t("statStable"), value: f.number(data.stable), series: data.trend.stable, color: "#5B6EF5", estimate: false },
+    { icon: Banknote, label: t("simCostAtRisk"), value: cur.format(data.savingMxn), series: null, color: "#EB4F6C", estimate: data.costEstimated },
   ];
 
   return (
@@ -65,8 +66,8 @@ export function KpiStrip({ data }: { data: PlantSummary }) {
             <div className="mt-1 text-heading font-bold leading-tight" style={{ color: it.color }}>
               {it.value}
             </div>
-            <div className="mt-1">
-              <Spark data={it.series ?? []} color={it.color} />
+            <div className="mt-1 flex h-5 items-center">
+              {it.estimate ? <EstimateBadge /> : <Spark data={it.series ?? []} color={it.color} />}
             </div>
           </div>
         );

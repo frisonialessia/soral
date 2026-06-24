@@ -45,6 +45,18 @@ export const UpdateInterventionBody = z
 
 export const AssignBody = z.object({ line: z.string().min(1).max(8) });
 
+// PUT /api/settings/cost-model — RH guarda su costo por componentes. Cotas
+// generosas; cada componente en MXN, entero ≥ 0.
+const mxnComponent = z.number().int().min(0).max(10_000_000);
+export const CostModelBody = z.object({
+  recruiting: mxnComponent,
+  screening: mxnComponent,
+  training: mxnComponent,
+  productivity: mxnComponent,
+  coverage: mxnComponent,
+  separation: mxnComponent,
+});
+
 export const AskBody = z.object({
   messages: z
     .array(z.object({ role: z.enum(["user", "assistant"]), content: z.string().max(4000) }))

@@ -15,6 +15,7 @@ import { scoreCandidate } from "@/lib/hiring";
 import { PILOT_SUMMARY } from "@/lib/causal";
 import { buildFairness, buildProxies, parity, buildCalibration, calibrationGap } from "@/lib/governance";
 import { createTable, type Page } from "./mock-db";
+import { getCostModel, DEFAULT_COST_PER_REPLACEMENT } from "./cost-model";
 import type {
   EmployeePrediction,
   RiskBand,
@@ -40,7 +41,6 @@ import type {
 
 export type { Page } from "./mock-db";
 
-const REPLACEMENT_COST_MXN = 36_800;
 const PLANT_HEADCOUNT = 1180;
 const daysAgo = (d: number) => new Date(Date.now() - d * 86_400_000).toISOString();
 
@@ -113,6 +113,7 @@ export async function getPlantSummary(): Promise<PlantSummary> {
   ]);
   const watch = atRisk.total - highRisk;
   const stable = PLANT_HEADCOUNT - highRisk - watch;
+  const cost = await getCostModel();
 
   const lineCounts: Record<string, number> = { L1: 0, L2: 0, L3: 0, L4: 0, L5: 0, L6: 0, L7: 0 };
   for (const e of atRisk.rows) lineCounts[e.line] = (lineCounts[e.line] ?? 0) + 1;
@@ -124,7 +125,9 @@ export async function getPlantSummary(): Promise<PlantSummary> {
     highRisk,
     watch,
     stable,
-    savingMxn: highRisk * REPLACEMENT_COST_MXN,
+    savingMxn: highRisk * cost.costPerReplacement,
+    costPerReplacement: cost.costPerReplacement,
+    costEstimated: !cost.configured,
     trend: {
       highRisk: trendSeries(highRisk, 0.32),
       watch: trendSeries(watch, 0.3),
@@ -396,7 +399,11 @@ const candidates = createTable<Candidate>(CANDIDATE_SEED.map(scoreCandidate).sor
 
 // GET /api/candidates
 export async function getCandidates(): Promise<CandidatesSummary> {
-  const { rows } = await candidates.findMany();
+  const [{ rows: base }, cost] = await Promise.all([candidates.findMany(), getCostModel()]);
+  // El costRisk de cada candidato se sembró con el costo por defecto; reescálalo al
+  // costo vigente (es lineal en el costo) para que TODA la app hable del mismo monto.
+  const scale = cost.costPerReplacement / DEFAULT_COST_PER_REPLACEMENT;
+  const rows = base.map((c) => ({ ...c, costRisk: Math.round(c.costRisk * scale) }));
   const atRisk = rows.filter((c) => c.recommendation !== "advance");
   return {
     candidates: rows,
@@ -404,6 +411,7 @@ export async function getCandidates(): Promise<CandidatesSummary> {
       pipeline: rows.length,
       avgSurvival90: Math.round(rows.reduce((s, c) => s + c.survival90, 0) / rows.length),
       costAtRiskMxn: atRisk.reduce((s, c) => s + c.costRisk, 0),
+      costEstimated: !cost.configured,
       advanceReady: rows.filter((c) => c.recommendation === "advance").length,
     },
   };
@@ -492,12 +500,14 @@ export async function getReportSummary(): Promise<ReportSummary> {
   const attrition = [15.8, 16.2, 15.1, 14.6, 15.3, 14.1, 13.4, 13.8, 12.6, 11.9, 11.2, 10.7];
 
   const retained = 16; // estimación de retenidos entre los marcados
+  const cost = await getCostModel();
   return {
     periodMonths: 12,
     kpis: {
       interventions: 24,
       retained,
-      costAvoidedMxn: retained * REPLACEMENT_COST_MXN,
+      costAvoidedMxn: retained * cost.costPerReplacement,
+      costEstimated: !cost.configured,
       precision: 78,
     },
     attrition,
@@ -510,7 +520,16 @@ export async function getReportSummary(): Promise<ReportSummary> {
 // Pilot causal: el experimento aleatorizado que prueba el ROI. Se computa en el
 // motor (lib/causal.ts) con estadística real; aquí solo se expone por la frontera.
 export async function getPilotSummary(): Promise<PilotSummary> {
-  return PILOT_SUMMARY;
+  const cost = await getCostModel();
+  // El ROI es lineal en el costo de reemplazo: reescala los montos al costo vigente.
+  const scale = cost.costPerReplacement / DEFAULT_COST_PER_REPLACEMENT;
+  return {
+    ...PILOT_SUMMARY,
+    costAvoidedPilot: Math.round(PILOT_SUMMARY.costAvoidedPilot * scale),
+    costAvoidedAnnual: Math.round(PILOT_SUMMARY.costAvoidedAnnual * scale),
+    replacementCostMxn: cost.costPerReplacement,
+    costEstimated: !cost.configured,
+  };
 }
 
 // GET /api/governance

@@ -65,6 +65,28 @@ export const LineDetailSchema = z.object({
 });
 export type LineDetail = z.infer<typeof LineDetailSchema>;
 
+// ── Costo de rotación (configurable por RH) ──────────────────────────────────
+// El "monto por reemplazo" deja de ser una constante regada por la app: RH lo
+// calcula por componentes (lib/server/cost-model). `configured:false` = todavía es
+// una estimación de referencia y la UI debe marcarla como tal, no como un hecho.
+export const CostComponentsSchema = z.object({
+  recruiting: z.number().min(0), // reclutamiento y selección
+  screening: z.number().min(0), // exámenes y trámites de alta
+  training: z.number().min(0), // capacitación e inducción
+  productivity: z.number().min(0), // curva de productividad
+  coverage: z.number().min(0), // cobertura del hueco (horas extra)
+  separation: z.number().min(0), // finiquito / separación
+});
+export type CostComponents = z.infer<typeof CostComponentsSchema>;
+
+export const CostModelSchema = z.object({
+  components: CostComponentsSchema,
+  costPerReplacement: z.number(),
+  configured: z.boolean(),
+  updatedAt: z.string().nullable(),
+});
+export type CostModel = z.infer<typeof CostModelSchema>;
+
 export const PlantSummarySchema = z.object({
   tenantId: z.string(),
   weekStart: z.string(),
@@ -73,6 +95,8 @@ export const PlantSummarySchema = z.object({
   watch: z.number(),
   stable: z.number(),
   savingMxn: z.number(),
+  costPerReplacement: z.number(), // costo por reemplazo vigente (modelo de costo)
+  costEstimated: z.boolean(), // true = estimación de referencia (RH no lo ha configurado)
   trend: z.object({
     highRisk: z.array(z.number()),
     watch: z.array(z.number()),
@@ -95,6 +119,7 @@ export const ReportSummarySchema = z.object({
     interventions: z.number(),
     retained: z.number(),
     costAvoidedMxn: z.number(),
+    costEstimated: z.boolean(),
     precision: z.number(), // 0–100
   }),
   attrition: z.array(z.number()), // rotación mensual %, 12 puntos
@@ -207,6 +232,7 @@ export const CandidatesSummarySchema = z.object({
     pipeline: z.number(),
     avgSurvival90: z.number(), // 0–100
     costAtRiskMxn: z.number(), // suma de costRisk de review + caution
+    costEstimated: z.boolean(),
     advanceReady: z.number(),
   }),
 });
@@ -344,6 +370,7 @@ export const PilotSummarySchema = z.object({
   extraRetainedAnnual: z.number(),
   costAvoidedAnnual: z.number(), // MXN, proyección anual
   replacementCostMxn: z.number(),
+  costEstimated: z.boolean(),
   byLine: z.array(PilotLineUpliftSchema),
   trend: z.array(PilotTrendPointSchema),
   retrains: z.array(RetrainPointSchema),

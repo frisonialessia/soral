@@ -194,6 +194,7 @@ function build(): PilotSummary {
     extraRetainedAnnual,
     costAvoidedAnnual: extraRetainedAnnual * EARLY_EXIT_COST_MXN,
     replacementCostMxn: EARLY_EXIT_COST_MXN,
+    costEstimated: true, // base; getPilotSummary lo ajusta según el modelo de costo
     byLine,
     trend,
     retrains,

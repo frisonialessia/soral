@@ -308,8 +308,8 @@
     "positioning": "Fatto per le maquiladoras.",
     "m1Value": "30 giorni",
     "m1Label": "di preavviso",
-    "m2Value": "$36,800 MXN",
-    "m2Label": "costo per ogni uscita",
+    "m2Value": "~$36,800 MXN",
+    "m2Label": "costo di riferimento per uscita",
     "m3Value": "Giornaliero",
     "m3Label": "ricalcolo del rischio",
     "m4Value": "100%",
@@ -360,12 +360,12 @@
     "baAfterTitle": "Con Soral",
     "baBefore1": "Le dimissioni arrivano lunedì, senza preavviso.",
     "baBefore2": "La linea resta scoperta a metà settimana.",
-    "baBefore3": "Assumere e formare: $36,800 MXN per sostituzione.",
+    "baBefore3": "Reclutamento, formazione e curva di apprendimento: migliaia per ogni uscita.",
     "baBefore4": "Lo scopri quando il lavoratore è già andato via.",
     "baAfter1": "Allerta 30 giorni prima delle dimissioni.",
     "baAfter2": "Piano di retention 1:1 in mano al supervisore.",
     "baAfter3": "Una conversazione in tempo — il lavoratore resta.",
-    "baAfter4": "Ogni sostituzione da $36,800 MXN, evitata."
+    "baAfter4": "Sai il costo reale di ogni uscita — e lo eviti."
   },
   "reports": {
     "title": "Report",
@@ -759,5 +759,31 @@
     "c5Tag": "Conformità",
     "c5Title": "Governance per il comitato",
     "c5Body": "Equità per gruppo, segnali proxy e un registro di ogni decisione, pronti per il Legale, il comitato etico o il sindacato. IA che riguarda le persone, con responsabilità."
+  },
+  "costModel": {
+    "loading": "Caricamento…",
+    "errorTitle": "Impossibile caricare il costo",
+    "title": "Costo del turnover",
+    "subtitle": "Calcola il costo reale di ogni uscita con i tuoi numeri. Finché non lo configuri, Soral usa una stima di riferimento e la segnala come tale in tutta l’app.",
+    "estBadge": "stima",
+    "estAdjust": "modifica",
+    "estimateNote": "Stima di riferimento — configurala con i numeri del tuo stabilimento.",
+    "estimateRef": "stima di riferimento",
+    "configured": "Configurato da HR",
+    "modeComponents": "Per componenti",
+    "modeSimple": "Modalità semplice",
+    "simpleLabel": "Costo totale per sostituzione",
+    "comp_recruiting": "Reclutamento e selezione",
+    "comp_screening": "Esami e pratiche di assunzione",
+    "comp_training": "Formazione e inserimento",
+    "comp_productivity": "Curva di produttività",
+    "comp_coverage": "Copertura (straordinari)",
+    "comp_separation": "Liquidazione / cessazione",
+    "appliesNote": "Si applica al KPI \"Costo a rischio\", al simulatore e al ROI.",
+    "save": "Salva costo",
+    "saving": "Salvataggio…",
+    "saved": "Salvato",
+    "saveError": "Salvataggio non riuscito. Riprova.",
+    "useReference": "Usa valori di riferimento"
   }
 }
