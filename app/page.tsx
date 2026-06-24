@@ -21,11 +21,12 @@ export default async function LandingPage() {
     { value: t("m3Value"), label: t("m3Label") },
     { value: t("m4Value"), label: t("m4Label") },
   ];
+  // Cada feature toma un color distinto del ramp de riesgo — más vida, misma paleta.
   const features = [
-    { icon: Map, title: t("f1Title"), desc: t("f1Desc") },
-    { icon: Sparkles, title: t("f2Title"), desc: t("f2Desc") },
-    { icon: Zap, title: t("f3Title"), desc: t("f3Desc") },
-    { icon: Scale, title: t("f4Title"), desc: t("f4Desc") },
+    { icon: Map, title: t("f1Title"), desc: t("f1Desc"), color: "#5B6EF5" },
+    { icon: Sparkles, title: t("f2Title"), desc: t("f2Desc"), color: "#8476FF" },
+    { icon: Zap, title: t("f3Title"), desc: t("f3Desc"), color: "#E59BB0" },
+    { icon: Scale, title: t("f4Title"), desc: t("f4Desc"), color: "#EB4F6C" },
   ];
   const steps = [
     { title: t("step1Title"), desc: t("step1Desc") },
@@ -108,8 +109,11 @@ export default async function LandingPage() {
             const Icon = f.icon;
             return (
               <Reveal key={f.title} delay={i * 80}>
-                <div className="h-full rounded-xl border border-line bg-surface p-5">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-risk-sol-soft text-risk-sol">
+                <div className="h-full rounded-xl border border-line bg-surface p-5 transition-shadow hover:shadow-[0_16px_40px_-20px_rgba(43,45,66,0.3)]">
+                  <span
+                    className="flex h-10 w-10 items-center justify-center rounded-lg"
+                    style={{ color: f.color, background: `${f.color}1A` }}
+                  >
                     <Icon className="h-[18px] w-[18px]" />
                   </span>
                   <h3 className="mt-4 text-body font-semibold text-ink-1">{f.title}</h3>

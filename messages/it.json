@@ -346,7 +346,9 @@
     "navFeatures": "Funzionalità",
     "navCases": "Casi d'uso",
     "navDocs": "Docs",
-    "previewBriefing": "6 ad alto rischio questa settimana — il focus è la linea L3 (22% di turnover). Assegna piani di retention."
+    "previewBriefing": "6 ad alto rischio questa settimana — il focus è la linea L3 (22% di turnover). Assegna piani di retention.",
+    "previewLiveHint": "Questa vista è disponibile in Soral. Aprila per vederla con i tuoi dati.",
+    "previewOpen": "Apri nell'app"
   },
   "reports": {
     "title": "Report",

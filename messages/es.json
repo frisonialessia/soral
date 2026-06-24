@@ -346,7 +346,9 @@
     "navFeatures": "Características",
     "navCases": "Casos de uso",
     "navDocs": "Docs",
-    "previewBriefing": "6 de alto riesgo esta semana — el foco es la línea L3 (22 % de rotación). Asigna planes de retención."
+    "previewBriefing": "6 de alto riesgo esta semana — el foco es la línea L3 (22 % de rotación). Asigna planes de retención.",
+    "previewLiveHint": "Esta vista está disponible en Soral. Ábrela para verla con tus datos.",
+    "previewOpen": "Abrir en la app"
   },
   "reports": {
     "title": "Reportes",

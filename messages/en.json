@@ -346,7 +346,9 @@
     "navFeatures": "Features",
     "navCases": "Use cases",
     "navDocs": "Docs",
-    "previewBriefing": "6 high-risk this week — the focus is line L3 (22% turnover). Assign retention plans."
+    "previewBriefing": "6 high-risk this week — the focus is line L3 (22% turnover). Assign retention plans.",
+    "previewLiveHint": "This view is available in Soral. Open it to see it with your data.",
+    "previewOpen": "Open in the app"
   },
   "reports": {
     "title": "Reports",
