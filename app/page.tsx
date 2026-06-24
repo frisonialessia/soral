@@ -15,11 +15,12 @@ import { LandingFooter } from "@/components/landing/landing-footer";
 export default async function LandingPage() {
   const t = await getTranslations("landing");
 
+  // Acentos multicolor: cada métrica/paso toma un color del ramp de riesgo.
   const metrics = [
-    { value: t("m1Value"), label: t("m1Label") },
-    { value: t("m2Value"), label: t("m2Label") },
-    { value: t("m3Value"), label: t("m3Label") },
-    { value: t("m4Value"), label: t("m4Label") },
+    { value: t("m1Value"), label: t("m1Label"), color: "#5B6EF5" },
+    { value: t("m2Value"), label: t("m2Label"), color: "#8476FF" },
+    { value: t("m3Value"), label: t("m3Label"), color: "#B49AED" },
+    { value: t("m4Value"), label: t("m4Label"), color: "#E59BB0" },
   ];
   // Cada feature toma un color distinto del ramp de riesgo — más vida, misma paleta.
   const features = [
@@ -29,9 +30,9 @@ export default async function LandingPage() {
     { icon: Scale, title: t("f4Title"), desc: t("f4Desc"), color: "#EB4F6C" },
   ];
   const steps = [
-    { title: t("step1Title"), desc: t("step1Desc") },
-    { title: t("step2Title"), desc: t("step2Desc") },
-    { title: t("step3Title"), desc: t("step3Desc") },
+    { title: t("step1Title"), desc: t("step1Desc"), color: "#5B6EF5" },
+    { title: t("step2Title"), desc: t("step2Desc"), color: "#8476FF" },
+    { title: t("step3Title"), desc: t("step3Desc"), color: "#E59BB0" },
   ];
 
   return (
@@ -86,7 +87,7 @@ export default async function LandingPage() {
           <div className="mx-auto grid max-w-[1120px] grid-cols-2 gap-6 px-5 py-10 sm:grid-cols-4 sm:px-6">
             {metrics.map((m) => (
               <div key={m.label} className="text-center sm:text-left">
-                <div className="font-sans text-title font-bold tracking-tight text-ink-1 sm:text-display">
+                <div className="font-sans text-title font-bold tracking-tight sm:text-display" style={{ color: m.color }}>
                   {m.value}
                 </div>
                 <div className="mt-1 text-copy text-ink-2">{m.label}</div>
@@ -129,7 +130,7 @@ export default async function LandingPage() {
       <section className="mx-auto max-w-[1120px] px-5 py-16 sm:px-6">
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
-            <span className="text-copy font-semibold uppercase tracking-wide text-risk-sol">{t("simEyebrow")}</span>
+            <span className="text-copy font-semibold uppercase tracking-wide text-risk-est">{t("simEyebrow")}</span>
             <h2 className="mt-2 text-title font-semibold tracking-tight text-ink-1">{t("simTitle")}</h2>
             <p className="mt-2 text-body text-ink-2">{t("simText")}</p>
           </div>
@@ -146,7 +147,7 @@ export default async function LandingPage() {
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <Reveal>
             <div>
-              <span className="text-copy font-semibold uppercase tracking-wide text-risk-sol">
+              <span className="text-copy font-semibold uppercase tracking-wide text-risk-med">
                 {t("explainEyebrow")}
               </span>
               <h2 className="mt-2 text-title font-semibold leading-tight tracking-tight text-ink-1">
@@ -174,7 +175,10 @@ export default async function LandingPage() {
             {steps.map((s, i) => (
               <Reveal key={s.title} delay={i * 100}>
                 <div className="h-full rounded-xl border border-line bg-surface-bg p-6">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-risk-sol font-mono text-body font-bold text-white">
+                  <span
+                    className="flex h-9 w-9 items-center justify-center rounded-full font-mono text-body font-bold text-white"
+                    style={{ backgroundColor: s.color }}
+                  >
                     {i + 1}
                   </span>
                   <h3 className="mt-4 text-body font-semibold text-ink-1">{s.title}</h3>

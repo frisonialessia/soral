@@ -9,12 +9,13 @@ import { LandingNav } from "@/components/landing/landing-nav";
 import { LandingFooter } from "@/components/landing/landing-footer";
 import { Reveal } from "@/components/landing/reveal";
 
+// Cada caso toma un color del ramp de riesgo (acentos multicolor).
 const CASES = [
-  { n: 1, icon: HardHat },
-  { n: 2, icon: UserPlus },
-  { n: 3, icon: MessageSquareText },
-  { n: 4, icon: FlaskConical },
-  { n: 5, icon: Scale },
+  { n: 1, icon: HardHat, color: "#5B6EF5" },
+  { n: 2, icon: UserPlus, color: "#8476FF" },
+  { n: 3, icon: MessageSquareText, color: "#B49AED" },
+  { n: 4, icon: FlaskConical, color: "#E59BB0" },
+  { n: 5, icon: Scale, color: "#EB4F6C" },
 ] as const;
 
 export default async function CasesPage() {
@@ -35,11 +36,14 @@ export default async function CasesPage() {
 
       <section className="mx-auto max-w-[1120px] px-5 pb-16 sm:px-6">
         <div className="grid gap-5 md:grid-cols-2">
-          {CASES.map(({ n, icon: Icon }, i) => (
+          {CASES.map(({ n, icon: Icon, color }, i) => (
             <Reveal key={n} delay={i * 70}>
-              <div className="h-full rounded-2xl border border-line bg-surface p-6">
+              <div className="h-full rounded-2xl border border-line bg-surface p-6 transition-shadow hover:shadow-[0_16px_40px_-20px_rgba(43,45,66,0.3)]">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-risk-sol-soft text-risk-sol">
+                  <span
+                    className="flex h-10 w-10 items-center justify-center rounded-lg"
+                    style={{ color, background: `${color}1A` }}
+                  >
                     <Icon className="h-[18px] w-[18px]" />
                   </span>
                   <span className="rounded-full bg-surface-bg px-2.5 py-1 text-micro font-semibold uppercase tracking-wide text-ink-3">
