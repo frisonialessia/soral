@@ -7,12 +7,13 @@
 import { useState, useEffect } from "react";
 import { useTranslations, useFormatter } from "next-intl";
 import { ShieldCheck, Sparkles } from "lucide-react";
-import { useCandidates, useInterviewRecap } from "@/lib/queries";
+import { useCandidates, useInterviewRecap, useCostModel } from "@/lib/queries";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose } from "@/components/ui/dialog";
 import { LoadingState, ErrorState } from "@/components/ui/states";
 import { EARLY_EXIT_COST_MXN } from "@/lib/hiring";
+import { EstimateBadge } from "@/components/dashboard/estimate-badge";
 import type { Candidate, HireRecommendation } from "@/types";
 
 const REC_COLOR: Record<HireRecommendation, string> = {
@@ -27,6 +28,7 @@ export default function HiringPage() {
   const tc = useTranslations("common");
   const f = useFormatter();
   const { data, isLoading, isError, refetch, isFetching } = useCandidates();
+  const { data: costModel } = useCostModel();
   const [recapFor, setRecapFor] = useState<Candidate | null>(null);
 
   if (isLoading) return <LoadingState label={t("loading")} />;
@@ -54,7 +56,7 @@ export default function HiringPage() {
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Kpi label={t("kpiPipeline")} value={String(kpis.pipeline)} />
         <Kpi label={t("kpiSurvival")} value={`${kpis.avgSurvival90}%`} color={survivalColor(kpis.avgSurvival90)} />
-        <Kpi label={t("kpiCostRisk")} value={mxn(kpis.costAtRiskMxn)} color="#EB4F6C" />
+        <Kpi label={t("kpiCostRisk")} value={mxn(kpis.costAtRiskMxn)} color="#EB4F6C" estimate={kpis.costEstimated} />
         <Kpi label={t("kpiAdvanceReady")} value={String(kpis.advanceReady)} color="#5B6EF5" />
       </div>
 
@@ -73,7 +75,14 @@ export default function HiringPage() {
         </Card>
 
         {/* Calculadora de costo de contratación */}
-        <CostCalculator pipeline={kpis.pipeline} avgSurvival={kpis.avgSurvival90} t={t} mxn={mxn} />
+        <CostCalculator
+          pipeline={kpis.pipeline}
+          avgSurvival={kpis.avgSurvival90}
+          t={t}
+          mxn={mxn}
+          costPerReplacement={costModel?.costPerReplacement ?? EARLY_EXIT_COST_MXN}
+          estimated={costModel ? !costModel.configured : true}
+        />
       </div>
 
       <RecapModal candidate={recapFor} onClose={() => setRecapFor(null)} t={t} tc={tc} />
@@ -81,13 +90,14 @@ export default function HiringPage() {
   );
 }
 
-function Kpi({ label, value, color }: { label: string; value: string; color?: string }) {
+function Kpi({ label, value, color, estimate }: { label: string; value: string; color?: string; estimate?: boolean }) {
   return (
     <Card className="px-[17px] py-[15px]">
       <div className="text-meta text-ink-2">{label}</div>
       <div className="mt-1 font-mono text-heading font-bold leading-tight" style={{ color: color ?? "#2B2D42" }}>
         {value}
       </div>
+      {estimate && <div className="mt-1.5"><EstimateBadge /></div>}
     </Card>
   );
 }
@@ -158,21 +168,25 @@ function CostCalculator({
   avgSurvival,
   t,
   mxn,
+  costPerReplacement,
+  estimated,
 }: {
   pipeline: number;
   avgSurvival: number;
   t: (k: string, v?: Record<string, string | number>) => string;
   mxn: (n: number) => string;
+  costPerReplacement: number;
+  estimated: boolean;
 }) {
   const [hires, setHires] = useState(Math.max(pipeline, 20));
   const earlyExitRate = 1 - avgSurvival / 100;
   const exits = Math.round(hires * earlyExitRate);
-  const cost = exits * EARLY_EXIT_COST_MXN;
+  const cost = exits * costPerReplacement;
 
   return (
     <Card className="rounded-xl p-[18px]">
       <h3 className="text-body font-semibold">{t("calcTitle")}</h3>
-      <p className="mt-0.5 text-meta text-ink-3">{t("calcHint", { cost: mxn(EARLY_EXIT_COST_MXN) })}</p>
+      <p className="mt-0.5 text-meta text-ink-3">{t("calcHint", { cost: mxn(costPerReplacement) })}</p>
 
       <div className="mt-4">
         <div className="mb-1 flex items-center justify-between text-copy">
@@ -200,6 +214,7 @@ function CostCalculator({
           <span className="text-meta text-ink-2">{t("calcCost")}</span>
           <span className="font-mono text-subhead font-bold text-risk-cri">{mxn(cost)}</span>
         </div>
+        {estimated && <div className="flex justify-end"><EstimateBadge /></div>}
       </div>
       <p className="mt-3 text-micro leading-relaxed text-ink-3">{t("calcFoot")}</p>
     </Card>

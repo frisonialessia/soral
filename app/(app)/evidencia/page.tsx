@@ -14,6 +14,7 @@ import { usePilotSummary } from "@/lib/queries";
 import { Card } from "@/components/ui/card";
 import { LoadingState, ErrorState } from "@/components/ui/states";
 import { formatMxn } from "@/lib/utils";
+import { EstimateBadge } from "@/components/dashboard/estimate-badge";
 import type { PilotSummary, PilotLineUplift, PilotTrendPoint, RetrainPoint } from "@/types";
 
 const SOL = "#5B6EF5";
@@ -94,7 +95,10 @@ export default function EvidencePage() {
               <div className="mt-1 text-meta text-ink-3">{t("roiAnnualSub", { n: f.number(p.annualEligible) })}</div>
             </div>
           </div>
-          <p className="mt-3 text-meta text-ink-3">{t("roiNote", { cost: formatMxn(p.replacementCostMxn) })}</p>
+          <p className="mt-3 flex flex-wrap items-center gap-2 text-meta text-ink-3">
+            <span>{t("roiNote", { cost: formatMxn(p.replacementCostMxn) })}</span>
+            {p.costEstimated && <EstimateBadge />}
+          </p>
         </Card>
       </div>
 

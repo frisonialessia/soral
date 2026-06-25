@@ -7,6 +7,7 @@ import { useReportSummary } from "@/lib/queries";
 import { Card } from "@/components/ui/card";
 import { LoadingState, ErrorState } from "@/components/ui/states";
 import { AreaChart, BarList } from "@/components/reports/charts";
+import { EstimateBadge } from "@/components/dashboard/estimate-badge";
 
 export default function ReportsPage() {
   const { data, isLoading, isError, refetch, isFetching } = useReportSummary();
@@ -41,10 +42,10 @@ export default function ReportsPage() {
   });
 
   const kpis = [
-    { label: t("kpiInterventions"), value: format.number(data.kpis.interventions), sub: t("kpiInterventionsSub"), color: "#5B6EF5" },
-    { label: t("kpiRetained"), value: format.number(data.kpis.retained), sub: t("kpiRetainedSub"), color: "#8476FF" },
-    { label: t("kpiCostAvoided"), value: currency.format(data.kpis.costAvoidedMxn), sub: t("kpiCostAvoidedSub"), color: "#5B6EF5" },
-    { label: t("kpiPrecision"), value: `${data.kpis.precision}%`, sub: t("kpiPrecisionSub"), color: "#8476FF" },
+    { label: t("kpiInterventions"), value: format.number(data.kpis.interventions), sub: t("kpiInterventionsSub"), color: "#5B6EF5", estimate: false },
+    { label: t("kpiRetained"), value: format.number(data.kpis.retained), sub: t("kpiRetainedSub"), color: "#8476FF", estimate: false },
+    { label: t("kpiCostAvoided"), value: currency.format(data.kpis.costAvoidedMxn), sub: t("kpiCostAvoidedSub"), color: "#5B6EF5", estimate: data.kpis.costEstimated },
+    { label: t("kpiPrecision"), value: `${data.kpis.precision}%`, sub: t("kpiPrecisionSub"), color: "#8476FF", estimate: false },
   ];
 
   const sev = (r: number) => (r >= 18 ? "#EB4F6C" : r >= 12 ? "#E59BB0" : "#5B6EF5");
@@ -102,6 +103,7 @@ export default function ReportsPage() {
               {k.value}
             </div>
             <div className="mt-0.5 text-micro text-ink-3">{k.sub}</div>
+            {k.estimate && <div className="mt-1.5"><EstimateBadge /></div>}
           </Card>
         ))}
       </div>
