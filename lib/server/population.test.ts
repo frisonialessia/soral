@@ -25,4 +25,10 @@ describe("buildPopulation", () => {
   it("nunca devuelve menos que los curados aunque pidan poco", () => {
     expect(buildPopulation(3).length).toBeGreaterThanOrEqual(10);
   });
+
+  it("respeta líneas/turnos configurados y no filtra etiquetas ajenas al catálogo", () => {
+    const pop = buildPopulation(200, ["A", "B", "C"], ["D1", "D2"]);
+    expect(pop.every((e) => ["A", "B", "C"].includes(e.line))).toBe(true);
+    expect(pop.every((e) => ["D1", "D2"].includes(e.shift))).toBe(true);
+  });
 });

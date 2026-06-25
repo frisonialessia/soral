@@ -806,6 +806,9 @@
     "save": "Salva profilo",
     "saving": "Salvataggio…",
     "saved": "Salvato",
-    "saveError": "Salvataggio non riuscito. Riprova."
+    "saveError": "Salvataggio non riuscito. Riprova.",
+    "linesLabel": "Linee di produzione",
+    "shiftsLabel": "Turni",
+    "listHint": "Separa con virgole"
   }
 }

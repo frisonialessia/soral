@@ -39,9 +39,20 @@ function Form({ profile }: { profile: PlantProfile }) {
   const mut = useUpdatePlantProfile();
   const [name, setName] = useState(profile.name);
   const [headcount, setHeadcount] = useState(profile.headcount);
+  const [lines, setLines] = useState(profile.lines.join(", "));
+  const [shifts, setShifts] = useState(profile.shifts.join(", "));
+
+  const parseList = (s: string) => s.split(",").map((x) => x.trim()).filter(Boolean);
 
   function save() {
-    mut.mutate({ name: name.trim() || profile.name, headcount: Math.max(10, Math.round(headcount || 0)) });
+    const ls = parseList(lines);
+    const ss = parseList(shifts);
+    mut.mutate({
+      name: name.trim() || profile.name,
+      headcount: Math.max(10, Math.round(headcount || 0)),
+      lines: ls.length ? ls : profile.lines,
+      shifts: ss.length ? ss : profile.shifts,
+    });
   }
 
   return (
@@ -85,6 +96,29 @@ function Form({ profile }: { profile: PlantProfile }) {
             onChange={(e) => setHeadcount(Math.max(0, Math.round(Number(e.target.value) || 0)))}
             className="rounded-lg border border-line bg-surface px-3 py-2 font-mono text-copy text-ink-1 outline-none focus:border-risk-sol"
           />
+        </label>
+      </div>
+
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <label className="flex flex-col gap-1.5">
+          <span className="text-meta text-ink-2">{t("linesLabel")}</span>
+          <input
+            type="text"
+            value={lines}
+            onChange={(e) => setLines(e.target.value)}
+            className="rounded-lg border border-line bg-surface px-3 py-2 text-copy text-ink-1 outline-none focus:border-risk-sol"
+          />
+          <span className="text-micro text-ink-3">{t("listHint")}</span>
+        </label>
+        <label className="flex flex-col gap-1.5">
+          <span className="text-meta text-ink-2">{t("shiftsLabel")}</span>
+          <input
+            type="text"
+            value={shifts}
+            onChange={(e) => setShifts(e.target.value)}
+            className="rounded-lg border border-line bg-surface px-3 py-2 text-copy text-ink-1 outline-none focus:border-risk-sol"
+          />
+          <span className="text-micro text-ink-3">{t("listHint")}</span>
         </label>
       </div>
 

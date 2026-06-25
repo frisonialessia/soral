@@ -77,7 +77,7 @@ export function fetchPlantProfile() {
 }
 
 // PUT /api/settings/plant-profile — guarda el perfil de la planta.
-export async function updatePlantProfile(input: { name: string; headcount: number }): Promise<PlantProfile> {
+export async function updatePlantProfile(input: { name: string; headcount: number; lines: string[]; shifts: string[] }): Promise<PlantProfile> {
   const res = await fetch("/api/settings/plant-profile", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },

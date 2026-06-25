@@ -806,6 +806,9 @@
     "save": "Guardar perfil",
     "saving": "Guardando…",
     "saved": "Guardado",
-    "saveError": "No se pudo guardar. Intenta de nuevo."
+    "saveError": "No se pudo guardar. Intenta de nuevo.",
+    "linesLabel": "Líneas de producción",
+    "shiftsLabel": "Turnos",
+    "listHint": "Separa con comas"
   }
 }

@@ -92,6 +92,8 @@ export type CostModel = z.infer<typeof CostModelSchema>;
 export const PlantProfileSchema = z.object({
   name: z.string(),
   headcount: z.number(),
+  lines: z.array(z.string()),
+  shifts: z.array(z.string()),
   configured: z.boolean(),
   updatedAt: z.string().nullable(),
 });

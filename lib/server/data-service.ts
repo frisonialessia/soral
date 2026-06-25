@@ -52,13 +52,14 @@ const daysAgo = (d: number) => new Date(Date.now() - d * 86_400_000).toISOString
 // (lib/server/population, generada con el modelo real, con los curados al frente).
 // Se cachea por tamaño; cambiar el headcount produce otra tabla. Es el punto de
 // swap a `supabase.from('employees')`.
-const popCache = new Map<number, ReturnType<typeof createTable<EmployeePrediction>>>();
+const popCache = new Map<string, ReturnType<typeof createTable<EmployeePrediction>>>();
 async function empTable() {
-  const { headcount } = await getPlantProfile();
-  let tbl = popCache.get(headcount);
+  const { headcount, lines, shifts } = await getPlantProfile();
+  const key = `${headcount}|${lines.join(",")}|${shifts.join(",")}`;
+  let tbl = popCache.get(key);
   if (!tbl) {
-    tbl = createTable<EmployeePrediction>(buildPopulation(headcount));
-    popCache.set(headcount, tbl);
+    tbl = createTable<EmployeePrediction>(buildPopulation(headcount, lines, shifts));
+    popCache.set(key, tbl);
   }
   return tbl;
 }

@@ -8,7 +8,8 @@ import { RiskBandSchema, InterventionStatusSchema, InterventionOutcomeSchema } f
 // — Params de ruta —
 export const RefParam = z.object({ ref: z.string().min(1).max(64) });
 export const IdParam = z.object({ id: z.string().min(1).max(64) });
-export const LineIdParam = z.object({ id: z.string().regex(/^L\d{1,2}$/i, "id de línea inválido (p. ej. L3)") });
+// Acepta cualquier etiqueta de línea (las líneas son configurables: "L3", "Ensamble"…).
+export const LineIdParam = z.object({ id: z.string().min(1).max(40) });
 
 // — Query string —
 // GET /api/employees. Los números llegan como string en la URL → z.coerce.
@@ -61,6 +62,8 @@ export const CostModelBody = z.object({
 export const PlantProfileBody = z.object({
   name: z.string().min(1).max(120),
   headcount: z.number().int().min(10).max(1_000_000),
+  lines: z.array(z.string().min(1).max(40)).min(1).max(20),
+  shifts: z.array(z.string().min(1).max(40)).min(1).max(8),
 });
 
 export const AskBody = z.object({

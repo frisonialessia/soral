@@ -12,11 +12,14 @@ import { FEATURES, scoreFromFeatures, explain } from "@/lib/model";
 import { bandOf } from "@/lib/risk";
 import type { EmployeePrediction } from "@/types";
 
-const LINES = ["L1", "L2", "L3", "L4", "L5", "L6", "L7"] as const;
-// Sesgo de riesgo por línea (refleja la rotación conocida: L3 alta, L6 baja).
-const LINE_BIAS: Record<string, number> = { L1: -0.1, L2: -0.06, L3: 0.22, L4: 0, L5: 0.12, L6: -0.14, L7: -0.08 };
-const SHIFTS = ["matutino", "vespertino", "nocturno", "mixto"] as const;
-const SHIFT_BIAS: Record<string, number> = { matutino: -0.06, vespertino: 0, nocturno: 0.12, mixto: -0.02 };
+// Catálogo por defecto (también el del perfil de planta). Líneas y turnos son
+// CONFIGURABLES: el sesgo de riesgo se aplica por POSICIÓN, no por nombre, para que
+// funcione con cualquier etiqueta ("Ensamble", "Soldadura"…).
+export const DEFAULT_LINES = ["L1", "L2", "L3", "L4", "L5", "L6", "L7"];
+export const DEFAULT_SHIFTS = ["matutino", "vespertino", "nocturno", "mixto"];
+// Sesgo por índice: la 3ª línea es el foco (L3 por defecto); el 3er turno (noche) sube.
+const LINE_BIAS_BY_INDEX = [-0.1, -0.06, 0.22, 0, 0.12, -0.14, -0.08];
+const SHIFT_BIAS_BY_INDEX = [-0.06, 0, 0.12, -0.02];
 // feature del modelo → nombre del driver en la UI (mismo vocabulario que los curados).
 const DRIVER_LABEL: Record<string, string> = {
   punctuality: "Retardos en aceleración",
@@ -63,10 +66,12 @@ function makeTrend(score: number, r: () => number): number[] {
   return out;
 }
 
-function makeOne(r: () => number): EmployeePrediction {
-  const line = LINES[Math.floor(r() * LINES.length)];
-  const shift = SHIFTS[Math.floor(r() * SHIFTS.length)];
-  const bias = (LINE_BIAS[line] ?? 0) + (SHIFT_BIAS[shift] ?? 0);
+function makeOne(r: () => number, lines: string[], shifts: string[]): EmployeePrediction {
+  const li = Math.floor(r() * lines.length);
+  const si = Math.floor(r() * shifts.length);
+  const line = lines[li];
+  const shift = shifts[si];
+  const bias = (LINE_BIAS_BY_INDEX[li] ?? 0) + (SHIFT_BIAS_BY_INDEX[si] ?? 0);
   const x = FEATURES.map((f) => clamp01(f.baseline + bias + gauss(r) * 0.34));
   const score = scoreFromFeatures(x);
   const ex = explain(x); // contribs ya ordenadas por |phi| desc
@@ -100,12 +105,23 @@ function makeOne(r: () => number): EmployeePrediction {
   };
 }
 
+const remap = (value: string, list: string[], i: number) => (list.includes(value) ? value : list[i % list.length]);
+
 // Genera la población: los curados al frente + (n − curados) sintéticos. Determinista.
-export function buildPopulation(n: number): EmployeePrediction[] {
-  const curated: EmployeePrediction[] = EMPLOYEES.map((e) => ({ ...e, band: e.band ?? bandOf(e.score) }));
+// Los curados conservan su línea/turno si está en el catálogo; si se renombró, se
+// remapean por índice para no "filtrar" etiquetas ajenas al catálogo configurado.
+export function buildPopulation(n: number, lines: string[] = DEFAULT_LINES, shifts: string[] = DEFAULT_SHIFTS): EmployeePrediction[] {
+  const ls = lines.length ? lines : DEFAULT_LINES;
+  const ss = shifts.length ? shifts : DEFAULT_SHIFTS;
+  const curated: EmployeePrediction[] = EMPLOYEES.map((e, i) => ({
+    ...e,
+    band: e.band ?? bandOf(e.score),
+    line: remap(e.line, ls, i),
+    shift: remap(e.shift, ss, i),
+  }));
   const target = Math.max(curated.length, Math.floor(n));
   const r = mulberry32(20260615);
   const out = [...curated];
-  for (let i = curated.length; i < target; i++) out.push(makeOne(r));
+  for (let i = curated.length; i < target; i++) out.push(makeOne(r, ls, ss));
   return out;
 }

@@ -806,6 +806,9 @@
     "save": "Save profile",
     "saving": "Saving…",
     "saved": "Saved",
-    "saveError": "Couldn’t save. Try again."
+    "saveError": "Couldn’t save. Try again.",
+    "linesLabel": "Production lines",
+    "shiftsLabel": "Shifts",
+    "listHint": "Separate with commas"
   }
 }
