@@ -790,6 +790,7 @@
     "badge": "Demo data",
     "badgeHint": "This instance uses sample data, not a real plant’s data.",
     "modelNote": "Model metrics (AUC, precision, calibration) are validated on a synthetic cohort: illustrative, not production performance. With the client’s data they are replaced by their real holdout.",
-    "pilotNote": "Simulated pilot to show the method. Figures are illustrative; with the client’s data, the effect and ROI come from their own experiment."
+    "pilotNote": "Simulated pilot to show the method. Figures are illustrative; with the client’s data, the effect and ROI come from their own experiment.",
+    "integrationsNote": "Demo connection states. No real integration is connected — this is how the page looks once your systems (payroll, time clock, HRIS) are linked."
   }
 }

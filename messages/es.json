@@ -790,6 +790,7 @@
     "badge": "Datos de demostración",
     "badgeHint": "Esta instancia usa datos de muestra, no datos de una planta real.",
     "modelNote": "Las métricas del modelo (AUC, precisión, calibración) se validan sobre un cohorte sintético: son ilustrativas, no desempeño en producción. Con los datos del cliente se reemplazan por su holdout real.",
-    "pilotNote": "Pilot simulado para mostrar el método. Las cifras son ilustrativas; con los datos del cliente, el efecto y el ROI salen de su propio experimento."
+    "pilotNote": "Pilot simulado para mostrar el método. Las cifras son ilustrativas; con los datos del cliente, el efecto y el ROI salen de su propio experimento.",
+    "integrationsNote": "Estados de conexión de demostración. Ninguna integración real está conectada — así se vería la página una vez enlazados tus sistemas (nómina, checador, HRIS)."
   }
 }

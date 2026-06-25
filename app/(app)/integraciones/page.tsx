@@ -9,12 +9,14 @@ import { Card } from "@/components/ui/card";
 import { LoadingState, ErrorState } from "@/components/ui/states";
 import { ConnectorModal } from "@/components/integrations/connector-modal";
 import { STATUS_COLOR, CAT_ICON } from "@/components/integrations/util";
+import { DemoNote } from "@/components/demo-indicator";
 import type { IntegrationConnector } from "@/types";
 
 export default function IntegrationsPage() {
   const { data, isLoading, isError, refetch, isFetching } = useIntegrations();
   const t = useTranslations("integrations");
   const tc = useTranslations("common");
+  const tDemo = useTranslations("demo");
   const format = useFormatter();
   const [selected, setSelected] = useState<IntegrationConnector | null>(null);
 
@@ -43,6 +45,8 @@ export default function IntegrationsPage() {
         <h1 className="text-title font-semibold tracking-tight">{t("title")}</h1>
         <p className="mt-1 text-body text-ink-2">{t("subtitle")}</p>
       </div>
+
+      <DemoNote text={tDemo("integrationsNote")} />
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Kpi icon={Plug} label={t("kpiConnected")} value={`${connected}/${cs.length}`} color="#5B6EF5" />
