@@ -618,7 +618,7 @@
   },
   "evidence": {
     "title": "Evidenza",
-    "subtitle": "Prevedere chi se ne va è metà del lavoro. Questo pilot randomizzato dimostra che agire riduce davvero il turnover.",
+    "subtitle": "Prevedere chi se ne va è metà del lavoro. Questo pilot randomizzato mostra come misurare se agire riduce il turnover.",
     "loading": "Calcolo del pilot…",
     "errorTitle": "Impossibile caricare il pilot",
     "verdictLabel": "Aumento di retention (effetto causale)",
@@ -725,7 +725,7 @@
   },
   "docs": {
     "title": "Documentazione",
-    "subtitle": "Come funziona Soral, dal segnale all'azione — e come resta spiegabile, dimostrato e governato.",
+    "subtitle": "Come funziona Soral, dal segnale all’azione — e come resta spiegabile, misurabile e governato.",
     "toc": "In questa pagina",
     "ctaTitle": "Pronto a vederlo in azione?",
     "sec1Title": "Cos'è Soral",
@@ -755,7 +755,7 @@
     "c3Body": "Sondaggi, colloqui di uscita e ticket diventano temi e sentiment per linea. Gli avvisi precoci segnalano dove cresce il malcontento prima che si traduca in uscite.",
     "c4Tag": "Evidenza",
     "c4Title": "Dimostrare il ROI con un pilot",
-    "c4Body": "Un esperimento randomizzato (trattati vs controllo) misura l'effetto causale degli interventi con statistica reale. Trasformi «pensiamo che funzioni» in un business case con numeri.",
+    "c4Body": "Un esperimento randomizzato (trattati vs controllo) misura l’effetto causale degli interventi con statistica causale. Trasformi «pensiamo che funzioni» in un business case con numeri.",
     "c5Tag": "Conformità",
     "c5Title": "Governance per il comitato",
     "c5Body": "Equità per gruppo, segnali proxy e un registro di ogni decisione, pronti per il Legale, il comitato etico o il sindacato. IA che riguarda le persone, con responsabilità."
@@ -785,5 +785,11 @@
     "saved": "Salvato",
     "saveError": "Salvataggio non riuscito. Riprova.",
     "useReference": "Usa valori di riferimento"
+  },
+  "demo": {
+    "badge": "Dati dimostrativi",
+    "badgeHint": "Questa istanza usa dati di esempio, non i dati di uno stabilimento reale.",
+    "modelNote": "Le metriche del modello (AUC, precisione, calibrazione) sono validate su un coorte sintetico: illustrative, non prestazioni in produzione. Con i dati del cliente vengono sostituite dal loro holdout reale.",
+    "pilotNote": "Pilot simulato per mostrare il metodo. Le cifre sono illustrative; con i dati del cliente, l’effetto e il ROI derivano dal loro esperimento."
   }
 }

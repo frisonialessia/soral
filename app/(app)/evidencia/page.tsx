@@ -15,6 +15,7 @@ import { Card } from "@/components/ui/card";
 import { LoadingState, ErrorState } from "@/components/ui/states";
 import { formatMxn } from "@/lib/utils";
 import { EstimateBadge } from "@/components/dashboard/estimate-badge";
+import { DemoNote } from "@/components/demo-indicator";
 import type { PilotSummary, PilotLineUplift, PilotTrendPoint, RetrainPoint } from "@/types";
 
 const SOL = "#5B6EF5";
@@ -24,6 +25,7 @@ const MUTED = "#A9AEC2";
 export default function EvidencePage() {
   const t = useTranslations("evidence");
   const tc = useTranslations("common");
+  const tDemo = useTranslations("demo");
   const f = useFormatter();
   const { data, isLoading, isError, refetch, isFetching } = usePilotSummary();
 
@@ -40,6 +42,8 @@ export default function EvidencePage() {
         <h1 className="text-title font-semibold tracking-tight">{t("title")}</h1>
         <p className="mt-1 max-w-2xl text-body text-ink-2">{t("subtitle")}</p>
       </div>
+
+      <DemoNote text={tDemo("pilotNote")} />
 
       {/* Veredicto causal */}
       <Card className="rounded-xl p-[22px]">

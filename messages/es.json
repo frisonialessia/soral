@@ -618,7 +618,7 @@
   },
   "evidence": {
     "title": "Evidencia",
-    "subtitle": "Predecir quién se va es la mitad. Este pilot aleatorizado prueba que actuar de verdad reduce la rotación.",
+    "subtitle": "Predecir quién se va es la mitad. Este pilot aleatorizado muestra cómo medir si actuar reduce la rotación.",
     "loading": "Calculando el pilot…",
     "errorTitle": "No se pudo cargar el pilot",
     "verdictLabel": "Uplift de retención (efecto causal)",
@@ -725,7 +725,7 @@
   },
   "docs": {
     "title": "Documentación",
-    "subtitle": "Cómo funciona Soral, de la señal a la acción — y cómo se mantiene explicable, probado y gobernado.",
+    "subtitle": "Cómo funciona Soral, de la señal a la acción — y cómo se mantiene explicable, medible y gobernado.",
     "toc": "En esta página",
     "ctaTitle": "¿Listo para verlo en acción?",
     "sec1Title": "Qué es Soral",
@@ -755,7 +755,7 @@
     "c3Body": "Encuestas, entrevistas de salida y tickets se convierten en temas y sentimiento por línea. Las alertas tempranas avisan dónde sube el malestar antes de que se traduzca en salidas.",
     "c4Tag": "Evidencia",
     "c4Title": "Probar el ROI con un pilot",
-    "c4Body": "Un experimento aleatorizado (tratados vs. control) mide el efecto causal de las intervenciones con estadística real. Conviertes «creemos que funciona» en un caso de negocio con números.",
+    "c4Body": "Un experimento aleatorizado (tratados vs. control) mide el efecto causal de las intervenciones con estadística causal. Conviertes «creemos que funciona» en un caso de negocio con números.",
     "c5Tag": "Cumplimiento",
     "c5Title": "Gobernanza para el comité",
     "c5Body": "Equidad por grupo, señales proxy y un registro de cada decisión, listos para Legal, el comité de ética o el sindicato. La IA que afecta a personas, con rendición de cuentas."
@@ -785,5 +785,11 @@
     "saved": "Guardado",
     "saveError": "No se pudo guardar. Intenta de nuevo.",
     "useReference": "Usar valores de referencia"
+  },
+  "demo": {
+    "badge": "Datos de demostración",
+    "badgeHint": "Esta instancia usa datos de muestra, no datos de una planta real.",
+    "modelNote": "Las métricas del modelo (AUC, precisión, calibración) se validan sobre un cohorte sintético: son ilustrativas, no desempeño en producción. Con los datos del cliente se reemplazan por su holdout real.",
+    "pilotNote": "Pilot simulado para mostrar el método. Las cifras son ilustrativas; con los datos del cliente, el efecto y el ROI salen de su propio experimento."
   }
 }

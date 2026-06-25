@@ -9,6 +9,7 @@
 import { useTranslations, useFormatter } from "next-intl";
 import { Check } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { DemoNote } from "@/components/demo-indicator";
 import {
   MODEL_INFO,
   FEATURES,
@@ -25,6 +26,7 @@ const MAX_BETA = Math.max(...FEATURES.map((f) => f.beta));
 
 export default function ModelPage() {
   const t = useTranslations("model");
+  const tDemo = useTranslations("demo");
   const f = useFormatter();
   const m = MODEL_INFO;
   const gov = [t("gov1"), t("gov2"), t("gov3"), t("gov4")];
@@ -36,6 +38,8 @@ export default function ModelPage() {
         <h1 className="text-title font-semibold tracking-tight">{t("title")}</h1>
         <p className="mt-1 text-body text-ink-2">{t("subtitle")}</p>
       </div>
+
+      <DemoNote text={tDemo("modelNote")} />
 
       <Card className="rounded-xl p-[22px]">
         <div className="grid gap-5 sm:grid-cols-3 lg:grid-cols-5">

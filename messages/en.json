@@ -618,7 +618,7 @@
   },
   "evidence": {
     "title": "Evidence",
-    "subtitle": "Predicting who leaves is half the job. This randomized pilot proves that acting actually reduces turnover.",
+    "subtitle": "Predicting who leaves is half the job. This randomized pilot shows how to measure whether acting reduces turnover.",
     "loading": "Computing the pilot…",
     "errorTitle": "Could not load the pilot",
     "verdictLabel": "Retention uplift (causal effect)",
@@ -725,7 +725,7 @@
   },
   "docs": {
     "title": "Documentation",
-    "subtitle": "How Soral works, from signal to action — and how it stays explainable, proven, and governed.",
+    "subtitle": "How Soral works, from signal to action — and how it stays explainable, measurable, and governed.",
     "toc": "On this page",
     "ctaTitle": "Ready to see it in action?",
     "sec1Title": "What Soral is",
@@ -755,7 +755,7 @@
     "c3Body": "Surveys, exit interviews and tickets become themes and sentiment by line. Early alerts flag where discontent is rising before it turns into exits.",
     "c4Tag": "Evidence",
     "c4Title": "Prove ROI with a pilot",
-    "c4Body": "A randomized experiment (treated vs control) measures the causal effect of interventions with real statistics. You turn 'we think it works' into a business case with numbers.",
+    "c4Body": "A randomized experiment (treated vs control) measures the causal effect of interventions with causal statistics. You turn ‘we think it works’ into a business case with numbers.",
     "c5Tag": "Compliance",
     "c5Title": "Governance for the committee",
     "c5Body": "Fairness by group, proxy signals and a record of every decision, ready for Legal, the ethics committee or the union. AI that affects people, with accountability."
@@ -785,5 +785,11 @@
     "saved": "Saved",
     "saveError": "Couldn’t save. Try again.",
     "useReference": "Use reference values"
+  },
+  "demo": {
+    "badge": "Demo data",
+    "badgeHint": "This instance uses sample data, not a real plant’s data.",
+    "modelNote": "Model metrics (AUC, precision, calibration) are validated on a synthetic cohort: illustrative, not production performance. With the client’s data they are replaced by their real holdout.",
+    "pilotNote": "Simulated pilot to show the method. Figures are illustrative; with the client’s data, the effect and ROI come from their own experiment."
   }
 }
