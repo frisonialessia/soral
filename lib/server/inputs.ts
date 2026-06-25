@@ -57,6 +57,12 @@ export const CostModelBody = z.object({
   separation: mxnComponent,
 });
 
+// PUT /api/settings/plant-profile — nombre y headcount de la planta.
+export const PlantProfileBody = z.object({
+  name: z.string().min(1).max(120),
+  headcount: z.number().int().min(10).max(1_000_000),
+});
+
 export const AskBody = z.object({
   messages: z
     .array(z.object({ role: z.enum(["user", "assistant"]), content: z.string().max(4000) }))

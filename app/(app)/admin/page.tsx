@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useCan } from "@/components/auth/can";
 import { MembersSection } from "@/components/admin/members-section";
+import { PlantProfileSection } from "@/components/admin/plant-profile-section";
 import { CostModelSection } from "@/components/admin/cost-model-section";
 import { RolesMatrix } from "@/components/admin/roles-matrix";
 import { Card } from "@/components/ui/card";
@@ -29,6 +30,7 @@ export default function AdminPage() {
         <p className="mt-1 text-body text-ink-2">{t("subtitle")}</p>
       </div>
       <MembersSection />
+      <PlantProfileSection />
       <CostModelSection />
       <RolesMatrix />
     </div>

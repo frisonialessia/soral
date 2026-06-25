@@ -26,8 +26,10 @@ import {
   GovernanceSummarySchema,
   EmployeePageSchema,
   CostModelSchema,
+  PlantProfileSchema,
   type CostModel,
   type CostComponents,
+  type PlantProfile,
   type EmployeePrediction,
   type AssignResult,
   type AskAnswer,
@@ -67,6 +69,22 @@ export async function updateCostModel(components: CostComponents): Promise<CostM
   });
   if (!res.ok) throw new Error(`PUT /api/settings/cost-model → ${res.status}`);
   return CostModelSchema.parse(await res.json());
+}
+
+// GET /api/settings/plant-profile — perfil de la planta (nombre, headcount).
+export function fetchPlantProfile() {
+  return getValidated("/api/settings/plant-profile", PlantProfileSchema);
+}
+
+// PUT /api/settings/plant-profile — guarda el perfil de la planta.
+export async function updatePlantProfile(input: { name: string; headcount: number }): Promise<PlantProfile> {
+  const res = await fetch("/api/settings/plant-profile", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(input),
+  });
+  if (!res.ok) throw new Error(`PUT /api/settings/plant-profile → ${res.status}`);
+  return PlantProfileSchema.parse(await res.json());
 }
 
 // GET /api/reports/summary

@@ -87,6 +87,16 @@ export const CostModelSchema = z.object({
 });
 export type CostModel = z.infer<typeof CostModelSchema>;
 
+// Perfil de la planta (configurable). El headcount dimensiona la población, así que
+// los conteos del dashboard cuadran con lo que se ve al drillear.
+export const PlantProfileSchema = z.object({
+  name: z.string(),
+  headcount: z.number(),
+  configured: z.boolean(),
+  updatedAt: z.string().nullable(),
+});
+export type PlantProfile = z.infer<typeof PlantProfileSchema>;
+
 export const PlantSummarySchema = z.object({
   tenantId: z.string(),
   weekStart: z.string(),

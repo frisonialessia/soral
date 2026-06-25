@@ -792,5 +792,20 @@
     "modelNote": "Las métricas del modelo (AUC, precisión, calibración) se validan sobre un cohorte sintético: son ilustrativas, no desempeño en producción. Con los datos del cliente se reemplazan por su holdout real.",
     "pilotNote": "Pilot simulado para mostrar el método. Las cifras son ilustrativas; con los datos del cliente, el efecto y el ROI salen de su propio experimento.",
     "integrationsNote": "Estados de conexión de demostración. Ninguna integración real está conectada — así se vería la página una vez enlazados tus sistemas (nómina, checador, HRIS)."
+  },
+  "plant": {
+    "loading": "Cargando…",
+    "errorTitle": "No se pudo cargar el perfil",
+    "title": "Perfil de la planta",
+    "subtitle": "Nombre y tamaño de la planta. El headcount dimensiona la población, así que los conteos del dashboard cuadran con lo que ves al drillear.",
+    "nameLabel": "Nombre de la planta",
+    "headcountLabel": "Trabajadores (headcount)",
+    "configured": "Configurado",
+    "demoValues": "valores demo",
+    "appliesNote": "Aplica al encabezado, al dashboard y al directorio.",
+    "save": "Guardar perfil",
+    "saving": "Guardando…",
+    "saved": "Guardado",
+    "saveError": "No se pudo guardar. Intenta de nuevo."
   }
 }

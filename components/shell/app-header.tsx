@@ -5,12 +5,14 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Menu, LogOut, User } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth/session";
+import { usePlantProfile } from "@/lib/queries";
 import { LanguageSwitcher } from "./language-switcher";
 import { AskSoral } from "./ask-soral";
 import { DemoBadge } from "@/components/demo-indicator";
 
 export function AppHeader({ onMenu }: { onMenu: () => void }) {
   const user = useSession();
+  const { data: plant } = usePlantProfile();
   const t = useTranslations("header");
   const tr = useTranslations("roles");
   const [open, setOpen] = useState(false);
@@ -34,7 +36,7 @@ export function AppHeader({ onMenu }: { onMenu: () => void }) {
 
       <div className="min-w-0">
         <div className="flex items-center gap-2">
-          <span className="truncate text-body font-semibold text-ink-1">{user.tenantName}</span>
+          <span className="truncate text-body font-semibold text-ink-1">{plant?.name ?? user.tenantName}</span>
           <DemoBadge />
         </div>
         <div className="text-meta text-ink-3">{t("week", { week: 24, year: 2026 })}</div>

@@ -11,11 +11,13 @@ import {
 import { ReportSummarySchema, IntegrationsSummarySchema } from "@/types";
 
 describe("getPlantSummary", () => {
-  it("agrega los buckets de riesgo y el ahorro sobre el dataset semilla", async () => {
+  it("agrega los buckets de riesgo y el ahorro sobre la población", async () => {
     const s = await getPlantSummary();
-    expect(s.highRisk).toBe(6); // score >= 80
-    expect(s.watch).toBe(3); // 55..79
-    expect(s.stable).toBe(1180 - s.highRisk - s.watch); // resto del headcount
+    const total = s.highRisk + s.watch + s.stable;
+    expect(total).toBe(1180); // población = headcount por defecto
+    expect(s.highRisk).toBeGreaterThan(0);
+    expect(s.watch).toBeGreaterThan(0);
+    expect(s.stable).toBe(total - s.highRisk - s.watch);
     expect(s.savingMxn).toBe(s.highRisk * 36_800);
   });
 

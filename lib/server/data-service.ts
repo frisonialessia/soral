@@ -9,13 +9,14 @@
 //
 // Capas:  Route Handler (HTTP) → data-service (dominio) → mock-db (acceso a datos)
 
-import { EMPLOYEES, TENANT_ID, WEEK_START, MODEL_VERSION } from "@/lib/data";
-import { bandOf } from "@/lib/risk";
+import { TENANT_ID, WEEK_START, MODEL_VERSION } from "@/lib/data";
 import { scoreCandidate } from "@/lib/hiring";
 import { PILOT_SUMMARY } from "@/lib/causal";
 import { buildFairness, buildProxies, parity, buildCalibration, calibrationGap } from "@/lib/governance";
 import { createTable, type Page } from "./mock-db";
 import { getCostModel, DEFAULT_COST_PER_REPLACEMENT } from "./cost-model";
+import { getPlantProfile, DEFAULT_HEADCOUNT } from "./plant-profile";
+import { buildPopulation } from "./population";
 import type {
   EmployeePrediction,
   RiskBand,
@@ -41,19 +42,25 @@ import type {
 
 export type { Page } from "./mock-db";
 
-const PLANT_HEADCOUNT = 1180;
 const daysAgo = (d: number) => new Date(Date.now() - d * 86_400_000).toISOString();
 
 // ── Tablas (semilla → capa de acceso) ───────────────────────────────────────
 // Cada createTable es lo que mañana será `supabase.from('<tabla>')`.
 
-// Empleados: normaliza la banda (defensa de contrato) y ordena por score desc —
-// con Supabase, un ORDER BY score DESC en el seed/migración.
-const EMPLOYEE_SEED: EmployeePrediction[] = EMPLOYEES.map((e) => ({
-  ...e,
-  band: e.band ?? bandOf(e.score),
-})).sort((a, b) => b.score - a.score);
-const employees = createTable<EmployeePrediction>(EMPLOYEE_SEED);
+// Empleados: población sintética dimensionada al headcount del perfil de planta
+// (lib/server/population, generada con el modelo real, con los curados al frente).
+// Se cachea por tamaño; cambiar el headcount produce otra tabla. Es el punto de
+// swap a `supabase.from('employees')`.
+const popCache = new Map<number, ReturnType<typeof createTable<EmployeePrediction>>>();
+async function empTable() {
+  const { headcount } = await getPlantProfile();
+  let tbl = popCache.get(headcount);
+  if (!tbl) {
+    tbl = createTable<EmployeePrediction>(buildPopulation(headcount));
+    popCache.set(headcount, tbl);
+  }
+  return tbl;
+}
 
 // Serie semanal sintética (determinista) que termina en el valor actual — solo
 // para las sparklines del dashboard. Con Supabase será un GROUP BY por semana.
@@ -88,6 +95,7 @@ export interface EmployeeQuery {
 // GET /api/employees — listado paginado/filtrable. La consulta "real" sobre la
 // tabla; devuelve la página + total (para que el cliente pueda paginar).
 export async function listEmployees(query: EmployeeQuery = {}): Promise<Page<EmployeePrediction>> {
+  const employees = await empTable();
   return employees.findMany({
     eq: {
       ...(query.line ? { line: query.line } : {}),
@@ -105,14 +113,16 @@ export async function listEmployees(query: EmployeeQuery = {}): Promise<Page<Emp
 
 // GET /api/plant/summary — agrega los buckets de riesgo y arma el resumen de planta.
 export async function getPlantSummary(): Promise<PlantSummary> {
+  const employees = await empTable();
   // Varias consultas en paralelo, como harías contra la DB.
-  const [highRisk, atRisk, top] = await Promise.all([
+  const [highRisk, atRisk, top, total] = await Promise.all([
     employees.count({ gte: { score: 80 } }),
     employees.findMany({ gte: { score: 55 } }), // marcados (alto + vigilancia)
     employees.findMany({ order: { field: "score", ascending: false }, limit: 10 }),
+    employees.count(),
   ]);
   const watch = atRisk.total - highRisk;
-  const stable = PLANT_HEADCOUNT - highRisk - watch;
+  const stable = total - highRisk - watch;
   const cost = await getCostModel();
 
   const lineCounts: Record<string, number> = { L1: 0, L2: 0, L3: 0, L4: 0, L5: 0, L6: 0, L7: 0 };
@@ -140,6 +150,7 @@ export async function getPlantSummary(): Promise<PlantSummary> {
 
 // GET /api/line/:id
 export async function getLineDetail(id: string): Promise<LineDetail> {
+  const employees = await empTable();
   const { rows } = await employees.findMany({
     eq: { line: id },
     gte: { score: 55 },
@@ -164,6 +175,7 @@ export async function getLineDetail(id: string): Promise<LineDetail> {
 // GET /api/employee/:ref
 // El ref llega ya decodificado por Next (el handler recibe params decodificados).
 export async function getEmployee(ref: string): Promise<EmployeePrediction | null> {
+  const employees = await empTable();
   return employees.findOne({ ref });
 }
 
@@ -172,6 +184,7 @@ export async function getEmployee(ref: string): Promise<EmployeePrediction | nul
 // REALES del loop de resultados. Con datos reales, los eventos vendrán de la tabla
 // de eventos del trabajador; la firma no cambia.
 export async function getEmployeeTimeline(ref: string): Promise<EmployeeTimeline | null> {
+  const employees = await empTable();
   const [e, ivs] = await Promise.all([
     employees.findOne({ ref }),
     interventions.findMany({ eq: { ref } }),
@@ -217,7 +230,7 @@ const CONNECTOR_SEED: IntegrationConnector[] = [
     category: "hris",
     status: "connected",
     lastSyncMin: 12,
-    records: PLANT_HEADCOUNT,
+    records: DEFAULT_HEADCOUNT,
     frequency: "hourly",
     fields: [
       { source: "employee_id", target: "ref" },
@@ -232,7 +245,7 @@ const CONNECTOR_SEED: IntegrationConnector[] = [
     category: "payroll",
     status: "connected",
     lastSyncMin: 140,
-    records: PLANT_HEADCOUNT,
+    records: DEFAULT_HEADCOUNT,
     frequency: "daily",
     fields: [
       { source: "pay_date", target: "pay_cycle" },
@@ -472,6 +485,7 @@ export async function getVoiceSummary(): Promise<VoiceSummary> {
 // agregan del dataset real (lectura completa + agregación en el cerebro); KPIs y
 // serie mensual son mock determinista (con Supabase: GROUP BY mes / línea / factor).
 export async function getReportSummary(): Promise<ReportSummary> {
+  const employees = await empTable();
   const { rows: all } = await employees.findMany();
 
   const byLineCount: Record<string, number> = {};
@@ -542,6 +556,7 @@ export async function getGovernanceSummary(): Promise<GovernanceSummary> {
   const calibration = buildCalibration();
   const cal = calibrationGap(calibration);
 
+  const employees = await empTable();
   const [report, ivPage, empPage] = await Promise.all([
     getReportSummary(),
     interventions.findMany({ order: { field: "assignedAt", ascending: false } }),

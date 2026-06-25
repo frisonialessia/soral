@@ -792,5 +792,20 @@
     "modelNote": "Model metrics (AUC, precision, calibration) are validated on a synthetic cohort: illustrative, not production performance. With the client’s data they are replaced by their real holdout.",
     "pilotNote": "Simulated pilot to show the method. Figures are illustrative; with the client’s data, the effect and ROI come from their own experiment.",
     "integrationsNote": "Demo connection states. No real integration is connected — this is how the page looks once your systems (payroll, time clock, HRIS) are linked."
+  },
+  "plant": {
+    "loading": "Loading…",
+    "errorTitle": "Couldn’t load the profile",
+    "title": "Plant profile",
+    "subtitle": "Plant name and size. Headcount sizes the population, so the dashboard counts match what you see when you drill in.",
+    "nameLabel": "Plant name",
+    "headcountLabel": "Workers (headcount)",
+    "configured": "Configured",
+    "demoValues": "demo values",
+    "appliesNote": "Applies to the header, the dashboard and the directory.",
+    "save": "Save profile",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "saveError": "Couldn’t save. Try again."
   }
 }

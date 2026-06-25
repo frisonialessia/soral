@@ -29,6 +29,8 @@ import {
   assignRecommendation,
   fetchCostModel,
   updateCostModel,
+  fetchPlantProfile,
+  updatePlantProfile,
   type EmployeesQuery,
 } from "./api-client";
 import type { InterventionStatus, InterventionOutcome, CostComponents } from "@/types";
@@ -39,6 +41,7 @@ export const queryKeys = {
   pilot: ["pilot", "summary"] as const,
   governance: ["governance", "summary"] as const,
   costModel: ["settings", "cost-model"] as const,
+  plantProfile: ["settings", "plant-profile"] as const,
   briefing: ["ai", "briefing"] as const,
   integrations: ["integrations"] as const,
   interventions: ["interventions", "list"] as const,
@@ -80,6 +83,24 @@ export function useUpdateCostModel() {
       for (const key of [queryKeys.costModel, queryKeys.plant, queryKeys.reports, queryKeys.pilot, queryKeys.candidates]) {
         qc.invalidateQueries({ queryKey: key });
       }
+    },
+  });
+}
+
+export function usePlantProfile() {
+  return useQuery({ queryKey: queryKeys.plantProfile, queryFn: fetchPlantProfile });
+}
+
+// Cambiar el headcount redimensiona la población → reconteo de planta, reportes y directorio.
+export function useUpdatePlantProfile() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (input: { name: string; headcount: number }) => updatePlantProfile(input),
+    onSuccess: () => {
+      for (const key of [queryKeys.plantProfile, queryKeys.plant, queryKeys.reports]) {
+        qc.invalidateQueries({ queryKey: key });
+      }
+      qc.invalidateQueries({ queryKey: ["employees"] });
     },
   });
 }
