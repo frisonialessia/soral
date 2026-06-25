@@ -78,7 +78,7 @@ function makeOne(r: () => number): EmployeePrediction {
     contrib: Math.max(1, Math.round((Math.abs(c.phi) / sum) * 100)),
     detail: "",
   }));
-  const tenure = 25 + Math.floor(r() * 700);
+  const tenure = 25 + Math.floor(r() * 1700);
   const headline = drivers[0]?.factor ?? "—";
   const win = score >= 80 ? 7 : score >= 70 ? 14 : 21;
   return {

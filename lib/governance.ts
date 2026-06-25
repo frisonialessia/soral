@@ -9,7 +9,7 @@ import type { FairnessDimension, ProxySignal, CalibrationDimension } from "@/typ
 // estadísticas a nivel POBLACIÓN (sobre los ~1180), distintas del worklist
 // semanal (top-10). Las tasas por línea siguen la rotación conocida por línea;
 // turno y antigüedad reflejan la composición de riesgo de la planta.
-interface GroupSeed {
+export interface GroupSeed {
   group: string;
   size: number;
   rate: number;
@@ -61,13 +61,17 @@ function buildDimension(
   };
 }
 
-export function buildFairness(): FairnessDimension[] {
+// Sin argumento usa los grupos por defecto (tests); el data-service le pasa los
+// grupos DERIVADOS de la población real, así escalan con el headcount y reflejan
+// las líneas/turnos configurados.
+export function buildFairness(groups?: { line: GroupSeed[]; shift: GroupSeed[]; tenure: GroupSeed[] }): FairnessDimension[] {
+  const g = groups ?? { line: LINE_GROUPS, shift: SHIFT_GROUPS, tenure: TENURE_GROUPS };
   return [
     // La línea es operativa: que L3 rote más es esperado, no un sesgo. Turno y
     // antigüedad SÍ son sensibles (pueden ser proxy de un atributo protegido).
-    buildDimension("line", false, LINE_GROUPS),
-    buildDimension("shift", true, SHIFT_GROUPS),
-    buildDimension("tenure", true, TENURE_GROUPS),
+    buildDimension("line", false, g.line),
+    buildDimension("shift", true, g.shift),
+    buildDimension("tenure", true, g.tenure),
   ];
 }
 

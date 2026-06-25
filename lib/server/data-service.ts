@@ -12,7 +12,8 @@
 import { TENANT_ID, WEEK_START, MODEL_VERSION } from "@/lib/data";
 import { scoreCandidate } from "@/lib/hiring";
 import { PILOT_SUMMARY } from "@/lib/causal";
-import { buildFairness, buildProxies, parity, buildCalibration, calibrationGap } from "@/lib/governance";
+import { MODEL_INFO } from "@/lib/model";
+import { buildFairness, buildProxies, parity, buildCalibration, calibrationGap, type GroupSeed } from "@/lib/governance";
 import { createTable, type Page } from "./mock-db";
 import { getCostModel, DEFAULT_COST_PER_REPLACEMENT } from "./cost-model";
 import { getPlantProfile, DEFAULT_HEADCOUNT } from "./plant-profile";
@@ -60,6 +61,37 @@ async function empTable() {
     popCache.set(headcount, tbl);
   }
   return tbl;
+}
+
+// Estadística por grupo desde la población: tamaño y % en riesgo (score≥55,
+// vigilancia o más). UNA sola fuente para el desglose por línea/turno y para la
+// equidad — escala con el headcount y refleja las líneas reales, en vez de tasas
+// hardcodeadas.
+const AT_RISK = 55;
+function groupStats(rows: EmployeePrediction[], keyOf: (e: EmployeePrediction) => string): GroupSeed[] {
+  const m = new Map<string, { size: number; elev: number }>();
+  for (const e of rows) {
+    const k = keyOf(e);
+    const g = m.get(k) ?? { size: 0, elev: 0 };
+    g.size++;
+    if (e.score >= AT_RISK) g.elev++;
+    m.set(k, g);
+  }
+  return [...m.entries()].map(([group, { size, elev }]) => ({ group, size, rate: size ? Math.round((elev / size) * 100) : 0 }));
+}
+
+const TENURE_BUCKETS: [string, number, number][] = [
+  ["lt3m", 0, 90],
+  ["m3_12", 90, 365],
+  ["y1_3", 365, 1095],
+  ["gt3y", 1095, Infinity],
+];
+function tenureStats(rows: EmployeePrediction[]): GroupSeed[] {
+  return TENURE_BUCKETS.map(([group, lo, hi]) => {
+    const b = rows.filter((e) => e.tenure >= lo && e.tenure < hi);
+    const elev = b.filter((e) => e.score >= AT_RISK).length;
+    return { group, size: b.length, rate: b.length ? Math.round((elev / b.length) * 100) : 0 };
+  });
 }
 
 // Serie semanal sintética (determinista) que termina en el valor actual — solo
@@ -125,7 +157,7 @@ export async function getPlantSummary(): Promise<PlantSummary> {
   const stable = total - highRisk - watch;
   const cost = await getCostModel();
 
-  const lineCounts: Record<string, number> = { L1: 0, L2: 0, L3: 0, L4: 0, L5: 0, L6: 0, L7: 0 };
+  const lineCounts: Record<string, number> = {};
   for (const e of atRisk.rows) lineCounts[e.line] = (lineCounts[e.line] ?? 0) + 1;
 
   return {
@@ -143,7 +175,9 @@ export async function getPlantSummary(): Promise<PlantSummary> {
       watch: trendSeries(watch, 0.3),
       stable: trendSeries(stable, 0.015),
     },
-    lines: Object.entries(lineCounts).map(([id, count]) => ({ id, count })),
+    lines: Object.entries(lineCounts)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([id, count]) => ({ id, count })),
     topRisk: top.rows,
   };
 }
@@ -151,20 +185,19 @@ export async function getPlantSummary(): Promise<PlantSummary> {
 // GET /api/line/:id
 export async function getLineDetail(id: string): Promise<LineDetail> {
   const employees = await empTable();
-  const { rows } = await employees.findMany({
-    eq: { line: id },
-    gte: { score: 55 },
-    order: { field: "score", ascending: false },
-  });
-  const meta: Record<string, { t: string; p: string; s: string }> = {
-    L3: { t: "22%", p: "−12%", s: "Alto" },
-    L5: { t: "16%", p: "−8%", s: "Medio" },
-    L4: { t: "11%", p: "−4%", s: "Bajo" },
+  const { rows: lineAll } = await employees.findMany({ eq: { line: id }, order: { field: "score", ascending: false } });
+  const rows = lineAll.filter((e) => e.score >= 55); // vigilancia+
+  // Rotación 90d DERIVADA: % de la línea en riesgo (vigilancia+), sobre la población.
+  const turnover = lineAll.length ? Math.round((rows.length / lineAll.length) * 100) : 0;
+  const meta: Record<string, { p: string; s: string }> = {
+    L3: { p: "−12%", s: "Alto" },
+    L5: { p: "−8%", s: "Medio" },
+    L4: { p: "−4%", s: "Bajo" },
   };
-  const m = meta[id] ?? { t: "7%", p: "−2%", s: "Bajo" };
+  const m = meta[id] ?? { p: "−2%", s: "Bajo" };
   return {
     id,
-    turnover90d: m.t,
+    turnover90d: `${turnover}%`,
     productivity: m.p,
     supervisorEffect: m.s,
     shift: rows[0]?.shift ?? "mixto",
@@ -488,19 +521,16 @@ export async function getReportSummary(): Promise<ReportSummary> {
   const employees = await empTable();
   const { rows: all } = await employees.findMany();
 
-  const byLineCount: Record<string, number> = {};
   const factorWeight: Record<string, number> = {};
   for (const e of all) {
-    byLineCount[e.line] = (byLineCount[e.line] ?? 0) + 1;
     for (const d of e.drivers) {
       factorWeight[d.factor] = (factorWeight[d.factor] ?? 0) + d.contrib;
     }
   }
 
-  // Rotación anualizada por línea (override conocido; resto, base por defecto).
-  const lineRate: Record<string, number> = { L3: 22, L5: 16, L4: 11, L2: 9, L1: 8, L6: 6, L7: 7 };
-  const byLine = ["L1", "L2", "L3", "L4", "L5", "L6", "L7"]
-    .map((line) => ({ line, rate: lineRate[line] ?? 7, count: byLineCount[line] ?? 0 }))
+  // Rotación por línea DERIVADA de la población (% en alto riesgo), no hardcodeada.
+  const byLine = groupStats(all, (e) => e.line)
+    .map((g) => ({ line: g.group, rate: g.rate, count: g.size }))
     .sort((a, b) => b.rate - a.rate);
 
   // Causas: peso SHAP agregado de los marcados, normalizado a %.
@@ -522,7 +552,7 @@ export async function getReportSummary(): Promise<ReportSummary> {
       retained,
       costAvoidedMxn: retained * cost.costPerReplacement,
       costEstimated: !cost.configured,
-      precision: 78,
+      precision: Math.round(MODEL_INFO.metrics.precision * 100), // alineado al model card
     },
     attrition,
     byLine,
@@ -551,17 +581,23 @@ export async function getPilotSummary(): Promise<PilotSummary> {
 // los MISMOS drivers agregados que ve /reportes, y el registro de decisiones — las
 // intervenciones unidas (join en memoria) a la banda/driver del trabajador.
 export async function getGovernanceSummary(): Promise<GovernanceSummary> {
-  const fairness = buildFairness();
-  const par = parity(fairness);
-  const calibration = buildCalibration();
-  const cal = calibrationGap(calibration);
-
   const employees = await empTable();
   const [report, ivPage, empPage] = await Promise.all([
     getReportSummary(),
     interventions.findMany({ order: { field: "assignedAt", ascending: false } }),
     employees.findMany(),
   ]);
+  const pop = empPage.rows;
+  // Equidad DERIVADA de la población real (escala con el headcount, refleja líneas/turnos).
+  const fairness = buildFairness({
+    line: groupStats(pop, (e) => e.line),
+    shift: groupStats(pop, (e) => e.shift),
+    tenure: tenureStats(pop),
+  });
+  const par = parity(fairness);
+  const calibration = buildCalibration();
+  const cal = calibrationGap(calibration);
+
   const proxies = buildProxies(report.drivers);
   const byRef = new Map(empPage.rows.map((e) => [e.ref, e]));
 

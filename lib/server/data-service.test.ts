@@ -71,13 +71,14 @@ describe("getLineDetail", () => {
   it("filtra empleados de la línea en vigilancia+ (score >= 55)", async () => {
     const l3 = await getLineDetail("L3");
     expect(l3.id).toBe("L3");
-    expect(l3.turnover90d).toBe("22%");
+    expect(l3.turnover90d).toMatch(/^\d+%$/); // rotación derivada de la población
     expect(l3.employees.every((e) => e.line === "L3" && e.score >= 55)).toBe(true);
   });
 
-  it("usa metadatos por defecto para líneas sin override", async () => {
+  it("devuelve rotación derivada y metadatos cualitativos por defecto", async () => {
     const l7 = await getLineDetail("L7");
-    expect(l7.turnover90d).toBe("7%");
+    expect(l7.turnover90d).toMatch(/^\d+%$/);
+    expect(l7.supervisorEffect).toBe("Bajo");
   });
 });
 
