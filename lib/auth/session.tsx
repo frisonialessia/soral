@@ -22,7 +22,7 @@ const STUB_USER: SessionUser = {
   name: "Demo Admin",
   email: "admin@soral.app",
   role: "admin",
-  tenantName: "Planta Tijuana Norte",
+  tenantName: "Planta demo",
   lineScope: null,
 };
 
