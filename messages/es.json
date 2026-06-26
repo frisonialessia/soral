@@ -367,7 +367,8 @@
     "baAfter3": "Conversación a tiempo — el trabajador se queda.",
     "baAfter4": "Sabes el costo real de cada salida — y lo evitas.",
     "navPricing": "Precios",
-    "navMenu": "Menú"
+    "navMenu": "Menú",
+    "navPrivacy": "Aviso de privacidad"
   },
   "reports": {
     "title": "Reportes",
@@ -897,5 +898,29 @@
     "p3": "Detrás de cada score hay una persona. Retener cuesta menos que reemplazar, y trata mejor a la gente.",
     "founderLine": "Construyendo Soral para que ninguna planta pierda a su gente por no verlo venir.",
     "team": "Equipo Soral"
+  },
+  "privacy": {
+    "title": "Aviso de privacidad",
+    "subtitle": "Cómo Soral trata los datos — con privacidad y equidad por diseño.",
+    "updated": "Última actualización: junio de 2026",
+    "demoNote": "Esta es una versión de demostración con datos sintéticos. El sitio no recopila datos personales de quienes lo visitan (no hay formularios ni rastreo que te identifique). Este aviso describe cómo Soral trata los datos cuando se despliega con un cliente.",
+    "s1Title": "Responsable",
+    "s1Body": "Cuando Soral se despliega en una planta, la planta es la responsable de los datos de sus trabajadores y Soral actúa como encargado del tratamiento por su cuenta, bajo contrato. Para asuntos de privacidad: privacidad@soral.app.",
+    "s2Title": "Datos que tratamos",
+    "s2Body": "Soral procesa señales operativas y laborales —asistencia, puntualidad, productividad, antigüedad, rotación de la línea y señales de compensación— asociadas a un identificador anonimizado, no a nombres. No tratamos datos de quienes visitan este sitio.",
+    "s3Title": "Finalidades",
+    "s3Body": "Estimar el riesgo de rotación a 30 días, explicar sus causas y recomendar acciones de retención. Es soporte a la decisión: nunca toma decisiones automatizadas de contratación o despido; decide siempre una persona.",
+    "s4Title": "Datos que NO usamos",
+    "s4Body": "No usamos atributos protegidos (edad, sexo, origen, salud, religión, afiliación, etc.). Solo señales relacionadas con el trabajo. La equidad se audita (regla de los 4/5, detección de proxies y calibración por grupo).",
+    "s5Title": "Transferencias y encargados",
+    "s5Body": "No vendemos datos personales. Para operar usamos proveedores de infraestructura (hosting) bajo acuerdos de confidencialidad y tratamiento. Las integraciones con tus sistemas (nómina, checador, HRIS) operan bajo tu autorización.",
+    "s6Title": "Seguridad",
+    "s6Body": "Identificadores anonimizados, control de acceso por rol, registro de decisiones auditable y cifrado en tránsito y en reposo. La edición Core es autohospedable: los datos no salen de tu infraestructura.",
+    "s7Title": "Tus derechos (ARCO)",
+    "s7Body": "Conforme a la LFPDPPP (México), puedes ejercer tus derechos de Acceso, Rectificación, Cancelación y Oposición, y revocar tu consentimiento. Las solicitudes se canalizan a través de la planta responsable o a privacidad@soral.app.",
+    "s8Title": "Cambios a este aviso",
+    "s8Body": "Podemos actualizar este aviso; la versión vigente se publicará siempre en esta página, con su fecha de actualización.",
+    "contactTitle": "Contacto",
+    "contactBody": "Dudas de privacidad: privacidad@soral.app."
   }
 }

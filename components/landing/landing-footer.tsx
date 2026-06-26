@@ -44,7 +44,10 @@ export function LandingFooter() {
         </div>
         <div className="mt-10 flex flex-col items-center justify-between gap-2 border-t border-line pt-6 sm:flex-row">
           <p className="text-meta text-ink-3">{t("rights")}</p>
-          <p className="text-meta text-ink-3">{t("badge")}</p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacidad" className="text-meta text-ink-3 transition-colors hover:text-risk-sol">{t("navPrivacy")}</Link>
+            <p className="text-meta text-ink-3">{t("badge")}</p>
+          </div>
         </div>
       </div>
     </footer>

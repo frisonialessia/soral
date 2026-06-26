@@ -367,7 +367,8 @@
     "baAfter3": "A timely conversation — the worker stays.",
     "baAfter4": "You know the real cost of each departure — and you prevent it.",
     "navPricing": "Pricing",
-    "navMenu": "Menu"
+    "navMenu": "Menu",
+    "navPrivacy": "Privacy"
   },
   "reports": {
     "title": "Reports",
@@ -897,5 +898,29 @@
     "p3": "Behind every score is a person. Retaining costs less than replacing, and treats people better.",
     "founderLine": "Building Soral so no plant loses its people for failing to see it coming.",
     "team": "Soral team"
+  },
+  "privacy": {
+    "title": "Privacy notice",
+    "subtitle": "How Soral handles data — with privacy and fairness by design.",
+    "updated": "Last updated: June 2026",
+    "demoNote": "This is a demo version with synthetic data. The site does not collect personal data from visitors (no forms or identifying tracking). This notice describes how Soral handles data when deployed with a client.",
+    "s1Title": "Controller",
+    "s1Body": "When Soral is deployed at a plant, the plant is the controller of its workers’ data and Soral acts as a processor on its behalf, under contract. For privacy matters: privacidad@soral.app.",
+    "s2Title": "Data we process",
+    "s2Body": "Soral processes operational and work-related signals — attendance, punctuality, productivity, tenure, line turnover and compensation signals — tied to an anonymized identifier, not to names. We do not process data about visitors to this site.",
+    "s3Title": "Purposes",
+    "s3Body": "Estimate 30-day turnover risk, explain its drivers, and recommend retention actions. It is decision support: it never makes automated hiring or firing decisions; a person always decides.",
+    "s4Title": "Data we do NOT use",
+    "s4Body": "We do not use protected attributes (age, sex, origin, health, religion, affiliation, etc.). Job-related signals only. Fairness is audited (4/5ths rule, proxy detection and per-group calibration).",
+    "s5Title": "Transfers and processors",
+    "s5Body": "We do not sell personal data. To operate we use infrastructure providers (hosting) under confidentiality and processing agreements. Integrations with your systems (payroll, time clock, HRIS) run under your authorization.",
+    "s6Title": "Security",
+    "s6Body": "Anonymized identifiers, role-based access control, an auditable decision log, and encryption in transit and at rest. The Core edition is self-hostable: data never leaves your infrastructure.",
+    "s7Title": "Your rights (ARCO)",
+    "s7Body": "Under Mexico’s LFPDPPP, you can exercise your rights of Access, Rectification, Cancellation and Objection, and withdraw consent. Requests are channeled through the controlling plant or to privacidad@soral.app.",
+    "s8Title": "Changes to this notice",
+    "s8Body": "We may update this notice; the current version will always be published on this page, with its update date.",
+    "contactTitle": "Contact",
+    "contactBody": "Privacy questions: privacidad@soral.app."
   }
 }

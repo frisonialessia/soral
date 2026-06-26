@@ -367,7 +367,8 @@
     "baAfter3": "Una conversazione in tempo — il lavoratore resta.",
     "baAfter4": "Sai il costo reale di ogni uscita — e lo eviti.",
     "navPricing": "Prezzi",
-    "navMenu": "Menu"
+    "navMenu": "Menu",
+    "navPrivacy": "Privacy"
   },
   "reports": {
     "title": "Report",
@@ -897,5 +898,29 @@
     "p3": "Dietro ogni score c’è una persona. Trattenere costa meno che sostituire, e tratta meglio le persone.",
     "founderLine": "Costruisco Soral perché nessuno stabilimento perda la sua gente per non averlo visto arrivare.",
     "team": "Team Soral"
+  },
+  "privacy": {
+    "title": "Informativa sulla privacy",
+    "subtitle": "Come Soral tratta i dati — con privacy ed equità by design.",
+    "updated": "Ultimo aggiornamento: giugno 2026",
+    "demoNote": "Questa è una versione dimostrativa con dati sintetici. Il sito non raccoglie dati personali dei visitatori (nessun modulo né tracciamento identificativo). Questa informativa descrive come Soral tratta i dati quando viene implementato con un cliente.",
+    "s1Title": "Titolare",
+    "s1Body": "Quando Soral viene implementato in uno stabilimento, lo stabilimento è il titolare dei dati dei suoi lavoratori e Soral agisce come responsabile del trattamento per suo conto, su contratto. Per la privacy: privacidad@soral.app.",
+    "s2Title": "Dati che trattiamo",
+    "s2Body": "Soral tratta segnali operativi e lavorativi — presenza, puntualità, produttività, anzianità, turnover della linea e segnali di retribuzione — associati a un identificatore anonimizzato, non a nomi. Non trattiamo dati dei visitatori di questo sito.",
+    "s3Title": "Finalità",
+    "s3Body": "Stimare il rischio di turnover a 30 giorni, spiegarne le cause e raccomandare azioni di retention. È supporto alla decisione: non prende mai decisioni automatizzate di assunzione o licenziamento; decide sempre una persona.",
+    "s4Title": "Dati che NON usiamo",
+    "s4Body": "Non usiamo attributi protetti (età, sesso, origine, salute, religione, affiliazione, ecc.). Solo segnali legati al lavoro. L’equità è verificata (regola dei 4/5, rilevamento proxy e calibrazione per gruppo).",
+    "s5Title": "Trasferimenti e responsabili",
+    "s5Body": "Non vendiamo dati personali. Per operare usiamo fornitori di infrastruttura (hosting) con accordi di riservatezza e trattamento. Le integrazioni con i tuoi sistemi (paghe, timbrature, HRIS) operano sotto la tua autorizzazione.",
+    "s6Title": "Sicurezza",
+    "s6Body": "Identificatori anonimizzati, controllo degli accessi per ruolo, registro delle decisioni verificabile e cifratura in transito e a riposo. L’edizione Core è self-hostable: i dati non escono dalla tua infrastruttura.",
+    "s7Title": "I tuoi diritti (ARCO)",
+    "s7Body": "Ai sensi della LFPDPPP (Messico), puoi esercitare i diritti di Accesso, Rettifica, Cancellazione e Opposizione, e revocare il consenso. Le richieste sono gestite tramite lo stabilimento titolare o a privacidad@soral.app.",
+    "s8Title": "Modifiche a questa informativa",
+    "s8Body": "Possiamo aggiornare questa informativa; la versione vigente sarà sempre pubblicata in questa pagina, con la data di aggiornamento.",
+    "contactTitle": "Contatto",
+    "contactBody": "Domande sulla privacy: privacidad@soral.app."
   }
 }
