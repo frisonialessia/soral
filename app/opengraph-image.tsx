@@ -2,7 +2,7 @@
 // Imagen Open Graph (la que se ve al compartir el enlace). Generada con next/og.
 import { ImageResponse } from "next/og";
 
-export const alt = "Soral — Turnover prediction for manufacturing";
+export const alt = "Soral — Predictive retention for manufacturing";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -47,14 +47,14 @@ export default function OpengraphImage() {
               maxWidth: 1000,
             }}
           >
-            Know who is leaving — before they do.
+            Predict who's leaving — and how to keep them.
           </div>
           <div style={{ fontSize: 30, color: "#6B7088", maxWidth: 920 }}>
             Explainable turnover risk scores and retention plays for the factory floor.
           </div>
         </div>
         <div style={{ fontSize: 22, color: "#A9AEC2" }}>
-          Turnover prediction for manufacturing · maquiladoras
+          Predictive retention for manufacturing · maquiladoras
         </div>
       </div>
     ),

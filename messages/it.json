@@ -365,7 +365,9 @@
     "baAfter1": "Allerta 30 giorni prima delle dimissioni.",
     "baAfter2": "Piano di retention 1:1 in mano al supervisore.",
     "baAfter3": "Una conversazione in tempo — il lavoratore resta.",
-    "baAfter4": "Sai il costo reale di ogni uscita — e lo eviti."
+    "baAfter4": "Sai il costo reale di ogni uscita — e lo eviti.",
+    "navPricing": "Prezzi",
+    "navMenu": "Menu"
   },
   "reports": {
     "title": "Report",
@@ -810,5 +812,42 @@
     "linesLabel": "Linee di produzione",
     "shiftsLabel": "Turni",
     "listHint": "Separa con virgole"
+  },
+  "pricing": {
+    "eyebrow": "Prezzi",
+    "title": "Inizia gratis. Scala quando funziona.",
+    "subtitle": "Open-core: il motore è aperto e self-hostable; addebitiamo lo strato gestito — IA, integrazioni, supporto e governance.",
+    "illustrative": "Prezzi illustrativi per questo demo.",
+    "t1Name": "Core",
+    "t1Price": "Gratis",
+    "t1Unit": "open source",
+    "t1Desc": "Il motore di rischio e la dashboard, self-hosted. Per team tecnici.",
+    "t1Cta": "Vedi il demo",
+    "t1f1": "Motore di rischio a 30 giorni (hazard logistico)",
+    "t1f2": "Spiegazioni SHAP esatte",
+    "t1f3": "Dashboard e mappa del rischio",
+    "t1f4": "Self-hosted (la tua infrastruttura)",
+    "t1f5": "Community",
+    "t2Name": "Pro",
+    "t2Price": "$1,900 USD",
+    "t2Unit": "per stabilimento · mese",
+    "t2Desc": "Per uno stabilimento in produzione. Tutto gestito da Soral.",
+    "t2Cta": "Vedi il demo",
+    "t2Badge": "Popolare",
+    "t2f1": "Tutto di Core",
+    "t2f2": "Briefing e assistente IA",
+    "t2f3": "Integrazioni gestite (paghe, timbrature, HRIS)",
+    "t2f4": "Simulatore, previsione e mappa di contagio",
+    "t2f5": "Supporto prioritario",
+    "t3Name": "Enterprise",
+    "t3Price": "Su misura",
+    "t3Unit": "multi-stabilimento",
+    "t3Desc": "Per operazioni multi-stabilimento con requisiti di governance.",
+    "t3Cta": "Vedi il demo",
+    "t3f1": "Tutto di Pro",
+    "t3f2": "SSO e ruoli avanzati",
+    "t3f3": "Governance ed equità verificabili",
+    "t3f4": "SLA e onboarding dedicato",
+    "t3f5": "Deploy nel tuo cloud"
   }
 }

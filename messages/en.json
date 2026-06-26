@@ -365,7 +365,9 @@
     "baAfter1": "Alert 30 days before the resignation.",
     "baAfter2": "A 1:1 retention plan in the supervisor's hands.",
     "baAfter3": "A timely conversation — the worker stays.",
-    "baAfter4": "You know the real cost of each departure — and you prevent it."
+    "baAfter4": "You know the real cost of each departure — and you prevent it.",
+    "navPricing": "Pricing",
+    "navMenu": "Menu"
   },
   "reports": {
     "title": "Reports",
@@ -810,5 +812,42 @@
     "linesLabel": "Production lines",
     "shiftsLabel": "Shifts",
     "listHint": "Separate with commas"
+  },
+  "pricing": {
+    "eyebrow": "Pricing",
+    "title": "Start free. Scale when it works.",
+    "subtitle": "Open-core: the engine is open and self-hostable; we charge for the managed layer — AI, integrations, support and governance.",
+    "illustrative": "Illustrative prices for this demo.",
+    "t1Name": "Core",
+    "t1Price": "Free",
+    "t1Unit": "open source",
+    "t1Desc": "The risk engine and dashboard, self-hosted. For technical teams.",
+    "t1Cta": "See the demo",
+    "t1f1": "30-day risk engine (logistic hazard)",
+    "t1f2": "Exact SHAP explanations",
+    "t1f3": "Dashboard and risk map",
+    "t1f4": "Self-hosted (your infrastructure)",
+    "t1f5": "Community",
+    "t2Name": "Pro",
+    "t2Price": "$1,900 USD",
+    "t2Unit": "per plant · month",
+    "t2Desc": "For one plant in production. Fully managed by Soral.",
+    "t2Cta": "See the demo",
+    "t2Badge": "Popular",
+    "t2f1": "Everything in Core",
+    "t2f2": "AI briefing and assistant",
+    "t2f3": "Managed integrations (payroll, time clock, HRIS)",
+    "t2f4": "Simulator, forecast and contagion map",
+    "t2f5": "Priority support",
+    "t3Name": "Enterprise",
+    "t3Price": "Custom",
+    "t3Unit": "multi-plant",
+    "t3Desc": "For multi-plant operations with governance requirements.",
+    "t3Cta": "See the demo",
+    "t3f1": "Everything in Pro",
+    "t3f2": "SSO and advanced roles",
+    "t3f3": "Auditable governance and fairness",
+    "t3f4": "SLA and dedicated onboarding",
+    "t3f5": "Deploy in your cloud"
   }
 }

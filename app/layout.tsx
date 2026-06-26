@@ -8,22 +8,22 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://soral.vercel.app"),
   title: {
-    default: "Soral — Turnover prediction for manufacturing",
+    default: "Soral — Predictive retention for manufacturing",
     template: "%s · Soral",
   },
   description:
-    "Soral scores each worker for 30-day turnover risk, explains why, and hands supervisors the play to retain them — built for maquiladoras on the US–Mexico border.",
+    "Soral scores each worker for 30-day turnover risk, explains why, and hands supervisors the play to retain them — built for maquiladoras.",
   applicationName: "Soral",
   openGraph: {
     type: "website",
     siteName: "Soral",
-    title: "Know who is leaving — before they do.",
+    title: "Predict who's leaving — and how to keep them.",
     description:
-      "Turnover prediction for manufacturing: explainable risk scores and retention plays, a week before they walk.",
+      "Predictive retention for manufacturing: explainable risk scores and retention plays, a week before they walk. Built for maquiladoras.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Soral — Turnover prediction for manufacturing",
+    title: "Soral — Predictive retention for manufacturing",
     description: "Explainable turnover risk scores and retention plays for the factory floor.",
   },
 };

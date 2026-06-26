@@ -37,6 +37,7 @@ export function LandingFooter() {
             <ul className="mt-3 space-y-2 text-copy text-ink-2">
               <li><Link href="/docs" className="transition-colors hover:text-risk-sol">{t("navDocs")}</Link></li>
               <li><Link href="/casos" className="transition-colors hover:text-risk-sol">{t("navCases")}</Link></li>
+              <li><Link href="/precios" className="transition-colors hover:text-risk-sol">{t("navPricing")}</Link></li>
               <li><Link href="/dashboard" className="transition-colors hover:text-risk-sol">{t("ctaPrimary")}</Link></li>
             </ul>
           </div>

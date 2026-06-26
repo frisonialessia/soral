@@ -365,7 +365,9 @@
     "baAfter1": "Alerta 30 días antes de la renuncia.",
     "baAfter2": "Plan de retención 1:1 en manos del supervisor.",
     "baAfter3": "Conversación a tiempo — el trabajador se queda.",
-    "baAfter4": "Sabes el costo real de cada salida — y lo evitas."
+    "baAfter4": "Sabes el costo real de cada salida — y lo evitas.",
+    "navPricing": "Precios",
+    "navMenu": "Menú"
   },
   "reports": {
     "title": "Reportes",
@@ -810,5 +812,42 @@
     "linesLabel": "Líneas de producción",
     "shiftsLabel": "Turnos",
     "listHint": "Separa con comas"
+  },
+  "pricing": {
+    "eyebrow": "Precios",
+    "title": "Empieza gratis. Escala cuando funcione.",
+    "subtitle": "Open-core: el motor es abierto y autohospedable; cobramos por lo gestionado — IA, integraciones, soporte y gobernanza.",
+    "illustrative": "Precios ilustrativos para este demo.",
+    "t1Name": "Core",
+    "t1Price": "Gratis",
+    "t1Unit": "open source",
+    "t1Desc": "El motor de riesgo y el dashboard, autohospedado. Para equipos técnicos.",
+    "t1Cta": "Ver el demo",
+    "t1f1": "Motor de riesgo a 30 días (hazard logístico)",
+    "t1f2": "Explicación SHAP exacta",
+    "t1f3": "Dashboard y mapa de riesgo",
+    "t1f4": "Autohospedado (tu infraestructura)",
+    "t1f5": "Comunidad",
+    "t2Name": "Pro",
+    "t2Price": "$1,900 USD",
+    "t2Unit": "por planta · mes",
+    "t2Desc": "Para una planta en producción. Todo gestionado por Soral.",
+    "t2Cta": "Ver el demo",
+    "t2Badge": "Popular",
+    "t2f1": "Todo lo de Core",
+    "t2f2": "Briefing y asistente con IA",
+    "t2f3": "Integraciones gestionadas (nómina, checador, HRIS)",
+    "t2f4": "Simulador, pronóstico y mapa de contagio",
+    "t2f5": "Soporte prioritario",
+    "t3Name": "Enterprise",
+    "t3Price": "A medida",
+    "t3Unit": "multi-planta",
+    "t3Desc": "Para operaciones con varias plantas y requisitos de gobernanza.",
+    "t3Cta": "Ver el demo",
+    "t3f1": "Todo lo de Pro",
+    "t3f2": "SSO y roles avanzados",
+    "t3f3": "Gobernanza y equidad auditables",
+    "t3f4": "SLA y onboarding dedicado",
+    "t3f5": "Despliegue en tu nube"
   }
 }
