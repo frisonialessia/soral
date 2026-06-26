@@ -11,6 +11,7 @@ import { Reveal } from "@/components/landing/reveal";
 import { ExplainabilityPreview } from "@/components/landing/explainability-preview";
 import { BeforeAfter } from "@/components/landing/before-after";
 import { MarketSection } from "@/components/landing/market-section";
+import { AboutSection } from "@/components/landing/about-section";
 import { LandingFooter } from "@/components/landing/landing-footer";
 
 export default async function LandingPage() {
@@ -88,7 +89,7 @@ export default async function LandingPage() {
           <div className="mx-auto grid max-w-[1120px] grid-cols-2 gap-6 px-5 py-10 sm:grid-cols-4 sm:px-6">
             {metrics.map((m) => (
               <div key={m.label} className="text-center sm:text-left">
-                <div className="font-sans text-title font-bold tracking-tight sm:text-display" style={{ color: m.color }}>
+                <div className="font-sans text-2xl font-bold tracking-tight sm:text-display" style={{ color: m.color }}>
                   {m.value}
                 </div>
                 <div className="mt-1 text-copy text-ink-2">{m.label}</div>
@@ -180,6 +181,9 @@ export default async function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Quiénes somos — tesis fundacional + fundadora */}
+      <AboutSection />
 
       {/* CTA de cierre */}
       <section className="mx-auto max-w-[1120px] px-5 py-16 sm:px-6">

@@ -308,8 +308,8 @@
     "positioning": "Hecho para maquiladoras.",
     "m1Value": "30 días",
     "m1Label": "anticipación a la salida",
-    "m2Value": "~$36,800 MXN",
-    "m2Label": "costo de referencia por salida",
+    "m2Value": "~$36,800",
+    "m2Label": "costo de referencia por salida (MXN)",
     "m3Value": "Diario",
     "m3Label": "recálculo del riesgo",
     "m4Value": "100%",
@@ -888,5 +888,15 @@
     "srcInegi": "INEGI (IMMEX, dic 2025)",
     "srcTurnover": "Industria (rotación maquila)",
     "srcCost": "Investigación (costo de rotación)"
+  },
+  "about": {
+    "eyebrow": "Quiénes somos",
+    "title": "La rotación no es inevitable.",
+    "p1": "En la maquila, perder a uno de cada dos trabajadores al año se volvió «normal»: se presupuesta como un costo fijo y se vive como algo que no se puede cambiar.",
+    "p2": "Construimos Soral porque sí se puede cambiar: un modelo explicable que ve la salida venir y una acción concreta para retener — a tiempo, persona por persona, sin caja negra.",
+    "p3": "Detrás de cada score hay una persona. Retener cuesta menos que reemplazar, y trata mejor a la gente.",
+    "founderRole": "Fundadora",
+    "founderLine": "Construyendo Soral para que ninguna planta pierda a su gente por no verlo venir.",
+    "contact": "Contacto"
   }
 }

@@ -308,8 +308,8 @@
     "positioning": "Built for maquiladoras.",
     "m1Value": "30 days",
     "m1Label": "of early warning",
-    "m2Value": "~$36,800 MXN",
-    "m2Label": "reference cost per departure",
+    "m2Value": "~$36,800",
+    "m2Label": "reference cost per departure (MXN)",
     "m3Value": "Daily",
     "m3Label": "risk recalculation",
     "m4Value": "100%",
@@ -888,5 +888,15 @@
     "srcInegi": "INEGI (IMMEX, Dec 2025)",
     "srcTurnover": "Industry (maquila turnover)",
     "srcCost": "Research (cost of turnover)"
+  },
+  "about": {
+    "eyebrow": "About",
+    "title": "Turnover isn’t inevitable.",
+    "p1": "In maquiladoras, losing one in two workers a year became “normal”: budgeted as a fixed cost and lived as something that can’t change.",
+    "p2": "We built Soral because it can change: an explainable model that sees the exit coming and a concrete play to retain — in time, person by person, no black box.",
+    "p3": "Behind every score is a person. Retaining costs less than replacing, and treats people better.",
+    "founderRole": "Founder",
+    "founderLine": "Building Soral so no plant loses its people for failing to see it coming.",
+    "contact": "Contact"
   }
 }

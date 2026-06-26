@@ -6,8 +6,15 @@
   color-scheme: light;
 }
 
+/* Guarda anti-scroll horizontal en móvil. `clip` (no `hidden`) no rompe
+   position: sticky de la nav/cabecera. */
+html {
+  overflow-x: clip;
+}
+
 body {
   background: #F3F6FD;
   color: #2B2D42;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }

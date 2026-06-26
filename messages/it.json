@@ -308,8 +308,8 @@
     "positioning": "Fatto per le maquiladoras.",
     "m1Value": "30 giorni",
     "m1Label": "di preavviso",
-    "m2Value": "~$36,800 MXN",
-    "m2Label": "costo di riferimento per uscita",
+    "m2Value": "~$36,800",
+    "m2Label": "costo di riferimento per uscita (MXN)",
     "m3Value": "Giornaliero",
     "m3Label": "ricalcolo del rischio",
     "m4Value": "100%",
@@ -888,5 +888,15 @@
     "srcInegi": "INEGI (IMMEX, dic 2025)",
     "srcTurnover": "Settore (turnover maquila)",
     "srcCost": "Ricerca (costo del turnover)"
+  },
+  "about": {
+    "eyebrow": "Chi siamo",
+    "title": "Il turnover non è inevitabile.",
+    "p1": "Nelle maquiladoras, perdere un lavoratore su due all’anno è diventato «normale»: messo a budget come costo fisso e vissuto come qualcosa che non si può cambiare.",
+    "p2": "Abbiamo costruito Soral perché si può cambiare: un modello spiegabile che vede l’uscita in arrivo e un’azione concreta per trattenere — in tempo, persona per persona, senza scatola nera.",
+    "p3": "Dietro ogni score c’è una persona. Trattenere costa meno che sostituire, e tratta meglio le persone.",
+    "founderRole": "Fondatrice",
+    "founderLine": "Costruisco Soral perché nessuno stabilimento perda la sua gente per non averlo visto arrivare.",
+    "contact": "Contatto"
   }
 }
