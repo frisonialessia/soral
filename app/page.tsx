@@ -10,6 +10,7 @@ import { DashboardPreview } from "@/components/landing/dashboard-preview";
 import { Reveal } from "@/components/landing/reveal";
 import { ExplainabilityPreview } from "@/components/landing/explainability-preview";
 import { BeforeAfter } from "@/components/landing/before-after";
+import { MarketSection } from "@/components/landing/market-section";
 import { LandingFooter } from "@/components/landing/landing-footer";
 
 export default async function LandingPage() {
@@ -128,6 +129,9 @@ export default async function LandingPage() {
 
       {/* Antes vs Después — el cambio que trae Soral (reemplaza al simulador duplicado) */}
       <BeforeAfter />
+
+      {/* La oportunidad — tamaño del problema a escala de industria (cifras con fuente) */}
+      <MarketSection />
 
       {/* Explicabilidad (showcase de herramienta) */}
       <section className="mx-auto max-w-[1120px] px-5 py-16 sm:px-6">

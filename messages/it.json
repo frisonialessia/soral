@@ -849,5 +849,23 @@
     "t3f3": "Governance ed equità verificabili",
     "t3f4": "SLA e onboarding dedicato",
     "t3f5": "Deploy nel tuo cloud"
+  },
+  "market": {
+    "eyebrow": "L’opportunità",
+    "title": "Un costo enorme, ricorrente e non strumentato",
+    "subtitle": "Il turnover nelle maquiladoras non è un problema di nicchia: è strutturale e si ripete ogni anno in migliaia di stabilimenti.",
+    "s1Value": "3.15 M",
+    "s1Label": "lavoratori maquila (IMMEX)",
+    "s2Value": "5.211",
+    "s2Label": "stabilimenti manifatturieri IMMEX",
+    "s3Value": "60–90%",
+    "s3Label": "turnover annuo nelle città di confine",
+    "s4Value": "40–70%",
+    "s4Label": "del salario annuo costa ogni sostituzione",
+    "closing": "Ogni uscita che non vedi arrivare diventa reclutamento, formazione e produzione persa. Soral strumenta quel costo e lo previene, stabilimento per stabilimento.",
+    "sources": "Fonti",
+    "srcInegi": "INEGI (IMMEX, dic 2025)",
+    "srcTurnover": "Settore (turnover maquila)",
+    "srcCost": "Ricerca (costo del turnover)"
   }
 }

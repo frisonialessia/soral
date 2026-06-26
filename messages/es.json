@@ -849,5 +849,23 @@
     "t3f3": "Gobernanza y equidad auditables",
     "t3f4": "SLA y onboarding dedicado",
     "t3f5": "Despliegue en tu nube"
+  },
+  "market": {
+    "eyebrow": "La oportunidad",
+    "title": "Un costo enorme, recurrente y sin instrumentar",
+    "subtitle": "La rotación en la maquila no es un problema de nicho: es estructural y se repite cada año en miles de plantas.",
+    "s1Value": "3.15 M",
+    "s1Label": "trabajadores en maquila (IMMEX)",
+    "s2Value": "5,211",
+    "s2Label": "plantas manufactureras IMMEX",
+    "s3Value": "60–90%",
+    "s3Label": "rotación anual en ciudades frontera",
+    "s4Value": "40–70%",
+    "s4Label": "del salario anual cuesta cada reemplazo",
+    "closing": "Cada salida que no ves venir se vuelve reclutar, capacitar y producir de menos. Soral instrumenta ese costo y lo evita, planta por planta.",
+    "sources": "Fuentes",
+    "srcInegi": "INEGI (IMMEX, dic 2025)",
+    "srcTurnover": "Industria (rotación maquila)",
+    "srcCost": "Investigación (costo de rotación)"
   }
 }

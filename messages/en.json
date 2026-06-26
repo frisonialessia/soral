@@ -849,5 +849,23 @@
     "t3f3": "Auditable governance and fairness",
     "t3f4": "SLA and dedicated onboarding",
     "t3f5": "Deploy in your cloud"
+  },
+  "market": {
+    "eyebrow": "The opportunity",
+    "title": "A huge, recurring, un-instrumented cost",
+    "subtitle": "Turnover in maquiladoras isn’t a niche problem: it’s structural and repeats every year across thousands of plants.",
+    "s1Value": "3.15 M",
+    "s1Label": "maquila workers (IMMEX)",
+    "s2Value": "5,211",
+    "s2Label": "IMMEX manufacturing plants",
+    "s3Value": "60–90%",
+    "s3Label": "annual turnover in border cities",
+    "s4Value": "40–70%",
+    "s4Label": "of annual salary is the cost of each replacement",
+    "closing": "Every exit you don’t see coming becomes recruiting, training and lost output. Soral instruments that cost and prevents it, plant by plant.",
+    "sources": "Sources",
+    "srcInegi": "INEGI (IMMEX, Dec 2025)",
+    "srcTurnover": "Industry (maquila turnover)",
+    "srcCost": "Research (cost of turnover)"
   }
 }
