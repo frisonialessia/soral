@@ -6,7 +6,7 @@ import { SessionProvider } from "@/lib/auth/session";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://soral.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://soral-nu.vercel.app"),
   title: {
     default: "Soral — Predictive retention for manufacturing",
     template: "%s · Soral",
