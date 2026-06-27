@@ -1,13 +1,11 @@
 // lib/server/cost-model.ts
-// FUENTE ÚNICA del costo de rotación — SERVER ONLY.
-// El "monto por reemplazo" ya NO es una constante hardcodeada y regada por la app:
-// RH lo calcula por componentes y aquí se guarda. Mientras no lo configure,
-// devolvemos una ESTIMACIÓN de referencia (configured:false) para que la UI la
-// marque como tal y NUNCA la presente como un hecho.
+// FUENTE del costo de rotación — SERVER ONLY, PER-VISITANTE.
+// La config de cada visitante vive en una COOKIE (almacenamiento del navegador que
+// viaja con cada request). Así el servidor calcula los montos con la config de ESE
+// visitante, sin estado compartido ni mutable: cero fugas entre usuarios, persiste
+// en su navegador, y nunca toca el código. Sin cookie → estimación de referencia.
 //
-// Hoy el store es un singleton en memoria (mock). Mañana = una fila de la tabla
-// `settings` en Supabase; getCostModel()/setCostModel() cambian su CUERPO, no su
-// firma — el data-service, los Route Handlers y la UI no se enteran.
+// Mañana (Supabase): readStored() leería la fila del tenant en vez de la cookie.
 import type { CostComponents, CostModel } from "@/types";
 
 export const COST_COMPONENT_KEYS = [
@@ -19,8 +17,8 @@ export const COST_COMPONENT_KEYS = [
   "separation",
 ] as const;
 
-// Estimación de referencia por defecto. La SUMA es 36,800 MXN — el mismo valor que
-// la app usaba hardcodeado — pero va marcada como estimación hasta que RH la ajuste.
+// Estimación de referencia por defecto (suma 36,800 MXN), marcada como estimación
+// hasta que el visitante la ajuste.
 export const DEFAULT_COMPONENTS: CostComponents = {
   recruiting: 5_200,
   screening: 2_400,
@@ -33,29 +31,45 @@ export const DEFAULT_COMPONENTS: CostComponents = {
 export const totalOf = (c: CostComponents): number =>
   COST_COMPONENT_KEYS.reduce((sum, k) => sum + (c[k] || 0), 0);
 
-// El costo por defecto (= 36,800). Las capas que siembran montos con el costo viejo
-// (p. ej. lib/hiring) lo reescalan a este valor para hablar todas del mismo número.
 export const DEFAULT_COST_PER_REPLACEMENT = totalOf(DEFAULT_COMPONENTS);
+export const COST_COOKIE = "soral_cost";
 
-// Store singleton (mock). null = RH aún no lo ha configurado → estimación.
-let stored: { components: CostComponents; updatedAt: string } | null = null;
+type Stored = { components: CostComponents; updatedAt: string };
+
+// Override solo para tests (sin contexto de request/cookie).
+let testStored: Stored | null = null;
+export function __setCostModelForTest(components: CostComponents | null): void {
+  testStored = components ? { components, updatedAt: new Date().toISOString() } : null;
+}
+
+// Lee la config del visitante desde su cookie. Fuera de un request (tests/build) o
+// sin cookie, cae al override de test o a null (→ estimación por defecto).
+async function readStored(): Promise<Stored | null> {
+  try {
+    const { cookies } = await import("next/headers");
+    const raw = (await cookies()).get(COST_COOKIE)?.value;
+    if (raw) {
+      const p = JSON.parse(raw) as Partial<Stored>;
+      if (p && p.components) return { components: p.components as CostComponents, updatedAt: p.updatedAt ?? "" };
+    }
+  } catch {
+    // sin contexto de request → override de test / default
+  }
+  return testStored;
+}
+
+function toModel(components: CostComponents, configured: boolean, updatedAt: string | null): CostModel {
+  return { components, costPerReplacement: totalOf(components), configured, updatedAt };
+}
 
 export async function getCostModel(): Promise<CostModel> {
-  const components = stored?.components ?? DEFAULT_COMPONENTS;
-  return {
-    components,
-    costPerReplacement: totalOf(components),
-    configured: stored !== null,
-    updatedAt: stored?.updatedAt ?? null,
-  };
+  const s = await readStored();
+  return s ? toModel(s.components, true, s.updatedAt || null) : toModel(DEFAULT_COMPONENTS, false, null);
 }
 
-export async function setCostModel(components: CostComponents): Promise<CostModel> {
-  stored = { components: { ...components }, updatedAt: new Date().toISOString() };
-  return getCostModel();
-}
-
-// Solo para tests: vuelve el store al estado "sin configurar".
-export function __resetCostModel(): void {
-  stored = null;
+// El Route Handler (PUT) usa esto: arma el modelo configurado + el valor que guardará
+// en la cookie del visitante.
+export function modelFromComponents(components: CostComponents): { model: CostModel; cookieValue: string } {
+  const updatedAt = new Date().toISOString();
+  return { model: toModel(components, true, updatedAt), cookieValue: JSON.stringify({ components, updatedAt }) };
 }

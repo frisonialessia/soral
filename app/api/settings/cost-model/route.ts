@@ -1,12 +1,13 @@
 // app/api/settings/cost-model/route.ts
-// Configuración del costo de rotación (a nivel planta): leer (GET) y guardar (PUT)
-// los componentes que RH captura. La respuesta es el modelo ya con el total y el
-// flag `configured`.
-import { getCostModel, setCostModel } from "@/lib/server/cost-model";
+// Costo de rotación PER-VISITANTE: GET lee la cookie del visitante; PUT valida y la
+// guarda en su navegador (Set-Cookie). Ningún estado mutable compartido en el server.
+import { getCostModel, modelFromComponents, COST_COOKIE } from "@/lib/server/cost-model";
 import { CostModelBody } from "@/lib/server/inputs";
 import { ok, run, readJson } from "@/lib/server/http";
 
 export const dynamic = "force-dynamic";
+
+const COOKIE_OPTS = { httpOnly: true, sameSite: "lax" as const, path: "/", maxAge: 60 * 60 * 24 * 365 };
 
 export async function GET() {
   return run(async () => ok(await getCostModel()));
@@ -15,6 +16,9 @@ export async function GET() {
 export async function PUT(req: Request) {
   return run(async () => {
     const body = CostModelBody.parse(await readJson(req));
-    return ok(await setCostModel(body));
+    const { model, cookieValue } = modelFromComponents(body);
+    const res = ok(model);
+    res.cookies.set(COST_COOKIE, cookieValue, COOKIE_OPTS);
+    return res;
   });
 }
