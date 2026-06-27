@@ -808,7 +808,13 @@
     "saving": "Salvataggio…",
     "saved": "Salvato",
     "saveError": "Salvataggio non riuscito. Riprova.",
-    "useReference": "Usa valori di riferimento"
+    "useReference": "Usa valori di riferimento",
+    "hint_recruiting": "Annuncio, agenzia, bonus referral.",
+    "hint_screening": "Test antidroga, visita medica, pratiche di assunzione, divisa/DPI.",
+    "hint_training": "Ore del formatore + ore del nuovo prima di produrre.",
+    "hint_productivity": "Settimane all’obiettivo × salario × (1 − produttività).",
+    "hint_coverage": "Straordinari del team mentre il ruolo è scoperto.",
+    "hint_separation": "Liquidazione + tempo HR."
   },
   "demo": {
     "badge": "Dati dimostrativi",
@@ -922,5 +928,18 @@
     "s8Body": "Possiamo aggiornare questa informativa; la versione vigente sarà sempre pubblicata in questa pagina, con la data di aggiornamento.",
     "contactTitle": "Contatto",
     "contactBody": "Domande sulla privacy: privacidad@soral.app."
+  },
+  "onboarding": {
+    "title": "Primi passi con Soral",
+    "intro": "Soral prevede quali lavoratori stanno per andarsene e ti dice come trattenerli. Per iniziare, raccontagli del tuo stabilimento — oppure esplora con i dati demo e regola dopo.",
+    "step1Title": "Configura il tuo stabilimento",
+    "step1Body": "Nome, numero di lavoratori, linee e turni.",
+    "step2Title": "Calcola il costo del turnover",
+    "step2Body": "Quanto costa ogni uscita — costruito per componenti.",
+    "done": "Fatto",
+    "pending": "In sospeso",
+    "cta": "Vai a configurare",
+    "demoHint": "Ancora senza dati? Tutto è precaricato con valori demo; cambiali quando vuoi.",
+    "dismiss": "Nascondi"
   }
 }

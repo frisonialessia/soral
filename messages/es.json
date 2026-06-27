@@ -808,7 +808,13 @@
     "saving": "Guardando…",
     "saved": "Guardado",
     "saveError": "No se pudo guardar. Intenta de nuevo.",
-    "useReference": "Usar valores de referencia"
+    "useReference": "Usar valores de referencia",
+    "hint_recruiting": "Publicación de vacante, agencia, bono por referido.",
+    "hint_screening": "Antidoping, examen médico, alta IMSS, uniforme/EPP.",
+    "hint_training": "Horas del capacitador + horas del nuevo sin producir.",
+    "hint_productivity": "Semanas a meta × salario × (1 − productividad).",
+    "hint_coverage": "Horas extra del equipo mientras la vacante está abierta.",
+    "hint_separation": "Finiquito + tiempo de RH."
   },
   "demo": {
     "badge": "Datos de demostración",
@@ -922,5 +928,18 @@
     "s8Body": "Podemos actualizar este aviso; la versión vigente se publicará siempre en esta página, con su fecha de actualización.",
     "contactTitle": "Contacto",
     "contactBody": "Dudas de privacidad: privacidad@soral.app."
+  },
+  "onboarding": {
+    "title": "Primeros pasos en Soral",
+    "intro": "Soral predice qué trabajadores están por irse y te dice cómo retenerlos. Para empezar, dile cómo es tu planta — o explora con los datos de demostración y ajústalos después.",
+    "step1Title": "Configura tu planta",
+    "step1Body": "Nombre, número de trabajadores, líneas y turnos.",
+    "step2Title": "Calcula tu costo de rotación",
+    "step2Body": "Cuánto cuesta cada salida — se arma por componentes.",
+    "done": "Listo",
+    "pending": "Pendiente",
+    "cta": "Ir a configurar",
+    "demoHint": "¿Sin tus datos aún? Todo viene precargado con valores de demostración; cámbialos cuando quieras.",
+    "dismiss": "Ocultar"
   }
 }

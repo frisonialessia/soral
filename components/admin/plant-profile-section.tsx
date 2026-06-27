@@ -56,7 +56,7 @@ function Form({ profile }: { profile: PlantProfile }) {
   }
 
   return (
-    <Card className="mt-6 rounded-xl p-[22px]">
+    <Card id="plant-config" className="mt-6 scroll-mt-24 rounded-xl p-[22px]">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-start gap-3">
           <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-risk-sol-soft text-risk-sol">

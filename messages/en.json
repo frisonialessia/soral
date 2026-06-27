@@ -808,7 +808,13 @@
     "saving": "Saving…",
     "saved": "Saved",
     "saveError": "Couldn’t save. Try again.",
-    "useReference": "Use reference values"
+    "useReference": "Use reference values",
+    "hint_recruiting": "Job posting, agency, referral bonus.",
+    "hint_screening": "Drug test, medical exam, onboarding paperwork, uniform/PPE.",
+    "hint_training": "Trainer hours + the new hire’s hours before producing.",
+    "hint_productivity": "Weeks to target × wage × (1 − productivity).",
+    "hint_coverage": "Team overtime while the role is open.",
+    "hint_separation": "Severance + HR time."
   },
   "demo": {
     "badge": "Demo data",
@@ -922,5 +928,18 @@
     "s8Body": "We may update this notice; the current version will always be published on this page, with its update date.",
     "contactTitle": "Contact",
     "contactBody": "Privacy questions: privacidad@soral.app."
+  },
+  "onboarding": {
+    "title": "Getting started with Soral",
+    "intro": "Soral predicts which workers are about to leave and tells you how to retain them. To start, tell it about your plant — or explore with the demo data and adjust later.",
+    "step1Title": "Set up your plant",
+    "step1Body": "Name, number of workers, lines and shifts.",
+    "step2Title": "Calculate your turnover cost",
+    "step2Body": "What each departure costs — built by components.",
+    "done": "Done",
+    "pending": "Pending",
+    "cta": "Go set it up",
+    "demoHint": "No data yet? Everything is preloaded with demo values; change them whenever you like.",
+    "dismiss": "Hide"
   }
 }

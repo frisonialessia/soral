@@ -66,7 +66,7 @@ function CostModelForm({ model }: { model: CostModel }) {
   }
 
   return (
-    <Card className="mt-6 rounded-xl p-[22px]">
+    <Card id="cost-config" className="mt-6 scroll-mt-24 rounded-xl p-[22px]">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-start gap-3">
           <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-risk-sol-soft text-risk-sol">
@@ -121,8 +121,11 @@ function CostModelForm({ model }: { model: CostModel }) {
         <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
           {KEYS.map((k) => (
             <label key={k} className="flex items-center justify-between gap-3 rounded-lg border border-line bg-surface-2 px-3.5 py-2.5">
-              <span className="text-copy text-ink-1">{t(`comp_${k}`)}</span>
-              <span className="flex items-center gap-1 font-mono text-copy">
+              <span className="min-w-0">
+                <span className="block text-copy text-ink-1">{t(`comp_${k}`)}</span>
+                <span className="mt-0.5 block text-micro leading-snug text-ink-3">{t(`hint_${k}`)}</span>
+              </span>
+              <span className="flex shrink-0 items-center gap-1 font-mono text-copy">
                 <span className="text-ink-3">$</span>
                 <input
                   type="number"

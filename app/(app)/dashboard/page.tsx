@@ -8,6 +8,7 @@ import { Download, ListChecks, SlidersHorizontal, ChevronRight } from "lucide-re
 import { usePlantSummary } from "@/lib/queries";
 import { DotField } from "@/components/dashboard/dot-field";
 import { AiBriefing } from "@/components/dashboard/ai-briefing";
+import { GettingStarted } from "@/components/dashboard/getting-started";
 import { KpiStrip } from "@/components/dashboard/kpi-strip";
 import { Gauge } from "@/components/dashboard/gauge";
 import { RiskHeatmap } from "@/components/dashboard/risk-heatmap";
@@ -93,6 +94,10 @@ export default function DashboardPage() {
             })}
           </div>
         </div>
+      </div>
+
+      <div className="mb-4">
+        <GettingStarted />
       </div>
 
       <AiBriefing />
