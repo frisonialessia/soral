@@ -8,11 +8,20 @@ import { useTranslations } from "next-intl";
 import { riskColor } from "@/lib/risk";
 import type { EmployeePrediction } from "@/types";
 
-const SHIFTS = ["matutino", "vespertino", "nocturno", "mixto"] as const;
+// Turnos por defecto (con etiqueta i18n shift_*), en orden lógico.
+const DEFAULT_SHIFTS = ["matutino", "vespertino", "nocturno", "mixto"];
 
 export function RiskHeatmap({ rows }: { rows: EmployeePrediction[] }) {
   const t = useTranslations("dashboard");
   const lines = [...new Set(rows.map((r) => r.line))].sort();
+  // Columnas DERIVADAS de los datos: si se renombran los turnos, el heatmap sigue
+  // mostrándolos (antes eran fijas y se vaciaba). Defaults primero, renombrados después.
+  const present = new Set(rows.map((r) => r.shift));
+  const shifts = [
+    ...DEFAULT_SHIFTS.filter((s) => present.has(s)),
+    ...[...present].filter((s) => !DEFAULT_SHIFTS.includes(s)),
+  ];
+  const shiftLabel = (s: string) => (DEFAULT_SHIFTS.includes(s) ? t(`shift_${s}`) : s);
   const cells = new Map<string, { count: number; max: number }>();
   for (const r of rows) {
     const k = `${r.line}|${r.shift}`;
@@ -28,9 +37,9 @@ export function RiskHeatmap({ rows }: { rows: EmployeePrediction[] }) {
         <thead>
           <tr>
             <th />
-            {SHIFTS.map((s) => (
+            {shifts.map((s) => (
               <th key={s} className="pb-1 text-micro font-medium text-ink-3">
-                {t(`shift_${s}`)}
+                {shiftLabel(s)}
               </th>
             ))}
           </tr>
@@ -39,14 +48,14 @@ export function RiskHeatmap({ rows }: { rows: EmployeePrediction[] }) {
           {lines.map((line) => (
             <tr key={line}>
               <td className="pr-2 text-right font-mono text-meta text-ink-2">{line}</td>
-              {SHIFTS.map((s) => {
+              {shifts.map((s) => {
                 const c = cells.get(`${line}|${s}`);
                 return (
                   <td key={s} className="p-0">
                     <div
                       className="flex h-9 items-center justify-center rounded-md text-meta font-semibold"
                       style={{ background: c ? riskColor(c.max) : "#EEF1F8", color: c ? "#fff" : "#C7CCDC" }}
-                      title={c ? `${line} · ${t(`shift_${s}`)}: ${c.count}` : undefined}
+                      title={c ? `${line} · ${shiftLabel(s)}: ${c.count}` : undefined}
                     >
                       {c ? c.count : "·"}
                     </div>

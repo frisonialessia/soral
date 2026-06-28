@@ -95,6 +95,13 @@ function tenureStats(rows: EmployeePrediction[]): GroupSeed[] {
   });
 }
 
+// Los turnos por defecto vienen en español; se mapean a los ids canónicos de i18n
+// (group_morning…) para que la equidad por turno muestre etiquetas localizadas y
+// consistentes con la calibración. Un turno renombrado conserva su etiqueta cruda.
+const SHIFT_CANON: Record<string, string> = { matutino: "morning", vespertino: "evening", nocturno: "night", mixto: "rotating" };
+const canonShiftGroups = (seeds: GroupSeed[]): GroupSeed[] =>
+  seeds.map((g) => ({ ...g, group: SHIFT_CANON[g.group] ?? g.group }));
+
 // Serie semanal sintética (determinista) que termina en el valor actual — solo
 // para las sparklines del dashboard. Con Supabase será un GROUP BY por semana.
 function trendSeries(end: number, volatility: number, weeks = 10): number[] {
@@ -592,7 +599,7 @@ export async function getGovernanceSummary(): Promise<GovernanceSummary> {
   // Equidad DERIVADA de la población real (escala con el headcount, refleja líneas/turnos).
   const fairness = buildFairness({
     line: groupStats(pop, (e) => e.line),
-    shift: groupStats(pop, (e) => e.shift),
+    shift: canonShiftGroups(groupStats(pop, (e) => e.shift)),
     tenure: tenureStats(pop),
   });
   const par = parity(fairness);

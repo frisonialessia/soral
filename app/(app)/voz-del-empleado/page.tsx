@@ -64,7 +64,7 @@ export default function VoicePage() {
             <Sparkles className="h-4 w-4 text-risk-sol" />
             <h3 className="text-body font-semibold">{t("execTitle")}</h3>
           </div>
-          {digest.isLoading && <p className="py-4 text-copy text-ink-3">{tc("loading")}</p>}
+          {digest.isLoading && <p className="py-4 text-copy text-ink-3">{t("loading")}</p>}
           {digest.data && (
             <>
               <p className="text-body font-semibold text-ink-1">{digest.data.headline}</p>

@@ -8,6 +8,10 @@ import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import type { FairnessDimension } from "@/types";
 
+// Grupos con etiqueta i18n (group_*). Turno/antigüedad por defecto la tienen; un
+// turno renombrado por el usuario no — ese se muestra tal cual en vez de la clave.
+const LABELLED_GROUPS = new Set(["morning", "evening", "night", "rotating", "lt3m", "m3_12", "y1_3", "gt3y"]);
+
 function Chip({ tone, children }: { tone: "review" | "ok" | "sensitive" | "operational"; children: React.ReactNode }) {
   const map = {
     review: "bg-[#FBE9ED] text-risk-cri",
@@ -21,7 +25,8 @@ function Chip({ tone, children }: { tone: "review" | "ok" | "sensitive" | "opera
 function DimensionCard({ d }: { d: FairnessDimension }) {
   const t = useTranslations("governance");
   const max = Math.max(...d.groups.map((g) => g.rate)) || 1;
-  const label = (group: string) => (d.dimension === "line" ? group : t(`group_${group}`));
+  const label = (group: string) =>
+    d.dimension === "line" || !LABELLED_GROUPS.has(group) ? group : t(`group_${group}`);
 
   return (
     <Card className="flex flex-col rounded-xl p-[22px]">

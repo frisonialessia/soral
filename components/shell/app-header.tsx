@@ -10,6 +10,16 @@ import { LanguageSwitcher } from "./language-switcher";
 import { AskSoral } from "./ask-soral";
 import { DemoBadge } from "@/components/demo-indicator";
 
+// Semana ISO-8601 actual (la cabecera mostraba una fija "Semana 24, 2026").
+function isoWeek(d: Date): { week: number; year: number } {
+  const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  const day = date.getUTCDay() || 7;
+  date.setUTCDate(date.getUTCDate() + 4 - day);
+  const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+  const week = Math.ceil(((date.getTime() - yearStart.getTime()) / 86_400_000 + 1) / 7);
+  return { week, year: date.getUTCFullYear() };
+}
+
 export function AppHeader({ onMenu }: { onMenu: () => void }) {
   const user = useSession();
   const { data: plant } = usePlantProfile();
@@ -39,7 +49,9 @@ export function AppHeader({ onMenu }: { onMenu: () => void }) {
           <span className="truncate text-body font-semibold text-ink-1">{plant?.name ?? user.tenantName}</span>
           <DemoBadge />
         </div>
-        <div className="text-meta text-ink-3">{t("week", { week: 24, year: 2026 })}</div>
+        <div className="text-meta text-ink-3" suppressHydrationWarning>
+          {t("week", isoWeek(new Date()))}
+        </div>
       </div>
 
       <div className="ml-auto flex items-center gap-1.5">

@@ -11,10 +11,13 @@ import { Card } from "@/components/ui/card";
 import type { CalibrationDimension } from "@/types";
 
 const GAP_THRESHOLD = 3;
+// Grupos con etiqueta i18n (group_*); uno renombrado se muestra tal cual.
+const LABELLED_GROUPS = new Set(["morning", "evening", "night", "rotating", "lt3m", "m3_12", "y1_3", "gt3y"]);
 
 function DimensionCard({ d }: { d: CalibrationDimension }) {
   const t = useTranslations("governance");
-  const label = (group: string) => (d.dimension === "line" ? group : t(`group_${group}`));
+  const label = (group: string) =>
+    d.dimension === "line" || !LABELLED_GROUPS.has(group) ? group : t(`group_${group}`);
 
   return (
     <Card className="rounded-xl p-[22px]">

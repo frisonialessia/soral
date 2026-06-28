@@ -49,14 +49,20 @@ export const AssignBody = z.object({ line: z.string().min(1).max(8) });
 // PUT /api/settings/cost-model — RH guarda su costo por componentes. Cotas
 // generosas; cada componente en MXN, entero ≥ 0.
 const mxnComponent = z.number().int().min(0).max(10_000_000);
-export const CostModelBody = z.object({
-  recruiting: mxnComponent,
-  screening: mxnComponent,
-  training: mxnComponent,
-  productivity: mxnComponent,
-  coverage: mxnComponent,
-  separation: mxnComponent,
-});
+export const CostModelBody = z
+  .object({
+    recruiting: mxnComponent,
+    screening: mxnComponent,
+    training: mxnComponent,
+    productivity: mxnComponent,
+    coverage: mxnComponent,
+    separation: mxnComponent,
+  })
+  // Un costo total de 0 dejaría todos los KPIs de dinero en "$0" pero marcados como
+  // configurados — se ve roto. Se exige un total > 0.
+  .refine((c) => c.recruiting + c.screening + c.training + c.productivity + c.coverage + c.separation > 0, {
+    message: "El costo total debe ser mayor a 0",
+  });
 
 // PUT /api/settings/plant-profile — nombre y headcount de la planta.
 export const PlantProfileBody = z.object({

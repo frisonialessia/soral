@@ -814,7 +814,8 @@
     "hint_training": "Trainer hours + the new hire’s hours before producing.",
     "hint_productivity": "Weeks to target × wage × (1 − productivity).",
     "hint_coverage": "Team overtime while the role is open.",
-    "hint_separation": "Severance + HR time."
+    "hint_separation": "Severance + HR time.",
+    "minTotal": "Total cost must be greater than $0."
   },
   "demo": {
     "badge": "Demo data",

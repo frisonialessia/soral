@@ -164,7 +164,7 @@ function CostModelForm({ model }: { model: CostModel }) {
         <button
           type="button"
           onClick={save}
-          disabled={mut.isPending}
+          disabled={mut.isPending || total <= 0}
           className="inline-flex items-center gap-1.5 rounded-lg bg-risk-sol px-4 py-2 text-copy font-medium text-white transition-colors hover:bg-risk-sol/90 disabled:opacity-60"
         >
           {mut.isPending ? t("saving") : mut.isSuccess ? <><Check className="h-4 w-4" /> {t("saved")}</> : t("save")}
@@ -177,6 +177,7 @@ function CostModelForm({ model }: { model: CostModel }) {
           <RotateCcw className="h-3.5 w-3.5" />
           {t("useReference")}
         </button>
+        {total <= 0 && <span className="text-meta text-risk-cri">{t("minTotal")}</span>}
         {mut.isError && <span className="text-meta text-risk-cri">{t("saveError")}</span>}
       </div>
     </Card>

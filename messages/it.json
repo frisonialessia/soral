@@ -814,7 +814,8 @@
     "hint_training": "Ore del formatore + ore del nuovo prima di produrre.",
     "hint_productivity": "Settimane all’obiettivo × salario × (1 − produttività).",
     "hint_coverage": "Straordinari del team mentre il ruolo è scoperto.",
-    "hint_separation": "Liquidazione + tempo HR."
+    "hint_separation": "Liquidazione + tempo HR.",
+    "minTotal": "Il costo totale deve essere maggiore di $0."
   },
   "demo": {
     "badge": "Dati dimostrativi",

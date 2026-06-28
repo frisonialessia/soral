@@ -90,7 +90,7 @@ export default function FloorPage() {
 
       {/* Actuar ahora */}
       <SectionTitle title={t("actNow")} sub={t("actNowSub")} />
-      {detail.isLoading && <p className="px-1 py-4 text-copy text-ink-3">{tc("loading")}</p>}
+      {detail.isLoading && <p className="px-1 py-4 text-copy text-ink-3">{t("loading")}</p>}
       <div className="space-y-2.5">
         {workers.length === 0 && !detail.isLoading && (
           <Empty>{t("noAlerts")}</Empty>

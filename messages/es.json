@@ -814,7 +814,8 @@
     "hint_training": "Horas del capacitador + horas del nuevo sin producir.",
     "hint_productivity": "Semanas a meta × salario × (1 − productividad).",
     "hint_coverage": "Horas extra del equipo mientras la vacante está abierta.",
-    "hint_separation": "Finiquito + tiempo de RH."
+    "hint_separation": "Finiquito + tiempo de RH.",
+    "minTotal": "El costo total debe ser mayor a $0."
   },
   "demo": {
     "badge": "Datos de demostración",
