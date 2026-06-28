@@ -226,9 +226,9 @@ export async function getEmployee(ref: string): Promise<EmployeePrediction | nul
 // de eventos del trabajador; la firma no cambia.
 export async function getEmployeeTimeline(ref: string): Promise<EmployeeTimeline | null> {
   const employees = await empTable();
-  const [e, ivs] = await Promise.all([
+  const [e, allIvs] = await Promise.all([
     employees.findOne({ ref }),
-    interventions.findMany({ eq: { ref } }),
+    loadInterventions(),
   ]);
   if (!e) return null;
 
@@ -239,7 +239,7 @@ export async function getEmployeeTimeline(ref: string): Promise<EmployeeTimeline
   // Alerta cuando el score cruzó el umbral.
   events.push({ id: `${e.ref}-a1`, kind: "alert", at: daysAgo(13), score: e.score });
   // Intervenciones REALES de este trabajador + su resultado.
-  for (const iv of ivs.rows) {
+  for (const iv of allIvs.filter((x) => x.ref === ref)) {
     events.push({ id: `${iv.id}-iv`, kind: "intervention", at: iv.assignedAt, play: iv.play, by: iv.assignedBy });
     if (iv.outcome !== "pending") {
       const at = new Date(new Date(iv.assignedAt).getTime() + 5 * 86_400_000).toISOString();
@@ -378,8 +378,11 @@ export async function syncConnector(_id: string): Promise<SyncResult> {
 }
 
 // ── Loop de resultados: intervenciones (seguimiento) ─────────────────────────
-// La tabla `interventions` ES el store. Los resultados medidos aquí serán las
-// ETIQUETAS con las que el modelo aprende. Con DB: insert/select/update reales.
+// PER-VISITANTE: la semilla vive en el código; lo que cada visitante cambia (las
+// que crea + los resultados que marca) vive en una COOKIE, igual que el costo y el
+// perfil de planta. Así el loop "intervengo → mido → retengo" sobrevive al refresh,
+// no se filtra entre visitantes y nunca toca el código. Con Supabase: insert/select/
+// update reales sobre la tabla del tenant.
 const INTERVENTION_SEED: Intervention[] = [
   { id: "iv-1", ref: "#9445-1041", line: "L3", play: "1:1 con supervisor y ajuste de ruta de transporte", status: "done", outcome: "retained", assignedAt: daysAgo(6), assignedBy: "Demo Admin" },
   { id: "iv-2", ref: "#0A25-3150", line: "L5", play: "Revisar carga de horas extra del turno", status: "done", outcome: "left", assignedAt: daysAgo(9), assignedBy: "Diego Ramírez" },
@@ -387,21 +390,69 @@ const INTERVENTION_SEED: Intervention[] = [
   { id: "iv-4", ref: "#11E2-2898", line: "L3", play: "Reasignar de cuadrilla por conflicto con supervisor", status: "in_progress", outcome: "pending", assignedAt: daysAgo(2), assignedBy: "Diego Ramírez" },
   { id: "iv-5", ref: "#2108-2836", line: "L5", play: "Bono de asistencia posterior a nómina", status: "assigned", outcome: "pending", assignedAt: daysAgo(1), assignedBy: "Demo Admin" },
 ];
-const interventions = createTable<Intervention>(INTERVENTION_SEED);
 
-export async function getInterventions(): Promise<InterventionsSummary> {
-  const { rows } = await interventions.findMany({ order: { field: "assignedAt", ascending: false } });
-  return { interventions: rows };
+export const IV_COOKIE = "soral_iv";
+type IvPatch = { status?: InterventionStatus; outcome?: InterventionOutcome };
+type IvOverlay = { created: Intervention[]; updates: Record<string, IvPatch> };
+const EMPTY_OVERLAY: IvOverlay = { created: [], updates: {} };
+
+// Lee el overlay del visitante desde su cookie. Fuera de un request (tests/build) o
+// sin cookie → overlay vacío (la lista efectiva es solo la semilla).
+async function loadIvOverlay(): Promise<IvOverlay> {
+  try {
+    const { cookies } = await import("next/headers");
+    const raw = (await cookies()).get(IV_COOKIE)?.value;
+    if (raw) {
+      const p = JSON.parse(raw) as Partial<IvOverlay>;
+      return {
+        created: Array.isArray(p.created) ? p.created : [],
+        updates: p.updates && typeof p.updates === "object" ? p.updates : {},
+      };
+    }
+  } catch {
+    // sin contexto de request → overlay vacío
+  }
+  return EMPTY_OVERLAY;
 }
 
+// Lista efectiva = creadas (más recientes) + semilla, con los resultados marcados
+// aplicados encima, ordenada por fecha de asignación desc.
+function effectiveInterventions(overlay: IvOverlay): Intervention[] {
+  return [...overlay.created, ...INTERVENTION_SEED]
+    .map((iv) => (overlay.updates[iv.id] ? { ...iv, ...overlay.updates[iv.id] } : iv))
+    .sort((a, b) => (a.assignedAt < b.assignedAt ? 1 : a.assignedAt > b.assignedAt ? -1 : 0));
+}
+
+async function loadInterventions(): Promise<Intervention[]> {
+  return effectiveInterventions(await loadIvOverlay());
+}
+
+// Serializa el overlay a la cookie con un tope de tamaño (~3.8 KB): conserva las
+// creadas más recientes y descarta las más viejas si hiciera falta.
+function packOverlay(overlay: IvOverlay): string {
+  let created = overlay.created.slice(0, 12);
+  let json = JSON.stringify({ created, updates: overlay.updates });
+  while (created.length > 1 && json.length > 3800) {
+    created = created.slice(0, -1);
+    json = JSON.stringify({ created, updates: overlay.updates });
+  }
+  return json;
+}
+
+export async function getInterventions(): Promise<InterventionsSummary> {
+  return { interventions: await loadInterventions() };
+}
+
+// POST: arma la intervención + el valor de cookie que el handler guardará.
 export async function createIntervention(input: {
   ref: string;
   line: string;
   play: string;
   assignedBy: string;
-}): Promise<Intervention> {
-  return interventions.insert({
-    id: `iv-${Date.now().toString(36)}`,
+}): Promise<{ intervention: Intervention; cookieValue: string }> {
+  const overlay = await loadIvOverlay();
+  const intervention: Intervention = {
+    id: `iv-${Date.now().toString(36)}-${overlay.created.length}`,
     ref: input.ref,
     line: input.line,
     play: input.play || "Plan de retención",
@@ -409,17 +460,25 @@ export async function createIntervention(input: {
     outcome: "pending",
     assignedAt: new Date().toISOString(),
     assignedBy: input.assignedBy || "—",
-  });
+  };
+  const next: IvOverlay = { created: [intervention, ...overlay.created], updates: overlay.updates };
+  return { intervention, cookieValue: packOverlay(next) };
 }
 
+// PATCH: aplica el cambio de estado/resultado + arma el nuevo valor de cookie.
 export async function updateIntervention(
   id: string,
   patch: { status?: InterventionStatus; outcome?: InterventionOutcome }
-): Promise<Intervention | null> {
-  const clean: Partial<Intervention> = {};
+): Promise<{ intervention: Intervention | null; cookieValue: string }> {
+  const overlay = await loadIvOverlay();
+  const clean: IvPatch = {};
   if (patch.status) clean.status = patch.status;
   if (patch.outcome) clean.outcome = patch.outcome;
-  return interventions.update({ id }, clean);
+  const next: IvOverlay = { created: overlay.created, updates: { ...overlay.updates, [id]: { ...overlay.updates[id], ...clean } } };
+  const intervention = effectiveInterventions(next).find((iv) => iv.id === id) ?? null;
+  // id inexistente (ni semilla ni creadas) → no persistas un update huérfano.
+  if (!intervention) return { intervention: null, cookieValue: packOverlay(overlay) };
+  return { intervention, cookieValue: packOverlay(next) };
 }
 
 // ── Pre-contratación: candidatos ─────────────────────────────────────────────
@@ -590,9 +649,9 @@ export async function getPilotSummary(): Promise<PilotSummary> {
 // intervenciones unidas (join en memoria) a la banda/driver del trabajador.
 export async function getGovernanceSummary(): Promise<GovernanceSummary> {
   const employees = await empTable();
-  const [report, ivPage, empPage] = await Promise.all([
+  const [report, ivList, empPage] = await Promise.all([
     getReportSummary(),
-    interventions.findMany({ order: { field: "assignedAt", ascending: false } }),
+    loadInterventions(),
     employees.findMany(),
   ]);
   const pop = empPage.rows;
@@ -609,7 +668,7 @@ export async function getGovernanceSummary(): Promise<GovernanceSummary> {
   const proxies = buildProxies(report.drivers);
   const byRef = new Map(empPage.rows.map((e) => [e.ref, e]));
 
-  const log: GovernanceDecision[] = ivPage.rows.map((iv) => {
+  const log: GovernanceDecision[] = ivList.map((iv) => {
     const e = byRef.get(iv.ref);
     return {
       id: iv.id,
