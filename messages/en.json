@@ -899,7 +899,7 @@
     "s3Label": "annual turnover in border cities",
     "s4Value": "40–70%",
     "s4Label": "of annual salary is the cost of each replacement",
-    "closing": "Every exit you don’t see coming becomes recruiting, training and lost output. Soral instruments that cost and prevents it, plant by plant.",
+    "closing": "A 1,000-person plant at 70% turnover replaces ~700 workers a year — at 40–70% of salary each, that’s millions in recurring, preventable cost. Soral instruments it and prevents it, plant by plant.",
     "sources": "Sources",
     "srcInegi": "INEGI (IMMEX, Dec 2025)",
     "srcTurnover": "Industry (maquila turnover)",
@@ -908,9 +908,9 @@
   "about": {
     "eyebrow": "About",
     "title": "Turnover isn’t inevitable.",
-    "p1": "In maquiladoras, losing one in two workers a year became “normal”: budgeted as a fixed cost and lived as something that can’t change.",
-    "p2": "We built Soral because it can change: an explainable model that sees the exit coming and a concrete play to retain — in time, person by person, no black box.",
-    "p3": "Behind every score is a person. Retaining costs less than replacing, and treats people better.",
+    "p1": "In maquiladoras, losing one in two workers a year became “normal” — a fixed cost almost no one questions.",
+    "p2": "Soral exists to change that: it sees the exit coming, explains why, and hands over the play to retain — in time, person by person.",
+    "p3": "Behind every score is a person. Retaining costs less than replacing — and treats people better.",
     "founderLine": "Building Soral so no plant loses its people for failing to see it coming.",
     "team": "Soral team"
   },

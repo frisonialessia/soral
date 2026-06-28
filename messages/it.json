@@ -899,7 +899,7 @@
     "s3Label": "turnover annuo nelle città di confine",
     "s4Value": "40–70%",
     "s4Label": "del salario annuo costa ogni sostituzione",
-    "closing": "Ogni uscita che non vedi arrivare diventa reclutamento, formazione e produzione persa. Soral strumenta quel costo e lo previene, stabilimento per stabilimento.",
+    "closing": "Uno stabilimento di 1.000 persone con il 70% di turnover sostituisce ~700 lavoratori l’anno — al 40–70% dello stipendio ciascuno, sono milioni ricorrenti ed evitabili. Soral lo misura e lo previene, stabilimento per stabilimento.",
     "sources": "Fonti",
     "srcInegi": "INEGI (IMMEX, dic 2025)",
     "srcTurnover": "Settore (turnover maquila)",
@@ -908,9 +908,9 @@
   "about": {
     "eyebrow": "Chi siamo",
     "title": "Il turnover non è inevitabile.",
-    "p1": "Nelle maquiladoras, perdere un lavoratore su due all’anno è diventato «normale»: messo a budget come costo fisso e vissuto come qualcosa che non si può cambiare.",
-    "p2": "Abbiamo costruito Soral perché si può cambiare: un modello spiegabile che vede l’uscita in arrivo e un’azione concreta per trattenere — in tempo, persona per persona, senza scatola nera.",
-    "p3": "Dietro ogni score c’è una persona. Trattenere costa meno che sostituire, e tratta meglio le persone.",
+    "p1": "Nelle maquiladoras, perdere un lavoratore su due all’anno è diventato «normale» — un costo fisso che quasi nessuno mette in discussione.",
+    "p2": "Soral esiste per cambiarlo: vede l’uscita in arrivo, spiega il perché e offre la mossa per trattenere — in tempo, persona per persona.",
+    "p3": "Dietro ogni score c’è una persona. Trattenere costa meno che sostituire — e tratta meglio le persone.",
     "founderLine": "Costruisco Soral perché nessuno stabilimento perda la sua gente per non averlo visto arrivare.",
     "team": "Team Soral"
   },

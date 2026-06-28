@@ -899,7 +899,7 @@
     "s3Label": "rotación anual en ciudades frontera",
     "s4Value": "40–70%",
     "s4Label": "del salario anual cuesta cada reemplazo",
-    "closing": "Cada salida que no ves venir se vuelve reclutar, capacitar y producir de menos. Soral instrumenta ese costo y lo evita, planta por planta.",
+    "closing": "Una planta de 1,000 personas con 70% de rotación reemplaza ~700 trabajadores al año — a 40–70% del salario cada uno, son millones recurrentes y evitables. Soral instrumenta ese costo y lo evita, planta por planta.",
     "sources": "Fuentes",
     "srcInegi": "INEGI (IMMEX, dic 2025)",
     "srcTurnover": "Industria (rotación maquila)",
@@ -908,9 +908,9 @@
   "about": {
     "eyebrow": "Quiénes somos",
     "title": "La rotación no es inevitable.",
-    "p1": "En la maquila, perder a uno de cada dos trabajadores al año se volvió «normal»: se presupuesta como un costo fijo y se vive como algo que no se puede cambiar.",
-    "p2": "Construimos Soral porque sí se puede cambiar: un modelo explicable que ve la salida venir y una acción concreta para retener — a tiempo, persona por persona, sin caja negra.",
-    "p3": "Detrás de cada score hay una persona. Retener cuesta menos que reemplazar, y trata mejor a la gente.",
+    "p1": "En la maquila, perder a uno de cada dos trabajadores al año se volvió «normal» — un costo fijo que casi nadie cuestiona.",
+    "p2": "Soral existe para cambiarlo: ve la salida venir, explica el porqué y da la acción para retener — a tiempo, persona por persona.",
+    "p3": "Detrás de cada score hay una persona. Retener cuesta menos que reemplazar — y trata mejor a la gente.",
     "founderLine": "Construyendo Soral para que ninguna planta pierda a su gente por no verlo venir.",
     "team": "Equipo Soral"
   },
