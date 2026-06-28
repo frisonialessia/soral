@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Soral",
-    title: "Predict who's leaving — and how to keep them.",
+    title: "AI that understands your people and acts to keep them.",
     description:
       "Predictive retention for manufacturing: explainable risk scores and retention plays, a week before they walk. Built for maquiladoras.",
   },

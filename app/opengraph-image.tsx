@@ -47,7 +47,7 @@ export default function OpengraphImage() {
               maxWidth: 1000,
             }}
           >
-            Predict who's leaving — and how to keep them.
+            AI that understands your people and acts to keep them.
           </div>
           <div style={{ fontSize: 30, color: "#6B7088", maxWidth: 920 }}>
             Explainable turnover risk scores and retention plays for the factory floor.
