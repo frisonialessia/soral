@@ -77,11 +77,15 @@ export default async function LandingPage() {
 
         {/* Simulación del producto */}
         <div className="relative mx-auto max-w-[980px] px-5 pb-16 sm:px-6">
+          <p className="mx-auto mb-3 max-w-2xl text-center text-copy text-ink-3">{t("previewCaption")}</p>
           <Reveal>
             <DashboardPreview />
           </Reveal>
         </div>
       </section>
+
+      {/* Antes vs Después — el gancho de negocio va alto, justo bajo el hero */}
+      <BeforeAfter />
 
       {/* Banda de métricas (capacidades del producto) */}
       <Reveal>
@@ -127,9 +131,6 @@ export default async function LandingPage() {
           })}
         </div>
       </section>
-
-      {/* Antes vs Después — el cambio que trae Soral (reemplaza al simulador duplicado) */}
-      <BeforeAfter />
 
       {/* La oportunidad — tamaño del problema a escala de industria (cifras con fuente) */}
       <MarketSection />

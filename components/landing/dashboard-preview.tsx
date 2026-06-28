@@ -82,7 +82,7 @@ export function DashboardPreview() {
   const activeHref = ALL_ITEMS.find((i) => i.key === view)?.href;
 
   return (
-    <div className="flex h-[600px] flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_30px_80px_-20px_rgba(43,45,66,0.35)]">
+    <div className="flex h-[480px] flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_30px_80px_-20px_rgba(43,45,66,0.35)] sm:h-[600px]">
       {/* Barra de título — semáforo macOS auténtico */}
       <div className="flex shrink-0 items-center gap-2 border-b border-line bg-surface-2 px-4 py-3">
         <span className="h-3 w-3 rounded-full bg-[#FF5F57]" />

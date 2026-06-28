@@ -298,7 +298,7 @@
     "f4Desc": "Equidad por grupo, alertas de señales proxy y un registro auditable de cada decisión.",
     "ctaTitle": "Empieza a retener a tu gente",
     "ctaSubtitle": "Convierte la rotación de sorpresa en plan.",
-    "ctaButton": "Abrir el panel",
+    "ctaButton": "Explorar la demo en vivo",
     "footerTagline": "Predicción de continuidad operativa para maquilas.",
     "rights": "© 2026 Soral",
     "previewDriver1": "Fatiga acumulada",
@@ -368,7 +368,8 @@
     "baAfter4": "Sabes el costo real de cada salida — y lo evitas.",
     "navPricing": "Precios",
     "navMenu": "Menú",
-    "navPrivacy": "Aviso de privacidad"
+    "navPrivacy": "Aviso de privacidad",
+    "previewCaption": "Demo en vivo: cada punto es un trabajador. Los de mayor riesgo se van pronto — haz clic para ver por qué y cómo retenerlo."
   },
   "reports": {
     "title": "Reportes",

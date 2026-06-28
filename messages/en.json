@@ -298,7 +298,7 @@
     "f4Desc": "Fairness by group, proxy-signal alerts, and an auditable record of every decision.",
     "ctaTitle": "Start retaining your workforce",
     "ctaSubtitle": "Turn turnover from a surprise into a plan.",
-    "ctaButton": "Open the dashboard",
+    "ctaButton": "Explore the live demo",
     "footerTagline": "Operational continuity prediction for maquilas.",
     "rights": "© 2026 Soral",
     "previewDriver1": "Accumulated fatigue",
@@ -368,7 +368,8 @@
     "baAfter4": "You know the real cost of each departure — and you prevent it.",
     "navPricing": "Pricing",
     "navMenu": "Menu",
-    "navPrivacy": "Privacy"
+    "navPrivacy": "Privacy",
+    "previewCaption": "Live demo: each dot is a worker. The highest-risk ones are about to leave — click to see why and how to keep them."
   },
   "reports": {
     "title": "Reports",

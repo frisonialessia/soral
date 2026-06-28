@@ -298,7 +298,7 @@
     "f4Desc": "Equità per gruppo, avvisi di segnali proxy e un registro verificabile di ogni decisione.",
     "ctaTitle": "Inizia a trattenere il tuo personale",
     "ctaSubtitle": "Trasforma il turnover da sorpresa a piano.",
-    "ctaButton": "Apri il pannello",
+    "ctaButton": "Esplora la demo dal vivo",
     "footerTagline": "Previsione di continuità operativa per le maquila.",
     "rights": "© 2026 Soral",
     "previewDriver1": "Fatica accumulata",
@@ -368,7 +368,8 @@
     "baAfter4": "Sai il costo reale di ogni uscita — e lo eviti.",
     "navPricing": "Prezzi",
     "navMenu": "Menu",
-    "navPrivacy": "Privacy"
+    "navPrivacy": "Privacy",
+    "previewCaption": "Demo dal vivo: ogni punto è un lavoratore. Quelli a rischio più alto stanno per andarsene — clicca per vedere perché e come trattenerlo."
   },
   "reports": {
     "title": "Report",
