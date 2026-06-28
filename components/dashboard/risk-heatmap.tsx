@@ -4,6 +4,7 @@
 // Honesto: celdas vacías quedan claras (no hay marcados ahí).
 "use client";
 
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { riskColor } from "@/lib/risk";
 import type { EmployeePrediction } from "@/types";
@@ -52,13 +53,23 @@ export function RiskHeatmap({ rows }: { rows: EmployeePrediction[] }) {
                 const c = cells.get(`${line}|${s}`);
                 return (
                   <td key={s} className="p-0">
-                    <div
-                      className="flex h-9 items-center justify-center rounded-md text-meta font-semibold"
-                      style={{ background: c ? riskColor(c.max) : "#EEF1F8", color: c ? "#fff" : "#C7CCDC" }}
-                      title={c ? `${line} · ${shiftLabel(s)}: ${c.count}` : undefined}
-                    >
-                      {c ? c.count : "·"}
-                    </div>
+                    {c ? (
+                      <Link
+                        href={`/linea/${encodeURIComponent(line)}`}
+                        title={`${line} · ${shiftLabel(s)}: ${c.count}`}
+                        className="flex h-9 items-center justify-center rounded-md text-meta font-semibold text-white transition-transform hover:scale-[1.06]"
+                        style={{ background: riskColor(c.max) }}
+                      >
+                        {c.count}
+                      </Link>
+                    ) : (
+                      <div
+                        className="flex h-9 items-center justify-center rounded-md text-meta font-semibold"
+                        style={{ background: "#EEF1F8", color: "#C7CCDC" }}
+                      >
+                        ·
+                      </div>
+                    )}
                   </td>
                 );
               })}

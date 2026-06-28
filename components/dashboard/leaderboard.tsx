@@ -1,8 +1,8 @@
 // components/dashboard/leaderboard.tsx
 // Leaderboard de líneas por riesgo: rankea las líneas por nº de trabajadores
-// marcados (barra) con su score promedio (color = severidad).
-"use client";
-
+// marcados (barra) con su score promedio (color = severidad). Cada fila lleva al
+// detalle de la línea.
+import Link from "next/link";
 import { riskColor } from "@/lib/risk";
 import type { EmployeePrediction } from "@/types";
 
@@ -22,15 +22,20 @@ export function Leaderboard({ rows }: { rows: EmployeePrediction[] }) {
   return (
     <ol className="space-y-2.5">
       {lines.map((l, i) => (
-        <li key={l.line} className="flex items-center gap-3">
-          <span className="w-5 shrink-0 text-center font-mono text-meta font-bold text-ink-3">{i + 1}</span>
-          <span className="w-8 shrink-0 font-mono text-copy text-ink-1">{l.line}</span>
-          <div className="h-2 flex-1 overflow-hidden rounded bg-surface-bg">
-            <div className="h-full rounded" style={{ width: `${(l.count / max) * 100}%`, background: riskColor(l.avg) }} />
-          </div>
-          <span className="w-[72px] shrink-0 text-right font-mono text-meta text-ink-2">
-            {l.count} · {l.avg}%
-          </span>
+        <li key={l.line}>
+          <Link
+            href={`/linea/${encodeURIComponent(l.line)}`}
+            className="-mx-1.5 flex items-center gap-3 rounded-lg px-1.5 py-1 transition-colors hover:bg-surface-2"
+          >
+            <span className="w-5 shrink-0 text-center font-mono text-meta font-bold text-ink-3">{i + 1}</span>
+            <span className="w-8 shrink-0 font-mono text-copy text-ink-1">{l.line}</span>
+            <div className="h-2 flex-1 overflow-hidden rounded bg-surface-bg">
+              <div className="h-full rounded" style={{ width: `${(l.count / max) * 100}%`, background: riskColor(l.avg) }} />
+            </div>
+            <span className="w-[72px] shrink-0 text-right font-mono text-meta text-ink-2">
+              {l.count} · {l.avg}%
+            </span>
+          </Link>
         </li>
       ))}
     </ol>
