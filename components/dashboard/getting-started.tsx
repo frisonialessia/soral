@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Check, ChevronRight, Compass, X } from "lucide-react";
 import { useCostModel, usePlantProfile } from "@/lib/queries";
+import { useCan } from "@/components/auth/can";
 
 const DISMISS_KEY = "soral_onboarding_dismissed";
 
@@ -18,6 +19,7 @@ export function GettingStarted() {
   const t = useTranslations("onboarding");
   const plant = usePlantProfile();
   const cost = useCostModel();
+  const canConfigure = useCan("admin.view");
   const [dismissed, setDismissed] = useState<boolean | null>(null);
 
   // El "ocultar" se lee del navegador después de montar (evita desajuste de hidratación).
@@ -29,6 +31,8 @@ export function GettingStarted() {
     }
   }, []);
 
+  // Solo quien puede configurar (admin) ve la guía de configuración.
+  if (!canConfigure) return null;
   // Sin saber aún el estado local, o cargando los datos → no renderizar (sin parpadeo).
   if (dismissed === null || plant.isLoading || cost.isLoading) return null;
   if (dismissed) return null;

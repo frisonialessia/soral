@@ -3,8 +3,9 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Menu, LogOut, User } from "lucide-react";
-import { useSession, signOut } from "@/lib/auth/session";
+import { Menu, LogOut, User, Users, Check } from "lucide-react";
+import { useSession, useSetRole, signOut } from "@/lib/auth/session";
+import { ROLES } from "@/lib/auth/roles";
 import { usePlantProfile } from "@/lib/queries";
 import { LanguageSwitcher } from "./language-switcher";
 import { AskSoral } from "./ask-soral";
@@ -22,6 +23,7 @@ function isoWeek(d: Date): { week: number; year: number } {
 
 export function AppHeader({ onMenu }: { onMenu: () => void }) {
   const user = useSession();
+  const setRole = useSetRole();
   const { data: plant } = usePlantProfile();
   const t = useTranslations("header");
   const tr = useTranslations("roles");
@@ -79,11 +81,34 @@ export function AppHeader({ onMenu }: { onMenu: () => void }) {
               <div className="fixed inset-0 z-40" aria-hidden="true" onClick={() => setOpen(false)} />
               <div
                 role="menu"
-                className="absolute right-0 z-50 mt-2 w-52 rounded-lg border border-line bg-surface p-1 shadow-lg"
+                className="absolute right-0 z-50 mt-2 w-60 rounded-lg border border-line bg-surface p-1 shadow-lg"
               >
                 <div className="px-3 py-2 sm:hidden">
                   <div className="text-copy font-medium text-ink-1">{user.name}</div>
                   <div className="text-micro text-ink-3">{tr(user.role)}</div>
+                </div>
+                <div className="my-1 border-y border-line px-2 py-2">
+                  <div className="flex items-center gap-1.5 px-0.5 pb-1 text-micro font-semibold uppercase tracking-wide text-ink-3">
+                    <Users className="h-3 w-3" /> {t("viewAs")}
+                  </div>
+                  {ROLES.map((r) => {
+                    const active = r === user.role;
+                    return (
+                      <button
+                        key={r}
+                        role="menuitemradio"
+                        aria-checked={active}
+                        onClick={() => setRole(r)}
+                        className={`flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-left text-copy transition-colors ${
+                          active ? "bg-risk-sol-soft font-medium text-risk-sol" : "text-ink-1 hover:bg-surface-2"
+                        }`}
+                      >
+                        {tr(r)}
+                        {active && <Check className="h-3.5 w-3.5" />}
+                      </button>
+                    );
+                  })}
+                  <p className="px-0.5 pt-1.5 text-micro leading-snug text-ink-3">{t("viewAsHint")}</p>
                 </div>
                 <button
                   role="menuitem"

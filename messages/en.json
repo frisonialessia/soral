@@ -33,7 +33,9 @@
     "openNav": "Open navigation",
     "profile": "Profile",
     "signOut": "Sign out",
-    "language": "Language"
+    "language": "Language",
+    "viewAs": "View as",
+    "viewAsHint": "Demo: the menu and permissions follow the role."
   },
   "roles": {
     "owner": "Owner",

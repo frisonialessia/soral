@@ -33,7 +33,9 @@
     "openNav": "Abrir navegación",
     "profile": "Perfil",
     "signOut": "Cerrar sesión",
-    "language": "Idioma"
+    "language": "Idioma",
+    "viewAs": "Ver como",
+    "viewAsHint": "Demo: el menú y los permisos siguen al rol."
   },
   "roles": {
     "owner": "Propietario",
