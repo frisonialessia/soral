@@ -34,6 +34,10 @@ export function PlantProfileSection() {
   return <Form profile={data} />;
 }
 
+// Nivel por defecto por índice de línea (refleja el sesgo por índice del modelo:
+// L3/L5 altas, L1/L6/L7 bajas). Para líneas fuera del catálogo → normal.
+const DEFAULT_LEVEL = [0, 1, 2, 1, 2, 0, 0];
+
 function Form({ profile }: { profile: PlantProfile }) {
   const t = useTranslations("plant");
   const mut = useUpdatePlantProfile();
@@ -41,17 +45,26 @@ function Form({ profile }: { profile: PlantProfile }) {
   const [headcount, setHeadcount] = useState(profile.headcount);
   const [lines, setLines] = useState(profile.lines.join(", "));
   const [shifts, setShifts] = useState(profile.shifts.join(", "));
+  const [risk, setRisk] = useState<Record<string, number>>(() => {
+    const init: Record<string, number> = {};
+    profile.lines.forEach((ln, i) => {
+      init[ln] = profile.lineRisk?.[i] ?? DEFAULT_LEVEL[i] ?? 1;
+    });
+    return init;
+  });
 
   const parseList = (s: string) => s.split(",").map((x) => x.trim()).filter(Boolean);
 
   function save() {
-    const ls = parseList(lines);
     const ss = parseList(shifts);
+    const finalLines = parseList(lines).length ? parseList(lines) : profile.lines;
+    const lineRisk = finalLines.map((ln, i) => risk[ln] ?? DEFAULT_LEVEL[i] ?? 1);
     mut.mutate({
       name: name.trim() || profile.name,
       headcount: Math.max(10, Math.round(headcount || 0)),
-      lines: ls.length ? ls : profile.lines,
+      lines: finalLines,
       shifts: ss.length ? ss : profile.shifts,
+      lineRisk,
     });
   }
 
@@ -121,6 +134,44 @@ function Form({ profile }: { profile: PlantProfile }) {
           <span className="text-micro text-ink-3">{t("listHint")}</span>
         </label>
       </div>
+
+      {parseList(lines).length > 0 && (
+        <div className="mt-4">
+          <div className="text-meta text-ink-2">{t("lineRiskTitle")}</div>
+          <div className="mt-2 space-y-1.5">
+            {parseList(lines).map((ln, i) => {
+              const level = risk[ln] ?? DEFAULT_LEVEL[i] ?? 1;
+              return (
+                <div key={ln} className="flex items-center justify-between gap-3 rounded-lg border border-line bg-surface-2 px-3 py-2">
+                  <span className="min-w-0 truncate font-mono text-copy text-ink-1">{ln}</span>
+                  <div role="group" aria-label={ln} className="inline-flex shrink-0 gap-0.5 rounded-full bg-surface-bg p-0.5">
+                    {[0, 1, 2].map((lvl) => {
+                      const active = level === lvl;
+                      const label = lvl === 0 ? t("riskLow") : lvl === 1 ? t("riskNormal") : t("riskHigh");
+                      return (
+                        <button
+                          key={lvl}
+                          type="button"
+                          aria-pressed={active}
+                          onClick={() => setRisk((rk) => ({ ...rk, [ln]: lvl }))}
+                          className={`rounded-full px-2.5 py-1 text-micro font-medium transition-colors ${
+                            active
+                              ? `bg-surface shadow-sm ${lvl === 0 ? "text-risk-sol" : lvl === 2 ? "text-risk-cri" : "text-ink-1"}`
+                              : "text-ink-3 hover:text-ink-1"
+                          }`}
+                        >
+                          {label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <p className="mt-1.5 text-micro text-ink-3">{t("lineRiskHint")}</p>
+        </div>
+      )}
 
       <p className="mt-3 text-meta text-ink-3">{t("appliesNote")}</p>
 

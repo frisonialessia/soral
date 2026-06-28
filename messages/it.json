@@ -843,7 +843,12 @@
     "saveError": "Salvataggio non riuscito. Riprova.",
     "linesLabel": "Linee di produzione",
     "shiftsLabel": "Turni",
-    "listHint": "Separa con virgole"
+    "listHint": "Separa con virgole",
+    "lineRiskTitle": "Rischio per linea",
+    "lineRiskHint": "Indica quali linee hanno più turnover; il modello adatta il rischio dello stabilimento.",
+    "riskLow": "Bassa",
+    "riskNormal": "Normale",
+    "riskHigh": "Alta"
   },
   "pricing": {
     "eyebrow": "Prezzi",

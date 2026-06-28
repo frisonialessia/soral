@@ -70,6 +70,8 @@ export const PlantProfileBody = z.object({
   headcount: z.number().int().min(10).max(1_000_000),
   lines: z.array(z.string().min(1).max(40)).min(1).max(20),
   shifts: z.array(z.string().min(1).max(40)).min(1).max(8),
+  // Nivel de riesgo por línea (0/1/2), paralelo a `lines`. Opcional.
+  lineRisk: z.array(z.number().int().min(0).max(2)).max(20).optional(),
 });
 
 export const AskBody = z.object({

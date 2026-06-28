@@ -843,7 +843,12 @@
     "saveError": "No se pudo guardar. Intenta de nuevo.",
     "linesLabel": "Líneas de producción",
     "shiftsLabel": "Turnos",
-    "listHint": "Separa con comas"
+    "listHint": "Separa con comas",
+    "lineRiskTitle": "Riesgo por línea",
+    "lineRiskHint": "Marca qué líneas rotan más; el modelo ajusta el riesgo de la planta.",
+    "riskLow": "Baja",
+    "riskNormal": "Normal",
+    "riskHigh": "Alta"
   },
   "pricing": {
     "eyebrow": "Precios",

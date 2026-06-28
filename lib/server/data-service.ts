@@ -54,11 +54,11 @@ const daysAgo = (d: number) => new Date(Date.now() - d * 86_400_000).toISOString
 // swap a `supabase.from('employees')`.
 const popCache = new Map<string, ReturnType<typeof createTable<EmployeePrediction>>>();
 async function empTable() {
-  const { headcount, lines, shifts } = await getPlantProfile();
-  const key = `${headcount}|${lines.join(",")}|${shifts.join(",")}`;
+  const { headcount, lines, shifts, lineRisk } = await getPlantProfile();
+  const key = `${headcount}|${lines.join(",")}|${shifts.join(",")}|${lineRisk ? lineRisk.join(",") : "-"}`;
   let tbl = popCache.get(key);
   if (!tbl) {
-    tbl = createTable<EmployeePrediction>(buildPopulation(headcount, lines, shifts));
+    tbl = createTable<EmployeePrediction>(buildPopulation(headcount, lines, shifts, lineRisk));
     popCache.set(key, tbl);
   }
   return tbl;

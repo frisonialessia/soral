@@ -10,7 +10,7 @@ export const DEFAULT_HEADCOUNT = 1180;
 const DEFAULT_NAME = "Planta demo";
 export const PLANT_COOKIE = "soral_plant";
 
-type ProfileInput = { name: string; headcount: number; lines: string[]; shifts: string[] };
+type ProfileInput = { name: string; headcount: number; lines: string[]; shifts: string[]; lineRisk?: number[] };
 type Stored = ProfileInput & { updatedAt: string };
 
 let testStored: Stored | null = null;
@@ -25,7 +25,14 @@ async function readStored(): Promise<Stored | null> {
     if (raw) {
       const p = JSON.parse(raw) as Partial<Stored>;
       if (p && typeof p.headcount === "number" && p.name && Array.isArray(p.lines) && Array.isArray(p.shifts)) {
-        return { name: p.name, headcount: p.headcount, lines: p.lines, shifts: p.shifts, updatedAt: p.updatedAt ?? "" };
+        return {
+          name: p.name,
+          headcount: p.headcount,
+          lines: p.lines,
+          shifts: p.shifts,
+          lineRisk: Array.isArray(p.lineRisk) ? p.lineRisk : undefined,
+          updatedAt: p.updatedAt ?? "",
+        };
       }
     }
   } catch {
@@ -40,6 +47,7 @@ function toProfile(s: Stored | null): PlantProfile {
     headcount: s?.headcount ?? DEFAULT_HEADCOUNT,
     lines: s?.lines ?? DEFAULT_LINES,
     shifts: s?.shifts ?? DEFAULT_SHIFTS,
+    lineRisk: s?.lineRisk ?? null,
     configured: s !== null,
     updatedAt: s?.updatedAt || null,
   };

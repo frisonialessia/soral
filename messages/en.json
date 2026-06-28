@@ -843,7 +843,12 @@
     "saveError": "Couldn’t save. Try again.",
     "linesLabel": "Production lines",
     "shiftsLabel": "Shifts",
-    "listHint": "Separate with commas"
+    "listHint": "Separate with commas",
+    "lineRiskTitle": "Risk by line",
+    "lineRiskHint": "Mark which lines churn most; the model adjusts the plant’s risk.",
+    "riskLow": "Low",
+    "riskNormal": "Normal",
+    "riskHigh": "High"
   },
   "pricing": {
     "eyebrow": "Pricing",

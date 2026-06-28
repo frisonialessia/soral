@@ -94,6 +94,9 @@ export const PlantProfileSchema = z.object({
   headcount: z.number(),
   lines: z.array(z.string()),
   shifts: z.array(z.string()),
+  // Nivel de riesgo por línea (0 baja · 1 normal · 2 alta), paralelo a `lines`.
+  // null = sin configurar → el modelo usa su sesgo por índice por defecto.
+  lineRisk: z.array(z.number()).nullable(),
   configured: z.boolean(),
   updatedAt: z.string().nullable(),
 });

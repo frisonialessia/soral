@@ -95,7 +95,7 @@ export function usePlantProfile() {
 export function useUpdatePlantProfile() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: { name: string; headcount: number; lines: string[]; shifts: string[] }) => updatePlantProfile(input),
+    mutationFn: (input: { name: string; headcount: number; lines: string[]; shifts: string[]; lineRisk?: number[] }) => updatePlantProfile(input),
     onSuccess: () => {
       for (const key of [queryKeys.plantProfile, queryKeys.plant, queryKeys.reports]) {
         qc.invalidateQueries({ queryKey: key });
