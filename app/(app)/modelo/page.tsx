@@ -23,6 +23,10 @@ import {
 // orden que FEATURES. Sirve para demostrar que el SHAP suma exactamente al score.
 const EXAMPLE_X = [0.82, 0.725, 0.88, 1.0, 0.1, 0.38];
 const MAX_BETA = Math.max(...FEATURES.map((f) => f.beta));
+// "Entrenado hace X" rodante: se calcula en el render (no al cargar el módulo), así
+// no envejece. El tiempo relativo de (hoy − N días) es el mismo string en server y
+// cliente, sin desajuste de hidratación.
+const TRAINED_DAYS_AGO = 8;
 
 export default function ModelPage() {
   const t = useTranslations("model");
@@ -46,7 +50,7 @@ export default function ModelPage() {
           <Field label={t("version")} value={m.version} mono />
           <Field label={t("typeLabel")} value={t("typeValue")} />
           <Field label={t("horizonLabel")} value={t("horizonValue", { days: m.horizonDays })} />
-          <Field label={t("trainedLabel")} value={f.dateTime(new Date(m.trainedAt), { dateStyle: "medium" })} />
+          <Field label={t("trainedLabel")} value={f.relativeTime(new Date(Date.now() - TRAINED_DAYS_AGO * 86_400_000))} />
           <Field label={t("sampleLabel")} value={t("sampleValue", { n: f.number(m.sampleSize) })} />
         </div>
       </Card>

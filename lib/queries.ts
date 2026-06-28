@@ -33,7 +33,7 @@ import {
   updatePlantProfile,
   type EmployeesQuery,
 } from "./api-client";
-import type { InterventionStatus, InterventionOutcome, CostComponents } from "@/types";
+import type { InterventionStatus, InterventionOutcome, CostComponents, IntegrationsSummary } from "@/types";
 
 export const queryKeys = {
   plant: ["plant", "summary"] as const,
@@ -120,7 +120,19 @@ export function useIntegrations() {
 }
 
 export function useSyncConnector() {
-  return useMutation({ mutationFn: (id: string) => syncConnector(id) });
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => syncConnector(id),
+    // Refleja la sync también en la tarjeta (no solo en el modal): pasa a conectado y
+    // "última sync: hace un momento". Con Supabase, esto lo confirmaría el backend.
+    onSuccess: (_res, id) => {
+      qc.setQueryData<IntegrationsSummary>(queryKeys.integrations, (prev) =>
+        prev
+          ? { ...prev, connectors: prev.connectors.map((c) => (c.id === id ? { ...c, lastSyncMin: 0, status: "connected" } : c)) }
+          : prev
+      );
+    },
+  });
 }
 
 export function useInterventions() {

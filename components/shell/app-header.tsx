@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Menu, LogOut, User, Users, Check } from "lucide-react";
+import { Menu, LogOut, Users, Check } from "lucide-react";
 import { useSession, useSetRole, signOut } from "@/lib/auth/session";
 import { ROLES } from "@/lib/auth/roles";
 import { usePlantProfile } from "@/lib/queries";
@@ -110,13 +110,6 @@ export function AppHeader({ onMenu }: { onMenu: () => void }) {
                   })}
                   <p className="px-0.5 pt-1.5 text-micro leading-snug text-ink-3">{t("viewAsHint")}</p>
                 </div>
-                <button
-                  role="menuitem"
-                  onClick={() => setOpen(false)}
-                  className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-copy text-ink-1 hover:bg-surface-2"
-                >
-                  <User className="h-4 w-4 text-ink-3" /> {t("profile")}
-                </button>
                 <button
                   role="menuitem"
                   onClick={() => {
